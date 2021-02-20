@@ -22,7 +22,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+/.idea/
+
 # firebase
 **/.firebase
 firebase*.log
-/.idea/
+/database-debug.log
+/firestore-debug.log
+/pubsub-debug.log
+/ui-debug.log
