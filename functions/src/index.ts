@@ -54,7 +54,7 @@ export const getCourseDetails = functions.https.onRequest(async (req, res) => {
   }
 
   try {
-    res.send(await UVicCourseScraper.getCourseDetails(pid));
+    res.send(await UVicCourseScraper.getCourseDetailsByPid(pid));
   } catch (err) {
     sendInternalError(res, err);
   }
