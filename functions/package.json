@@ -14,13 +14,15 @@
   "engines": {
     "node": "12"
   },
-  "main": "lib/index.js",
+  "main": "lib/src/index.js",
   "dependencies": {
+    "express": "^4.17.1",
     "@isaaccormack/uvic-course-scraper": "^0.1.4",
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.11",
     "@types/expect": "^24.3.0",
     "@types/mocha": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^3.9.1",
@@ -28,10 +30,13 @@
     "chai": "^4.3.0",
     "eslint": "^7.6.0",
     "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "firebase-functions-test": "^0.2.3",
     "mocha": "^8.3.0",
     "sinon": "^9.2.4",
+    "prettier": "^2.2.1",
     "typescript": "^3.8.0"
   },
   "private": true
