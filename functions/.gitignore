@@ -8,8 +8,6 @@ typings/
 # Node.js dependency directory
 node_modules/
 
-.idea/
-
 firestore-debug.log
 ui-debug.log
 admin-db-key.json
