@@ -32,7 +32,7 @@
       "port": 5001
     },
     "firestore": {
-      "port": 8002
+      "port": 8000
     },
     "hosting": {
       "port": 5000
@@ -44,7 +44,7 @@
       "port": 9000
     },
     "pubsub": {
-      "port": 8086
+      "port": 6000
     }
   }
 }
