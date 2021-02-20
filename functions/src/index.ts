@@ -148,47 +148,46 @@ export const getCourseSeats = functions.https.onRequest(async (req, res) => {
  * Updates the map of courses -> CRNs in the database. Done for each available term.
  *   ie. a mapping from term, subject, and code -> CRNs for all sections of that course
  */
-// export const updateCRNMap = functions.pubsub
-//   .schedule('every monday 00:00')
-//   .onRun(async (context) => {
-export const updateCRNMaps = functions.https.onRequest(async (req, res) => {
-  functions.logger.info('Updating CRN Map');
+export const updateCRNMap = functions.pubsub
+  .schedule('every monday 00:00')
+  .onRun(async (context) => {
+    functions.logger.info('Updating CRN Map');
 
-  const rootRef = admin.database().ref();
-  const fallRef = rootRef.child(FALL_2020);
-  const springRef = rootRef.child(SPRING_2021);
-  try {
-    const courses: KualiCourseCatalog[] = await UVicCourseScraper.getAllCourses();
-    await Promise.all(
-      courses.map(async (course) => {
-        // parse courseCatalogId into subject and code
-        const subjectLength = course.subjectCode.name.length;
-        const subject = course.__catalogCourseId.slice(0, subjectLength);
-        const code = course.__catalogCourseId.slice(subjectLength);
+    const rootRef = admin.database().ref();
+    const fallRef = rootRef.child(FALL_2020);
+    const springRef = rootRef.child(SPRING_2021);
+    try {
+      const courses: KualiCourseCatalog[] = await UVicCourseScraper.getAllCourses();
+      await Promise.all(
+        courses.map(async (course) => {
+          // parse courseCatalogId into subject and code
+          const subjectLength = course.subjectCode.name.length;
+          const subject = course.__catalogCourseId.slice(0, subjectLength);
+          const code = course.__catalogCourseId.slice(subjectLength);
 
-        const fallCourseSections: ClassScheduleListing[] = await UVicCourseScraper.getCourseSections(
-          FALL_2020,
-          subject,
-          code
-        );
-        await fallRef.update({
-          [course.__catalogCourseId]: fallCourseSections.map(
-            (section) => section.crn
-          ),
-        });
-        const springCourseSections: ClassScheduleListing[] = await UVicCourseScraper.getCourseSections(
-          SPRING_2021,
-          subject,
-          code
-        );
-        await springRef.update({
-          [course.__catalogCourseId]: springCourseSections.map(
-            (section) => section.crn
-          ),
-        });
-      })
-    );
-  } catch (err) {
-    functions.logger.error(err);
-  }
-});
+          const fallCourseSections: ClassScheduleListing[] = await UVicCourseScraper.getCourseSections(
+            FALL_2020,
+            subject,
+            code
+          );
+          await fallRef.update({
+            [course.__catalogCourseId]: fallCourseSections.map(
+              (section) => section.crn
+            ),
+          });
+          const springCourseSections: ClassScheduleListing[] = await UVicCourseScraper.getCourseSections(
+            SPRING_2021,
+            subject,
+            code
+          );
+          await springRef.update({
+            [course.__catalogCourseId]: springCourseSections.map(
+              (section) => section.crn
+            ),
+          });
+        })
+      );
+    } catch (err) {
+      functions.logger.error(err);
+    }
+  });
