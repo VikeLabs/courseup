@@ -55,7 +55,7 @@ describe('Cloud Functions', () => {
     functions.logger.error = sinon.stub();
 
     adminInitStub = sinon.stub(admin, 'initializeApp');
-    myFunctions = require('../lib/index');
+    myFunctions = require('../lib/src/index');
   });
 
   after(() => {
@@ -149,9 +149,9 @@ describe('Cloud Functions', () => {
       };
 
       sinon
-        .stub(UVicCourseScraper, 'getCourseDetails')
+        .stub(UVicCourseScraper, 'getCourseDetailsByPid')
         .returns(mockCourseDetails);
-      const req = { method: 'POST', body: { pid } };
+      const req = { method: 'GET', query: { pid } };
       const res = {
         send: (courseDetails) => {
           assert.equal(courseDetails, mockCourseDetails);
@@ -176,7 +176,7 @@ describe('Cloud Functions', () => {
       sinon
         .stub(UVicCourseScraper, 'getCourseSections')
         .returns(mockCourseSections);
-      const req = { method: 'POST', body: { term, subject, code } };
+      const req = { method: 'GET', query: { term, subject, code } };
       const res = {
         send: (courseSections) => {
           assert.deepEqual(courseSections, mockCourseSections);
@@ -188,7 +188,7 @@ describe('Cloud Functions', () => {
     });
 
     it('should throw request error if term is missing in request', (done) => {
-      const req = { method: 'POST', body: { term, subject } };
+      const req = { method: 'GET', query: { term, subject } };
       const res = {
         status: (code) => ({
           send: (message) => {
@@ -203,7 +203,7 @@ describe('Cloud Functions', () => {
     });
 
     it('should throw request error if term is invalid', (done) => {
-      const req = { method: 'POST', body: { term: '202008', subject, code } };
+      const req = { method: 'GET', query: { term: '202008', subject, code } };
       const res = {
         status: (code) => ({
           send: (message) => {
@@ -256,7 +256,7 @@ describe('Cloud Functions', () => {
 
       sandbox.stub(UVicCourseScraper, 'getSectionSeats').returns(mockSeats);
 
-      const req = { method: 'POST', body: { term, subject, code } };
+      const req = { method: 'GET', query: { term, subject, code } };
       const res = {
         send: (seatMapping) => {
           assert.deepEqual(seatMapping, mockSeatMapping);

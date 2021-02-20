@@ -5,17 +5,11 @@ import {
   DetailedClassInformation,
   KualiCourseCatalog,
 } from '@isaaccormack/uvic-course-scraper/dist/src/types';
-import {
-  assertCourseParamsExist,
-  assertMethod,
-  assertTermValid,
-  FALL_2020,
-  SPRING_2021,
-} from './assert';
+import { assertCourseParamsExist, assertMethod, assertTermValid, FALL_2020, SPRING_2021, } from './assert';
 import { sendInternalError, sendRequestParamError } from './error';
 import { UVicCourseScraper } from '@isaaccormack/uvic-course-scraper';
 
-import * as serviceAccount from '../admin-db-key.json';
+import * as serviceAccount from '../service-account.json';
 import { ServiceAccount } from 'firebase-admin/lib/credential';
 
 admin.initializeApp({
@@ -42,11 +36,11 @@ export const getAllCourses = functions.https.onRequest(async (req, res) => {
  * Gets a course details given its pid
  */
 export const getCourseDetails = functions.https.onRequest(async (req, res) => {
-  if (!assertMethod(res, 'POST', req.method)) {
+  if (!assertMethod(res, 'GET', req.method)) {
     return;
   }
 
-  const pid = req.body.pid as string;
+  const pid = req.query.pid as string;
 
   if (!pid) {
     sendRequestParamError(res, 'pid');
@@ -64,11 +58,11 @@ export const getCourseDetails = functions.https.onRequest(async (req, res) => {
  * Gets the sections for a course given its term, subject, and code (ie. '202009', 'CSC', '225')
  */
 export const getCourseSections = functions.https.onRequest(async (req, res) => {
-  if (!assertMethod(res, 'POST', req.method)) {
+  if (!assertMethod(res, 'GET', req.method)) {
     return;
   }
 
-  const { term, subject, code, exists } = assertCourseParamsExist(req, res);
+  const {term, subject, code, exists} = assertCourseParamsExist(req, res);
   if (!exists) {
     return;
   }
@@ -97,11 +91,11 @@ export const getCourseSections = functions.https.onRequest(async (req, res) => {
  * Gets a mapping of sections to seats for a course given its term, subject, and code
  */
 export const getCourseSeats = functions.https.onRequest(async (req, res) => {
-  if (!assertMethod(res, 'POST', req.method)) {
+  if (!assertMethod(res, 'GET', req.method)) {
     return;
   }
 
-  const { term, subject, code, exists } = assertCourseParamsExist(req, res);
+  const {term, subject, code, exists} = assertCourseParamsExist(req, res);
   if (!exists) {
     return;
   }
@@ -134,7 +128,7 @@ export const getCourseSeats = functions.https.onRequest(async (req, res) => {
           term,
           crn
         );
-        return { crn, ...details };
+        return {crn, ...details};
       })
     );
     res.send(crnToSeatsMap);
@@ -147,6 +141,10 @@ export const getCourseSeats = functions.https.onRequest(async (req, res) => {
 /**
  * Updates the map of courses -> CRNs in the database. Done for each available term.
  *   ie. a mapping from term, subject, and code -> CRNs for all sections of that course
+ *
+ * Note: This function takes about 50 seconds to run, which is really close to the default
+ *       timeout period for HTTP functions of 60 seconds => does not scale
+ *       I believe pubsub functions do not have this timeout limit by their nature
  */
 export const updateCRNMap = functions.pubsub
   .schedule('every monday 00:00')

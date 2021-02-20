@@ -8,7 +8,7 @@ typings/
 # Node.js dependency directory
 node_modules/
 
-admin-db-key.json
+service-account.json
 database-debug.log
 firestore-debug.log
 pubsub-debug.log

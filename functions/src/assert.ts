@@ -5,9 +5,9 @@ export const SPRING_2021 = '202101';
 
 export const assertCourseParamsExist = (req: any, res: any): any => {
   const params = {
-    term: req.body.term as string,
-    subject: req.body.subject as string,
-    code: req.body.code as string,
+    term: req.query.term as string,
+    subject: req.query.subject as string,
+    code: req.query.code as string,
     exists: true,
   };
 
