@@ -1,29 +1,21 @@
-import React from 'react';
-import { ChakraProvider } from "@chakra-ui/react"
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Center, ChakraProvider, Flex } from "@chakra-ui/react";
+import { Header, Content, Sidebar } from "./app/index";
 
-function App() {
+export function App(): JSX.Element | null {
   return (
     <ChakraProvider>
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-        </a>
-        </header>
-      </div>
+      <Flex h="100vh" direction="column">
+        <Header />
+        <Flex color="white" h="100%" grow={1}>
+          <Center w="300px" bg="#E4E4E4" minW="10%">
+            <Sidebar />
+          </Center>
+          <Center flex="1" bg="tomato" minW="80%">
+            <Content />
+          </Center>
+        </Flex>
+      </Flex>
     </ChakraProvider>
   );
 }
-
-export default App;
