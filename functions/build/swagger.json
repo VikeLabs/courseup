@@ -8,7 +8,7 @@
 		"schemas": {
 			"Course": {
 				"properties": {
-					"id": {
+					"pid": {
 						"type": "string"
 					},
 					"title": {
@@ -16,7 +16,7 @@
 					}
 				},
 				"required": [
-					"id",
+					"pid",
 					"title"
 				],
 				"type": "object",

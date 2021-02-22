@@ -6,13 +6,13 @@ export class CoursesService {
   public async getAllCourses(): Promise<Course[]> {
     const courses = await UVicCourseScraper.getAllCourses();
     return courses.map((e) => ({
-      id: e.pid,
+      pid: e.pid,
       title: e.title,
     }));
   }
 
   public async getCourseDetailsByPid(pid: string): Promise<Course> {
     const course = await UVicCourseScraper.getCourseDetailsByPid(pid);
-    return { id: course.pid, title: course.title };
+    return { pid: course.pid, title: course.title };
   }
 }

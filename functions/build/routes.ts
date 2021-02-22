@@ -14,7 +14,7 @@ const models: TsoaRoute.Models = {
     "Course": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"string","required":true},
+            "pid": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
         },
         "additionalProperties": false,

@@ -1,4 +1,4 @@
 export interface Course {
-  id: string;
+  pid: string;
   title: string;
 }
