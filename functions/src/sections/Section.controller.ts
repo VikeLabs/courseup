@@ -14,7 +14,11 @@ export class SectionsController extends Controller {
     @Query() subject: string,
     @Query() code: string
   ): Promise<Section[]> {
-    const sections = new SectionsService().getSections(term, subject, code);
+    const sections = await new SectionsService().getSections(
+      term,
+      subject,
+      code
+    );
     this.setHeader('Cache-Control', 'public, max-age=3600');
     return sections;
   }
