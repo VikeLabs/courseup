@@ -69,7 +69,6 @@ export class SectionsService {
             );
             // don't want to put empty mappings in the database
             if (sections.length > 0) {
-              console.info(term, subject, code, sections.length);
               await db.sectionMappings
                 .doc(SectionsService.constructSectionKey(term, subject, code))
                 .set({ crns: sections.map((s) => s.crn) });

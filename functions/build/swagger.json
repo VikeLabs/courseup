@@ -160,24 +160,7 @@
 				},
 				"description": "Retrieves all the courses available. If query params are passed in, they will be used to filter results.",
 				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "subject",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "code",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
+				"parameters": []
 			}
 		},
 		"/courses/{pid}": {

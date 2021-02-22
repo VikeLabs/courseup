@@ -10,11 +10,7 @@ export class CoursesController extends Controller {
    * @param code
    */
   @Get()
-  public async getAllCourses(
-    @Query() subject?: string,
-    @Query() code?: string
-  ): Promise<Course[]> {
-    console.log(subject, code);
+  public async getAllCourses(): Promise<Course[]> {
     // set the Cache-Control for 24h.
     this.setHeader('Cache-Control', `public, max-age=${3600 * 24}`);
     return new CoursesService().getAllCourses();
