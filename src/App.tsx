@@ -2,6 +2,8 @@ import React from "react";
 import { Center, ChakraProvider, Flex } from "@chakra-ui/react";
 import { Header, Content, Sidebar } from "./app/index";
 
+import "./App.css";
+
 export function App(): JSX.Element | null {
   return (
     <ChakraProvider>
@@ -11,7 +13,7 @@ export function App(): JSX.Element | null {
           <Center w="300px" bg="#E4E4E4" minW="10%">
             <Sidebar />
           </Center>
-          <Center flex="1" bg="tomato" minW="80%">
+          <Center flex="1" minW="80%">
             <Content />
           </Center>
         </Flex>
