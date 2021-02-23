@@ -16,7 +16,7 @@ export class SectionsController extends Controller {
   ): Promise<Section[]> {
     const sections = await new SectionsService().getSections(
       term,
-      subject,
+      subject.toUpperCase(),
       code
     );
     this.setHeader('Cache-Control', 'public, max-age=3600');
@@ -30,7 +30,11 @@ export class SectionsController extends Controller {
     @Query() subject: string,
     @Query() code: string
   ): Promise<DetailedClassInformation[]> {
-    const seats = new SectionsService().getSectionSeats(term, subject, code);
+    const seats = new SectionsService().getSectionSeats(
+      term,
+      subject.toUpperCase(),
+      code
+    );
     this.setHeader('Cache-Control', 'public, max-age=3600');
     return seats;
   }
