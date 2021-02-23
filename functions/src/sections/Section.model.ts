@@ -1,7 +1,7 @@
 import {
   ClassScheduleListing,
   DetailedClassInformation,
-} from '@isaaccormack/uvic-course-scraper/dist/src/types';
+} from '@vikelabs/uvic-course-scraper/dist/types';
 
 export interface Section extends ClassScheduleListing {
   crn: string;

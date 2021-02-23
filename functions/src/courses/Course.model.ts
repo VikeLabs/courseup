@@ -1,7 +1,7 @@
 import {
   KualiCourseCatalog,
   KualiCourseItem,
-} from '@isaaccormack/uvic-course-scraper/dist/src/types';
+} from '@vikelabs/uvic-course-scraper/dist/types';
 
 export interface Course
   extends Pick<KualiCourseCatalog, 'pid' | 'title' | 'dateStart'> {

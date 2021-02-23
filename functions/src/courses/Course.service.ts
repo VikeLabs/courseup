@@ -1,6 +1,6 @@
 import { Course, CourseDetails } from './Course.model';
 // TODO: replace once main repo is updated.
-import { UVicCourseScraper } from '@isaaccormack/uvic-course-scraper';
+import { UVicCourseScraper } from '@vikelabs/uvic-course-scraper/dist/index';
 import { subjectCodeExtractor } from '../shared/subjectCodeExtractor';
 
 export class CoursesService {
