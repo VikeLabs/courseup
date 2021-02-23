@@ -6,6 +6,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm install`
+
+**Note:** Downgrade to NPM V6 for this repo to work correctly. Storybook 6.1.18 is having issues with NPM V7.\
+Use `npm install -g npm@6` to downgrade to NPM V6\
+https://github.com/storybookjs/storybook/issues/12983
+
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -13,6 +19,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+### `npm run storybook`
+
+Runs the app in [Storybook](https://storybook.js.org) mode. (We are able to run Storybook and React App at the same time)\
+When Storybook runs, it looks for all stories in `src/app/**/` with this regex `*.stories.tsx`.
+
+The page will reload if you make edits.
 
 ### `npm test`
 
