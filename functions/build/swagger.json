@@ -13,11 +13,151 @@
 					},
 					"title": {
 						"type": "string"
+					},
+					"dateStart": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"pid",
-					"title"
+					"title",
+					"dateStart",
+					"subject",
+					"code"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CourseDetails": {
+				"properties": {
+					"pid": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"dateStart": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"credits": {
+						"properties": {
+							"chosen": {
+								"type": "string"
+							},
+							"value": {
+								"type": "string"
+							},
+							"credits": {
+								"properties": {
+									"max": {
+										"type": "string"
+									},
+									"min": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"max",
+									"min"
+								],
+								"type": "object"
+							}
+						},
+						"required": [
+							"chosen",
+							"value",
+							"credits"
+						],
+						"type": "object"
+					},
+					"subject": {
+						"type": "string",
+						"description": "Abbriviation of the subject of the course.",
+						"example": "ECE"
+					},
+					"code": {
+						"type": "string",
+						"description": "The code portion of the course.",
+						"example": "260"
+					},
+					"formally": {
+						"type": "string",
+						"description": "If a course was named something else previously.",
+						"example": "ELEC260"
+					}
+				},
+				"required": [
+					"pid",
+					"title",
+					"dateStart",
+					"description",
+					"credits",
+					"subject",
+					"code"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"levelType": {
+				"type": "string",
+				"enum": [
+					"law",
+					"undergraduate",
+					"graduate"
+				]
+			},
+			"sectionType": {
+				"type": "string",
+				"enum": [
+					"lecture",
+					"lab",
+					"tutorial"
+				]
+			},
+			"MeetingTimes": {
+				"properties": {
+					"type": {
+						"type": "string"
+					},
+					"time": {
+						"type": "string"
+					},
+					"days": {
+						"type": "string"
+					},
+					"where": {
+						"type": "string"
+					},
+					"dateRange": {
+						"type": "string"
+					},
+					"scheduleType": {
+						"type": "string"
+					},
+					"instructors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"type",
+					"time",
+					"days",
+					"where",
+					"dateRange",
+					"scheduleType",
+					"instructors"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -26,10 +166,83 @@
 				"properties": {
 					"crn": {
 						"type": "string"
+					},
+					"sectionCode": {
+						"type": "string"
+					},
+					"additionalNotes": {
+						"type": "string"
+					},
+					"associatedTerm": {
+						"properties": {
+							"end": {
+								"type": "string"
+							},
+							"start": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"end",
+							"start"
+						],
+						"type": "object"
+					},
+					"registrationDates": {
+						"properties": {
+							"end": {
+								"type": "string"
+							},
+							"start": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"end",
+							"start"
+						],
+						"type": "object"
+					},
+					"levels": {
+						"items": {
+							"$ref": "#/components/schemas/levelType"
+						},
+						"type": "array"
+					},
+					"campus": {
+						"type": "string",
+						"enum": [
+							"online",
+							"in-person"
+						]
+					},
+					"sectionType": {
+						"$ref": "#/components/schemas/sectionType"
+					},
+					"instructionalMethod": {
+						"type": "string"
+					},
+					"credits": {
+						"type": "string"
+					},
+					"meetingTimes": {
+						"items": {
+							"$ref": "#/components/schemas/MeetingTimes"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
-					"crn"
+					"crn",
+					"sectionCode",
+					"associatedTerm",
+					"registrationDates",
+					"levels",
+					"campus",
+					"sectionType",
+					"instructionalMethod",
+					"credits",
+					"meetingTimes"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -66,14 +279,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"levelType": {
-				"type": "string",
-				"enum": [
-					"law",
-					"undergraduate",
-					"graduate"
-				]
 			},
 			"classification": {
 				"type": "string",
@@ -172,7 +377,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Course"
+									"$ref": "#/components/schemas/CourseDetails"
 								}
 							}
 						}

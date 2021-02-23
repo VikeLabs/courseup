@@ -16,6 +16,48 @@ const models: TsoaRoute.Models = {
         "properties": {
             "pid": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
+            "dateStart": {"dataType":"string","required":true},
+            "subject": {"dataType":"string","required":true},
+            "code": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CourseDetails": {
+        "dataType": "refObject",
+        "properties": {
+            "pid": {"dataType":"string","required":true},
+            "title": {"dataType":"string","required":true},
+            "dateStart": {"dataType":"string","required":true},
+            "description": {"dataType":"string","required":true},
+            "credits": {"dataType":"nestedObjectLiteral","nestedProperties":{"chosen":{"dataType":"string","required":true},"value":{"dataType":"string","required":true},"credits":{"dataType":"nestedObjectLiteral","nestedProperties":{"max":{"dataType":"string","required":true},"min":{"dataType":"string","required":true}},"required":true}},"required":true},
+            "subject": {"dataType":"string","required":true},
+            "code": {"dataType":"string","required":true},
+            "formally": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "levelType": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["law"]},{"dataType":"enum","enums":["undergraduate"]},{"dataType":"enum","enums":["graduate"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "sectionType": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["lecture"]},{"dataType":"enum","enums":["lab"]},{"dataType":"enum","enums":["tutorial"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "MeetingTimes": {
+        "dataType": "refObject",
+        "properties": {
+            "type": {"dataType":"string","required":true},
+            "time": {"dataType":"string","required":true},
+            "days": {"dataType":"string","required":true},
+            "where": {"dataType":"string","required":true},
+            "dateRange": {"dataType":"string","required":true},
+            "scheduleType": {"dataType":"string","required":true},
+            "instructors": {"dataType":"array","array":{"dataType":"string"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -24,6 +66,16 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "crn": {"dataType":"string","required":true},
+            "sectionCode": {"dataType":"string","required":true},
+            "additionalNotes": {"dataType":"string"},
+            "associatedTerm": {"dataType":"nestedObjectLiteral","nestedProperties":{"end":{"dataType":"string","required":true},"start":{"dataType":"string","required":true}},"required":true},
+            "registrationDates": {"dataType":"nestedObjectLiteral","nestedProperties":{"end":{"dataType":"string","required":true},"start":{"dataType":"string","required":true}},"required":true},
+            "levels": {"dataType":"array","array":{"dataType":"refAlias","ref":"levelType"},"required":true},
+            "campus": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["online"]},{"dataType":"enum","enums":["in-person"]}],"required":true},
+            "sectionType": {"ref":"sectionType","required":true},
+            "instructionalMethod": {"dataType":"string","required":true},
+            "credits": {"dataType":"string","required":true},
+            "meetingTimes": {"dataType":"array","array":{"ref":"MeetingTimes"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -41,11 +93,6 @@ const models: TsoaRoute.Models = {
             "remaining": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "levelType": {
-        "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["law"]},{"dataType":"enum","enums":["undergraduate"]},{"dataType":"enum","enums":["graduate"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "classification": {

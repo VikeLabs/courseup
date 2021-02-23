@@ -1,9 +1,14 @@
-export interface Section {
+import {
+  ClassScheduleListing,
+  DetailedClassInformation,
+} from '@isaaccormack/uvic-course-scraper/dist/src/types';
+
+export interface Section extends ClassScheduleListing {
   crn: string;
 }
 
-export interface Seat {
-  capacity: number;
+export interface Seat extends DetailedClassInformation {
+  crn: string;
 }
 
 export interface CourseMapping {

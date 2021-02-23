@@ -1,8 +1,10 @@
-import { Section } from './Section.model';
+import { Seat, Section } from './Section.model';
 // TODO: replace once main repo is updated.
 import { UVicCourseScraper } from '@isaaccormack/uvic-course-scraper';
 import { db } from '../db/firestore';
-import { DetailedClassInformation } from '@isaaccormack/uvic-course-scraper/dist/src/types';
+import { subjectCodeExtractor } from '../shared/subjectCodeExtractor';
+import { Term } from '../constants';
+import { InvalidSubjectCodeError } from '../errors/errors';
 
 export class SectionsService {
   public async getSections(
@@ -16,15 +18,14 @@ export class SectionsService {
       code
     );
 
-    return sections.map((e) => ({ crn: e.crn }));
+    return sections;
   }
 
   public async getSectionSeats(
-    term: string,
+    term: Term,
     subject: string,
     code: string
-  ): Promise<DetailedClassInformation[]> {
-    console.log(term, subject, code);
+  ): Promise<Seat[]> {
     // get term, subject, code to crn mappings from db.
     const doc = await db.sectionMappings
       .doc(SectionsService.constructSectionKey(term, subject, code))
@@ -33,13 +34,13 @@ export class SectionsService {
     const data = doc.data();
 
     if (!data) {
-      throw new Error('Section Seats Not Found');
+      throw new InvalidSubjectCodeError('Section Seats Not Found');
     }
 
     const seats = await Promise.all(
       data.crns.map(async (crn) => {
         const seat = await UVicCourseScraper.getSectionSeats(term, crn);
-        return seat;
+        return { ...seat, crn };
       })
     );
 
@@ -47,15 +48,12 @@ export class SectionsService {
   }
 
   public async updateSectionMappings(): Promise<void> {
+    // TODO: a good candidate for using RemoteConfig :)
     const terms = ['202009'];
     // get all the courses
-    const courses = (await UVicCourseScraper.getAllCourses()).map((course) => {
-      // parse courseCatalogId into subject and code
-      const subjectLength = course.subjectCode.name.length;
-      const subject = course.__catalogCourseId.slice(0, subjectLength);
-      const code = course.__catalogCourseId.slice(subjectLength);
-      return { subject, code };
-    });
+    const courses = (await UVicCourseScraper.getAllCourses()).map((course) =>
+      subjectCodeExtractor(course)
+    );
 
     await Promise.all(
       courses.map(async ({ subject, code }) => {

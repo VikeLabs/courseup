@@ -1,5 +1,5 @@
-import { Controller, Get, Path, Query, Route } from 'tsoa';
-import { Course } from './Course.model';
+import { Controller, Get, Path, Route } from 'tsoa';
+import { Course, CourseDetails } from './Course.model';
 import { CoursesService } from './Course.service';
 
 @Route('courses')
@@ -17,7 +17,7 @@ export class CoursesController extends Controller {
   }
 
   @Get('{pid}')
-  public async getCourse(@Path() pid: string): Promise<Course> {
+  public async getCourse(@Path() pid: string): Promise<CourseDetails> {
     // set the Cache-Control for 12h.
     this.setHeader('Cache-Control', `public, max-age=${3600 * 12}`);
     return new CoursesService().getCourseDetailsByPid(pid);
