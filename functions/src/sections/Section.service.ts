@@ -3,7 +3,7 @@ import { UVicCourseScraper } from '@vikelabs/uvic-course-scraper/dist/index';
 import { db } from '../db/firestore';
 import { subjectCodeExtractor } from '../shared/subjectCodeExtractor';
 import { Term } from '../constants';
-import { InvalidSubjectCodeError } from '../errors/errors';
+import { SectionNotFoundError } from '../errors/errors';
 
 export class SectionsService {
   public async getSections(
@@ -33,7 +33,7 @@ export class SectionsService {
     const data = doc.data();
 
     if (!data) {
-      throw new InvalidSubjectCodeError('Section Seats Not Found');
+      throw new SectionNotFoundError('Seats Not Found');
     }
 
     const seats = await Promise.all(
