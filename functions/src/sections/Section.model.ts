@@ -3,9 +3,7 @@ import {
   DetailedClassInformation,
 } from '@vikelabs/uvic-course-scraper/dist/types';
 
-export interface Section extends ClassScheduleListing {
-  crn: string;
-}
+export type Section = ClassScheduleListing;
 
 export interface Seat extends DetailedClassInformation {
   crn: string;

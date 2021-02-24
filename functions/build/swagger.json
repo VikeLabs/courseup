@@ -162,7 +162,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Section": {
+			"ClassScheduleListing": {
 				"properties": {
 					"crn": {
 						"type": "string"
@@ -247,6 +247,9 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Section": {
+				"$ref": "#/components/schemas/ClassScheduleListing"
+			},
 			"Term": {
 				"type": "string",
 				"enum": [
@@ -317,7 +320,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"DetailedClassInformation": {
+			"Seat": {
 				"properties": {
 					"seats": {
 						"$ref": "#/components/schemas/Seating"
@@ -327,11 +330,15 @@
 					},
 					"requirements": {
 						"$ref": "#/components/schemas/Requirements"
+					},
+					"crn": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"seats",
-					"waitListSeats"
+					"waitListSeats",
+					"crn"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -456,7 +463,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/DetailedClassInformation"
+										"$ref": "#/components/schemas/Seat"
 									},
 									"type": "array"
 								}

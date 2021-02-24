@@ -62,7 +62,7 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Section": {
+    "ClassScheduleListing": {
         "dataType": "refObject",
         "properties": {
             "crn": {"dataType":"string","required":true},
@@ -78,6 +78,11 @@ const models: TsoaRoute.Models = {
             "meetingTimes": {"dataType":"array","array":{"ref":"MeetingTimes"},"required":true},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Section": {
+        "dataType": "refAlias",
+        "type": {"ref":"ClassScheduleListing","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Term": {
@@ -110,12 +115,13 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "DetailedClassInformation": {
+    "Seat": {
         "dataType": "refObject",
         "properties": {
             "seats": {"ref":"Seating","required":true},
             "waitListSeats": {"ref":"Seating","required":true},
             "requirements": {"ref":"Requirements"},
+            "crn": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
