@@ -12,14 +12,14 @@ export class CoursesController extends Controller {
   @Get()
   public async getAllCourses(): Promise<Course[]> {
     // set the Cache-Control for 24h.
-    this.setHeader('Cache-Control', `public, max-age=${3600 * 24}`);
+    this.setHeader('Cache-Control', `public, max-age=${3600}, s-max-age=${1800}`);
     return new CoursesService().getAllCourses();
   }
 
   @Get('{pid}')
   public async getCourse(@Path() pid: string): Promise<CourseDetails> {
     // set the Cache-Control for 12h.
-    this.setHeader('Cache-Control', `public, max-age=${3600 * 12}`);
+    this.setHeader('Cache-Control', `public, max-age=${3600}, s-max-age=${1800}`);
     return new CoursesService().getCourseDetailsByPid(pid);
   }
 }

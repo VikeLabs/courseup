@@ -19,7 +19,7 @@ export class SectionsController extends Controller {
       subject.toUpperCase(),
       code
     );
-    this.setHeader('Cache-Control', 'public, max-age=3600');
+    this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
     return sections;
   }
 
@@ -35,7 +35,7 @@ export class SectionsController extends Controller {
       subject.toUpperCase(),
       code
     );
-    this.setHeader('Cache-Control', 'public, max-age=3600');
+    this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
     return seats;
   }
 
