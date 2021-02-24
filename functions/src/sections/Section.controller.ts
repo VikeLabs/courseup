@@ -1,4 +1,3 @@
-// TODO: replace package import path
 import { DetailedClassInformation } from '@vikelabs/uvic-course-scraper/dist/types';
 import { Get, Controller, Route, Response, Path, Query } from 'tsoa';
 import { Term } from '../constants';
