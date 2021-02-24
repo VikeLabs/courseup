@@ -1,5 +1,4 @@
 import { Seat, Section } from './Section.model';
-// TODO: replace once main repo is updated.
 import { UVicCourseScraper } from '@vikelabs/uvic-course-scraper/dist/index';
 import { db } from '../db/firestore';
 import { subjectCodeExtractor } from '../shared/subjectCodeExtractor';
