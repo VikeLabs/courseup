@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "module": "commonjs",
+    "resolveJsonModule": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
