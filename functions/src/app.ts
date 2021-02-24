@@ -7,6 +7,14 @@ import * as openapi from '../build/swagger.json';
 
 export const app = express();
 
+const API_PREFIX = 'api';
+app.use((req, res, next) => {
+  if (req.url.indexOf(`/${API_PREFIX}/`) === 0) {
+    req.url = req.url.substring(API_PREFIX.length + 1);
+  }
+  next();
+});
+
 // Use body parser to read sent json payloads
 app.use(
   bodyParser.urlencoded({
