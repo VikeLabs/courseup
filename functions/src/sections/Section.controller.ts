@@ -1,7 +1,6 @@
-import { DetailedClassInformation } from '@vikelabs/uvic-course-scraper/dist/types';
 import { Get, Controller, Route, Response, Path, Query } from 'tsoa';
 import { Term } from '../constants';
-import { Section } from './Section.model';
+import { Seat, Section } from './Section.model';
 import { SectionsService } from './Section.service';
 
 @Route('sections')
@@ -28,7 +27,7 @@ export class SectionsController extends Controller {
     @Path() term: Term,
     @Query() subject: string,
     @Query() code: string
-  ): Promise<DetailedClassInformation[]> {
+  ): Promise<Seat[]> {
     const seats = new SectionsService().getSectionSeats(
       term,
       subject.toUpperCase(),
