@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { YellowButton } from "../shared/styles";
 
 import React, { useCallback, useState } from "react";
 
@@ -26,17 +26,49 @@ export function TermButtons() {
   const secondType = setType(second);
   const thirdType = setType(third);
 
+  const onClick = useCallback(
+    (event: React.MouseEvent<HTMLElement, MouseEvent>, name: string) => {
+      event.preventDefault();
+      if (name === "first" && !first) {
+        setFirst(true);
+        setSecond(false);
+        setThird(false);
+      } else if (name === "second" && !second) {
+        setFirst(false);
+        setSecond(true);
+        setThird(false);
+      } else if (name === "third" && !third) {
+        setFirst(false);
+        setSecond(false);
+        setThird(true);
+      }
+    },
+    [first, second, third]
+  );
+
   return (
     <div>
-      <Button name="first" type={firstType}>
+      <YellowButton
+        name="first"
+        type={firstType}
+        onClick={(e) => onClick(e, "first")}
+      >
         Fall 2020
-      </Button>
-      <Button name="second" type={secondType}>
+      </YellowButton>
+      <YellowButton
+        name="second"
+        type={secondType}
+        onClick={(e) => onClick(e, "second")}
+      >
         Spring 2021
-      </Button>
-      <Button name="third" type={thirdType}>
+      </YellowButton>
+      <YellowButton
+        name="third"
+        type={thirdType}
+        onClick={(e) => onClick(e, "third")}
+      >
         Summer 2021
-      </Button>
+      </YellowButton>
     </div>
   );
 }
