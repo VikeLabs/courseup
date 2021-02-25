@@ -51,8 +51,8 @@ export class SectionsService {
       .get();
 
     const t = doc.data()?.retrieveAt?.getTime();
-    // if ttl exists and ttl is greater than current time.
-    if (t && t > Date.now()) {
+    // if retrivedAt exists and it was retieved within 30 minutes
+    if (t && t + 1000 * 1800 > Date.now()) {
       return undefined;
     }
     return doc.data();
@@ -74,8 +74,7 @@ export class SectionsService {
         await db.courseMappings
           .doc(SectionsService.constructSectionKey(term, subject, code))
           .set({ crns });
-        // set a ttl to current time + 30 minutes
-        return { crns, retrieveAt: new Date(Date.now() + 1000 * 1800) };
+        return { crns, retrieveAt: new Date(Date.now()) };
       }
     } catch (e) {}
   }
