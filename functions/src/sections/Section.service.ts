@@ -1,4 +1,4 @@
-import { Seat, Section } from './Section.model';
+import { CourseMapping, Seat, Section } from './Section.model';
 import { UVicCourseScraper } from '@vikelabs/uvic-course-scraper/dist/index';
 import { db } from '../db/firestore';
 import { subjectCodeExtractor } from '../shared/subjectCodeExtractor';
@@ -26,24 +26,58 @@ export class SectionsService {
     code: string
   ): Promise<Seat[]> {
     // get term, subject, code to crn mappings from db.
-    const doc = await db.sectionMappings
+    const mapping =
+      (await this.getSectionMapping(term, subject, code)) ||
+      (await this.setSectionMapping(term, subject, code));
+
+    if (mapping) {
+      return await Promise.all(
+        mapping.crns.map(async (crn) => {
+          const seat = await UVicCourseScraper.getSectionSeats(term, crn);
+          return { ...seat, crn, date: new Date(Date.now()) };
+        })
+      );
+    }
+    throw new SectionNotFoundError('Seats Not Found');
+  }
+
+  public async getSectionMapping(
+    term: string,
+    subject: string,
+    code: string
+  ): Promise<CourseMapping | undefined> {
+    const doc = await db.courseMappings
       .doc(SectionsService.constructSectionKey(term, subject, code))
       .get();
 
-    const data = doc.data();
-
-    if (!data) {
-      throw new SectionNotFoundError('Seats Not Found');
+    const t = doc.data()?.retrieveAt?.getTime();
+    // if ttl exists and ttl is greater than current time.
+    if (t && t > Date.now()) {
+      return undefined;
     }
+    return doc.data();
+  }
 
-    const seats = await Promise.all(
-      data.crns.map(async (crn) => {
-        const seat = await UVicCourseScraper.getSectionSeats(term, crn);
-        return { ...seat, crn };
-      })
-    );
-
-    return seats;
+  public async setSectionMapping(
+    term: string,
+    subject: string,
+    code: string
+  ): Promise<CourseMapping | void> {
+    try {
+      const sections = await UVicCourseScraper.getCourseSections(
+        term,
+        subject,
+        code
+      );
+      if (sections.length > 0) {
+        const crns = sections.map(({ crn }) => crn);
+        await db.courseMappings
+          .doc(SectionsService.constructSectionKey(term, subject, code))
+          .set({ crns });
+        // set a ttl to current time + 30 minutes
+        return { crns, retrieveAt: new Date(Date.now() + 1000 * 1800) };
+      }
+    } catch (e) {}
   }
 
   public async updateSectionMappings(): Promise<void> {
@@ -66,7 +100,7 @@ export class SectionsService {
             );
             // don't want to put empty mappings in the database
             if (sections.length > 0) {
-              await db.sectionMappings
+              await db.courseMappings
                 .doc(SectionsService.constructSectionKey(term, subject, code))
                 .set({ crns: sections.map((s) => s.crn) });
             }
