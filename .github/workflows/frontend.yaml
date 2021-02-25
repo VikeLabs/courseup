@@ -4,6 +4,8 @@
 name: Deploy to Firebase to staging on merge
 on:
   push:
+    paths-ignore:
+      - 'functions/**'
     branches:
       - aomi/cd
 jobs:

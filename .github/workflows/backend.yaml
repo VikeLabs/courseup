@@ -6,7 +6,7 @@ on:
     branches: 
       - aomi/cd
 jobs:
-  ci:
+  continious_integration:
     runs-on: ubuntu-latest
     defaults:
       run:
