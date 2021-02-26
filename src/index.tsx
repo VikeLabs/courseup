@@ -1,11 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { RestfulProvider } from "restful-react";
 import { App } from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RestfulProvider base="https://staging-clockwork.vikelabs.dev/api">
+      <App />
+    </RestfulProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
