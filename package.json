@@ -49,6 +49,7 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.7",
     "antd": "^4.12.3",
+    "dayjs": "^1.10.4",
     "styled-components": "^5.2.1"
   },
   "jest": {

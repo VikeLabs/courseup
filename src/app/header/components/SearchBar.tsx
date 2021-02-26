@@ -7,7 +7,11 @@ const { Search } = Input;
 
 const onSearch = (value: string) => console.log(value);
 
-export function SearchBar() {
+type Props = {
+  setTerm: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export function SearchBar({ setTerm }: Props) {
   return (
     <Space direction="horizontal">
       <Search
@@ -16,7 +20,7 @@ export function SearchBar() {
         onSearch={onSearch}
         style={{ width: 548 }}
       />
-      <TermButtons />
+      <TermButtons setTerm={setTerm} />
     </Space>
   );
 }
