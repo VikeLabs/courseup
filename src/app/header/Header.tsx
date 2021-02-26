@@ -1,5 +1,5 @@
-import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
+import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
 import styled from "styled-components";
 import { SearchBar } from "./components/SearchBar";
 import { UserButton } from "./components/UserButton";
@@ -14,11 +14,17 @@ const HeaderContainer = styled(Box)`
   overflow-y: hidden;
 `;
 
-type Props = {
+export interface HeaderProps {
+  /**
+   * setTerm: changes the state of the term selected with the buttons
+   */
   setTerm: React.Dispatch<React.SetStateAction<string>>;
-};
+}
 
-export function Header({ setTerm }: Props) {
+/**
+ * Primary UI component for content
+ */
+export const Header: React.FC<HeaderProps> = ({ setTerm }) => {
   return (
     <HeaderContainer bg="#ff9636" h={66} px="10" py="4">
       <HeaderFlex>
@@ -35,4 +41,4 @@ export function Header({ setTerm }: Props) {
       </HeaderFlex>
     </HeaderContainer>
   );
-}
+};
