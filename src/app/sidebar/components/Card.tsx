@@ -1,13 +1,6 @@
 import React, {Component} from "react"
 import styled from "styled-components";
-interface Inputs {
-   code: string
-   title: string
-   subject: string
-}
-interface StateVar {
-  is_white: boolean
-}
+
 
 
 const Button = styled.button`
@@ -59,6 +52,14 @@ const Subtitle = styled.h2`
   overflow: hidden;
 `
 
+interface Inputs {
+   code: string
+   title: string
+   subject: string
+}
+interface StateVar {
+  is_white: boolean
+}
 
 class Card extends Component<Inputs, StateVar> {
   constructor(props:Inputs) {
@@ -77,8 +78,8 @@ class Card extends Component<Inputs, StateVar> {
     return (
       <div>
         <Button style={{background: bgColor}} onClick={this.changeColor}>
-          <Title>{this.props.title} {this.props.code}</Title>
-          <Subtitle>{this.props.subject}</Subtitle>
+          <Title>{this.props.subject} {this.props.code}</Title>
+          <Subtitle>{this.props.title}</Subtitle>
         </Button>
       </div>
     );
