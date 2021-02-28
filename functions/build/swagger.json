@@ -107,6 +107,16 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Term": {
+				"type": "string",
+				"enum": [
+					"202001",
+					"202005",
+					"202009",
+					"202101",
+					"202105"
+				]
+			},
 			"levelType": {
 				"type": "string",
 				"enum": [
@@ -250,16 +260,6 @@
 			"Section": {
 				"$ref": "#/components/schemas/ClassScheduleListing"
 			},
-			"Term": {
-				"type": "string",
-				"enum": [
-					"202001",
-					"202005",
-					"202009",
-					"202101",
-					"202105"
-				]
-			},
 			"Seating": {
 				"properties": {
 					"capacity": {
@@ -342,6 +342,25 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"KualiSubject": {
+				"properties": {
+					"subject": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"subject",
+					"title"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Subject": {
+				"$ref": "#/components/schemas/KualiSubject"
 			}
 		},
 		"securitySchemes": {}
@@ -352,9 +371,9 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/courses": {
+		"/courses/{term}": {
 			"get": {
-				"operationId": "GetAllCourses",
+				"operationId": "GetCourses",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -375,7 +394,7 @@
 				"parameters": []
 			}
 		},
-		"/courses/{pid}": {
+		"/courses/{term}/{pid}": {
 			"get": {
 				"operationId": "GetCourse",
 				"responses": {
@@ -390,6 +409,7 @@
 						}
 					}
 				},
+				"description": "Retrieves course details given the term and pid.",
 				"security": [],
 				"parameters": [
 					{
@@ -398,6 +418,14 @@
 						"required": true,
 						"schema": {
 							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
 						}
 					}
 				]
@@ -498,6 +526,40 @@
 						"required": true,
 						"schema": {
 							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/subjects/{term}": {
+			"get": {
+				"operationId": "Subjects",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Subject"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Subjects"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
 						}
 					}
 				]
