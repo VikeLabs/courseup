@@ -30,7 +30,7 @@ export function CardDropDown(props: CardProps): JSX.Element {
 
     return (
         <Flex direction="column">
-            <StyledBox>
+            <StyledBox boxShadow="lg">
                 <Flex direction="row" alignItems="center" justifyContent="space-between">
                     <Heading size="sm" color={Colors.black} fontWeight={"normal"}>
                         {props.subject} - {props.title}
