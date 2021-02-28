@@ -50,7 +50,7 @@ export class SectionsService {
       .doc(SectionsService.constructSectionKey(term, subject, code))
       .get();
 
-    const t = doc.data()?.retrieveAt?.getTime();
+    const t = doc.data()?.retrievedAt?.getTime();
     // if retrievedAt exists and it wasn't retieved within 30 minutes
     if (t && t + 1000 * 1800 > Date.now()) {
       return undefined;
@@ -74,7 +74,7 @@ export class SectionsService {
         await db.courseMappings
           .doc(SectionsService.constructSectionKey(term, subject, code))
           .set({ crns });
-        return { crns, retrieveAt: new Date(Date.now()) };
+        return { crns, retrievedAt: new Date(Date.now()) };
       }
     } catch (e) {}
   }
