@@ -3,11 +3,8 @@
  * https://jamiecurnow.medium.com/using-firestore-with-typescript-65bd2a602945
  */
 
-// import firstore (obviously)
 import { firestore } from 'firebase-admin';
-
-// Import or define your types
-// import { YourType } from '~/@types'
+import { CourseMapping } from '../sections/Section.model';
 
 const converter = <T>() => ({
   toFirestore: (data: Partial<T>) => data,
@@ -21,7 +18,7 @@ const dataPoint = <T>(collectionPath: string) =>
 const db = {
   // list your collections here
   // users: dataPoint<YourType>('users')
-  sectionMappings: dataPoint<{ crns: string[] }>('section_mappings'),
+  courseMappings: dataPoint<CourseMapping>('section_mappings'),
 };
 
 export { db };
