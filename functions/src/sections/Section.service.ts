@@ -71,10 +71,11 @@ export class SectionsService {
       );
       if (sections.length > 0) {
         const crns = sections.map(({ crn }) => crn);
+        const retrievedAt = new Date(Date.now());
         await db.courseMappings
           .doc(SectionsService.constructSectionKey(term, subject, code))
-          .set({ crns });
-        return { crns, retrievedAt: new Date(Date.now()) };
+          .set({ crns, retrievedAt });
+        return { crns, retrievedAt };
       }
     } catch (e) {}
   }
