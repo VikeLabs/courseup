@@ -1,10 +1,11 @@
 import { Course, CourseDetails } from './Course.model';
 import { UVicCourseScraper } from '@vikelabs/uvic-course-scraper/dist/index';
 import { subjectCodeExtractor } from '../shared/subjectCodeExtractor';
+import { Term } from '../constants';
 
 export class CoursesService {
-  public async getCourses(): Promise<Course[]> {
-    const courses = await UVicCourseScraper.getCourses();
+  public async getCourses(term: Term): Promise<Course[]> {
+    const courses = await UVicCourseScraper.getCourses(term);
     return courses.map((course) => ({
       ...subjectCodeExtractor(course),
       dateStart: course.dateStart,

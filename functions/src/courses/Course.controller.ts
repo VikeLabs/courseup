@@ -11,13 +11,15 @@ export class CoursesController extends Controller {
    * @param code
    */
   @Get('{term}')
-  public async getCourses(): Promise<Course[]> {
+  public async getCourses(
+    @Path() term: Term
+  ): Promise<Course[]> {
     // set the Cache-Control for 24h.
     this.setHeader(
       'Cache-Control',
       `public, max-age=${3600}, s-max-age=${1800}`
     );
-    return new CoursesService().getCourses();
+    return new CoursesService().getCourses(term);
   }
 
   /**
