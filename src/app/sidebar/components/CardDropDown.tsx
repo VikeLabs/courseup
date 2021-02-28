@@ -5,9 +5,20 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Colors } from "../shared/styles";
 
 export interface CardProps {
-  title: string;
-  code: string;
-  courses: JSX.Element[];
+    /*
+    * The subject
+    * Ex/ CSC
+    */
+    subject: string;
+    /*
+    * The subject title
+    * Ex/ Computer Science
+    */
+    title: string;
+    /*
+    * The list of courses for this subject
+    */
+    courses: JSX.Element[];
 }
 
 export function CardDropDown(props: CardProps): JSX.Element {
@@ -20,16 +31,16 @@ export function CardDropDown(props: CardProps): JSX.Element {
     return (
         <Flex direction="column">
             <StyledBox>
-                <Flex direction="row"  alignItems="center" justifyContent="space-between">
+                <Flex direction="row" alignItems="center" justifyContent="space-between">
                     <Heading size="sm" color={Colors.black} fontWeight={"normal"}>
-                        {props.code} - {props.title}
+                        {props.subject} - {props.title}
                     </Heading>
                     <StyledIconButton
                         onClick={handleClick}
                         background="none"
                         aria-label="See Courses"
                         size="xs"
-                        icon={<ChevronDownIcon/>}
+                        icon={<ChevronDownIcon />}
                     />
                 </Flex>
             </StyledBox>
