@@ -342,25 +342,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"KualiSubject": {
-				"properties": {
-					"subject": {
-						"type": "string"
-					},
-					"title": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"subject",
-					"title"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Subject": {
-				"$ref": "#/components/schemas/KualiSubject"
 			}
 		},
 		"securitySchemes": {}
@@ -526,40 +507,6 @@
 						"required": true,
 						"schema": {
 							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/subjects/{term}": {
-			"get": {
-				"operationId": "Subjects",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/Subject"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Subjects"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "term",
-						"required": true,
-						"schema": {
-							"$ref": "#/components/schemas/Term"
 						}
 					}
 				]
