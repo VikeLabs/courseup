@@ -18,7 +18,7 @@ export interface CardProps {
     /*
     * The list of courses for this subject
     */
-    courses: JSX.Element[];
+    courseCards: JSX.Element[];
 }
 
 export function CardDropDown(props: CardProps): JSX.Element {
@@ -46,7 +46,7 @@ export function CardDropDown(props: CardProps): JSX.Element {
             </StyledBox>
 
             <Collapse in={isDisplayed} animateOpacity>
-                {props.courses}
+                {props.courseCards}
             </Collapse>
         </Flex>
     );
