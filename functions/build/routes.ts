@@ -23,6 +23,11 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Term": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["202001"]},{"dataType":"enum","enums":["202005"]},{"dataType":"enum","enums":["202009"]},{"dataType":"enum","enums":["202101"]},{"dataType":"enum","enums":["202105"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CourseDetails": {
         "dataType": "refObject",
         "properties": {
@@ -36,11 +41,6 @@ const models: TsoaRoute.Models = {
             "formally": {"dataType":"string"},
         },
         "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Term": {
-        "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["202001"]},{"dataType":"enum","enums":["202005"]},{"dataType":"enum","enums":["202009"]},{"dataType":"enum","enums":["202101"]},{"dataType":"enum","enums":["202105"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "levelType": {
@@ -139,6 +139,7 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/courses/:term',
             function (request: any, response: any, next: any) {
             const args = {
+                    term: {"in":"path","name":"term","required":true,"ref":"Term"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

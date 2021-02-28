@@ -34,6 +34,16 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Term": {
+				"type": "string",
+				"enum": [
+					"202001",
+					"202005",
+					"202009",
+					"202101",
+					"202105"
+				]
+			},
 			"CourseDetails": {
 				"properties": {
 					"pid": {
@@ -106,16 +116,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"Term": {
-				"type": "string",
-				"enum": [
-					"202001",
-					"202005",
-					"202009",
-					"202101",
-					"202105"
-				]
 			},
 			"levelType": {
 				"type": "string",
@@ -372,7 +372,16 @@
 				},
 				"description": "Retrieves all the courses available. If query params are passed in, they will be used to filter results.",
 				"security": [],
-				"parameters": []
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					}
+				]
 			}
 		},
 		"/courses/{term}/{pid}": {
