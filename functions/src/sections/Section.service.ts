@@ -51,7 +51,7 @@ export class SectionsService {
       .get();
 
     const t = doc.data()?.retrieveAt?.getTime();
-    // if retrivedAt exists and it was retieved within 30 minutes
+    // if retrievedAt exists and it wasn't retieved within 30 minutes
     if (t && t + 1000 * 1800 > Date.now()) {
       return undefined;
     }
