@@ -11,6 +11,8 @@ export interface Course {
   code: string;
 }
 
+export type Term = "202001" | "202005" | "202009" | "202101" | "202105";
+
 export interface CourseDetails {
   pid: string;
   title: string;
@@ -74,8 +76,6 @@ export interface ClassScheduleListing {
 
 export type Section = ClassScheduleListing;
 
-export type Term = "202001" | "202005" | "202009" | "202101" | "202105";
-
 export interface Seating {
   capacity: number;
   actual: number;
@@ -97,36 +97,44 @@ export interface Seat {
   crn: string;
 }
 
-export type GetAllCoursesProps = Omit<GetProps<Course[], unknown, void, void>, "path">;
+export interface GetCoursesPathParams {
+  term: Term
+}
+
+export type GetCoursesProps = Omit<GetProps<Course[], unknown, void, GetCoursesPathParams>, "path"> & GetCoursesPathParams;
 
 /**
  * Retrieves all the courses available. If query params are passed in, they will be used to filter results.
  */
-export const GetAllCourses = (props: GetAllCoursesProps) => (
-  <Get<Course[], unknown, void, void>
-    path={`/courses`}
+export const GetCourses = ({term, ...props}: GetCoursesProps) => (
+  <Get<Course[], unknown, void, GetCoursesPathParams>
+    path={`/courses/${term}`}
     
     {...props}
   />
 );
 
-export type UseGetAllCoursesProps = Omit<UseGetProps<Course[], unknown, void, void>, "path">;
+export type UseGetCoursesProps = Omit<UseGetProps<Course[], unknown, void, GetCoursesPathParams>, "path"> & GetCoursesPathParams;
 
 /**
  * Retrieves all the courses available. If query params are passed in, they will be used to filter results.
  */
-export const useGetAllCourses = (props: UseGetAllCoursesProps) => useGet<Course[], unknown, void, void>(`/courses`, props);
+export const useGetCourses = ({term, ...props}: UseGetCoursesProps) => useGet<Course[], unknown, void, GetCoursesPathParams>((paramsInPath: GetCoursesPathParams) => `/courses/${paramsInPath.term}`, {  pathParams: { term }, ...props });
 
 
 export interface GetCoursePathParams {
+  term: Term;
   pid: string
 }
 
 export type GetCourseProps = Omit<GetProps<CourseDetails, unknown, void, GetCoursePathParams>, "path"> & GetCoursePathParams;
 
-export const GetCourse = ({pid, ...props}: GetCourseProps) => (
+/**
+ * Retrieves course details given the term and pid.
+ */
+export const GetCourse = ({term, pid, ...props}: GetCourseProps) => (
   <Get<CourseDetails, unknown, void, GetCoursePathParams>
-    path={`/courses/${pid}`}
+    path={`/courses/${term}/${pid}`}
     
     {...props}
   />
@@ -134,7 +142,10 @@ export const GetCourse = ({pid, ...props}: GetCourseProps) => (
 
 export type UseGetCourseProps = Omit<UseGetProps<CourseDetails, unknown, void, GetCoursePathParams>, "path"> & GetCoursePathParams;
 
-export const useGetCourse = ({pid, ...props}: UseGetCourseProps) => useGet<CourseDetails, unknown, void, GetCoursePathParams>((paramsInPath: GetCoursePathParams) => `/courses/${paramsInPath.pid}`, {  pathParams: { pid }, ...props });
+/**
+ * Retrieves course details given the term and pid.
+ */
+export const useGetCourse = ({term, pid, ...props}: UseGetCourseProps) => useGet<CourseDetails, unknown, void, GetCoursePathParams>((paramsInPath: GetCoursePathParams) => `/courses/${paramsInPath.term}/${paramsInPath.pid}`, {  pathParams: { term, pid }, ...props });
 
 
 export interface SectionsQueryParams {
