@@ -77,7 +77,9 @@ export class SectionsService {
           .set({ crns, retrievedAt });
         return { crns, retrievedAt };
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
   public async updateSectionMappings(): Promise<void> {
