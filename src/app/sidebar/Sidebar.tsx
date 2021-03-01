@@ -1,5 +1,5 @@
-import { Container, Flex, Heading } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { Flex, Heading } from '@chakra-ui/react';
+import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Card } from './components/Card';
 import { CardDropDown } from './components/CardDropDown';

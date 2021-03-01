@@ -13,7 +13,7 @@ export interface CardProps {
    * EX) SENG 265 -> SENG
    */
   subject: string;
-  
+
   /**
    * Code to be displayed
    * EX) SENG 265 -> 265
@@ -26,7 +26,7 @@ export interface CardProps {
   selected?: boolean;
 }
 
-export function Card(props: CardProps): JSX.Element {  
+export function Card(props: CardProps): JSX.Element {
   return (
     <Box
       bgColor={props.selected ? "orange.200" : "white"}

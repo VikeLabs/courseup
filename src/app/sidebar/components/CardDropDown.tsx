@@ -15,7 +15,7 @@ export interface CardProps {
     title: string;
 }
 
-export function CardDropDown({subject, title, children}: PropsWithChildren<CardProps>): JSX.Element {
+export function CardDropDown({ subject, title, children }: PropsWithChildren<CardProps>): JSX.Element {
     const [isDisplayed, setDisplayed] = useState(false);
 
     const handleClick = () => {
