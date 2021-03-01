@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { Box, Collapse, Flex, Heading, IconButton } from "@chakra-ui/react";
-import styled from "@emotion/styled";
+import React, { PropsWithChildren, useState } from "react";
+import { Box, Collapse, Flex, Heading, HStack, IconButton } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Colors } from "../shared/styles";
 
 export interface CardProps {
     /*
@@ -15,13 +13,9 @@ export interface CardProps {
     * Ex/ Computer Science
     */
     title: string;
-    /*
-    * The list of courses for this subject
-    */
-    courseCards: JSX.Element[];
 }
 
-export function CardDropDown(props: CardProps): JSX.Element {
+export function CardDropDown({subject, title, children}: PropsWithChildren<CardProps>): JSX.Element {
     const [isDisplayed, setDisplayed] = useState(false);
 
     const handleClick = () => {
@@ -30,12 +24,21 @@ export function CardDropDown(props: CardProps): JSX.Element {
 
     return (
         <Flex direction="column">
-            <StyledBox boxShadow="lg">
+            <Box
+                p="1em"
+                mt="1em"
+                bgColor="white"
+                color="black"
+                boxShadow="lg"
+            >
                 <Flex direction="row" alignItems="center" justifyContent="space-between">
-                    <Heading size="sm" color={Colors.black} fontWeight={"normal"}>
-                        {props.subject} - {props.title}
-                    </Heading>
-                    <StyledIconButton
+                    <HStack>
+                        <Heading size="sm" color="black" fontWeight="semibold">{subject}</Heading>
+                        <Heading size="sm" color="black" fontWeight="normal">-</Heading>
+                        <Heading size="sm" color="black" fontWeight="normal">{title}</Heading>
+                    </HStack>
+                    <IconButton
+                        p="0.5em"
                         onClick={handleClick}
                         background="none"
                         aria-label="See Courses"
@@ -43,22 +46,11 @@ export function CardDropDown(props: CardProps): JSX.Element {
                         icon={<ChevronDownIcon />}
                     />
                 </Flex>
-            </StyledBox>
+            </Box>
 
             <Collapse in={isDisplayed} animateOpacity>
-                {props.courseCards}
+                {children}
             </Collapse>
         </Flex>
     );
 }
-
-const StyledBox = styled(Box)`
-    background-color: ${Colors.white};
-    color: ${Colors.black};
-    padding: 1em;
-    margin-top: 1em;
-`
-
-const StyledIconButton = styled(IconButton)`
-    padding: 0.5em;
-`
