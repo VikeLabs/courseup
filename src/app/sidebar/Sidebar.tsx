@@ -22,7 +22,7 @@ export function Sidebar({ term }: SidebarProps): JSX.Element {
   const { data: courses, loading: loadingCourses, error: errorCourses } = useGetCourses({ term: term });
 
   const parsedCourses = courses?.reduce((dict, course) => {
-    let subject = course.subject;
+    const subject = course.subject;
     if (!(subject in dict)) {
       dict[subject] = [];
     }
