@@ -86,7 +86,7 @@ export class SectionsService {
     // TODO: a good candidate for using RemoteConfig :)
     const terms = ['202009'];
     // get all the courses
-    const courses = (await UVicCourseScraper.getAllCourses()).map((course) =>
+    const courses = (await UVicCourseScraper.getCourses()).map((course) =>
       subjectCodeExtractor(course)
     );
 
