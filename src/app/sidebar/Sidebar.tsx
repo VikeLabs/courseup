@@ -21,18 +21,14 @@ export function Sidebar({ term }: SidebarProps): JSX.Element {
   const { data: subjects, loading: loadingSubjects, error: errorSubjects } = useSubjects({ term: term });
   const { data: courses, loading: loadingCourses, error: errorCourses } = useGetCourses({ term: term })
 
-  const parsedCourses: { [subject: string]: Course[] } = {}
-
-  if (courses != null) {
-    for (let i = 0; i < courses.length; i++) {
-      let course: Course = courses[i];
-      let subject = course.subject;
-      if (!(subject in parsedCourses)) {
-        parsedCourses[subject] = [];
-      }
-      parsedCourses[subject].push(course)
+  const parsedCourses = courses?.reduce((dict, course) => {
+    let subject = course.subject;
+    if (!(subject in dict)) {
+      dict[subject] = [];
     }
-  }
+    dict[subject].push(course)
+    return dict
+  }, {} as { [subject: string]: Course[] }) ?? {};
 
   return (
     <Flex
