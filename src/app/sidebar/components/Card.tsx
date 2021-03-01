@@ -33,7 +33,9 @@ export function Card(props: CardProps): JSX.Element {
       color="black"
       borderRadius="lg"
       boxShadow="md"
-      m="3"
+      mt="3"
+      ml="3"
+      mr="3"
       p="3"
     >
       <Text fontSize="xs" fontWeight="semibold">

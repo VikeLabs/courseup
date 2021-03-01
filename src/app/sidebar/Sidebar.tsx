@@ -39,7 +39,6 @@ export function Sidebar({ term }: SidebarProps): JSX.Element {
       id="scrollableFlex"
       maxH="100vh"
       bg="#E4E4E4"
-      minW="30%"
       p="4"
       overflow="auto"
     >

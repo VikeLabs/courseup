@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useState } from "react";
-import { Box, Collapse, Flex, HStack, IconButton, Text } from "@chakra-ui/react";
+import { Box, Collapse, Flex, IconButton, Text, VStack } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export interface CardProps {
@@ -32,11 +32,10 @@ export function CardDropDown({ subject, title, children }: PropsWithChildren<Car
                 boxShadow="lg"
             >
                 <Flex direction="row" alignItems="center" justifyContent="space-between">
-                    <HStack>
+                    <VStack alignItems="start">
                         <Text fontSize="sm" color="black" fontWeight="bold">{subject}</Text>
-                        <Text fontSize="xs" color="black" fontWeight="normal">-</Text>
                         <Text fontSize="xs" color="black" fontWeight="normal">{title}</Text>
-                    </HStack>
+                    </VStack>
                     <IconButton
                         p="0.5em"
                         onClick={handleClick}
