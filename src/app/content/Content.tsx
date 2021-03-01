@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetAllCourses } from '../../fetchers';
+import { useGetCourses } from '../../fetchers';
 
 export interface ContentProps {
   /**
@@ -15,7 +15,7 @@ export interface ContentProps {
 export const Content: React.FC<ContentProps> = ({
   content
 }) => {
-  const { data } = useGetAllCourses({});
+  const { data } = useGetCourses({ term: '202101' });
   return (
     <div>
       {data && data.map((e) => (<p key={e.pid}>{e.title}</p>))}

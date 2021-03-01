@@ -11,4 +11,5 @@ export interface Seat extends DetailedClassInformation {
 
 export interface CourseMapping {
   crns: string[];
+  retrievedAt?: Date;
 }
