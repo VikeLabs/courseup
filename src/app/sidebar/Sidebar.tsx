@@ -19,15 +19,15 @@ export interface SidebarProps {
 export function Sidebar({ term }: SidebarProps): JSX.Element {
 
   const { data: subjects, loading: loadingSubjects, error: errorSubjects } = useSubjects({ term: term });
-  const { data: courses, loading: loadingCourses, error: errorCourses } = useGetCourses({ term: term })
+  const { data: courses, loading: loadingCourses, error: errorCourses } = useGetCourses({ term: term });
 
   const parsedCourses = courses?.reduce((dict, course) => {
     let subject = course.subject;
     if (!(subject in dict)) {
       dict[subject] = [];
     }
-    dict[subject].push(course)
-    return dict
+    dict[subject].push(course);
+    return dict;
   }, {} as { [subject: string]: Course[] }) ?? {};
 
   return (

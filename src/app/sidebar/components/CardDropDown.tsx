@@ -19,7 +19,7 @@ export function CardDropDown({ subject, title, children }: PropsWithChildren<Car
     const [isDisplayed, setDisplayed] = useState(false);
 
     const handleClick = () => {
-        setDisplayed(!isDisplayed)
+        setDisplayed(!isDisplayed);
     }
 
     return (
