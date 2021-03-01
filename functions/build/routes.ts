@@ -6,6 +6,8 @@ import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute, H
 import { CoursesController } from './../src/courses/Course.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { SectionsController } from './../src/sections/Section.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { SubjectsController } from './../src/subjects/Subject.controller';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -21,6 +23,11 @@ const models: TsoaRoute.Models = {
             "code": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Term": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["202001"]},{"dataType":"enum","enums":["202005"]},{"dataType":"enum","enums":["202009"]},{"dataType":"enum","enums":["202101"]},{"dataType":"enum","enums":["202105"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CourseDetails": {
@@ -85,11 +92,6 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"ClassScheduleListing","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Term": {
-        "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["202001"]},{"dataType":"enum","enums":["202005"]},{"dataType":"enum","enums":["202009"]},{"dataType":"enum","enums":["202101"]},{"dataType":"enum","enums":["202105"]}],"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Seating": {
         "dataType": "refObject",
         "properties": {
@@ -126,6 +128,20 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "KualiSubject": {
+        "dataType": "refObject",
+        "properties": {
+            "subject": {"dataType":"string","required":true},
+            "title": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Subject": {
+        "dataType": "refAlias",
+        "type": {"ref":"KualiSubject","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const validationService = new ValidationService(models);
 
@@ -136,9 +152,10 @@ export function RegisterRoutes(app: express.Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.get('/courses',
+        app.get('/courses/:term',
             function (request: any, response: any, next: any) {
             const args = {
+                    term: {"in":"path","name":"term","required":true,"ref":"Term"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -153,14 +170,15 @@ export function RegisterRoutes(app: express.Router) {
             const controller = new CoursesController();
 
 
-            const promise = controller.getAllCourses.apply(controller, validatedArgs as any);
+            const promise = controller.getCourses.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/courses/:pid',
+        app.get('/courses/:term/:pid',
             function (request: any, response: any, next: any) {
             const args = {
                     pid: {"in":"path","name":"pid","required":true,"dataType":"string"},
+                    term: {"in":"path","name":"term","required":true,"ref":"Term"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -224,6 +242,28 @@ export function RegisterRoutes(app: express.Router) {
 
 
             const promise = controller.seats.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, undefined, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/subjects/:term',
+            function (request: any, response: any, next: any) {
+            const args = {
+                    term: {"in":"path","name":"term","required":true,"ref":"Term"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new SubjectsController();
+
+
+            const promise = controller.subjects.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

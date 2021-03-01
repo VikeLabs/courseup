@@ -1,4 +1,5 @@
 import { Controller, Get, Path, Route } from 'tsoa';
+import { Term } from '../constants';
 import { Course, CourseDetails } from './Course.model';
 import { CoursesService } from './Course.service';
 
@@ -9,23 +10,33 @@ export class CoursesController extends Controller {
    * @param subject
    * @param code
    */
-  @Get()
-  public async getAllCourses(): Promise<Course[]> {
+  @Get('{term}')
+  public async getCourses(
+    @Path() term: Term
+  ): Promise<Course[]> {
     // set the Cache-Control for 24h.
     this.setHeader(
       'Cache-Control',
       `public, max-age=${3600}, s-max-age=${1800}`
     );
-    return new CoursesService().getAllCourses();
+    return new CoursesService().getCourses(term);
   }
 
-  @Get('{pid}')
-  public async getCourse(@Path() pid: string): Promise<CourseDetails> {
+  /**
+   * Retrieves course details given the term and pid.
+   * @param pid
+   * @param term
+   */
+  @Get('{term}/{pid}')
+  public async getCourse(
+    @Path() pid: string,
+    @Path() term: Term
+  ): Promise<CourseDetails> {
     // set the Cache-Control for 12h.
     this.setHeader(
       'Cache-Control',
       `public, max-age=${3600}, s-max-age=${1800}`
     );
-    return new CoursesService().getCourseDetailsByPid(pid);
+    return new CoursesService().getCourseDetailsByPid(term, pid);
   }
 }
