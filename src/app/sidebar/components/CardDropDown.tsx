@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useState } from "react";
-import { Box, Collapse, Flex, Heading, HStack, IconButton } from "@chakra-ui/react";
+import { Box, Collapse, Flex, IconButton, Text, VStack } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export interface CardProps {
@@ -15,11 +15,11 @@ export interface CardProps {
     title: string;
 }
 
-export function CardDropDown({subject, title, children}: PropsWithChildren<CardProps>): JSX.Element {
+export function CardDropDown({ subject, title, children }: PropsWithChildren<CardProps>): JSX.Element {
     const [isDisplayed, setDisplayed] = useState(false);
 
     const handleClick = () => {
-        setDisplayed(!isDisplayed)
+        setDisplayed(!isDisplayed);
     }
 
     return (
@@ -32,11 +32,10 @@ export function CardDropDown({subject, title, children}: PropsWithChildren<CardP
                 boxShadow="lg"
             >
                 <Flex direction="row" alignItems="center" justifyContent="space-between">
-                    <HStack>
-                        <Heading size="sm" color="black" fontWeight="semibold">{subject}</Heading>
-                        <Heading size="sm" color="black" fontWeight="normal">-</Heading>
-                        <Heading size="sm" color="black" fontWeight="normal">{title}</Heading>
-                    </HStack>
+                    <VStack alignItems="start">
+                        <Text fontSize="sm" color="black" fontWeight="bold">{subject}</Text>
+                        <Text fontSize="xs" color="black" fontWeight="normal">{title}</Text>
+                    </VStack>
                     <IconButton
                         p="0.5em"
                         onClick={handleClick}

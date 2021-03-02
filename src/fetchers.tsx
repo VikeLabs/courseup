@@ -97,6 +97,13 @@ export interface Seat {
   crn: string;
 }
 
+export interface KualiSubject {
+  subject: string;
+  title: string;
+}
+
+export type Subject = KualiSubject;
+
 export interface GetCoursesPathParams {
   term: Term
 }
@@ -194,4 +201,23 @@ export const Seats = ({term, ...props}: SeatsProps) => (
 export type UseSeatsProps = Omit<UseGetProps<Seat[], void, SeatsQueryParams, SeatsPathParams>, "path"> & SeatsPathParams;
 
 export const useSeats = ({term, ...props}: UseSeatsProps) => useGet<Seat[], void, SeatsQueryParams, SeatsPathParams>((paramsInPath: SeatsPathParams) => `/sections/${paramsInPath.term}/seats`, {  pathParams: { term }, ...props });
+
+
+export interface SubjectsPathParams {
+  term: Term
+}
+
+export type SubjectsProps = Omit<GetProps<Subject[], unknown, void, SubjectsPathParams>, "path"> & SubjectsPathParams;
+
+export const Subjects = ({term, ...props}: SubjectsProps) => (
+  <Get<Subject[], unknown, void, SubjectsPathParams>
+    path={`/subjects/${term}`}
+    
+    {...props}
+  />
+);
+
+export type UseSubjectsProps = Omit<UseGetProps<Subject[], unknown, void, SubjectsPathParams>, "path"> & SubjectsPathParams;
+
+export const useSubjects = ({term, ...props}: UseSubjectsProps) => useGet<Subject[], unknown, void, SubjectsPathParams>((paramsInPath: SubjectsPathParams) => `/subjects/${paramsInPath.term}`, {  pathParams: { term }, ...props });
 
