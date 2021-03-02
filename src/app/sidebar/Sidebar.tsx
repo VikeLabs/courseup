@@ -7,17 +7,16 @@ import { Course, Term, useGetCourses, useSubjects } from '../../fetchers'
 
 // import StyledHeader from './Header.styles';
 
-
 export interface SidebarProps {
   /**
    * Term Selected
    * Determines what term the subjects and courses are from
    */
   term: Term;
+  setPid?: (pid: string) => void;
 }
 
-export function Sidebar({ term }: SidebarProps): JSX.Element {
-
+export function Sidebar({ term, setPid }: SidebarProps): JSX.Element {
   const { data: subjects, loading: loadingSubjects, error: errorSubjects } = useSubjects({ term: term });
   const { data: courses, loading: loadingCourses, error: errorCourses } = useGetCourses({ term: term });
 
@@ -53,7 +52,7 @@ export function Sidebar({ term }: SidebarProps): JSX.Element {
         {subjects?.map((subject, index) => (
           <CardDropDown key={index} subject={subject.subject} title={subject.title}>
             {parsedCourses[subject.subject]?.map((course, index) => (
-              <Card key={index} title={course.title} code={course.code} subject={course.subject} />
+              <Card key={index} title={course.title} code={course.code} subject={course.subject} onClick={() => {setPid && setPid(course.pid)}} />
             ))}
           </CardDropDown>
         ))}
