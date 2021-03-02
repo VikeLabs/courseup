@@ -24,6 +24,7 @@ export interface CardProps {
    * Boolean to check Card is selected by user
    */
   selected?: boolean;
+  onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
 export function Card(props: CardProps): JSX.Element {
@@ -37,6 +38,7 @@ export function Card(props: CardProps): JSX.Element {
       ml="3"
       mr="3"
       p="3"
+      onClick={props.onClick}
     >
       <Text fontSize="xs" fontWeight="semibold">
         {props.subject} {props.code}
