@@ -30,6 +30,7 @@ export function CardDropDown({ subject, title, children }: PropsWithChildren<Car
                 bgColor="white"
                 color="black"
                 boxShadow="lg"
+                onClick={handleClick}
             >
                 <Flex direction="row" alignItems="center" justifyContent="space-between">
                     <VStack alignItems="start">
@@ -38,7 +39,6 @@ export function CardDropDown({ subject, title, children }: PropsWithChildren<Car
                     </VStack>
                     <IconButton
                         p="0.5em"
-                        onClick={handleClick}
                         background="none"
                         aria-label="See Courses"
                         size="xs"
