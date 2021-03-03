@@ -13,7 +13,7 @@ const Template: Story<SidebarProps> = (args) => <Sidebar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  content: 'hello world - sidebar',
+  term: '202009',
 };
 
 Default.parameters = {

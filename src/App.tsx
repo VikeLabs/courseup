@@ -12,10 +12,8 @@ export function App(): JSX.Element | null {
       <Flex h="100vh" direction="column">
         <Header setTerm={setTerm} />
         <Flex color="white" h="100%" grow={1}>
-          <Center w="300px" bg="#E4E4E4" minW="10%">
-            <Sidebar />
-          </Center>
-          <Center flex="1" minW="80%">
+          <Sidebar term="202105" />
+          <Center flex="1" bg="tomato" minW="80%">
             <Content />
           </Center>
         </Flex>
