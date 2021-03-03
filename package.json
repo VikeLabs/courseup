@@ -4,11 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-<<<<<<< HEAD
-    "@ant-design/icons": "^4.5.0",
-=======
     "@chakra-ui/icons": "^1.0.5",
->>>>>>> 21be7fe4df0b776b1b447bd7c99e89fbd0c196a0
     "@chakra-ui/react": "^1.3.3",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
