@@ -16,6 +16,7 @@ import {
   useClipboard,
   useToast,
 } from '@chakra-ui/react';
+import React from 'react';
 import { MeetingTimes, Seat } from '../../../fetchers';
 import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';
@@ -115,11 +116,9 @@ export function SectionInfo({
           </Accordion>
         )}
         <Schedule meetingTimes={meetingTimes} />
-        {seat && (
-          <Box my="5">
-            <SeatInfo seat={seat} />
-          </Box>
-        )}
+        <Box my="5">
+          <SeatInfo seat={seat} />
+        </Box>
       </Box>
     </Box>
   );
