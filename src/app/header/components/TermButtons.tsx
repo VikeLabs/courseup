@@ -37,13 +37,13 @@ export function TermButtons({ setTerm }: Props) {
   );
 
   return (
-    <ButtonGroup spacing="0">
+    <ButtonGroup spacing="0" isAttached>
       <Button
         name={terms[0]}
         isActive={first}
         onClick={(e) => onClick(e, terms[0])}
         size="sm"
-        borderRadius="0"
+        borderRadius="2px"
       >
         {termNames[0]}
       </Button>
@@ -52,7 +52,6 @@ export function TermButtons({ setTerm }: Props) {
         isActive={second}
         onClick={(e) => onClick(e, terms[1])}
         size="sm"
-        borderRadius="0"
       >
         {termNames[1]}
       </Button>
@@ -61,7 +60,7 @@ export function TermButtons({ setTerm }: Props) {
         isActive={third}
         onClick={(e) => onClick(e, terms[2])}
         size="sm"
-        borderRadius="0"
+        borderRadius="2px"
       >
         {termNames[2]}
       </Button>
