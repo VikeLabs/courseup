@@ -13,8 +13,6 @@ import {
   PopoverCloseButton,
   PopoverContent,
   PopoverTrigger,
-  useClipboard,
-  useToast,
 } from '@chakra-ui/react';
 import React from 'react';
 import { MeetingTimes, Seat } from '../../../fetchers';
@@ -43,9 +41,6 @@ export function SectionInfo({
   const isSENG = additionalNotes?.indexOf('Reserved for BSENG students') !== -1;
   const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
 
-  const { onCopy } = useClipboard(crn);
-  const toast = useToast();
-
   return (
     <Box as="section" bg="white" color="black" my="5">
       <Flex my="2" alignItems="center">
@@ -56,16 +51,6 @@ export function SectionInfo({
           size="lg"
           as="h3"
           color="gray"
-          onClick={() => {
-            onCopy();
-            toast({
-              title: 'Course registration number copied!',
-              description: `${crn} is copied to your clipboard.`,
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
-            });
-          }}
         >
           {crn}
         </Heading>
