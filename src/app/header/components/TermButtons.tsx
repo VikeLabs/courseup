@@ -1,22 +1,7 @@
-import { YellowButton } from "../shared/styles";
+import { Button, ButtonGroup } from "@chakra-ui/react";
 
 import React, { useCallback, useState } from "react";
 import { getButtonTerms, getTerms } from "../shared/utils";
-
-type ButtonType =
-  | "primary"
-  | "default"
-  | "link"
-  | "text"
-  | "ghost"
-  | "dashed"
-  | undefined;
-
-const setType = (button: boolean): ButtonType => {
-  let toRet: ButtonType;
-  button ? (toRet = "primary") : (toRet = "default");
-  return toRet;
-};
 
 type Props = {
   setTerm: React.Dispatch<React.SetStateAction<string>>;
@@ -26,10 +11,6 @@ export function TermButtons({ setTerm }: Props) {
   const [first, setFirst] = useState(true);
   const [second, setSecond] = useState(false);
   const [third, setThird] = useState(false);
-
-  const firstType = setType(first);
-  const secondType = setType(second);
-  const thirdType = setType(third);
 
   const termNames = getButtonTerms();
   const terms = getTerms();
@@ -56,28 +37,34 @@ export function TermButtons({ setTerm }: Props) {
   );
 
   return (
-    <div>
-      <YellowButton
+    <ButtonGroup spacing="0">
+      <Button
         name={terms[0]}
-        type={firstType}
+        isActive={first}
         onClick={(e) => onClick(e, terms[0])}
+        size="sm"
+        borderRadius="0"
       >
         {termNames[0]}
-      </YellowButton>
-      <YellowButton
+      </Button>
+      <Button
         name={terms[1]}
-        type={secondType}
+        isActive={second}
         onClick={(e) => onClick(e, terms[1])}
+        size="sm"
+        borderRadius="0"
       >
         {termNames[1]}
-      </YellowButton>
-      <YellowButton
+      </Button>
+      <Button
         name={terms[2]}
-        type={thirdType}
+        isActive={third}
         onClick={(e) => onClick(e, terms[2])}
+        size="sm"
+        borderRadius="0"
       >
         {termNames[2]}
-      </YellowButton>
-    </div>
+      </Button>
+    </ButtonGroup>
   );
 }

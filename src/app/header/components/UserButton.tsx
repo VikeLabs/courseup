@@ -1,14 +1,15 @@
 import React from "react";
 
-import { UserOutlined } from "@ant-design/icons";
-import { YellowButton } from "../shared/styles";
+import { FaUserAlt } from "react-icons/fa";
+import { IconButton } from "@chakra-ui/react";
 
 export function UserButton() {
   return (
-    <YellowButton
-      style={{ textAlign: "center" }}
-      shape="circle"
-      icon={<UserOutlined />}
+    <IconButton
+      aria-label="My Profile"
+      icon={<FaUserAlt />}
+      size="sm"
+      borderRadius="50%"
     />
   );
 }

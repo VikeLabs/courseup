@@ -13,7 +13,7 @@ export function App(): JSX.Element | null {
         <Header setTerm={setTerm} />
         <Flex color="white" h="100%" grow={1}>
           <Sidebar term="202105" />
-          <Center flex="1" bg="tomato" minW="80%">
+          <Center flex="1" bg="white" minW="80%">
             <Content />
           </Center>
         </Flex>

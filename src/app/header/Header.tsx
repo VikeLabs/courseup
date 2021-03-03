@@ -1,18 +1,8 @@
 import React from "react";
-import { Box, Flex, Spacer, Text } from "@chakra-ui/react";
-import styled from "styled-components";
+import { Box, Flex, HStack, Spacer, Text } from "@chakra-ui/react";
 import { SearchBar } from "./components/SearchBar";
 import { UserButton } from "./components/UserButton";
-
-// TODO: make this better responsive, good for now
-const HeaderFlex = styled(Flex)`
-  min-width: 1280px;
-`;
-
-const HeaderContainer = styled(Box)`
-  overflow: auto;
-  overflow-y: hidden;
-`;
+import { TermButtons } from "./components/TermButtons";
 
 export interface HeaderProps {
   /**
@@ -26,8 +16,8 @@ export interface HeaderProps {
  */
 export const Header: React.FC<HeaderProps> = ({ setTerm }) => {
   return (
-    <HeaderContainer bg="#ff9636" h={66} px="10" py="4">
-      <HeaderFlex>
+    <Box bg="tomato" h={66} px="10" py="4" overflow="hidden">
+      <Flex minW="1280px">
         {/* TODO: turn this into a logo */}
         <Box w={225} textAlign="center">
           <Text fontSize="x-large" color="white" fontWeight="bold">
@@ -35,10 +25,13 @@ export const Header: React.FC<HeaderProps> = ({ setTerm }) => {
           </Text>
         </Box>
         <Spacer />
-        <SearchBar setTerm={setTerm} />
+        <HStack spacing="10px">
+          <SearchBar />
+          <TermButtons setTerm={setTerm} />
+        </HStack>
         <Spacer />
         <UserButton />
-      </HeaderFlex>
-    </HeaderContainer>
+      </Flex>
+    </Box>
   );
 };

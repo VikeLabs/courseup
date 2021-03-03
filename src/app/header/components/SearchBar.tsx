@@ -1,26 +1,24 @@
-import { Input, Space } from "antd";
+import { Input } from "@chakra-ui/react";
 
-import React from "react";
-import { TermButtons } from "./TermButtons";
+import React, { useState } from "react";
+import { useChangeCallback } from "../hooks/useChangeCallback";
 
-const { Search } = Input;
+export function SearchBar() {
+  const [value, setValue] = useState("");
+  const onChange = useChangeCallback(setValue);
 
-const onSearch = (value: string) => console.log(value);
+  //TODO: add search functionality
 
-type Props = {
-  setTerm: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export function SearchBar({ setTerm }: Props) {
   return (
-    <Space direction="horizontal">
-      <Search
-        placeholder="Search a course"
-        allowClear
-        onSearch={onSearch}
-        style={{ width: 548 }}
-      />
-      <TermButtons setTerm={setTerm} />
-    </Space>
+    <Input
+      placeholder="Search a course"
+      isFullWidth
+      size="sm"
+      bg="white"
+      w="500px"
+      minW="100px"
+      value={value}
+      onChange={onChange}
+    />
   );
 }
