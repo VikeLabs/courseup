@@ -1,6 +1,5 @@
-import React from 'react';
+import { Box } from '@chakra-ui/layout';
 // import StyledHeader from './Header.styles';
-
 
 export interface HeaderProps {
   /**
@@ -13,12 +12,6 @@ export interface HeaderProps {
 /**
  * Primary UI component for content
  */
-export const Header: React.FC<HeaderProps> = ({
-  content
-}) => {
-  return (
-    <div>
-      {content}
-    </div>
-  )
-};
+export function Header({ content }: HeaderProps) {
+  return <Box as="header">{content}</Box>;
+}
