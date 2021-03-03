@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Center, ChakraProvider, Flex } from "@chakra-ui/react";
+import { Box, Center, ChakraProvider, Flex } from "@chakra-ui/react";
 import { Header, Content, Sidebar } from "./app/index";
 
 export function App(): JSX.Element | null {
@@ -10,12 +10,14 @@ export function App(): JSX.Element | null {
     <ChakraProvider>
       <Flex h="100vh" direction="column">
         <Header setTerm={setTerm} />
-        <Flex color="white" h="100%" grow={1}>
-          <Sidebar term="202105" />
-          <Center flex="1" bg="white" minW="80%" overflow="auto">
-            <Content />
-          </Center>
-        </Flex>
+        <Box grow={1} overflow="hidden">
+          <Flex color="white" height="100%">
+            <Sidebar term="202105" />
+            <Center flex="1" bg="white" minW="80%" overflow="auto">
+              <Content />
+            </Center>
+          </Flex>
+        </Box>
       </Flex>
     </ChakraProvider>
   );
