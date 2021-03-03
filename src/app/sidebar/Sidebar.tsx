@@ -1,11 +1,8 @@
-import { Flex, Heading } from '@chakra-ui/react';
-import React from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { Box, Flex } from '@chakra-ui/react';
+import { useCallback } from 'react';
 import { Card } from './components/Card';
 import { CardDropDown } from './components/CardDropDown';
-import { Course, Term, useGetCourses, useSubjects } from '../../fetchers'
-
-// import StyledHeader from './Header.styles';
+import { Course, Term, useGetCourses, useSubjects } from '../../fetchers';
 
 export interface SidebarProps {
   /**
@@ -14,49 +11,50 @@ export interface SidebarProps {
    */
   term: Term;
   setPid?: (pid: string) => void;
+  pid: string;
 }
 
-export function Sidebar({ term, setPid }: SidebarProps): JSX.Element {
-  const { data: subjects, loading: loadingSubjects, error: errorSubjects } = useSubjects({ term: term });
-  const { data: courses, loading: loadingCourses, error: errorCourses } = useGetCourses({ term: term });
+export function Sidebar({ term, pid, setPid }: SidebarProps): JSX.Element {
+  const { data: subjects } = useSubjects({ term: term });
+  const { data: courses } = useGetCourses({ term: term });
 
-  const parsedCourses = courses?.reduce((dict, course) => {
-    const subject = course.subject;
-    if (!(subject in dict)) {
-      dict[subject] = [];
-    }
-    dict[subject].push(course);
-    return dict;
-  }, {} as { [subject: string]: Course[] }) ?? {};
+  const parsedCourses =
+    courses?.reduce((dict, course) => {
+      const subject = course.subject;
+      if (!(subject in dict)) {
+        dict[subject] = [];
+      }
+      dict[subject].push(course);
+      return dict;
+    }, {} as { [subject: string]: Course[] }) ?? {};
+
+  const handleClick = useCallback(
+    (pid: string) => {
+      setPid && setPid(pid);
+    },
+    [setPid]
+  );
 
   return (
-    <Flex
-      id="scrollableFlex"
-      maxH="100vh"
-      bg="#E4E4E4"
-      p="4"
-      overflow="auto"
-    >
-      <InfiniteScroll
-        dataLength={subjects?.length ?? 0}
-        next={
-          () => { }
-        }
-        hasMore={false}
-        loader={
-          <Heading size="sm">Loading...</Heading>
-        }
-        scrollableTarget="scrollableFlex"
-        endMessage={<div />}
-      >
+    <Box>
+      <Box>{/* <Heading>Search</Heading> */}</Box>
+      <Flex id="scrollableFlex" maxH="100vh" bg="#E4E4E4" p="2" overflow="auto" direction="column">
         {subjects?.map((subject, index) => (
-          <CardDropDown key={index} subject={subject.subject} title={subject.title}>
+          <CardDropDown key={index} subject={subject.subject} title={subject.title} > 
             {parsedCourses[subject.subject]?.map((course, index) => (
-              <Card key={index} title={course.title} code={course.code} subject={course.subject} onClick={() => {setPid && setPid(course.pid)}} />
+              <Card
+                selected={course.pid === pid}
+                key={course.pid}
+                title={course.title}
+                code={course.code}
+                subject={course.subject}
+                onClick={() => handleClick(course.pid)}
+              />
             ))}
           </CardDropDown>
         ))}
-      </InfiniteScroll>
-    </Flex>
+        {/* </InfiniteScroll> */}
+      </Flex>
+    </Box>
   );
 }
