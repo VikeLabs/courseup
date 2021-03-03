@@ -16,7 +16,7 @@ export interface HeaderProps {
  */
 export const Header: React.FC<HeaderProps> = ({ setTerm }) => {
   return (
-    <Box bg="tomato" h={66} px="10" py="4" overflow="hidden">
+    <Box bg="tomato" h={66} px="10" py="4">
       <Flex minW="900px">
         {/* TODO: turn this into a logo */}
         <Box w={225} textAlign="center">
