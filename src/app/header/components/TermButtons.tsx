@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from "@chakra-ui/react";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { getButtonTerms, getTerms } from "../shared/utils";
 
 type Props = {
@@ -8,9 +8,14 @@ type Props = {
 };
 
 export function TermButtons({ setTerm }: Props) {
-  const [first, setFirst] = useState(true);
-  const [second, setSecond] = useState(false);
-  const [third, setThird] = useState(false);
+  const status = useMemo(
+    () => ({
+      first: true,
+      second: false,
+      third: false,
+    }),
+    []
+  );
 
   const termNames = getButtonTerms();
   const terms = getTerms();
@@ -19,28 +24,28 @@ export function TermButtons({ setTerm }: Props) {
     (event: React.MouseEvent<HTMLElement, MouseEvent>, name: string) => {
       event.preventDefault();
       setTerm(name);
-      if (name === terms[0] && !first) {
-        setFirst(true);
-        setSecond(false);
-        setThird(false);
-      } else if (name === terms[1] && !second) {
-        setFirst(false);
-        setSecond(true);
-        setThird(false);
-      } else if (name === terms[2] && !third) {
-        setFirst(false);
-        setSecond(false);
-        setThird(true);
+      if (name === terms[0] && !status.first) {
+        status.first = true;
+        status.second = false;
+        status.third = false;
+      } else if (name === terms[1] && !status.second) {
+        status.first = false;
+        status.second = true;
+        status.third = false;
+      } else if (name === terms[2] && !status.third) {
+        status.first = false;
+        status.second = false;
+        status.third = true;
       }
     },
-    [first, second, setTerm, terms, third]
+    [setTerm, status, terms]
   );
 
   return (
     <ButtonGroup spacing="0" isAttached>
       <Button
         name={terms[0]}
-        isActive={first}
+        isActive={status.first}
         onClick={(e) => onClick(e, terms[0])}
         size="sm"
         borderRadius="2px"
@@ -49,7 +54,7 @@ export function TermButtons({ setTerm }: Props) {
       </Button>
       <Button
         name={terms[1]}
-        isActive={second}
+        isActive={status.second}
         onClick={(e) => onClick(e, terms[1])}
         size="sm"
       >
@@ -57,7 +62,7 @@ export function TermButtons({ setTerm }: Props) {
       </Button>
       <Button
         name={terms[2]}
-        isActive={third}
+        isActive={status.third}
         onClick={(e) => onClick(e, terms[2])}
         size="sm"
         borderRadius="2px"
