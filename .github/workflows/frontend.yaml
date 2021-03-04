@@ -7,7 +7,7 @@ on:
     paths-ignore:
       - 'functions/**'
     branches:
-      - aomi/cd
+      - main
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
