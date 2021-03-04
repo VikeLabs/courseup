@@ -1,6 +1,7 @@
-import React from "react";
-import { Center, ChakraProvider, Flex } from "@chakra-ui/react";
-import { Header, Content, Sidebar } from "./app/index";
+import { Center, ChakraProvider, Flex } from '@chakra-ui/react';
+import React from 'react';
+
+import { Header, Content, Sidebar } from './app/index';
 
 export function App(): JSX.Element | null {
   return (

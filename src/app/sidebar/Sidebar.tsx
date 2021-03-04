@@ -1,12 +1,13 @@
 import { Flex, Heading } from '@chakra-ui/react';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+
+import { Course, Term, useGetCourses, useSubjects } from '../../fetchers';
+
 import { Card } from './components/Card';
 import { CardDropDown } from './components/CardDropDown';
-import { Course, Term, useGetCourses, useSubjects } from '../../fetchers'
 
 // import StyledHeader from './Header.styles';
-
 
 export interface SidebarProps {
   /**
@@ -17,36 +18,26 @@ export interface SidebarProps {
 }
 
 export function Sidebar({ term }: SidebarProps): JSX.Element {
-
   const { data: subjects, loading: loadingSubjects, error: errorSubjects } = useSubjects({ term: term });
   const { data: courses, loading: loadingCourses, error: errorCourses } = useGetCourses({ term: term });
 
-  const parsedCourses = courses?.reduce((dict, course) => {
-    const subject = course.subject;
-    if (!(subject in dict)) {
-      dict[subject] = [];
-    }
-    dict[subject].push(course);
-    return dict;
-  }, {} as { [subject: string]: Course[] }) ?? {};
+  const parsedCourses =
+    courses?.reduce((dict, course) => {
+      const subject = course.subject;
+      if (!(subject in dict)) {
+        dict[subject] = [];
+      }
+      dict[subject].push(course);
+      return dict;
+    }, {} as { [subject: string]: Course[] }) ?? {};
 
   return (
-    <Flex
-      id="scrollableFlex"
-      maxH="100vh"
-      bg="#E4E4E4"
-      p="4"
-      overflow="auto"
-    >
+    <Flex id="scrollableFlex" maxH="100vh" bg="#E4E4E4" p="4" overflow="auto">
       <InfiniteScroll
         dataLength={subjects?.length ?? 0}
-        next={
-          () => { }
-        }
+        next={() => {}}
         hasMore={false}
-        loader={
-          <Heading size="sm">Loading...</Heading>
-        }
+        loader={<Heading size="sm">Loading...</Heading>}
         scrollableTarget="scrollableFlex"
         endMessage={<div />}
       >
