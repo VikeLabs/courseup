@@ -31,3 +31,5 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Lint
         run: npm run lint
+      - name: Build
+        run: npm run build
