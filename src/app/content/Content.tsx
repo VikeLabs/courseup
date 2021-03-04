@@ -8,16 +8,15 @@ export interface ContentProps {
    * Content
    * Subject to change
    */
-  content?: string;
-  pid?: string;
-  term?: Term;
+  pid: string;
+  term: Term;
 }
 
 /**
  * Primary UI component for content
  */
-export function Content({ pid, term = '202101' }: ContentProps): JSX.Element {
-  const { data, loading } = useGetCourse({ term, pid: pid || 'BJ2favTQ4' });
+export function Content({ pid, term }: ContentProps): JSX.Element {
+  const { data, loading } = useGetCourse({ term, pid });
 
   return (
     <Box maxWidth="1080px" bg="white" p="5" my="4">

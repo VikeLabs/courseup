@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Center, ChakraProvider, Flex } from '@chakra-ui/react';
 import { Header, Content, Sidebar } from './app/index';
+import { Term } from './fetchers';
 
 export function App(): JSX.Element {
   const [pid, setPid] = useState<string>('');
+  const [term, setTerm] = useState<Term>('202101');
+
   return (
     <ChakraProvider>
       <Flex h="100vh" direction="column">
@@ -13,7 +16,7 @@ export function App(): JSX.Element {
             <Sidebar term="202105" setPid={setPid} pid={pid} />
           </Center>
           <Flex overflowY="auto" width="100%" justifyContent="center">
-            <Content pid={pid} />
+            {pid.length > 0 && <Content pid={pid} term={term} />}
           </Flex>
         </Flex>
       </Flex>
