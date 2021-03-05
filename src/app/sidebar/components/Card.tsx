@@ -1,5 +1,5 @@
-import { Box, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Text } from '@chakra-ui/react';
+import React from 'react';
 
 export interface CardProps {
   /**
@@ -29,7 +29,7 @@ export interface CardProps {
 export function Card(props: CardProps): JSX.Element {
   return (
     <Box
-      bgColor={props.selected ? "orange.200" : "white"}
+      bgColor={props.selected ? 'orange.200' : 'white'}
       color="black"
       borderRadius="lg"
       boxShadow="md"

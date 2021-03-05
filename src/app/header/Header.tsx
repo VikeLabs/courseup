@@ -1,7 +1,6 @@
 import React from 'react';
 // import StyledHeader from './Header.styles';
 
-
 export interface HeaderProps {
   /**
    * Content
@@ -13,12 +12,6 @@ export interface HeaderProps {
 /**
  * Primary UI component for content
  */
-export const Header: React.FC<HeaderProps> = ({
-  content
-}) => {
-  return (
-    <div>
-      {content}
-    </div>
-  )
+export const Header: React.FC<HeaderProps> = ({ content }) => {
+  return <div>{content}</div>;
 };
