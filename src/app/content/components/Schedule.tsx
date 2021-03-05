@@ -20,8 +20,8 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
         </Tr>
       </Thead>
       <Tbody>
-        {meetingTimes.map((m) => (
-          <Tr>
+        {meetingTimes.map((m, i) => (
+          <Tr key={i}>
             <Td>
               <Badge>{m.days}</Badge>
             </Td>
