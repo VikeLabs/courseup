@@ -1,4 +1,4 @@
-name: Continious Integration (Backend)
+name: Continuous Integration (Backend)
 on:
   push:
     paths:
