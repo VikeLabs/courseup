@@ -1,4 +1,5 @@
 import { Box, Flex, Heading, Progress } from '@chakra-ui/react';
+
 import { Seat } from '../../../fetchers';
 
 export interface SeatsProps {

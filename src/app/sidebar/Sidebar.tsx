@@ -1,8 +1,10 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useCallback } from 'react';
+
+import { Course, Term, useGetCourses, useSubjects } from '../../fetchers';
+
 import { Card } from './components/Card';
 import { CardDropDown } from './components/CardDropDown';
-import { Course, Term, useGetCourses, useSubjects } from '../../fetchers';
 
 export interface SidebarProps {
   /**
@@ -40,7 +42,7 @@ export function Sidebar({ term, pid, setPid }: SidebarProps): JSX.Element {
       <Box>{/* <Heading>Search</Heading> */}</Box>
       <Flex id="scrollableFlex" maxH="100vh" bg="#E4E4E4" p="2" overflow="auto" direction="column">
         {subjects?.map((subject, index) => (
-          <CardDropDown key={index} subject={subject.subject} title={subject.title} > 
+          <CardDropDown key={index} subject={subject.subject} title={subject.title}>
             {parsedCourses[subject.subject]?.map((course, index) => (
               <Card
                 selected={course.pid === pid}

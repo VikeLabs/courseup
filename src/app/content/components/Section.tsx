@@ -15,7 +15,9 @@ import {
   PopoverTrigger,
 } from '@chakra-ui/react';
 import React from 'react';
+
 import { MeetingTimes, Seat } from '../../../fetchers';
+
 import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';
 
@@ -47,11 +49,7 @@ export function SectionInfo({
         <Heading mr="5" size="lg" as="h2" whiteSpace="pre">
           {sectionCode}
         </Heading>
-        <Heading
-          size="lg"
-          as="h3"
-          color="gray"
-        >
+        <Heading size="lg" as="h3" color="gray">
           {crn}
         </Heading>
         <Box mx="5">

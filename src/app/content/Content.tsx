@@ -1,5 +1,7 @@
 import { Box, Skeleton } from '@chakra-ui/react';
+
 import { Term, useGetCourse } from '../../fetchers';
+
 import { CourseInfo } from './components/Course';
 import { SectionsContainer } from './containers/Section';
 

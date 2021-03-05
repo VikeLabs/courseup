@@ -24,7 +24,7 @@ export interface CardProps {
    * Boolean to check Card is selected by user
    */
   selected?: boolean;
-  onClick?: React.MouseEventHandler<HTMLDivElement>
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export function Card(props: CardProps): JSX.Element {

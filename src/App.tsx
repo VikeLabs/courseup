@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { Center, ChakraProvider, Flex } from '@chakra-ui/react';
+import { useState } from 'react';
+
 import { Header, Content, Sidebar } from './app/index';
 import { Term } from './fetchers';
 
