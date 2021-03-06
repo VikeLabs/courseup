@@ -1,67 +1,42 @@
 import { Button, ButtonGroup } from '@chakra-ui/react';
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useTerm } from '../../context/TermContext';
-import { getButtonTerms, getTerms } from '../shared/utils';
+import { getCurrentTerms, getReadableTerm } from '../../shared/utils/terms';
 
 export function TermButtons() {
-  const [term, setTerm] = useTerm();
-  const status = useMemo(
-    () => ({
-      first: true,
-      second: false,
-      third: false,
-    }),
-    []
-  );
+  const [, setTerm] = useTerm();
+  const [status, setStatus] = useState([true, false, false]);
 
-  const termNames = getButtonTerms();
-  const terms = getTerms();
+  const terms = getCurrentTerms();
 
   const onClick = useCallback(
-    (event: React.MouseEvent<HTMLElement, MouseEvent>, name: string) => {
+    (event: React.MouseEvent<HTMLElement, MouseEvent>, name: string, i: number) => {
       event.preventDefault();
       setTerm(name);
-      if (name === terms[0] && !status.first) {
-        status.first = true;
-        status.second = false;
-        status.third = false;
-      } else if (name === terms[1] && !status.second) {
-        status.first = false;
-        status.second = true;
-        status.third = false;
-      } else if (name === terms[2] && !status.third) {
-        status.first = false;
-        status.second = false;
-        status.third = true;
-      }
+      const status = [false, false, false];
+      status[i] = true;
+      setStatus(status);
     },
     [setTerm, status, terms]
   );
 
   return (
     <ButtonGroup spacing="0" isAttached>
-      <Button
-        name={terms[0]}
-        isActive={status.first}
-        onClick={(e) => onClick(e, terms[0])}
-        size="sm"
-        borderRadius="2px"
-      >
-        {termNames[0]}
-      </Button>
-      <Button name={terms[1]} isActive={status.second} onClick={(e) => onClick(e, terms[1])} size="sm">
-        {termNames[1]}
-      </Button>
-      <Button
-        name={terms[2]}
-        isActive={status.third}
-        onClick={(e) => onClick(e, terms[2])}
-        size="sm"
-        borderRadius="2px"
-      >
-        {termNames[2]}
-      </Button>
+      {terms.map((term, i) => {
+        return (
+          <Button
+            key={i}
+            name={term}
+            isActive={status[i]}
+            onClick={(e) => onClick(e, term, i)}
+            size="sm"
+            borderRadius="2px"
+          >
+            {getReadableTerm(term)}
+          </Button>
+        );
+      })}
     </ButtonGroup>
   );
 }
