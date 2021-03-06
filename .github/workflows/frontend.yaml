@@ -59,7 +59,7 @@ jobs:
           path: build
   deploy:
     name: Deploy to Firebase Hosting (Staging)
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [ lint, build ]
     environment: staging
