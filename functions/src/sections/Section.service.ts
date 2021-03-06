@@ -51,7 +51,7 @@ export class SectionsService {
       .get();
 
     // FIX: serialization to and from firestore isn't working as expected
-    // disable document staleness check for now. 
+    // disable document staleness check for now.
     // const t = doc.data()?.retrievedAt?.getTime();
     // // if retrievedAt exists and it wasn't retieved within 30 minutes
     // if (t && t + 1000 * 1800 > Date.now()) {
