@@ -1,13 +1,11 @@
 import { Button, ButtonGroup } from '@chakra-ui/react';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 
+import { useTerm } from '../../context/TermContext';
 import { getButtonTerms, getTerms } from '../shared/utils';
 
-type Props = {
-  setTerm: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export function TermButtons({ setTerm }: Props) {
+export function TermButtons() {
+  const [term, setTerm] = useTerm();
   const status = useMemo(
     () => ({
       first: true,

@@ -1,38 +1,31 @@
-import { Box, Flex, HStack, Spacer, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, HStack, Spacer, Text } from '@chakra-ui/react';
 import React from 'react';
 
 import { SearchBar } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';
 import { UserButton } from './components/UserButton';
 
-export interface HeaderProps {
-  /**
-   * setTerm: changes the state of the term selected with the buttons
-   */
-  setTerm: React.Dispatch<React.SetStateAction<string>>;
-}
-
 /**
  * Primary UI component for content
  */
-export const Header: React.FC<HeaderProps> = ({ setTerm }) => {
+export function Header(): JSX.Element {
   return (
-    <Box bg="tomato" h={66} px="10" py="4">
+    <Box bg="tomato" h="md" px="20" py="4" maxH="66px">
       <Flex minW="900px">
         {/* TODO: turn this into a logo */}
-        <Box w={225} textAlign="center">
+        <Center>
           <Text fontSize="x-large" color="white" fontWeight="bold">
             clockwork
           </Text>
-        </Box>
+        </Center>
         <Spacer />
         <HStack spacing="10px" w="60%">
           <SearchBar />
-          <TermButtons setTerm={setTerm} />
+          <TermButtons />
         </HStack>
         <Spacer />
         <UserButton />
       </Flex>
     </Box>
   );
-};
+}
