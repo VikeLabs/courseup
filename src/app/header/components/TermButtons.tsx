@@ -4,7 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { useTerm } from '../../context/TermContext';
 import { getCurrentTerms, getReadableTerm } from '../../shared/utils/terms';
 
-export function TermButtons() {
+export function TermButtons(): JSX.Element {
   const [, setTerm] = useTerm();
   const [status, setStatus] = useState([true, false, false]);
 

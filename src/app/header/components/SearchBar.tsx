@@ -4,7 +4,7 @@ import { GrSearch } from 'react-icons/gr';
 
 import { useChangeCallback } from '../hooks/useChangeCallback';
 
-export function SearchBar() {
+export function SearchBar(): JSX.Element {
   const [value, setValue] = useState('');
   const onChange = useChangeCallback(setValue);
 

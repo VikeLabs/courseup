@@ -7,11 +7,9 @@ export const useTerm = (): [string, Dispatch<SetStateAction<string>>] => {
   return [useContext(TermContext), useContext(UpdateTermContext)];
 };
 
-type Props = {
-  children: JSX.Element;
-};
+type Props = {};
 
-export function TermProvider({ children }: Props) {
+export function TermProvider({ children }: React.PropsWithChildren<Props>): JSX.Element {
   const [term, setTerm] = useState('');
 
   return (
