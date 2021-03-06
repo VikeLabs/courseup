@@ -1,8 +1,9 @@
-import React from 'react';
 import { Box, Flex, HStack, Spacer, Text } from '@chakra-ui/react';
+import React from 'react';
+
 import { SearchBar } from './components/SearchBar';
-import { UserButton } from './components/UserButton';
 import { TermButtons } from './components/TermButtons';
+import { UserButton } from './components/UserButton';
 
 export interface HeaderProps {
   /**

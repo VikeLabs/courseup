@@ -1,7 +1,7 @@
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Button, ButtonGroup } from '@chakra-ui/react';
+import React, { useCallback, useMemo } from 'react';
 
-import React, { useCallback, useMemo } from "react";
-import { getButtonTerms, getTerms } from "../shared/utils";
+import { getButtonTerms, getTerms } from '../shared/utils';
 
 type Props = {
   setTerm: React.Dispatch<React.SetStateAction<string>>;
@@ -52,12 +52,7 @@ export function TermButtons({ setTerm }: Props) {
       >
         {termNames[0]}
       </Button>
-      <Button
-        name={terms[1]}
-        isActive={status.second}
-        onClick={(e) => onClick(e, terms[1])}
-        size="sm"
-      >
+      <Button name={terms[1]} isActive={status.second} onClick={(e) => onClick(e, terms[1])} size="sm">
         {termNames[1]}
       </Button>
       <Button

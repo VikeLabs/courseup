@@ -5,7 +5,7 @@ import { Header, Content, Sidebar } from './app/index';
 
 export function App(): JSX.Element | null {
   //TODO: better way to have term variable set
-  const [term, setTerm] = useState("");
+  const [term, setTerm] = useState('');
 
   return (
     <ChakraProvider>

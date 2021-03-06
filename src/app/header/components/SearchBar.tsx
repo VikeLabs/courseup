@@ -1,17 +1,11 @@
-import {
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightAddon,
-} from "@chakra-ui/react";
+import { IconButton, Input, InputGroup, InputRightAddon } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { GrSearch } from 'react-icons/gr';
 
-import { GrSearch } from "react-icons/gr";
-
-import React, { useState } from "react";
-import { useChangeCallback } from "../hooks/useChangeCallback";
+import { useChangeCallback } from '../hooks/useChangeCallback';
 
 export function SearchBar() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const onChange = useChangeCallback(setValue);
 
   //TODO: add search functionality
@@ -28,12 +22,7 @@ export function SearchBar() {
         onChange={onChange}
       />
       <InputRightAddon p="0">
-        <IconButton
-          aria-label="Search"
-          borderRadius="0"
-          size="sm"
-          icon={<GrSearch />}
-        />
+        <IconButton aria-label="Search" borderRadius="0" size="sm" icon={<GrSearch />} />
       </InputRightAddon>
     </InputGroup>
   );

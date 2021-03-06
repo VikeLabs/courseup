@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 export function getButtonTerms(date: dayjs.Dayjs = dayjs()): string[] {
   const year = date.year().toString();
