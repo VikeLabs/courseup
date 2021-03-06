@@ -32,12 +32,41 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/fetchers.tsx"
+    "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/fetchers.tsx",
+    "lint": "eslint \"src/**/*.{t,j}s{x,}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
+    "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:prettier/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "plugin:import/typescript"
+    ],
+    "rules": {
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "parent",
+            "sibling",
+            "index"
+          ],
+          "newlines-between": "always",
+          "alphabetize": {
+            "order": "asc",
+            "caseInsensitive": true
+          }
+        }
+      ]
+    },
+    "ignorePatterns": [
+      "functions/**"
     ]
   },
   "browserslist": {
@@ -59,8 +88,11 @@
     "@storybook/node-logger": "^6.1.18",
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "^6.1.18",
-    "@types/styled-components": "^5.1.7",
     "dayjs": "^1.10.4",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
     "storybook-addon-designs": "^5.4.5"
   },
   "jest": {

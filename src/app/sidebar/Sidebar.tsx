@@ -1,9 +1,11 @@
-import { Flex, Heading } from "@chakra-ui/react";
-import React from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { Card } from "./components/Card";
-import { CardDropDown } from "./components/CardDropDown";
-import { Course, Term, useGetCourses, useSubjects } from "../../fetchers";
+import { Flex, Heading } from '@chakra-ui/react';
+import React from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+import { Course, Term, useGetCourses, useSubjects } from '../../fetchers';
+
+import { Card } from './components/Card';
+import { CardDropDown } from './components/CardDropDown';
 
 // import StyledHeader from './Header.styles';
 
@@ -16,16 +18,8 @@ export interface SidebarProps {
 }
 
 export function Sidebar({ term }: SidebarProps): JSX.Element {
-  const {
-    data: subjects,
-    loading: loadingSubjects,
-    error: errorSubjects,
-  } = useSubjects({ term: term });
-  const {
-    data: courses,
-    loading: loadingCourses,
-    error: errorCourses,
-  } = useGetCourses({ term: term });
+  const { data: subjects, loading: loadingSubjects, error: errorSubjects } = useSubjects({ term: term });
+  const { data: courses, loading: loadingCourses, error: errorCourses } = useGetCourses({ term: term });
 
   const parsedCourses =
     courses?.reduce((dict, course) => {
@@ -38,7 +32,7 @@ export function Sidebar({ term }: SidebarProps): JSX.Element {
     }, {} as { [subject: string]: Course[] }) ?? {};
 
   return (
-    <Flex id="scrollableFlex" bg="#E4E4E4" px="4" overflow="auto">
+    <Flex id="scrollableFlex" maxH="100vh" bg="#E4E4E4" p="4" overflow="auto">
       <InfiniteScroll
         dataLength={subjects?.length ?? 0}
         next={() => {}}
@@ -48,18 +42,9 @@ export function Sidebar({ term }: SidebarProps): JSX.Element {
         endMessage={<div />}
       >
         {subjects?.map((subject, index) => (
-          <CardDropDown
-            key={index}
-            subject={subject.subject}
-            title={subject.title}
-          >
+          <CardDropDown key={index} subject={subject.subject} title={subject.title}>
             {parsedCourses[subject.subject]?.map((course, index) => (
-              <Card
-                key={index}
-                title={course.title}
-                code={course.code}
-                subject={course.subject}
-              />
+              <Card key={index} title={course.title} code={course.code} subject={course.subject} />
             ))}
           </CardDropDown>
         ))}
