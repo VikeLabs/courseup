@@ -1,0 +1,97 @@
+name: Continuous Integration (Backend)
+on:
+  push:
+    paths:
+      - 'functions/**'
+    branches: 
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./functions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Lint
+        run: npm run lint
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./functions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Build
+        run: npm run build
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v2
+        with:
+          name: functions-build
+          path: functions/lib
+  deploy:
+    name: Deploy to Firebase Cloud Functions (Staging)
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: [ lint, build ]
+    environment: staging
+    defaults:
+      run:
+        working-directory: ./functions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Get artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: functions-build
+          path: functions/lib
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      - name: Deploy to Firebase Cloud Functions
+        run: firebase deploy --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

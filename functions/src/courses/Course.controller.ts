@@ -11,9 +11,7 @@ export class CoursesController extends Controller {
    * @param code
    */
   @Get('{term}')
-  public async getCourses(
-    @Path() term: Term
-  ): Promise<Course[]> {
+  public async getCourses(@Path() term: Term): Promise<Course[]> {
     // set the Cache-Control for 24h.
     this.setHeader(
       'Cache-Control',
