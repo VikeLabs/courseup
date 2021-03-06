@@ -1,4 +1,4 @@
-import { Box, Center, Divider, Heading, Skeleton, Spinner } from '@chakra-ui/react';
+import { Box, Center, Divider, Heading, Spinner } from '@chakra-ui/react';
 
 import { ClassScheduleListing, Seat, Term, useSeats, useSections } from '../../../fetchers';
 import { SectionInfo } from '../components/Section';
@@ -33,20 +33,19 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   const { data: seats, error: seatsError } = useSeats({ term, queryParams: { subject, code } });
 
   if (loading) {
-    return (
-      <Spinner colorScheme="blue" />
-    )
+    return <Spinner colorScheme="blue" />;
   }
 
   // we can't just look at sectionsError since it returns an empty array upon "not finding" any sections.
   if (seatsError || sectionsError) {
     return (
       <Center>
-        <Heading size="md" color="gray">Unable to find sections for {term}</Heading>
+        <Heading size="md" color="gray">
+          Unable to find sections for {term}
+        </Heading>
       </Center>
-    )
+    );
   }
-
 
   const lectures = sections?.filter((s) => s.sectionType === 'lecture');
   const labs = sections?.filter((s) => s.sectionType === 'lab');
