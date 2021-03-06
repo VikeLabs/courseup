@@ -55,6 +55,11 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Build
         run: npm run build
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v1
+        with:
+          name: functions-build
+          path: lib
   deploy:
     name: Deploy to Firebase Cloud Functions (Staging)
     if: github.ref == 'refs/heads/main'
@@ -73,7 +78,7 @@ jobs:
       - name: Get artifact
         uses: actions/download-artifact@v2
         with:
-          name: create-react-app-build
+          name: functions-build
       - name: Deploy to Firebase Cloud Functions
         run: npx firebase deploy --only functions
         env:
