@@ -2,15 +2,14 @@ import dayjs from 'dayjs';
 
 /**
  * Fetches the readable text version of a term.
+ * Term provided must be in the form of '202101' for this function to work.
  *
  * @param {string} term i.e. '202101'
  * @return {string} 'Spring 2021'
  */
 export function getReadableTerm(term: string): string {
-  const yearRegex = /\d{4}/g;
-  const monthRegex = /(\d{4})(\d{2})/;
-  const year = yearRegex.exec(term)![0];
-  let month = monthRegex.exec(term)![2];
+  const year = term.slice(0, 4);
+  let month = term.slice(4);
 
   if (month === '01') month = 'Spring';
   else if (month === '05') month = 'Summer';
@@ -26,9 +25,9 @@ export function getReadableTerm(term: string): string {
  * @return {string[]} array of terms ['202009', '202101', '202105']
  */
 export function getCurrentTerms(date: dayjs.Dayjs = dayjs()): string[] {
-  const year = date.year().toString();
-  const prevYear = (date.year() - 1).toString();
-  const nextYear = (date.year() + 1).toString();
+  const year = date.year();
+  const prevYear = date.year() - 1;
+  const nextYear = date.year() + 1;
   const currMonth = date.month();
 
   if (0 <= currMonth && currMonth < 4) {
