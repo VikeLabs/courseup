@@ -58,6 +58,7 @@ jobs:
           name: create-react-app-build
           path: build
   deploy:
+    name: Deploy to Firebase Hosting
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [ lint, build ]
