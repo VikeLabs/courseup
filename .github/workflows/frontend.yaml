@@ -69,6 +69,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: create-react-app-build
+          path: build
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
