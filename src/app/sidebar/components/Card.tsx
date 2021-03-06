@@ -39,6 +39,7 @@ export function Card(props: CardProps): JSX.Element {
       mr="3"
       p="3"
       onClick={props.onClick}
+      cursor="pointer"
     >
       <Text fontSize="xs" fontWeight="semibold">
         {props.subject} {props.code}
