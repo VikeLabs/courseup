@@ -56,10 +56,10 @@ jobs:
       - name: Build
         run: npm run build
       - name: Share artifact inside workflow
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: functions-build
-          path: lib
+          path: functions/lib
   deploy:
     name: Deploy to Firebase Cloud Functions (Staging)
     if: github.ref == 'refs/heads/main'
@@ -79,6 +79,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: functions-build
+          path: functions
       - name: Deploy to Firebase Cloud Functions
         run: npx firebase deploy --only functions
         env:

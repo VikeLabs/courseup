@@ -53,7 +53,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Share artifact inside workflow
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: create-react-app-build
           path: build
