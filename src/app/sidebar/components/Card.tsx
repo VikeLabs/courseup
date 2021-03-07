@@ -1,6 +1,6 @@
-import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 export interface CardProps {
   /**
@@ -47,9 +47,7 @@ export function Card({ subject, title, code, selected }: PropsWithChildren<CardP
             {title}
           </Text>
         </VStack>
-        {!code && (
-          <IconButton p="0.5em" background="none" aria-label="See Courses" size="xs" icon={<ChevronRightIcon />} />
-        )}
+        {!code && <ChevronRightIcon />}
       </Flex>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from '@chakra-ui/icons';
+import { ArrowLeftIcon } from '@chakra-ui/icons';
 import { Box, Heading, HStack } from '@chakra-ui/react';
 
 export interface TopBarProps {
@@ -24,11 +24,11 @@ export function TopBar({ selectedSubject, handleTopBarBackClick }: TopBarProps):
       boxShadow="md"
       zIndex="1000"
     >
-      <HStack align="center">
+      <HStack alignItems="center">
         <Box>
-          <ChevronLeftIcon color="black" visibility={selectedSubject ? 'visible' : 'hidden'} />
+          <ArrowLeftIcon p="0.15em" m="0.1em" color="black" visibility={selectedSubject ? 'visible' : 'hidden'} />
         </Box>
-        <Heading color="black" size="sm">
+        <Heading pt="0.25em" color="black" size="sm">
           {selectedSubject || 'Subjects'}
         </Heading>
       </HStack>
