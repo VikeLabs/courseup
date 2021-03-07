@@ -1,5 +1,6 @@
-import { Box, Text } from '@chakra-ui/react';
-import React from 'react';
+import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
+import React, { PropsWithChildren } from 'react';
 
 export interface CardProps {
   /**
@@ -18,7 +19,7 @@ export interface CardProps {
    * Code to be displayed
    * EX) SENG 265 -> 265
    */
-  code: string;
+  code?: string;
 
   /**
    * Boolean to check Card is selected by user
@@ -27,26 +28,66 @@ export interface CardProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export function Card(props: CardProps): JSX.Element {
+export function Card({ subject, title, code, selected, onClick }: PropsWithChildren<CardProps>): JSX.Element {
   return (
     <Box
-      bgColor={props.selected ? 'orange.200' : 'white'}
+      bgColor={selected ? 'orange.200' : 'white'}
       color="black"
       borderRadius="lg"
       boxShadow="md"
-      mt="3"
-      ml="3"
-      mr="3"
-      p="3"
-      onClick={props.onClick}
+      onClick={onClick}
+      p="1em"
+      m="0.5em"
       cursor="pointer"
     >
-      <Text fontSize="xs" fontWeight="semibold">
-        {props.subject} {props.code}
-      </Text>
-      <Text color="grey" fontSize="xs">
-        {props.title}
-      </Text>
+      <Flex direction="row" alignItems="center" justifyContent="space-between">
+        <VStack alignItems="start">
+          <Text fontSize="sm" color="black" fontWeight="bold">
+            {subject} {code}
+          </Text>
+          <Text fontSize="xs" color="black" fontWeight="normal">
+            {title}
+          </Text>
+        </VStack>
+        {!code && (
+          <IconButton p="0.5em" background="none" aria-label="See Courses" size="xs" icon={<ChevronRightIcon />} />
+        )}
+      </Flex>
     </Box>
   );
 }
+
+// export interface CardProps {
+//   /*
+//    * The subject
+//    * Ex/ CSC
+//    */
+//   subject: string;
+//   /*
+//    * The subject title
+//    * Ex/ Computer Science
+//    */
+//   title: string;
+// }
+
+// export function CardDropDown({ subject, title, children }: PropsWithChildren<CardProps>): JSX.Element {
+//   const [isDisplayed, setDisplayed] = useState(false);
+
+//   const handleClick = () => {
+//     setDisplayed(!isDisplayed);
+//   };
+
+//   return (
+// <Flex direction="row" alignItems="center" justifyContent="space-between">
+//   <VStack alignItems="start">
+//     <Text fontSize="sm" color="black" fontWeight="bold">
+//       {subject}
+//     </Text>
+//     <Text fontSize="xs" color="black" fontWeight="normal">
+//       {title}
+//     </Text>
+//   </VStack>
+//   <IconButton p="0.5em" background="none" aria-label="See Courses" size="xs" icon={<ChevronDownIcon />} />
+// </Flex>
+//   );
+// }
