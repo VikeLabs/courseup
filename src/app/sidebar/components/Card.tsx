@@ -25,17 +25,15 @@ export interface CardProps {
    * Boolean to check Card is selected by user
    */
   selected?: boolean;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export function Card({ subject, title, code, selected, onClick }: PropsWithChildren<CardProps>): JSX.Element {
+export function Card({ subject, title, code, selected }: PropsWithChildren<CardProps>): JSX.Element {
   return (
     <Box
       bgColor={selected ? 'orange.200' : 'white'}
       color="black"
       borderRadius="lg"
       boxShadow="md"
-      onClick={onClick}
       p="1em"
       m="0.5em"
       cursor="pointer"
@@ -56,38 +54,3 @@ export function Card({ subject, title, code, selected, onClick }: PropsWithChild
     </Box>
   );
 }
-
-// export interface CardProps {
-//   /*
-//    * The subject
-//    * Ex/ CSC
-//    */
-//   subject: string;
-//   /*
-//    * The subject title
-//    * Ex/ Computer Science
-//    */
-//   title: string;
-// }
-
-// export function CardDropDown({ subject, title, children }: PropsWithChildren<CardProps>): JSX.Element {
-//   const [isDisplayed, setDisplayed] = useState(false);
-
-//   const handleClick = () => {
-//     setDisplayed(!isDisplayed);
-//   };
-
-//   return (
-// <Flex direction="row" alignItems="center" justifyContent="space-between">
-//   <VStack alignItems="start">
-//     <Text fontSize="sm" color="black" fontWeight="bold">
-//       {subject}
-//     </Text>
-//     <Text fontSize="xs" color="black" fontWeight="normal">
-//       {title}
-//     </Text>
-//   </VStack>
-//   <IconButton p="0.5em" background="none" aria-label="See Courses" size="xs" icon={<ChevronDownIcon />} />
-// </Flex>
-//   );
-// }

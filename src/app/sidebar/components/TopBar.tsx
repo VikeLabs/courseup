@@ -1,9 +1,14 @@
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { Box, Flex, Heading, HStack, Icon } from '@chakra-ui/react';
-import React from 'react';
+import { Box, Heading, HStack } from '@chakra-ui/react';
 
 export interface TopBarProps {
+  /**
+   * Current selected subject, appears as heading
+   */
   selectedSubject: string | undefined;
+  /**
+   * Back button click handler
+   */
   handleTopBarBackClick(): void;
 }
 

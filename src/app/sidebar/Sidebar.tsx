@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { Course, KualiSubject } from '../../fetchers';
 
@@ -8,12 +8,21 @@ import { TopBar } from './components/TopBar';
 
 export interface SidebarProps {
   /**
-   * Term Selected
-   * Determines what term the subjects and courses are from
+   * Sets pid for content -> displays course info in content component
    */
   setPid?: (pid: string) => void;
+  /**
+   * Current pid selected in content
+   * default is ''
+   */
   pid: string;
+  /**
+   * All subjects for term selected in SidebarContainer from api
+   */
   subjects: KualiSubject[];
+  /**
+   * All Courses for term selected in SidebarContainer from api
+   */
   courses: Course[];
 }
 

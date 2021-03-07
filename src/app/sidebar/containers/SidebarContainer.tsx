@@ -5,9 +5,20 @@ import { Term, useGetCourses, useSubjects } from '../../../fetchers';
 import { Sidebar } from '../Sidebar';
 
 export interface SidebarContainerProps {
-  setPid?: (pid: string) => void;
+  /**
+   * Term Selected
+   * Determines what term the subjects and courses are from
+   */
   term: Term;
+  /**
+   * Current pid selected in content
+   * default is ''
+   */
   pid: string;
+  /**
+   * Sets pid for content -> displays course info in content component
+   */
+  setPid?: (pid: string) => void;
 }
 
 export function SidebarContainer({ term, pid, setPid }: SidebarContainerProps): JSX.Element | null {
