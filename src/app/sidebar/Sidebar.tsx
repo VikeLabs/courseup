@@ -30,17 +30,20 @@ function computeParsedCourses(courses: Course[]) {
   );
 }
 
+function scrollToTop() {
+  const sideBarScroller = document.querySelector('#sideBarScroller');
+  if (sideBarScroller) sideBarScroller.scrollTop = 0;
+}
+
 export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.Element {
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
-
   const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
 
   const handleSubjectChange = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const subject = e.currentTarget.getAttribute('data-subject');
       setSelectedSubject(subject ?? undefined);
-      window.focus();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      scrollToTop();
     },
     [setSelectedSubject]
   );
@@ -55,8 +58,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
 
   const handleTopBarBackClick = () => {
     setSelectedSubject(undefined);
-    document.querySelector('.courses')?.scrollTo({ top: 0, behavior: 'smooth' });
-    console.log(document.querySelector('.courses'));
+    scrollToTop();
   };
 
   return (
@@ -71,7 +73,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
     >
       <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleTopBarBackClick} />
 
-      <Flex class="courses" direction="column" overflowY="scroll">
+      <Flex id="sideBarScroller" direction="column" overflowY="scroll">
         {!selectedSubject &&
           subjects.map((subject, index) => (
             <Box data-subject={subject.subject} onClick={handleSubjectChange}>
