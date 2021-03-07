@@ -1,5 +1,5 @@
-import { Box, Flex } from '@chakra-ui/react';
-import { useCallback, useMemo, useState } from 'react';
+import { Box, Collapse, Flex, SlideFade } from '@chakra-ui/react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { Course, KualiSubject } from '../../fetchers';
 
@@ -83,19 +83,22 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
       <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleTopBarBackClick} />
 
       <Flex id="sideBarScroller" direction="column" overflowY="scroll">
-        {!selectedSubject &&
-          subjects.map((subject, index) => (
+        <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
+          {subjects.map((subject, index) => (
             <Box data-subject={subject.subject} onClick={handleSubjectChange}>
               <Card key={index} subject={subject.subject} title={subject.title} />
             </Box>
           ))}
+        </Collapse>
 
-        {selectedSubject &&
-          parsedCourses[selectedSubject].map((course) => (
-            <Box data-pid={course.pid} onClick={handlePidChange}>
-              <Card title={course.title} subject={course.subject} code={course.code} selected={course.pid === pid} />
-            </Box>
-          ))}
+        <SlideFade in={selectedSubject !== undefined} offsetY="15em">
+          {selectedSubject &&
+            parsedCourses[selectedSubject].map((course) => (
+              <Box data-pid={course.pid} onClick={handlePidChange}>
+                <Card title={course.title} subject={course.subject} code={course.code} selected={course.pid === pid} />
+              </Box>
+            ))}
+        </SlideFade>
       </Flex>
     </Flex>
   );
