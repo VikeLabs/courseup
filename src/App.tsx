@@ -1,5 +1,4 @@
 import { Box, Center, ChakraProvider, Flex } from '@chakra-ui/react';
-import React from 'react';
 
 import { TermProvider } from './app/context/TermContext';
 import { Header, Content, Sidebar } from './app/index';

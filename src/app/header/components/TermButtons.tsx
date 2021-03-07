@@ -1,11 +1,11 @@
 import { Button, ButtonGroup } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
 
-import { useTerm } from '../../context/TermContext';
+import { useTerm } from '../../shared/hooks/useTerm';
 import { getCurrentTerms, getReadableTerm } from '../../shared/utils/terms';
 
 export function TermButtons(): JSX.Element {
-  const [, setTerm] = useTerm();
+  const { setTerm } = useTerm();
   const [status, setStatus] = useState([true, false, false]);
 
   const terms = getCurrentTerms();
@@ -18,7 +18,7 @@ export function TermButtons(): JSX.Element {
       status[i] = true;
       setStatus(status);
     },
-    [setTerm, status, terms]
+    [setTerm]
   );
 
   return (
