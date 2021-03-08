@@ -1,3 +1,3 @@
 export { Header } from './header/Header';
 export { Content } from './content/Content';
-export { Sidebar } from './sidebar/Sidebar';
+export { SidebarContainer } from './sidebar/containers/SidebarContainer';

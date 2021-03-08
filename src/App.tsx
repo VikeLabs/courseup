@@ -2,9 +2,8 @@ import { Box, Center, ChakraProvider, Flex, Heading } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 import { TermContext } from './app/context/TermContext';
-import { Header, Content } from './app/index';
+import { Header, Content, SidebarContainer } from './app/index';
 import { getCurrentTerm } from './app/shared/utils/terms';
-import { SidebarContainer } from './app/sidebar/containers/SidebarContainer';
 import { Term } from './fetchers';
 
 export function App(): JSX.Element | null {
