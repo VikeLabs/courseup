@@ -47,7 +47,11 @@ export function Card({ subject, title, code, selected }: PropsWithChildren<CardP
             {title}
           </Text>
         </VStack>
-        {!code && <ChevronRightIcon />}
+        {!code && (
+          <Box>
+            <IconButton aria-label="Select course" icon={<ChevronRightIcon />} size="md" background="null" />
+          </Box>
+        )}
       </Flex>
     </Box>
   );

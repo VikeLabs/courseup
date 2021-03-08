@@ -1,5 +1,5 @@
 import { ArrowLeftIcon } from '@chakra-ui/icons';
-import { Box, Heading, HStack } from '@chakra-ui/react';
+import { Box, Heading, HStack, IconButton } from '@chakra-ui/react';
 
 export interface TopBarProps {
   /**
@@ -14,7 +14,7 @@ export interface TopBarProps {
 
 export function TopBar({ selectedSubject, handleTopBarBackClick }: TopBarProps): JSX.Element {
   return (
-    <Box
+    <HStack
       bg="white"
       p="1em"
       onClick={handleTopBarBackClick}
@@ -24,14 +24,19 @@ export function TopBar({ selectedSubject, handleTopBarBackClick }: TopBarProps):
       boxShadow="md"
       zIndex="1000"
     >
-      <HStack alignItems="center">
-        <Box>
-          <ArrowLeftIcon p="0.15em" m="0.1em" color="black" visibility={selectedSubject ? 'visible' : 'hidden'} />
-        </Box>
-        <Heading pt="0.25em" color="black" size="sm">
-          {selectedSubject || 'Subjects'}
-        </Heading>
-      </HStack>
-    </Box>
+      <Box>
+        <IconButton
+          aria-label="Back to subjects"
+          icon={<ArrowLeftIcon />}
+          size="xs"
+          background="null"
+          color="black"
+          visibility={selectedSubject ? 'visible' : 'hidden'}
+        />
+      </Box>
+      <Heading pt="0.25em" color="black" size="sm">
+        {selectedSubject || 'Subjects'}
+      </Heading>
+    </HStack>
   );
 }
