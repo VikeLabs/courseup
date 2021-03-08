@@ -21,7 +21,7 @@ export function Content({ pid, term }: ContentProps): JSX.Element {
   const { data, loading } = useGetCourse({ term, pid });
 
   return (
-    <Box maxWidth="1080px" bg="white" p="5" my="4">
+    <Box maxWidth="1080px" bg="white" p="5" my="4" height="100%">
       <Skeleton isLoaded={!loading}>
         {data && (
           <>
