@@ -1,25 +1,30 @@
-import { ChakraProvider, Flex } from '@chakra-ui/react';
+import { Box, Center, ChakraProvider, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { Header, Content } from './app/index';
-import { SidebarContainer } from './app/sidebar/containers/SidebarContainer';
+import { TermContext } from './app/context/TermContext';
+import { Header, Content, Sidebar } from './app/index';
+import { getCurrentTerm } from './app/shared/utils/terms';
 import { Term } from './fetchers';
 
-export function App(): JSX.Element {
+export function App(): JSX.Element | null {
+  const [term, setTerm] = useState(getCurrentTerm());
   const [pid, setPid] = useState<string>('');
-  const [term, setTerm] = useState<Term>('202101');
 
   return (
     <ChakraProvider>
-      <Flex h="100vh" overflow="auto" direction="column">
-        <Header />
-        <Flex color="white" h="100%" grow={1}>
-          <SidebarContainer term="202105" setPid={setPid} pid={pid} />
-          <Flex overflowY="auto" width="100%" justifyContent="center">
-            {pid.length > 0 && <Content pid={pid} term={term} />}
-          </Flex>
+      <TermContext.Provider value={{ term, setTerm }}>
+        <Flex h="100vh" direction="column">
+          <Header />
+          <Box grow={1} overflow="hidden">
+            <Flex color="white" height="100%">
+              <Sidebar term="202105" />
+              <Center flex="1" bg="white" minW="80%" overflow="auto">
+                <Content term={term as Term} pid={pid}/>
+              </Center>
+            </Flex>
+          </Box>
         </Flex>
-      </Flex>
+      </TermContext.Provider>
     </ChakraProvider>
   );
 }
