@@ -82,7 +82,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
     >
       <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleTopBarBackClick} />
 
-      <Flex id="sideBarScroller" direction="column" overflowY="scroll">
+      <Flex id="sideBarScroller" direction="column" overflowY="auto">
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
           {subjects.map((subject, index) => (
             <Box data-subject={subject.subject} onClick={handleSubjectChange}>
