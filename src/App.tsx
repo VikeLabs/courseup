@@ -1,12 +1,16 @@
 import { Box, Center, ChakraProvider, Flex } from '@chakra-ui/react';
+import { useState } from 'react';
 
-import { TermProvider } from './app/context/TermContext';
+import { TermContext } from './app/context/TermContext';
 import { Header, Content, Sidebar } from './app/index';
+import { getCurrentTerm } from './app/shared/utils/terms';
 
 export function App(): JSX.Element | null {
+  const [term, setTerm] = useState(getCurrentTerm());
+
   return (
     <ChakraProvider>
-      <TermProvider>
+      <TermContext.Provider value={{ term, setTerm }}>
         <Flex h="100vh" direction="column">
           <Header />
           <Box grow={1} overflow="hidden">
@@ -18,7 +22,7 @@ export function App(): JSX.Element | null {
             </Flex>
           </Box>
         </Flex>
-      </TermProvider>
+      </TermContext.Provider>
     </ChakraProvider>
   );
 }
