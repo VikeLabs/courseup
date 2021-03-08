@@ -1,6 +1,7 @@
 import { Box, Center, Divider, Heading, Spinner } from '@chakra-ui/react';
 
 import { ClassScheduleListing, Seat, Term, useSeats, useSections } from '../../../fetchers';
+import { getReadableTerm } from '../../shared/utils/terms';
 import { SectionInfo } from '../components/Section';
 
 function Sections({ sections, seats }: { sections: ClassScheduleListing[]; seats?: Seat[] | null }): JSX.Element {
@@ -33,7 +34,11 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   const { data: seats, error: seatsError } = useSeats({ term, queryParams: { subject, code } });
 
   if (loading) {
-    return <Spinner colorScheme="blue" />;
+    return (
+      <Center>
+        <Spinner colorScheme="blue" />;
+      </Center>
+    );
   }
 
   // we can't just look at sectionsError since it returns an empty array upon "not finding" any sections.
@@ -41,7 +46,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
     return (
       <Center>
         <Heading size="md" color="gray">
-          Unable to find sections for {term}
+          Unable to find sections for {getReadableTerm(term)}
         </Heading>
       </Center>
     );
