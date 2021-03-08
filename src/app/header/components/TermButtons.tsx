@@ -18,10 +18,10 @@ export function TermButtons(): JSX.Element {
     if (name) {
       setTerm(name);
       idx = terms.indexOf(name);
+      const status = [false, false, false];
+      status[idx] = true;
+      setStatus(status);
     }
-    const status = [false, false, false];
-    status[idx] = true;
-    setStatus(status);
   };
 
   return (
