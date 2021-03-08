@@ -1,17 +1,30 @@
-import React from 'react';
-// import StyledHeader from './Header.styles';
+import { Box, Center, Flex, HStack, Spacer, Text } from '@chakra-ui/react';
 
-export interface HeaderProps {
-  /**
-   * Content
-   * Subject to change
-   */
-  content?: string;
-}
+import { SearchBar } from './components/SearchBar';
+import { TermButtons } from './components/TermButtons';
+// import { UserButton } from './components/UserButton';
 
 /**
  * Primary UI component for content
  */
-export const Header: React.FC<HeaderProps> = ({ content }) => {
-  return <div>{content}</div>;
-};
+export function Header(): JSX.Element {
+  return (
+    <Box bg="tomato" h="md" px="20" py="4" maxH="66px">
+      <Flex minW="900px">
+        {/* TODO: turn this into a logo */}
+        <Center>
+          <Text fontSize="x-large" color="white" fontWeight="bold">
+            clockwork
+          </Text>
+        </Center>
+        <Spacer />
+        <HStack spacing="10px" w="60%">
+          <SearchBar />
+          <TermButtons />
+        </HStack>
+        <Spacer />
+        {/* TODO: add this when we have user profile stuff <UserButton /> */}
+      </Flex>
+    </Box>
+  );
+}
