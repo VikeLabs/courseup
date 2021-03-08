@@ -15,7 +15,7 @@ export interface SidebarProps {
    * Current pid selected in content
    * default is ''
    */
-  pid: string;
+  pid?: string;
   /**
    * All subjects for term selected in SidebarContainer from api
    */
@@ -72,7 +72,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
 
   return (
     <Flex
-      maxH="100vh"
+      height="100%"
       bg="#E4E4E4"
       overflow="hidden"
       direction="column"

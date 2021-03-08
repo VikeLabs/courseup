@@ -14,7 +14,7 @@ export interface SidebarContainerProps {
    * Current pid selected in content
    * default is ''
    */
-  pid: string;
+  pid?: string;
   /**
    * Sets pid for content -> displays course info in content component
    */
