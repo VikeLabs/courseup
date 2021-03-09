@@ -1,5 +1,4 @@
-import { Spinner } from '@chakra-ui/react';
-import React from 'react';
+import { Flex, Spinner } from '@chakra-ui/react';
 
 import { Term, useGetCourses, useSubjects } from '../../../fetchers';
 import { Sidebar } from '../Sidebar';
@@ -25,13 +24,13 @@ export function SidebarContainer({ term, pid, setPid }: SidebarContainerProps): 
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
   const { data: courses, loading: coursesLoading } = useGetCourses({ term: term });
 
-  if (subjectsLoading || coursesLoading) {
-    return <Spinner />;
-  }
-
-  if (subjects !== null && courses !== null) {
-    return <Sidebar subjects={subjects} courses={courses} setPid={setPid} pid={pid} />;
-  }
-
-  return null;
+  return (
+    <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="20%">
+      {subjectsLoading || coursesLoading || subjects === null || courses === null ? (
+        <Spinner size="xl" />
+      ) : (
+        <Sidebar subjects={subjects} courses={courses} setPid={setPid} pid={pid} />
+      )}
+    </Flex>
+  );
 }
