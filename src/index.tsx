@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <RestfulProvider base="https://staging-clockwork.vikelabs.dev/api">
+    <RestfulProvider base={process.env.NODE_ENV === 'development' ? 'https://clockwork.vikelabs.dev/api' : '/api'}>
       <App />
     </RestfulProvider>
   </React.StrictMode>,
