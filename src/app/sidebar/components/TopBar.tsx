@@ -14,16 +14,18 @@ export interface TopBarProps {
 
 export function TopBar({ selectedSubject, handleTopBarBackClick }: TopBarProps): JSX.Element {
   return (
-    <HStack bg="white" p="1em" onClick={handleTopBarBackClick} top="0" m="0" boxShadow="md" zIndex={500}>
+    <HStack bg="white" p="1em" top="0" m="0" boxShadow="md" zIndex={500}>
       <Box>
-        <IconButton
-          aria-label="Back to subjects"
-          icon={<ArrowLeftIcon />}
-          size="xs"
-          background="null"
-          color="black"
-          visibility={selectedSubject ? 'visible' : 'hidden'}
-        />
+        {selectedSubject && (
+          <IconButton
+            onClick={handleTopBarBackClick}
+            aria-label="Back to subjects"
+            icon={<ArrowLeftIcon />}
+            size="xs"
+            color="black"
+            p="2"
+          />
+        )}
       </Box>
       <Heading pt="0.25em" color="black" size="sm">
         {selectedSubject || 'Subjects'}
