@@ -1,5 +1,5 @@
-import { Box, Center, ChakraProvider, Flex, Heading } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { Box, Center, ChakraProvider, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { TermContext } from './app/context/TermContext';
 import { Header, Content, SidebarContainer } from './app/index';
@@ -8,7 +8,7 @@ import { Term } from './fetchers';
 
 export function App(): JSX.Element | null {
   const [term, setTerm] = useState(getCurrentTerm());
-  const [pid, setPid] = useState<string | undefined>();
+  const [pid, setPid] = useState<string>();
 
   return (
     <ChakraProvider>
@@ -18,12 +18,17 @@ export function App(): JSX.Element | null {
           <Box grow={1} overflow="hidden" height="100%">
             <Flex color="white" height="100%">
               <SidebarContainer term={term as Term} pid={pid || ''} setPid={setPid} />
-              <Flex bg="white" minW="80%" overflow="auto" justifyContent="center" height="100%">
+              <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
                 {pid ? (
                   <Content term={term as Term} pid={pid} />
                 ) : (
-                  <Center>
-                    <Heading color="black">Select a course from the left.</Heading>
+                  <Center p="10">
+                    <VStack>
+                      <Heading color="black">Explore Courses</Heading>
+                      <Text color="gray">
+                        Select a subject and then a course to start viewing course details and section information.
+                      </Text>
+                    </VStack>
                   </Center>
                 )}
               </Flex>
