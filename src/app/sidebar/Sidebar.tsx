@@ -71,15 +71,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
   };
 
   return (
-    <Flex
-      height="100%"
-      bg="#E4E4E4"
-      overflow="hidden"
-      direction="column"
-      justifyContent="flex-start"
-      minW="20%"
-      maxW="20%"
-    >
+    <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
       <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleTopBarBackClick} />
 
       <Flex id="sideBarScroller" direction="column" overflowY="auto">

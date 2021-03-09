@@ -24,17 +24,13 @@ export function SidebarContainer({ term, pid, setPid }: SidebarContainerProps): 
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
   const { data: courses, loading: coursesLoading } = useGetCourses({ term: term });
 
-  if (subjectsLoading || coursesLoading) {
-    return (
-      <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="20%">
+  return (
+    <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="20%">
+      {subjectsLoading || coursesLoading || subjects === null || courses === null ? (
         <Spinner size="xl" />
-      </Flex>
-    );
-  }
-
-  if (subjects !== null && courses !== null) {
-    return <Sidebar subjects={subjects} courses={courses} setPid={setPid} pid={pid} />;
-  }
-
-  return null;
+      ) : (
+        <Sidebar subjects={subjects} courses={courses} setPid={setPid} pid={pid} />
+      )}
+    </Flex>
+  );
 }
