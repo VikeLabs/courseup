@@ -78,11 +78,13 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
 
       <Flex id="sideBarScroller" direction="column" overflowY="auto">
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
-          {subjects.map((subject, index) => (
-            <Box data-subject={subject.subject} onClick={handleSubjectChange} key={index}>
-              <Card subject={subject.subject} title={subject.title} />
-            </Box>
-          ))}
+          {subjects
+            .sort((a, b) => (a.subject > b.subject ? 1 : b.subject > a.subject ? -1 : 0))
+            .map((subject, index) => (
+              <Box data-subject={subject.subject} onClick={handleSubjectChange} key={index}>
+                <Card subject={subject.subject} title={subject.title} />
+              </Box>
+            ))}
         </Collapse>
 
         <SlideFade in={selectedSubject !== undefined} offsetY="15em">
