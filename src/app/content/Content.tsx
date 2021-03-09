@@ -10,7 +10,14 @@ export interface ContentProps {
    * Content
    * Subject to change
    */
+  /**
+   * pid of selected course
+   */
   pid: string;
+  /**
+   * Term Selected
+   * Determines what term the subjects and courses are from
+   */
   term: Term;
 }
 

@@ -14,7 +14,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@chakra-ui/react';
-import React from 'react';
 
 import { MeetingTimes, Seat } from '../../../fetchers';
 
@@ -22,12 +21,37 @@ import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';
 
 export interface SectionInfoProps {
+  /**
+   * course registration number
+   */
   crn: string;
+  /**
+   * section type
+   * example: one of lecture, lab, tutorial
+   */
   section: string;
+  /**
+   * section code
+   * example: A01, B01, T01 etc.
+   */
   sectionCode: string;
+  /**
+   * instructional method of the section
+   * example: face-to-face, online etc.
+   */
   instructionalMethod: string;
+  /**
+   * addtional notes
+   */
   additionalNotes?: string;
+  /**
+   * Array of MeetingTimes, which hold meeting time like every monday at 12:30 pm
+   * and also days and instructor info.
+   */
   meetingTimes: MeetingTimes[];
+  /**
+   * current capacity of a section, waitlist and current enrollment numbers.
+   */
   seat?: Seat;
 }
 
@@ -86,14 +110,14 @@ export function SectionInfo({
         {additionalNotes && (
           <Accordion allowToggle my="3">
             <AccordionItem>
-              <h2>
+              <Heading as="h2">
                 <AccordionButton>
                   <Box flex="1" textAlign="left">
                     Addtional Notes
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
-              </h2>
+              </Heading>
               <AccordionPanel pb={4}>{additionalNotes}</AccordionPanel>
             </AccordionItem>
           </Accordion>
