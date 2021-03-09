@@ -12,9 +12,7 @@ export default {
 const Template: Story<ContentProps> = (args) => <Content {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {
-  content: 'hello world',
-};
+Default.args = {};
 
 Default.parameters = {
   design: {
