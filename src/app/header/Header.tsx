@@ -1,4 +1,4 @@
-import { Box, Center, Flex, HStack, Spacer, Text } from '@chakra-ui/react';
+import { Center, Flex, HStack, Spacer, Text } from '@chakra-ui/react';
 
 import { SearchBar } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';
