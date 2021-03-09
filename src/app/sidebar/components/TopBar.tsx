@@ -14,16 +14,7 @@ export interface TopBarProps {
 
 export function TopBar({ selectedSubject, handleTopBarBackClick }: TopBarProps): JSX.Element {
   return (
-    <HStack
-      bg="white"
-      p="1em"
-      onClick={handleTopBarBackClick}
-      top="0"
-      m="0"
-      borderBottom="0.1em solid black"
-      boxShadow="md"
-      zIndex="1000"
-    >
+    <HStack bg="white" p="1em" onClick={handleTopBarBackClick} top="0" m="0" boxShadow="md" zIndex={500}>
       <Box>
         <IconButton
           aria-label="Back to subjects"

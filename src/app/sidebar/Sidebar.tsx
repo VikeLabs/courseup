@@ -79,14 +79,15 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
       justifyContent="flex-start"
       minW="20%"
       maxW="20%"
+      zIndex={50}
     >
       <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleTopBarBackClick} />
 
       <Flex id="sideBarScroller" direction="column" overflowY="auto">
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
           {subjects.map((subject, index) => (
-            <Box data-subject={subject.subject} onClick={handleSubjectChange}>
-              <Card key={index} subject={subject.subject} title={subject.title} />
+            <Box data-subject={subject.subject} onClick={handleSubjectChange} key={index}>
+              <Card subject={subject.subject} title={subject.title} />
             </Box>
           ))}
         </Collapse>
