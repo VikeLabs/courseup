@@ -72,7 +72,9 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
 
   return (
     <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
-      <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleTopBarBackClick} />
+      <Box>
+        <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleTopBarBackClick} />
+      </Box>
 
       <Flex id="sideBarScroller" direction="column" overflowY="auto">
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
