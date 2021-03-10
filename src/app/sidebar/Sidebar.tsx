@@ -83,7 +83,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
         <SlideFade in={selectedSubject !== undefined} offsetY="15em">
           {selectedSubject &&
             parsedCourses[selectedSubject].map((course) => (
-              <Box data-pid={course.pid} onClick={handlePidChange}>
+              <Box key={course.pid} data-pid={course.pid} onClick={handlePidChange}>
                 <Card title={course.title} subject={course.subject} code={course.code} selected={course.pid === pid} />
               </Box>
             ))}
