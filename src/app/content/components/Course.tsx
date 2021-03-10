@@ -1,9 +1,15 @@
 import { Box, Heading, Text } from '@chakra-ui/layout';
 import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 export interface CourseShieldProps {
+  /**
+   * Title for the shield
+   */
   title: string;
+  /**
+   * bg Chakra-UI prop
+   */
   bg?: BackgroundProps['bg'];
 }
 
@@ -23,13 +29,41 @@ export function CourseShield({ title, children, bg }: PropsWithChildren<CourseSh
 }
 
 export interface CourseInfoProps {
+  /**
+   * course subject
+   * example: CSC
+   */
   subject: string;
+  /**
+   * course code
+   * example: 111
+   */
   code: string;
+  /**
+   * course title
+   * example: Foundations of Computer Science
+   */
   title: string;
+  /**
+   * course description
+   */
   description: string;
+  /**
+   * course weekly hour distribution
+   */
   hours?: { lecture: string; tutorial: string; lab: string };
+  /**
+   * course credits (units)
+   * example: 1.5
+   */
   credits?: string;
+  /**
+   * course addtional notes
+   */
   addtionalNotes?: string;
+  /**
+   * course units
+   */
   units?: string;
 }
 

@@ -35,8 +35,8 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
 
   if (loading) {
     return (
-      <Center>
-        <Spinner colorScheme="blue" />;
+      <Center width="100%">
+        <Spinner bg="white" colorScheme="black" size="xl" color="gray" />
       </Center>
     );
   }
