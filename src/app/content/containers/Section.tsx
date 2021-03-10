@@ -42,7 +42,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   }
 
   // we can't just look at sectionsError since it returns an empty array upon "not finding" any sections.
-  if (seatsError || sectionsError) {
+  if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
     return (
       <Center>
         <Heading size="md" color="gray">
