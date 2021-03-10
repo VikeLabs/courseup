@@ -43,10 +43,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
   const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
 
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
-  const sortedSubjects = useMemo(
-    () => subjects.sort((a, b) => (a.subject > b.subject ? 1 : b.subject > a.subject ? -1 : 0)),
-    [subjects]
-  );
+  const sortedSubjects = useMemo(() => subjects.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
 
   const handleSubjectChange = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
