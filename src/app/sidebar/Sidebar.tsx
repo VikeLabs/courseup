@@ -43,6 +43,10 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
   const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
 
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
+  const sortedSubjects = useMemo(
+    () => subjects.sort((a, b) => (a.subject > b.subject ? 1 : b.subject > a.subject ? -1 : 0)),
+    [subjects]
+  );
 
   const handleSubjectChange = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -50,18 +54,6 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
       setSelectedSubject(subject ?? undefined);
     },
     [setSelectedSubject]
-  );
-
-  const sortedSubjectCards = useMemo(
-    () =>
-      subjects
-        .sort((a, b) => (a.subject > b.subject ? 1 : b.subject > a.subject ? -1 : 0))
-        .map((subject, index) => (
-          <Box data-subject={subject.subject} onClick={handleSubjectChange} key={index}>
-            <Card subject={subject.subject} title={subject.title} />
-          </Box>
-        )),
-    [subjects]
   );
 
   const handlePidChange = useCallback(
@@ -84,7 +76,11 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
 
       <Flex id="sideBarScroller" direction="column" overflowY="auto">
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
-          {sortedSubjectCards}
+          {sortedSubjects.map((subject, index) => (
+            <Box data-subject={subject.subject} onClick={handleSubjectChange} key={index}>
+              <Card subject={subject.subject} title={subject.title} />
+            </Box>
+          ))}
         </Collapse>
 
         <SlideFade in={selectedSubject !== undefined} offsetY="15em">
