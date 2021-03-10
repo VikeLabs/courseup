@@ -1,15 +1,23 @@
 import { Button, ButtonGroup } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { TermContext } from '../../context/TermContext';
 import { getCurrentTerms, getReadableTerm } from '../../shared/utils/terms';
 
 export function TermButtons(): JSX.Element {
-  const [status, setStatus] = useState([true, false, false]);
+  const [status, setStatus] = useState([false, false, false]);
 
-  const { setTerm } = useContext(TermContext);
+  const { term, setTerm } = useContext(TermContext);
 
   const terms = getCurrentTerms();
+
+  //initally the current term button needs to be set active to reflect the default term of the context
+  useEffect(() => {
+    const idx = terms.indexOf(term);
+    const initStatus = [false, false, false];
+    initStatus[idx] = true;
+    setStatus(initStatus);
+  }, [term, terms]);
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
