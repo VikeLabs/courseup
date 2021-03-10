@@ -39,20 +39,16 @@ function computeParsedCourses(courses: Course[]) {
   );
 }
 
-function scrollToTop() {
-  const sideBarScroller = document.querySelector('#sideBarScroller');
-  if (sideBarScroller) sideBarScroller.scrollTop = 0;
-}
-
 export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.Element {
-  const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
   const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
+
+  const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
+  const sortedSubjects = useMemo(() => subjects.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
 
   const handleSubjectChange = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const subject = e.currentTarget.getAttribute('data-subject');
       setSelectedSubject(subject ?? undefined);
-      scrollToTop();
     },
     [setSelectedSubject]
   );
@@ -67,7 +63,6 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
 
   const handleTopBarBackClick = () => {
     setSelectedSubject(undefined);
-    scrollToTop();
   };
 
   return (
@@ -78,7 +73,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
 
       <Flex id="sideBarScroller" direction="column" overflowY="auto">
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
-          {subjects.map((subject, index) => (
+          {sortedSubjects.map((subject, index) => (
             <Box data-subject={subject.subject} onClick={handleSubjectChange} key={index}>
               <Card subject={subject.subject} title={subject.title} />
             </Box>
