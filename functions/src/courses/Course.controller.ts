@@ -15,7 +15,7 @@ export class CoursesController extends Controller {
     // set the Cache-Control for 24h.
     this.setHeader(
       'Cache-Control',
-      `public, max-age=${3600}, s-max-age=${1800}`
+      `public, max-age=${3600}, s-max-age=${3600}, stale-while-revalidate=${30}, stale-if-error=${60}`
     );
     return new CoursesService().getCourses(term);
   }
@@ -33,7 +33,7 @@ export class CoursesController extends Controller {
     // set the Cache-Control for 12h.
     this.setHeader(
       'Cache-Control',
-      `public, max-age=${3600}, s-max-age=${1800}`
+      `public, max-age=${3600}, s-max-age=${3600}, stale-while-revalidate=${30}, stale-if-error=${60}`
     );
     return new CoursesService().getCourseDetailsByPid(term, pid);
   }
