@@ -72,7 +72,6 @@ export async function setSectionMapping(
       code
     );
 
-    console.log(sections);
     if (sections.length > 0) {
       const crns = sections.map(({ crn }) => crn);
       const retrievedAt = new Date(Date.now());
