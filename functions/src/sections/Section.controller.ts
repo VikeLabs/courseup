@@ -1,7 +1,7 @@
 import { Get, Controller, Route, Response, Path, Query } from 'tsoa';
 import { Term } from '../constants';
 import { Seat, Section } from './Section.model';
-import { SectionsService } from './Section.service';
+import { getSections, getSectionSeats } from './Section.service';
 
 @Route('sections')
 export class SectionsController extends Controller {
@@ -12,11 +12,7 @@ export class SectionsController extends Controller {
     @Query() subject: string,
     @Query() code: string
   ): Promise<Section[]> {
-    const sections = await new SectionsService().getSections(
-      term,
-      subject.toUpperCase(),
-      code
-    );
+    const sections = await getSections(term, subject.toUpperCase(), code);
     this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
     return sections;
   }
@@ -28,11 +24,7 @@ export class SectionsController extends Controller {
     @Query() subject: string,
     @Query() code: string
   ): Promise<Seat[]> {
-    const seats = new SectionsService().getSectionSeats(
-      term,
-      subject.toUpperCase(),
-      code
-    );
+    const seats = getSectionSeats(term, subject.toUpperCase(), code);
     this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
     return seats;
   }
