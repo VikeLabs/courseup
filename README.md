@@ -1,59 +1,50 @@
-# Getting Started with Create React App
+# clockwork
+[![Contributors][contributors-shield]][contributors-link]
+[![Stargazers][stars-shield]][stars-link]
+[![Issues][issues-shield]][issues-link]
+[![Website][website-shield]][website-link]
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Clockwork is a website built to simplify the experience of searching courses and building timetables for the [University of Victoria](https://uvic.ca) (UVic). The website is a TypeScript app which uses React on the front-end and Firebase on the back-end.
 
-## Available Scripts
+## Contribute
+1. Clone the repo:
+    ```
+    git clone https://github.com/VikeLabs/clockwork.git
+    ```
+2. Run `npm install`
+    * NOTE: You must be using NPM v6 due to a bug in a dependency.
+4. Find an unassigned task on [ZenHub](https://app.zenhub.com/workspaces/team-schedule-courses-5f973f50ae36d70012eb5b2e/board?repos=216653028) to work on.
+    * Filter repos to show issues for `clockwork`
+5. Run `npm start` to view any front-end changes on `localhost:3000`
+6. Create a new branch using `git checkout -b <branch-name>` (make sure it's up to date with `main`)
+7. Commit the changes you've made and push to GitHub to create a Pull Request.
 
-In the project directory, you can run:
+## Testing
 
-### `npm install`
+This project uses [Jest](https://jestjs.io/) testing framework. You can execute tests by running `npm test`.
 
-**Note:** Downgrade to NPM V6 for this repo to work correctly. Storybook 6.1.18 is having issues with NPM V7.\
-Use `npm install -g npm@6` to downgrade to NPM V6\
-https://github.com/storybookjs/storybook/issues/12983
+This will execute tests using Jest files with the extension `*.test*`.
 
-### `npm start`
+`npx jest --watch` will put Jest into watch mode, which will execute tests as files change.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Developer Tools
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+When developing in your local environment, to view components which require requests to populate with data you will need to enable CORS. Install the following extension to do so:
+* [Chrome](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf)
+* [Firefox](https://addons.mozilla.org/en-CA/firefox/addon/access-control-allow-origin/)
 
-### `npm run storybook`
+For Safari: `Preferences >> Advanced, and select "Disable Cross-Origin Restrictions" from the develop menu.`
 
-Runs the app in [Storybook](https://storybook.js.org) mode. (We are able to run Storybook and React App at the same time)\
-When Storybook runs, it looks for all stories in `src/app/**/` with this regex `*.stories.tsx`.
+## UVic Course Scraper
 
-The page will reload if you make edits.
+The website uses the npm package [`uvic-course-scraper`](https://github.com/VikeLabs/uvic-course-scraper). The package is a web-scraping tool made with TypeScript that is the main way of extracting data from UVic. It is contributed to and maintained by the original development team of `clockwork`.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<!-- MARKDOWN LINKS & IMAGES -->
+[contributors-shield]: https://img.shields.io/github/contributors/VikeLabs/clockwork?style=flat
+[contributors-link]: https://github.com/VikeLabs/clockwork/graphs/contributors
+[stars-shield]: https://img.shields.io/github/stars/VikeLabs/clockwork?style=flat
+[stars-link]: https://github.com/VikeLabs/clockwork/stargazers
+[issues-shield]: https://img.shields.io/github/issues/VikeLabs/clockwork
+[issues-link]: https://github.com/VikeLabs/clockwork/issues
+[website-shield]: https://img.shields.io/website?url=https%3A%2F%2Fclockwork.vikelabs.dev%2F
+[website-link]: https://clockwork.vikelabs.dev/
