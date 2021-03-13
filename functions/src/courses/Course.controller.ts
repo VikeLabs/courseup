@@ -17,7 +17,7 @@ export class CoursesController extends Controller {
       'Cache-Control',
       `public, max-age=${3600}, s-max-age=${3600}, stale-while-revalidate=${30}, stale-if-error=${60}`
     );
-    return new CoursesService().getCourses(term);
+    return CoursesService.getCourses(term);
   }
 
   /**
@@ -35,6 +35,6 @@ export class CoursesController extends Controller {
       'Cache-Control',
       `public, max-age=${3600}, s-max-age=${3600}, stale-while-revalidate=${30}, stale-if-error=${60}`
     );
-    return new CoursesService().getCourseDetailsByPid(term, pid);
+    return CoursesService.getCourseDetailsByPid(term, pid);
   }
 }

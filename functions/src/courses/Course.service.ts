@@ -4,7 +4,7 @@ import { subjectCodeExtractor } from '../shared/subjectCodeExtractor';
 import { Term } from '../constants';
 
 export class CoursesService {
-  public async getCourses(term: Term): Promise<Course[]> {
+  static async getCourses(term: Term): Promise<Course[]> {
     const courses = await UVicCourseScraper.getCourses(term);
     return courses.map((course) => ({
       ...subjectCodeExtractor(course),
@@ -14,7 +14,7 @@ export class CoursesService {
     }));
   }
 
-  public async getCourseDetailsByPid(
+  static async getCourseDetailsByPid(
     term: string,
     pid: string
   ): Promise<CourseDetails> {
