@@ -4,7 +4,7 @@
 [![Issues][issues-shield]][issues-link]
 [![Website][website-shield]][website-link]
 
-clockwork is a website built to simplify the experience of searching courses and building timetables for the [University of Victoria](https://uvic.ca) (UVic). clockwork is a TypeScript app that uses React on the front-end and Firebase on the back-end.
+Clockwork is a website built to simplify the experience of searching courses and building timetables for the [University of Victoria](https://uvic.ca) (UVic). The website is a TypeScript app which uses React on the front-end and Firebase on the back-end.
 
 ## Contribute
 1. Clone the repo:
@@ -12,6 +12,7 @@ clockwork is a website built to simplify the experience of searching courses and
     git clone https://github.com/VikeLabs/clockwork.git
     ```
 2. Run `npm install`
+    * NOTE: You must be using NPM v6 due to a bug in a dependency.
 4. Find an unassigned task on [ZenHub](https://app.zenhub.com/workspaces/team-schedule-courses-5f973f50ae36d70012eb5b2e/board?repos=216653028) to work on.
     * Filter repos to show issues for `clockwork`
 5. Run `npm start` to view any front-end changes on `localhost:3000`
@@ -31,6 +32,8 @@ This will execute tests using Jest files with the extension `*.test*`.
 When developing in your local environment, to view components which require requests to populate with data you will need to enable CORS. Install the following extension to do so:
 * [Chrome](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf)
 * [Firefox](https://addons.mozilla.org/en-CA/firefox/addon/access-control-allow-origin/)
+
+For Safari: `Preferences >> Advanced, and select "Disable Cross-Origin Restrictions" from the develop menu.`
 
 ## UVic Course Scraper
 
