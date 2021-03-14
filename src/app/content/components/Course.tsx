@@ -1,7 +1,7 @@
 import { Box, Heading, Text } from '@chakra-ui/layout';
-import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
-import { PropsWithChildren } from 'react';
-
+import { BackgroundProps, Button, Divider, Flex, Spacer } from '@chakra-ui/react';
+import React, { PropsWithChildren } from 'react';
+import { BsFillBookmarkFill } from 'react-icons/bs';
 export interface CourseShieldProps {
   /**
    * Title for the shield
@@ -15,7 +15,7 @@ export interface CourseShieldProps {
 
 export function CourseShield({ title, children, bg }: PropsWithChildren<CourseShieldProps>): JSX.Element {
   return (
-    <Flex m="1">
+    <Flex width="100%" m="1">
       <Box bg="gray.100" p="1" borderTopLeftRadius="md" borderBottomLeftRadius="md">
         <Heading size="md" color="gray.600" px="3">
           {title}
@@ -23,6 +23,14 @@ export function CourseShield({ title, children, bg }: PropsWithChildren<CourseSh
       </Box>
       <Flex bg={bg} p="1" px="3" borderBottomRightRadius="md" borderTopRightRadius="md">
         {children}
+      </Flex>
+      <Spacer />
+      <Flex justify="right" align="right" borderBottomRightRadius="md" borderTopRightRadius="md">
+        <Button leftIcon={<BsFillBookmarkFill color="white" />} bg="#F55C3C" size="sm">
+          <Heading size="md" color="white" px="2.5">
+            Bookmark
+          </Heading>
+        </Button>
       </Flex>
     </Flex>
   );
