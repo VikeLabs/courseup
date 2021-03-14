@@ -25,6 +25,7 @@ exports[`Header renders the correct content 1`] = `
       >
         <input
           class="chakra-input css-hzknmz"
+          data-testid="input"
           placeholder="Search a course"
           value=""
         />
@@ -63,6 +64,7 @@ exports[`Header renders the correct content 1`] = `
       >
         <button
           class="chakra-button css-1rxajhb"
+          data-testid="202009"
           name="202009"
           type="button"
         >
@@ -70,6 +72,7 @@ exports[`Header renders the correct content 1`] = `
         </button>
         <button
           class="chakra-button css-1rxajhb"
+          data-testid="202101"
           name="202101"
           type="button"
         >
@@ -77,6 +80,7 @@ exports[`Header renders the correct content 1`] = `
         </button>
         <button
           class="chakra-button css-1rxajhb"
+          data-testid="202105"
           name="202105"
           type="button"
         >

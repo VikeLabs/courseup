@@ -1,5 +1,5 @@
 import { IconButton, Input, InputGroup, InputRightAddon } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { GrSearch } from 'react-icons/gr';
 
 import { useChangeCallback } from '../hooks/useChangeCallback';
@@ -20,6 +20,7 @@ export function SearchBar(): JSX.Element {
         minW="100px"
         value={value}
         onChange={onChange}
+        data-testid="input"
       />
       <InputRightAddon p="0">
         <IconButton aria-label="Search" borderRadius="0" size="sm" icon={<GrSearch />} />

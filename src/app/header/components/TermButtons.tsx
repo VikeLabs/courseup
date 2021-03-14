@@ -11,7 +11,7 @@ export function TermButtons(): JSX.Element {
 
   const { term, setTerm } = useContext(TermContext);
 
-  //initally the current term button needs to be set active to reflect the default term of the context
+  // initally the current term button needs to be set active to reflect the default term of the context
   useEffect(() => {
     const idx = terms.indexOf(term);
     const initStatus = [false, false, false];
@@ -36,7 +36,15 @@ export function TermButtons(): JSX.Element {
     <ButtonGroup spacing="0" isAttached>
       {terms.map((term, i) => {
         return (
-          <Button key={i} name={term} isActive={status[i]} onClick={onClick} size="sm" borderRadius="2px">
+          <Button
+            key={i}
+            name={term}
+            isActive={status[i]}
+            onClick={onClick}
+            size="sm"
+            borderRadius="2px"
+            data-testid={term}
+          >
             {getReadableTerm(term)}
           </Button>
         );
