@@ -2,6 +2,7 @@ import { Box, Center, ChakraProvider, Flex, Heading, Text, VStack } from '@chakr
 import { useState } from 'react';
 
 import { TermContext } from './app/context/TermContext';
+import { Feedback } from './app/feedback/Feedback';
 import { Header, Content, SidebarContainer } from './app/index';
 import { getCurrentTerm } from './app/shared/utils/terms';
 import { Term } from './fetchers';
@@ -11,7 +12,7 @@ export function App(): JSX.Element | null {
   const [pid, setPid] = useState<string>();
 
   return (
-    <ChakraProvider>
+    <ChakraProvider portalZIndex={999}>
       <TermContext.Provider value={{ term, setTerm }}>
         <Flex h="100vh" direction="column">
           <Header />
@@ -33,6 +34,9 @@ export function App(): JSX.Element | null {
                 )}
               </Flex>
             </Flex>
+            <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25} boxSize="fit-content">
+              <Feedback />
+            </Box>
           </Box>
         </Flex>
       </TermContext.Provider>
