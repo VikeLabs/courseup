@@ -3,8 +3,7 @@ import {
   KualiCourseItem,
 } from '@vikelabs/uvic-course-scraper/dist/types';
 
-export interface Course
-  extends Pick<KualiCourseCatalog, 'pid' | 'title' | 'dateStart'> {
+export interface Course extends Pick<KualiCourseCatalog, 'pid' | 'title'> {
   subject: string;
   code: string;
 }
