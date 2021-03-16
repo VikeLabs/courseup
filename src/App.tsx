@@ -2,8 +2,7 @@ import { Box, Center, ChakraProvider, Flex, Heading, Text, VStack } from '@chakr
 import { useState } from 'react';
 
 import { TermContext } from './app/context/TermContext';
-import { Feedback } from './app/feedback/Feedback';
-import { Header, Content, SidebarContainer } from './app/index';
+import { Header, Content, SidebarContainer, Feedback } from './app/index';
 import { getCurrentTerm } from './app/shared/utils/terms';
 import { Term } from './fetchers';
 
