@@ -2,7 +2,6 @@ import { Center, Flex, HStack, Spacer, Text } from '@chakra-ui/react';
 
 import { SearchBar } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';
-// import { UserButton } from './components/UserButton';
 
 /**
  * Primary UI component for content
@@ -22,7 +21,6 @@ export function Header(): JSX.Element {
         <TermButtons />
       </HStack>
       <Spacer />
-      {/* TODO: add this when we have user profile stuff <UserButton /> */}
     </Flex>
   );
 }
