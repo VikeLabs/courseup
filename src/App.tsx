@@ -9,6 +9,8 @@ import { Term } from './fetchers';
 export function App(): JSX.Element | null {
   const [term, setTerm] = useState(getCurrentTerm());
   const [pid, setPid] = useState<string>();
+  const [subject, setSubject] = useState<string>();
+  const [code, setCode] = useState<string>();
 
   return (
     <ChakraProvider>
@@ -17,10 +19,16 @@ export function App(): JSX.Element | null {
           <Header />
           <Box grow={1} overflow="hidden" height="100%">
             <Flex color="white" height="100%">
-              <SidebarContainer term={term as Term} pid={pid || ''} setPid={setPid} />
+              <SidebarContainer
+                term={term as Term}
+                pid={pid || ''}
+                setPid={setPid}
+                setSubject={setSubject}
+                setCode={setCode}
+              />
               <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
-                {pid ? (
-                  <Content term={term as Term} pid={pid} />
+                {pid && subject && code ? (
+                  <Content term={term as Term} pid={pid} subject={subject} code={code} />
                 ) : (
                   <Center p="10">
                     <VStack>

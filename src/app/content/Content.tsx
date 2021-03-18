@@ -19,12 +19,20 @@ export interface ContentProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
+  /**
+   * subject of selected course
+   */
+  subject: string;
+  /**
+   * code of selected course
+   */
+  code: string;
 }
 
 /**
  * Primary UI component for content
  */
-export function Content({ pid, term }: ContentProps): JSX.Element {
+export function Content({ pid, term, subject, code }: ContentProps): JSX.Element {
   const { data, loading } = useGetCourse({ term, pid });
 
   return (
@@ -39,7 +47,7 @@ export function Content({ pid, term }: ContentProps): JSX.Element {
               description={data.description || ''}
               credits={data.credits.value}
             />
-            <SectionsContainer term={term} subject={data.subject} code={data.code} />
+            <SectionsContainer term={term} subject={subject} code={code} />
           </>
         )}
       </Skeleton>

@@ -24,6 +24,14 @@ export interface SidebarProps {
    * All Courses for term selected in SidebarContainer from api
    */
   courses: Course[];
+  /**
+   * Sets subject for content -> displays course info in content component
+   */
+  setSubject?: (currentSubject: string) => void;
+  /**
+   * Sets code for content -> displays course info in content component
+   */
+  setCode?: (currentSubject: string) => void;
 }
 
 function computeParsedCourses(courses: Course[]) {
@@ -39,7 +47,7 @@ function computeParsedCourses(courses: Course[]) {
   );
 }
 
-export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.Element {
+export function Sidebar({ pid, setPid, subjects, courses, setSubject, setCode }: SidebarProps): JSX.Element {
   const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
 
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
@@ -49,20 +57,25 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const subject = e.currentTarget.getAttribute('data-subject');
       setSelectedSubject(subject ?? undefined);
+      setSubject && setSubject(subject ?? '');
     },
     [setSelectedSubject]
   );
 
-  const handlePidChange = useCallback(
+  const handlePidCodeChange = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const pid = e.currentTarget.getAttribute('data-pid');
       setPid && setPid(pid ?? '');
+      const code = e.currentTarget.getAttribute('data-code');
+      setCode && setCode(code ?? '');
     },
     [setPid]
   );
 
   const handleTopBarBackClick = () => {
     setSelectedSubject(undefined);
+    setSubject && setSubject('');
+    setCode && setCode('');
   };
 
   return (
@@ -83,7 +96,7 @@ export function Sidebar({ pid, setPid, subjects, courses }: SidebarProps): JSX.E
         <SlideFade in={selectedSubject !== undefined} offsetY="15em">
           {selectedSubject &&
             parsedCourses[selectedSubject].map((course) => (
-              <Box key={course.pid} data-pid={course.pid} onClick={handlePidChange}>
+              <Box key={course.pid} data-pid={course.pid} data-code={course.code} onClick={handlePidCodeChange}>
                 <Card title={course.title} subject={course.subject} code={course.code} selected={course.pid === pid} />
               </Box>
             ))}
