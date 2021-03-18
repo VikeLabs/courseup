@@ -38,8 +38,8 @@ export function Content({ pid, term, subject, code }: ContentProps): JSX.Element
   return (
     <Box maxWidth="1080px" bg="white" p="5" my="4" height="100%" boxShadow="sm" zIndex={60}>
       <Skeleton isLoaded={!loading}>
-        {data && (
-          <>
+        <>
+          {data && (
             <CourseInfo
               subject={data.subject}
               code={data.code}
@@ -47,9 +47,9 @@ export function Content({ pid, term, subject, code }: ContentProps): JSX.Element
               description={data.description || ''}
               credits={data.credits.value}
             />
-            <SectionsContainer term={term} subject={subject} code={code} />
-          </>
-        )}
+          )}
+          <SectionsContainer term={term} subject={subject} code={code} />
+        </>
       </Skeleton>
     </Box>
   );
