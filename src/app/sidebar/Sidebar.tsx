@@ -74,8 +74,6 @@ export function Sidebar({ pid, setPid, subjects, courses, setSubject, setCode }:
 
   const handleTopBarBackClick = () => {
     setSelectedSubject(undefined);
-    setSubject && setSubject('');
-    setCode && setCode('');
   };
 
   return (
