@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
+import { Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
@@ -71,7 +71,6 @@ export function SidebarContainer({ term, pid, setPid, searchQuery }: SidebarCont
               <Heading pt="0.25em" color="black" size="sm">
                 Search Results
               </Heading>
-              <Button size="xs">Clear</Button>
             </HStack>
           </Box>
           <Flex id="sideBarScroller" direction="column" overflowY="auto">
