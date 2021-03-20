@@ -27,11 +27,11 @@ function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSub
     <form noValidate action="" role="search" onSubmit={handleSubmit}>
       <InputGroup size="sm">
         <Input
-          placeholder="Search for anything"
+          placeholder="Search for courses"
           bg="white"
+          width={['xs', 'sm', 'md']}
           value={currentRefinement}
           onChange={handleChange}
-          onSubmit={(e) => e.preventDefault()}
         />
         <InputRightAddon p="0">
           <IconButton aria-label="Search" borderRadius="0" size="sm" icon={<GrSearch />} />
