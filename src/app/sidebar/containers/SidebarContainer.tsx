@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
-import { useCallback } from 'react';
+import { MouseEvent, useCallback } from 'react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 
@@ -19,14 +19,24 @@ type Props = HitsProvided<CourseRecord> & {
 };
 
 const SearchResults = ({ hits, onSelectCourse }: Props) => {
+  const handleClick = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      const pid = e.currentTarget.getAttribute('data-pid');
+      if (pid) {
+        onSelectCourse(pid);
+      }
+    },
+    [onSelectCourse]
+  );
+
   return (
-    <Box>
-      {hits.map((hit) => (
-        <Box onClick={() => onSelectCourse(hit.pid)} key={hit.objectID}>
-          <Card subject={hit.subject} title={hit.title} code={hit.code} />
+    <>
+      {hits.map(({ objectID, pid, subject, code, title }) => (
+        <Box onClick={handleClick} data-pid={pid} data-subject={subject} data-code={code} key={objectID}>
+          <Card subject={subject} title={title} code={code} />
         </Box>
       ))}
-    </Box>
+    </>
   );
 };
 
@@ -40,7 +50,6 @@ export interface SidebarContainerProps {
   term: Term;
   /**
    * Current pid selected in content
-   * default is ''
    */
   pid?: string;
   /**
