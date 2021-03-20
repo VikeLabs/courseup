@@ -22,8 +22,8 @@ const SearchResults = ({ hits, onSelectCourse }: Props) => {
   return (
     <Box>
       {hits.map((hit) => (
-        <Box onClick={() => onSelectCourse(hit.pid)}>
-          <Card key={hit.objectID} subject={hit.subject} title={hit.title} code={hit.code} />
+        <Box onClick={() => onSelectCourse(hit.pid)} key={hit.objectID}>
+          <Card subject={hit.subject} title={hit.title} code={hit.code} />
         </Box>
       ))}
     </Box>
