@@ -1,14 +1,17 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { RestfulProvider } from 'restful-react';
 
-import { App } from './App';
 import reportWebVitals from './reportWebVitals';
+import { Routes } from './routes';
 
 ReactDOM.render(
   <React.StrictMode>
     <RestfulProvider base={process.env.NODE_ENV === 'production' ? '/api' : 'https://clockwork.vikelabs.dev/api'}>
-      <App />
+      <ChakraProvider>
+        <Routes />
+      </ChakraProvider>
     </RestfulProvider>
   </React.StrictMode>,
   document.getElementById('root')
