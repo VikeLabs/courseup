@@ -58,9 +58,25 @@ export interface SidebarContainerProps {
   setPid?: (pid: string) => void;
 
   searchQuery: string;
+
+  /**
+   * Sets subject for content -> displays course info in content component
+   */
+  setSubject?: (currentSubject: string) => void;
+  /**
+   * Sets code for content -> displays course info in content component
+   */
+  setCode?: (currentSubject: string) => void;
 }
 
-export function SidebarContainer({ term, pid, setPid, searchQuery }: SidebarContainerProps): JSX.Element | null {
+export function SidebarContainer({
+  term,
+  pid,
+  setPid,
+  setSubject,
+  setCode,
+  searchQuery,
+}: SidebarContainerProps): JSX.Element | null {
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
   const { data: courses, loading: coursesLoading } = useGetCourses({ term: term });
 
@@ -95,7 +111,14 @@ export function SidebarContainer({ term, pid, setPid, searchQuery }: SidebarCont
       {subjectsLoading || coursesLoading || subjects === null || courses === null ? (
         <Spinner size="xl" />
       ) : (
-        <Sidebar subjects={subjects} courses={courses} setPid={setPid} pid={pid} />
+        <Sidebar
+          subjects={subjects}
+          courses={courses}
+          setPid={setPid}
+          pid={pid}
+          setSubject={setSubject}
+          setCode={setCode}
+        />
       )}
     </Flex>
   );

@@ -10,6 +10,8 @@ export function App(): JSX.Element | null {
   const [term, setTerm] = useState(getCurrentTerm());
   const [query, setQuery] = useState('');
   const [pid, setPid] = useState<string>();
+  const [subject, setSubject] = useState<string>();
+  const [code, setCode] = useState<string>();
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
@@ -22,10 +24,17 @@ export function App(): JSX.Element | null {
           <Header onSearchChange={handleSearchChange} />
           <Box grow={1} overflow="hidden" height="100%">
             <Flex color="white" height="100%">
-              <SidebarContainer term={term as Term} pid={pid || ''} setPid={setPid} searchQuery={query} />
+              <SidebarContainer
+                term={term as Term}
+                pid={pid || ''}
+                setPid={setPid}
+                setSubject={setSubject}
+                setCode={setCode}
+                searchQuery={query}
+              />
               <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
-                {pid ? (
-                  <Content term={term as Term} pid={pid} />
+                {pid && subject && code ? (
+                  <Content term={term as Term} pid={pid} subject={subject} code={code} />
                 ) : (
                   <Center p="10">
                     <VStack>
