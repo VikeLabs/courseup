@@ -1,46 +1,10 @@
 import { Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
-import { MouseEvent, useCallback } from 'react';
-import { HitsProvided } from 'react-instantsearch-core';
-import { connectHits } from 'react-instantsearch-dom';
+import { Dispatch, SetStateAction } from 'react';
 
+import { SelectedCourse } from '../../../App';
 import { Term, useGetCourses, useSubjects } from '../../../fetchers';
-import { Card } from '../components/Card';
+import { CustomHits } from '../components/SearchResults';
 import { Sidebar } from '../Sidebar';
-
-type CourseRecord = {
-  pid: string;
-  subject: string;
-  title: string;
-  code: string;
-};
-
-type Props = HitsProvided<CourseRecord> & {
-  onSelectCourse: (pid: string) => void;
-};
-
-const SearchResults = ({ hits, onSelectCourse }: Props) => {
-  const handleClick = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      const pid = e.currentTarget.getAttribute('data-pid');
-      if (pid) {
-        onSelectCourse(pid);
-      }
-    },
-    [onSelectCourse]
-  );
-
-  return (
-    <>
-      {hits.map(({ objectID, pid, subject, code, title }) => (
-        <Box onClick={handleClick} data-pid={pid} data-subject={subject} data-code={code} key={objectID}>
-          <Card subject={subject} title={title} code={code} />
-        </Box>
-      ))}
-    </>
-  );
-};
-
-const CustomHits = connectHits<Props, CourseRecord>(SearchResults);
 
 export interface SidebarContainerProps {
   /**
@@ -48,44 +12,20 @@ export interface SidebarContainerProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
-  /**
-   * Current pid selected in content
-   */
-  pid?: string;
-  /**
-   * Sets pid for content -> displays course info in content component
-   */
-  setPid?: (pid: string) => void;
 
   searchQuery: string;
-
-  /**
-   * Sets subject for content -> displays course info in content component
-   */
-  setSubject?: (currentSubject: string) => void;
-  /**
-   * Sets code for content -> displays course info in content component
-   */
-  setCode?: (currentSubject: string) => void;
+  selectedCourse?: SelectedCourse;
+  setSelectedCourse: Dispatch<SetStateAction<SelectedCourse | undefined>>;
 }
 
 export function SidebarContainer({
   term,
-  pid,
-  setPid,
-  setSubject,
-  setCode,
+  selectedCourse,
+  setSelectedCourse,
   searchQuery,
 }: SidebarContainerProps): JSX.Element | null {
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
   const { data: courses, loading: coursesLoading } = useGetCourses({ term: term });
-
-  const handleSelectCourse = useCallback(
-    (pid: string) => {
-      setPid && setPid(pid);
-    },
-    [setPid]
-  );
 
   if (searchQuery.length !== 0) {
     return (
@@ -99,7 +39,7 @@ export function SidebarContainer({
             </HStack>
           </Box>
           <Flex id="sideBarScroller" direction="column" overflowY="auto">
-            <CustomHits onSelectCourse={handleSelectCourse} />
+            <CustomHits setSelectedCourse={setSelectedCourse} />
           </Flex>
         </Flex>
       </Flex>
@@ -114,10 +54,8 @@ export function SidebarContainer({
         <Sidebar
           subjects={subjects}
           courses={courses}
-          setPid={setPid}
-          pid={pid}
-          setSubject={setSubject}
-          setCode={setCode}
+          selectedCourse={selectedCourse}
+          setSelectedCourse={setSelectedCourse}
         />
       )}
     </Flex>

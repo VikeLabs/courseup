@@ -13,7 +13,6 @@ const Template: Story<SidebarProps> = (args) => <Sidebar {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  pid: '',
   subjects: [],
   courses: [],
 };
