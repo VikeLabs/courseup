@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { Dispatch, MouseEvent, SetStateAction, useCallback } from 'react';
+import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 
@@ -19,24 +19,21 @@ type Props = HitsProvided<CourseRecord> & {
 };
 
 const SearchResults = ({ hits, selectedCourse, setSelectedCourse }: Props) => {
-  const handleClick = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      const pid = e.currentTarget.getAttribute('data-pid');
-      const subject = e.currentTarget.getAttribute('data-subject');
-      const code = e.currentTarget.getAttribute('data-code');
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    const pid = e.currentTarget.getAttribute('data-pid');
+    const subject = e.currentTarget.getAttribute('data-subject');
+    const code = e.currentTarget.getAttribute('data-code');
 
-      if (pid && subject && code) {
-        setSelectedCourse({ pid, subject, code });
-      }
-    },
-    [setSelectedCourse]
-  );
+    if (pid !== null && subject !== null && code != null) {
+      setSelectedCourse({ pid, subject, code });
+    }
+  };
 
   return (
     <>
       {hits.map(({ objectID, pid, subject, code, title }) => (
         <Box onClick={handleClick} data-pid={pid} data-subject={subject} data-code={code} key={objectID}>
-          <Card subject={subject} title={title} code={code} />
+          <Card subject={subject} title={title} code={code} selected={selectedCourse?.pid === pid} />
         </Box>
       ))}
     </>

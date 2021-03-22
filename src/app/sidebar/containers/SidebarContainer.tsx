@@ -39,7 +39,7 @@ export function SidebarContainer({
             </HStack>
           </Box>
           <Flex id="sideBarScroller" direction="column" overflowY="auto">
-            <CustomHits setSelectedCourse={setSelectedCourse} />
+            <CustomHits selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} />
           </Flex>
         </Flex>
       </Flex>
