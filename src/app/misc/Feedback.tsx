@@ -61,13 +61,13 @@ export function Feedback(): JSX.Element | null {
             <Center w="100%" mt="10px">
               <HStack w="75%">
                 <FeedbackButton
-                  src="https://i.ibb.co/K0y8N9G/forms.png"
+                  src={process.env.PUBLIC_URL + '/assets/forms.png'}
                   //TODO: add link once google form is made
                   href=""
                 ></FeedbackButton>
                 <Spacer />
                 <FeedbackButton
-                  src="https://i.ibb.co/YtvTVGK/github.png"
+                  src={process.env.PUBLIC_URL + '/assets/github.png'}
                   href="https://github.com/VikeLabs/clockwork/discussions"
                 ></FeedbackButton>
               </HStack>
