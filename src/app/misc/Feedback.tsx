@@ -8,9 +8,9 @@ import {
   Portal,
   Center,
   Text,
-  Box,
-  Link,
-  VStack,
+  Button,
+  Spacer,
+  HStack,
   Image,
 } from '@chakra-ui/react';
 import { PropsWithChildren, useState } from 'react';
@@ -21,18 +21,11 @@ type Props = {
   href: string;
 };
 
-function FeedbackElement({ href, src, children }: PropsWithChildren<Props>): JSX.Element | null {
+function FeedbackButton({ href, src, children }: PropsWithChildren<Props>): JSX.Element | null {
   return (
-    <Link href={href} target="_empty" _hover={{ textDecoration: 'none' }}>
-      <VStack borderRadius="xl" bg="white" mt="10px" shadow="md">
-        <Center bg="blue.300" borderTopRadius="xl" maxH="60px" objectFit="cover" overflow="hidden">
-          <Image src={src} h="100%" objectFit="cover" overflow="hidden" />
-        </Center>
-        <Box px="20px" pb="20px">
-          <Text>{children}</Text>
-        </Box>
-      </VStack>
-    </Link>
+    <Button as="a" href={href} target="_empty" bg="white" h="fit-content" w="fit-content" p="10px">
+      <Image src={src} />
+    </Button>
   );
 }
 
@@ -41,7 +34,7 @@ export function Feedback(): JSX.Element | null {
   const open = () => setIsOpen(!isOpen);
 
   return (
-    <Popover closeOnEsc={false} isOpen={isOpen} autoFocus={false}>
+    <Popover isOpen={isOpen} autoFocus={false} placement="top-end" flip={false}>
       <PopoverTrigger>
         <IconButton
           colorScheme="blue"
@@ -58,29 +51,28 @@ export function Feedback(): JSX.Element | null {
         />
       </PopoverTrigger>
       <Portal>
-        <PopoverContent pos="sticky" mr="25px" maxH="500px" overflowY="scroll">
+        <PopoverContent overflowY="auto" bg="#E4E4E4">
           <PopoverHeader bg="blue.500" color="white" fontWeight="bold" textAlign="center">
             Feedback
           </PopoverHeader>
-          <Box px="15px" color="gray.600">
-            <PopoverBody textAlign="left">
-              Clockwork is in the early stages of development and feedback is greatly appreciated! <br />
-              Share your thoughts with the development team on the following forums:
-              <FeedbackElement
-                src="https://growthsupermarket.com/wp-content/uploads/2018/06/GoogleForms_logo-e1529921391153.png"
-                //TODO: add link once google form is made
-                href=""
-              >
-                Provide your thoughts and feedback on the site by filling out the Google Form.
-              </FeedbackElement>
-              <FeedbackElement
-                src="https://pngimg.com/uploads/github/github_PNG15.png"
-                href="https://github.com/VikeLabs/clockwork/discussions"
-              >
-                Help us fix bugs by contributing to the discussion on GitHub.
-              </FeedbackElement>
-            </PopoverBody>
-          </Box>
+          <PopoverBody px="20px" color="gray.600">
+            Feedback is greatly appreciated during our early stages of development! <br />
+            <Text as="strong">Share your thoughts here:</Text>
+            <Center w="100%" mt="10px">
+              <HStack w="75%">
+                <FeedbackButton
+                  src="https://i.ibb.co/K0y8N9G/forms.png"
+                  //TODO: add link once google form is made
+                  href=""
+                ></FeedbackButton>
+                <Spacer />
+                <FeedbackButton
+                  src="https://i.ibb.co/YtvTVGK/github.png"
+                  href="https://github.com/VikeLabs/clockwork/discussions"
+                ></FeedbackButton>
+              </HStack>
+            </Center>
+          </PopoverBody>
         </PopoverContent>
       </Portal>
     </Popover>

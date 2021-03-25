@@ -33,7 +33,7 @@ export function App(): JSX.Element | null {
                 )}
               </Flex>
             </Flex>
-            <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25} boxSize="fit-content">
+            <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
               <Feedback />
             </Box>
           </Box>
