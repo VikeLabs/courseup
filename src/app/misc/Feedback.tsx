@@ -11,6 +11,7 @@ import {
   Button,
   Spacer,
   HStack,
+  Box,
   Image,
 } from '@chakra-ui/react';
 import { PropsWithChildren, useState } from 'react';
@@ -51,13 +52,15 @@ export function Feedback(): JSX.Element | null {
         />
       </PopoverTrigger>
       <Portal>
-        <PopoverContent overflowY="auto" bg="#E4E4E4" maxW="250px" ml="100px">
+        <PopoverContent overflowY="auto" bg="#E4E4E4" minW="300px">
           <PopoverHeader bg="blue.500" color="white" fontWeight="bold" textAlign="center">
             Feedback
           </PopoverHeader>
-          <PopoverBody px="10px" color="gray.600">
-            Feedback is greatly appreciated during our early stages of development! <br />
-            <Text as="strong">Share your thoughts here:</Text>
+          <PopoverBody color="gray.600" py="10px">
+            <Box px="5px">
+              Feedback is greatly appreciated during our early stages of development! <br />
+              <Text as="strong">Share your thoughts here:</Text>
+            </Box>
             <Center w="100%" mt="10px">
               <HStack w="75%">
                 <FeedbackButton
