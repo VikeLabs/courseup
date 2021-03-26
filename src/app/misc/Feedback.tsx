@@ -51,11 +51,11 @@ export function Feedback(): JSX.Element | null {
         />
       </PopoverTrigger>
       <Portal>
-        <PopoverContent overflowY="auto" bg="#E4E4E4">
+        <PopoverContent overflowY="auto" bg="#E4E4E4" maxW="250px" ml="100px">
           <PopoverHeader bg="blue.500" color="white" fontWeight="bold" textAlign="center">
             Feedback
           </PopoverHeader>
-          <PopoverBody px="20px" color="gray.600">
+          <PopoverBody px="10px" color="gray.600">
             Feedback is greatly appreciated during our early stages of development! <br />
             <Text as="strong">Share your thoughts here:</Text>
             <Center w="100%" mt="10px">
