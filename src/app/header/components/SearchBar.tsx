@@ -1,6 +1,5 @@
-import { IconButton, Input, InputGroup, InputRightAddon } from '@chakra-ui/react';
+import { Input, InputGroup } from '@chakra-ui/react';
 import React, { ChangeEvent } from 'react';
-import { GrSearch } from 'react-icons/gr';
 import { SearchBoxProvided } from 'react-instantsearch-core';
 import { connectSearchBox } from 'react-instantsearch-dom';
 
@@ -33,9 +32,6 @@ function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSub
           value={currentRefinement}
           onChange={handleChange}
         />
-        <InputRightAddon p="0">
-          <IconButton aria-label="Search" borderRadius="0" size="sm" icon={<GrSearch />} />
-        </InputRightAddon>
       </InputGroup>
     </form>
   );
