@@ -6,7 +6,6 @@ export const SPEC_VERSION = 'undefined';
 export interface Course {
   pid: string;
   title: string;
-  dateStart: string;
   subject: string;
   code: string;
 }
@@ -16,8 +15,8 @@ export type Term = '202001' | '202005' | '202009' | '202101' | '202105';
 export interface CourseDetails {
   pid: string;
   title: string;
-  dateStart: string;
   description: string;
+  dateStart: string;
   credits: {
     chosen: string;
     value: string;
@@ -104,28 +103,35 @@ export interface KualiSubject {
 
 export type Subject = KualiSubject;
 
+export interface GetCoursesQueryParams {
+  in_session?: boolean;
+}
+
 export interface GetCoursesPathParams {
   term: Term;
 }
 
-export type GetCoursesProps = Omit<GetProps<Course[], unknown, void, GetCoursesPathParams>, 'path'> &
+export type GetCoursesProps = Omit<GetProps<Course[], unknown, GetCoursesQueryParams, GetCoursesPathParams>, 'path'> &
   GetCoursesPathParams;
 
 /**
  * Retrieves all the courses available. If query params are passed in, they will be used to filter results.
  */
 export const GetCourses = ({ term, ...props }: GetCoursesProps) => (
-  <Get<Course[], unknown, void, GetCoursesPathParams> path={`/courses/${term}`} {...props} />
+  <Get<Course[], unknown, GetCoursesQueryParams, GetCoursesPathParams> path={`/courses/${term}`} {...props} />
 );
 
-export type UseGetCoursesProps = Omit<UseGetProps<Course[], unknown, void, GetCoursesPathParams>, 'path'> &
+export type UseGetCoursesProps = Omit<
+  UseGetProps<Course[], unknown, GetCoursesQueryParams, GetCoursesPathParams>,
+  'path'
+> &
   GetCoursesPathParams;
 
 /**
  * Retrieves all the courses available. If query params are passed in, they will be used to filter results.
  */
 export const useGetCourses = ({ term, ...props }: UseGetCoursesProps) =>
-  useGet<Course[], unknown, void, GetCoursesPathParams>(
+  useGet<Course[], unknown, GetCoursesQueryParams, GetCoursesPathParams>(
     (paramsInPath: GetCoursesPathParams) => `/courses/${paramsInPath.term}`,
     { pathParams: { term }, ...props }
   );
