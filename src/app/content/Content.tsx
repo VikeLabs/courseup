@@ -1,5 +1,6 @@
-import { Box, Skeleton } from '@chakra-ui/react';
+import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react';
 
+import { SelectedCourse } from '../../App';
 import { Term, useGetCourse } from '../../fetchers';
 
 import { CourseInfo } from './components/Course';
@@ -7,36 +8,40 @@ import { SectionsContainer } from './containers/Section';
 
 export interface ContentProps {
   /**
-   * Content
-   * Subject to change
-   */
-  /**
-   * pid of selected course
-   */
-  pid: string;
-  /**
    * Term Selected
    * Determines what term the subjects and courses are from
    */
   term: Term;
-  /**
-   * subject of selected course
-   */
-  subject: string;
-  /**
-   * code of selected course
-   */
-  code: string;
+  selectedCourse: SelectedCourse;
 }
 
 /**
  * Primary UI component for content
  */
-export function Content({ pid, term, subject, code }: ContentProps): JSX.Element {
+export function Content({ term, selectedCourse: { pid, subject, code, title } }: ContentProps): JSX.Element {
   const { data, loading } = useGetCourse({ term, pid });
 
   return (
-    <Box maxWidth="1080px" bg="white" p="5" my="4" height="100%" boxShadow="sm" zIndex={60}>
+    <Box
+      width={['container.md', 'container.lg', 'container.xl']}
+      bg="white"
+      p="5"
+      my="4"
+      height="100%"
+      boxShadow="sm"
+      zIndex={60}
+    >
+      <Flex
+        justifyItems="center"
+        alignItems={{ base: 'start', sm: 'center' }}
+        direction={{ base: 'column', sm: 'row' }}
+      >
+        <Heading mr="5" size="2xl" as="h2" whiteSpace="pre" color="black">{`${subject} ${code}`}</Heading>
+        <Heading size="lg" as="h3" color="gray">
+          {title}
+        </Heading>
+      </Flex>
+
       <Skeleton isLoaded={!loading}>
         {data && (
           <CourseInfo

@@ -6,11 +6,16 @@ import { Header, Content, SidebarContainer } from './app/index';
 import { getCurrentTerm } from './app/shared/utils/terms';
 import { Term } from './fetchers';
 
+export type SelectedCourse = {
+  subject: string;
+  code: string;
+  pid: string;
+  title: string;
+};
+
 export function App(): JSX.Element | null {
   const [term, setTerm] = useState(getCurrentTerm());
-  const [pid, setPid] = useState<string>();
-  const [subject, setSubject] = useState<string>();
-  const [code, setCode] = useState<string>();
+  const [selectedCourse, setSelectedCourse] = useState<SelectedCourse>();
 
   return (
     <ChakraProvider>
@@ -21,14 +26,12 @@ export function App(): JSX.Element | null {
             <Flex color="white" height="100%">
               <SidebarContainer
                 term={term as Term}
-                pid={pid || ''}
-                setPid={setPid}
-                setSubject={setSubject}
-                setCode={setCode}
+                setSelectedCourse={setSelectedCourse}
+                selectedCourse={selectedCourse}
               />
               <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
-                {pid && subject && code ? (
-                  <Content term={term as Term} pid={pid} subject={subject} code={code} />
+                {selectedCourse ? (
+                  <Content term={term as Term} selectedCourse={selectedCourse} />
                 ) : (
                   <Center p="10">
                     <VStack>

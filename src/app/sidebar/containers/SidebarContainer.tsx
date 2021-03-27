@@ -1,6 +1,12 @@
-import { Flex, Spinner } from '@chakra-ui/react';
+import { Center, Flex, Spinner } from '@chakra-ui/react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
+import '../styles/styles.css';
+import '../styles/example.css';
+
+import { SelectedCourse } from '../../../App';
 import { Term, useGetCourses, useSubjects } from '../../../fetchers';
+import { TopBar } from '../components/TopBar';
 import { Sidebar } from '../Sidebar';
 
 export interface SidebarContainerProps {
@@ -9,47 +15,45 @@ export interface SidebarContainerProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
-  /**
-   * Current pid selected in content
-   * default is ''
-   */
-  pid?: string;
-  /**
-   * Sets pid for content -> displays course info in content component
-   */
-  setPid?: (pid: string) => void;
-  /**
-   * Sets subject for content -> displays course info in content component
-   */
-  setSubject?: (currentSubject: string) => void;
-  /**
-   * Sets code for content -> displays course info in content component
-   */
-  setCode?: (currentSubject: string) => void;
+  selectedCourse?: SelectedCourse;
+  setSelectedCourse: Dispatch<SetStateAction<SelectedCourse | undefined>>;
 }
 
 export function SidebarContainer({
   term,
-  pid,
-  setPid,
-  setSubject,
-  setCode,
+  selectedCourse,
+  setSelectedCourse,
 }: SidebarContainerProps): JSX.Element | null {
+  const [filter, setFilter] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
+
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
-  const { data: courses, loading: coursesLoading } = useGetCourses({ term: term });
+  const { data: courses, loading: coursesLoading } = useGetCourses({ term: term, queryParams: { in_session: filter } });
+
+  const handleSubjectChange = () => {
+    setSelectedSubject(undefined);
+  };
+
+  const handleFilter = (s: boolean) => {
+    setFilter(s);
+  };
 
   return (
-    <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="20%">
+    <Flex bg="#E4E4E4" minW="20%" flexDirection="column">
+      <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleSubjectChange} onFilter={handleFilter} />
+
       {subjectsLoading || coursesLoading || subjects === null || courses === null ? (
-        <Spinner size="xl" />
+        <Center height="100%">
+          <Spinner size="xl" />
+        </Center>
       ) : (
         <Sidebar
           subjects={subjects}
           courses={courses}
-          setPid={setPid}
-          pid={pid}
-          setSubject={setSubject}
-          setCode={setCode}
+          selectedCourse={selectedCourse}
+          selectedSubject={selectedSubject}
+          setSelectedCourse={setSelectedCourse}
+          setSelectedSubject={setSelectedSubject}
         />
       )}
     </Flex>
