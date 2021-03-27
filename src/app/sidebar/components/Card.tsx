@@ -30,20 +30,25 @@ export interface CardProps {
 export function Card({ subject, title, code, selected }: PropsWithChildren<CardProps>): JSX.Element {
   return (
     <Box
-      bgColor={selected ? 'orange.200' : 'white'}
-      color="black"
-      borderRadius="lg"
+      bgColor={selected ? undefined : 'white'}
+      bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
+      color={selected ? 'white' : 'black'}
       boxShadow="md"
-      p="1em"
-      m="0.5em"
+      py={2}
+      px={4}
+      my="0.5em"
       cursor="pointer"
+      _hover={{
+        bgGradient: selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
+        color: 'white',
+      }}
     >
       <Flex direction="row" alignItems="center" justifyContent="space-between">
-        <VStack alignItems="start">
-          <Text fontSize="sm" color="black" fontWeight="bold">
+        <VStack alignItems="start" spacing="0">
+          <Text fontSize="lg" fontWeight="bold" p={0} m={0}>
             {subject} {code}
           </Text>
-          <Text fontSize="xs" color="black" fontWeight="normal">
+          <Text fontSize="sm" fontWeight="normal" p={0} m={0}>
             {title}
           </Text>
         </VStack>
