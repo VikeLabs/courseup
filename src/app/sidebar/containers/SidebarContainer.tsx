@@ -1,9 +1,6 @@
 import { Center, Flex, Spinner } from '@chakra-ui/react';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import '../styles/styles.css';
-import '../styles/example.css';
-
 import { SelectedCourse } from '../../../App';
 import { Term, useGetCourses, useSubjects } from '../../../fetchers';
 import { TopBar } from '../components/TopBar';
