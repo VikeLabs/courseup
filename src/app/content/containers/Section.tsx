@@ -57,9 +57,10 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
 
   const sectionTypes: { sn: string; pl: string; type: string }[] = [
     { sn: 'Lecture', pl: 'Lectures', type: 'lecture' },
-    { sn: 'Lab', pl: 'Labs', type: 'lab' },
-    { sn: 'Tutorial', pl: 'Tutorials', type: 'tutorial' },
     { sn: 'Lecture Topic', pl: 'Lecture Topics', type: 'lecture topic' },
+    { sn: 'Lab', pl: 'Labs', type: 'lab' },
+    { sn: 'Gradable Lab', pl: 'Gradable Labs', type: 'gradable lab' },
+    { sn: 'Tutorial', pl: 'Tutorials', type: 'tutorial' },
     { sn: 'Practicum', pl: 'Practicums', type: 'practicum' },
   ];
 
