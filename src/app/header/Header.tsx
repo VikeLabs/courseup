@@ -1,28 +1,31 @@
-import { Center, Flex, HStack, Spacer, Text } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Text } from '@chakra-ui/react';
 
-import { SearchBar } from './components/SearchBar';
+import { Search } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';
-// import { UserButton } from './components/UserButton';
 
+export interface HeaderProps {
+  onSearchChange?: (query: string) => void;
+  onSearchSubmit?: (query: string) => void;
+}
 /**
  * Primary UI component for content
  */
-export function Header(): JSX.Element {
+export function Header({ onSearchChange }: HeaderProps): JSX.Element {
   return (
-    <Flex as="header" px="20" py="4" boxShadow="md" bg="white" zIndex={100}>
-      {/* TODO: turn this into a logo */}
-      <Center>
+    <Grid templateColumns="repeat(3, 1fr)" as="header" py="3" px="8" boxShadow="md" bg="white" zIndex={100}>
+      <GridItem colSpan={1} flexDirection="column">
         <Text fontSize="x-large" fontWeight="bold">
           clockwork
         </Text>
-      </Center>
-      <Spacer />
-      <HStack spacing="10px" w="60%">
-        <SearchBar />
+      </GridItem>
+      <GridItem colStart={2}>
+        <Center>
+          <Search onChange={onSearchChange} />
+        </Center>
+      </GridItem>
+      <GridItem colStart={3} alignContent="flex-end">
         <TermButtons />
-      </HStack>
-      <Spacer />
-      {/* TODO: add this when we have user profile stuff <UserButton /> */}
-    </Flex>
+      </GridItem>
+    </Grid>
   );
 }

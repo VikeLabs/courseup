@@ -8,8 +8,3 @@ export type Section = ClassScheduleListing;
 export interface Seat extends DetailedClassInformation {
   crn: string;
 }
-
-export interface CourseMapping {
-  crns: string[];
-  retrievedAt?: Date;
-}

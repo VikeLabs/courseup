@@ -18,7 +18,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "pid": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
-            "dateStart": {"dataType":"string","required":true},
             "subject": {"dataType":"string","required":true},
             "code": {"dataType":"string","required":true},
         },
@@ -35,8 +34,8 @@ const models: TsoaRoute.Models = {
         "properties": {
             "pid": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
-            "dateStart": {"dataType":"string","required":true},
             "description": {"dataType":"string","required":true},
+            "dateStart": {"dataType":"string","required":true},
             "credits": {"dataType":"nestedObjectLiteral","nestedProperties":{"chosen":{"dataType":"string","required":true},"value":{"dataType":"string","required":true},"credits":{"dataType":"nestedObjectLiteral","nestedProperties":{"max":{"dataType":"string","required":true},"min":{"dataType":"string","required":true}},"required":true}},"required":true},
             "subject": {"dataType":"string","required":true},
             "code": {"dataType":"string","required":true},
@@ -156,6 +155,7 @@ export function RegisterRoutes(app: express.Router) {
             function (request: any, response: any, next: any) {
             const args = {
                     term: {"in":"path","name":"term","required":true,"ref":"Term"},
+                    in_session: {"default":false,"in":"query","name":"in_session","dataType":"boolean"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
