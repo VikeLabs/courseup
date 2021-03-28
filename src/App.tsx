@@ -15,19 +15,26 @@ export type SelectedCourse = {
 
 export function App(): JSX.Element | null {
   const [term, setTerm] = useState(getCurrentTerm());
+  const [query, setQuery] = useState('');
+
   const [selectedCourse, setSelectedCourse] = useState<SelectedCourse>();
+
+  const handleSearchChange = (q: string) => {
+    setQuery(q);
+  };
 
   return (
     <ChakraProvider>
       <TermContext.Provider value={{ term, setTerm }}>
         <Flex h="100vh" direction="column">
-          <Header />
+          <Header onSearchChange={handleSearchChange} />
           <Box grow={1} overflow="hidden" height="100%">
             <Flex color="white" height="100%">
               <SidebarContainer
                 term={term as Term}
                 setSelectedCourse={setSelectedCourse}
                 selectedCourse={selectedCourse}
+                searchQuery={query}
               />
               <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
                 {selectedCourse ? (
