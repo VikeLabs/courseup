@@ -23,16 +23,24 @@ const SearchResults = ({ hits, selectedCourse, setSelectedCourse }: Props) => {
     const pid = e.currentTarget.getAttribute('data-pid');
     const subject = e.currentTarget.getAttribute('data-subject');
     const code = e.currentTarget.getAttribute('data-code');
+    const title = e.currentTarget.getAttribute('data-title');
 
-    if (pid !== null && subject !== null && code != null) {
-      setSelectedCourse({ pid, subject, code });
+    if (pid && subject && code && title) {
+      setSelectedCourse({ pid, subject, code, title });
     }
   };
 
   return (
     <>
       {hits.map(({ objectID, pid, subject, code, title }) => (
-        <Box onClick={handleClick} data-pid={pid} data-subject={subject} data-code={code} key={objectID}>
+        <Box
+          onClick={handleClick}
+          data-pid={pid}
+          data-subject={subject}
+          data-code={code}
+          data-title={title}
+          key={objectID}
+        >
           <Card subject={subject} title={title} code={code} selected={selectedCourse?.pid === pid} />
         </Box>
       ))}
