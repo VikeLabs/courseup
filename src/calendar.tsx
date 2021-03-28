@@ -5,11 +5,11 @@ import { TermContext } from './app/context/TermContext';
 import { Header, Content, SidebarContainer } from './app/index';
 import { getCurrentTerm } from './app/shared/utils/terms';
 import { Term } from './fetchers';
-export function App(): JSX.Element | null {
+export function Calendar(): JSX.Element | null {
   const [term, setTerm] = useState(getCurrentTerm());
   const [pid, setPid] = useState<string>();
-  const [subject, setSubject] = useState<string>('');
-  const [code, setCode] = useState<string>('');
+  const [subject, setSubject] = useState<string>();
+  const [code, setCode] = useState<string>();
 
   return (
     <TermContext.Provider value={{ term, setTerm }}>
