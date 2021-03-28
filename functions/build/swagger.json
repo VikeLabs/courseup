@@ -14,9 +14,6 @@
 					"title": {
 						"type": "string"
 					},
-					"dateStart": {
-						"type": "string"
-					},
 					"subject": {
 						"type": "string"
 					},
@@ -27,7 +24,6 @@
 				"required": [
 					"pid",
 					"title",
-					"dateStart",
 					"subject",
 					"code"
 				],
@@ -52,10 +48,10 @@
 					"title": {
 						"type": "string"
 					},
-					"dateStart": {
+					"description": {
 						"type": "string"
 					},
-					"description": {
+					"dateStart": {
 						"type": "string"
 					},
 					"credits": {
@@ -108,8 +104,8 @@
 				"required": [
 					"pid",
 					"title",
-					"dateStart",
 					"description",
+					"dateStart",
 					"credits",
 					"subject",
 					"code"
@@ -398,6 +394,15 @@
 						"required": true,
 						"schema": {
 							"$ref": "#/components/schemas/Term"
+						}
+					},
+					{
+						"in": "query",
+						"name": "in_session",
+						"required": false,
+						"schema": {
+							"default": false,
+							"type": "boolean"
 						}
 					}
 				]
