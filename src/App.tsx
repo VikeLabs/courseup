@@ -2,7 +2,7 @@ import { Box, Center, ChakraProvider, Flex, Heading, Text, VStack } from '@chakr
 import { useState } from 'react';
 
 import { TermContext } from './app/context/TermContext';
-import { Header, Content, SidebarContainer } from './app/index';
+import { Header, Content, SidebarContainer, Scheduler } from './app/index';
 import { getCurrentTerm } from './app/shared/utils/terms';
 import { Term } from './fetchers';
 
@@ -18,7 +18,7 @@ export function App(): JSX.Element | null {
         <Flex h="100vh" direction="column">
           <Header />
           <Box grow={1} overflow="hidden" height="100%">
-            <Flex color="white" height="100%">
+            <Flex height="100%">
               <SidebarContainer
                 term={term as Term}
                 pid={pid || ''}
@@ -27,9 +27,10 @@ export function App(): JSX.Element | null {
                 setCode={setCode}
               />
               <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
-                {pid && subject && code ? (
-                  <Content term={term as Term} pid={pid} subject={subject} code={code} />
-                ) : (
+                {/* {pid && subject && code ? ( */}
+                {/* // <Content term={term as Term} pid={pid} subject={subject} code={code} /> */}
+                <Scheduler />
+                {/* ) : (
                   <Center p="10">
                     <VStack>
                       <Heading color="black">Explore Courses</Heading>
@@ -38,7 +39,7 @@ export function App(): JSX.Element | null {
                       </Text>
                     </VStack>
                   </Center>
-                )}
+                )} */}
               </Flex>
             </Flex>
           </Box>
