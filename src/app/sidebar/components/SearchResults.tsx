@@ -3,7 +3,7 @@ import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 
-import { SelectedCourse } from '../../../App';
+import { SelectedCourse } from '../../../calendar';
 import { Card } from '../components/Card';
 
 type CourseRecord = {
