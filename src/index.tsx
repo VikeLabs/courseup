@@ -1,8 +1,9 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import algoliasearch from 'algoliasearch';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
 import reportWebVitals from './reportWebVitals';
@@ -18,12 +19,14 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
+const searchClient = algoliasearch('CR92D3S394', '5477854d63b676fe021f8f83f5839a3a');
+
 ReactDOM.render(
   <React.StrictMode>
     <RestfulProvider base={process.env.NODE_ENV === 'production' ? '/api' : 'https://clockwork.vikelabs.dev/api'}>
-      <ChakraProvider>
+      <InstantSearch searchClient={searchClient} indexName="dev_uvic">
         <Routes />
-      </ChakraProvider>
+      </InstantSearch>
     </RestfulProvider>
   </React.StrictMode>,
   document.getElementById('root')
