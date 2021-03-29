@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import algoliasearch from 'algoliasearch';
@@ -25,7 +26,9 @@ ReactDOM.render(
   <React.StrictMode>
     <RestfulProvider base={process.env.NODE_ENV === 'production' ? '/api' : 'https://clockwork.vikelabs.dev/api'}>
       <InstantSearch searchClient={searchClient} indexName="dev_uvic">
-        <Routes />
+        <ChakraProvider portalZIndex={999}>
+          <Routes />
+        </ChakraProvider>
       </InstantSearch>
     </RestfulProvider>
   </React.StrictMode>,
