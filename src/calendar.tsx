@@ -12,7 +12,7 @@ export type SelectedCourse = {
   pid: string;
 };
 
-export function App(): JSX.Element | null {
+export function Calendar(): JSX.Element | null {
   const [term, setTerm] = useState(getCurrentTerm());
   const [query, setQuery] = useState('');
 

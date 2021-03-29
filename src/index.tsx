@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
-import { App } from './App';
 import reportWebVitals from './reportWebVitals';
+import { Routes } from './routes';
 
 Sentry.init({
   dsn: 'https://08218d366eab4945abe3e09054bc5cce@o551348.ingest.sentry.io/5674718',
@@ -25,7 +25,7 @@ ReactDOM.render(
   <React.StrictMode>
     <RestfulProvider base={process.env.NODE_ENV === 'production' ? '/api' : 'https://clockwork.vikelabs.dev/api'}>
       <InstantSearch searchClient={searchClient} indexName="dev_uvic">
-        <App />
+        <Routes />
       </InstantSearch>
     </RestfulProvider>
   </React.StrictMode>,
