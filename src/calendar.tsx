@@ -1,4 +1,4 @@
-import { Box, Center, ChakraProvider, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { TermContext } from './app/context/TermContext';
@@ -23,39 +23,37 @@ export function Calendar(): JSX.Element | null {
   };
 
   return (
-    <ChakraProvider portalZIndex={999}>
-      <TermContext.Provider value={{ term, setTerm }}>
-        <Flex h="100vh" direction="column">
-          <Header onSearchChange={handleSearchChange} />
-          <Box grow={1} overflow="hidden" height="100%">
-            <Flex color="white" height="100%">
-              <SidebarContainer
-                term={term as Term}
-                setSelectedCourse={setSelectedCourse}
-                selectedCourse={selectedCourse}
-                searchQuery={query}
-              />
-              <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
-                {selectedCourse ? (
-                  <Content term={term as Term} selectedCourse={selectedCourse} />
-                ) : (
-                  <Center p="10">
-                    <VStack>
-                      <Heading color="black">Explore Courses</Heading>
-                      <Text color="gray">
-                        Select a subject and then a course to start viewing course details and section information.
-                      </Text>
-                    </VStack>
-                  </Center>
-                )}
-              </Flex>
+    <TermContext.Provider value={{ term, setTerm }}>
+      <Flex h="100vh" direction="column">
+        <Header onSearchChange={handleSearchChange} />
+        <Box grow={1} overflow="hidden" height="100%">
+          <Flex color="white" height="100%">
+            <SidebarContainer
+              term={term as Term}
+              setSelectedCourse={setSelectedCourse}
+              selectedCourse={selectedCourse}
+              searchQuery={query}
+            />
+            <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
+              {selectedCourse ? (
+                <Content term={term as Term} selectedCourse={selectedCourse} />
+              ) : (
+                <Center p="10">
+                  <VStack>
+                    <Heading color="black">Explore Courses</Heading>
+                    <Text color="gray">
+                      Select a subject and then a course to start viewing course details and section information.
+                    </Text>
+                  </VStack>
+                </Center>
+              )}
             </Flex>
-            <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
-              <Feedback />
-            </Box>
+          </Flex>
+          <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
+            <Feedback />
           </Box>
-        </Flex>
-      </TermContext.Provider>
-    </ChakraProvider>
+        </Box>
+      </Flex>
+    </TermContext.Provider>
   );
 }
