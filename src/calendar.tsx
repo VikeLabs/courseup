@@ -1,4 +1,4 @@
-import { Box, Center, ChakraProvider, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { TermContext } from './app/context/TermContext';
