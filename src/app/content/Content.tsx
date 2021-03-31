@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react';
 
-import { SelectedCourse } from '../../App';
+import { SelectedCourse } from '../../calendar';
 import { Term, useGetCourse } from '../../fetchers';
 
 import { CourseInfo } from './components/Course';

@@ -7,11 +7,16 @@
 Clockwork is a website built to simplify the experience of searching courses and building timetables for the [University of Victoria](https://uvic.ca) (UVic). The website is a TypeScript app which uses React on the front-end and Firebase on the back-end.
 
 ## Contribute
-1. Clone the repo:
+1. Fork the repo
+2. Clone your forked repo:
     ```
-    git clone https://github.com/VikeLabs/clockwork.git
+    git clone https://github.com/<YOUR GITHUB USERNAME>/clockwork.git
     ```
-2. Run `npm install`
+3. Make the project repository the upstream remote:
+    ```
+    git remote add upstream https://github.com/VikeLabs/clockwork.git
+    ```
+4. Run `npm install`
     * NOTE: You must be using NPM v6 due to a bug in a dependency.
 4. Find an unassigned task on [ZenHub](https://app.zenhub.com/workspaces/team-schedule-courses-5f973f50ae36d70012eb5b2e/board?repos=216653028) to work on.
     * Filter repos to show issues for `clockwork`
