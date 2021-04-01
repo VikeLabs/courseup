@@ -70,16 +70,16 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
 
   return (
     <Box>
-      {categorizedSections.map((c) => {
+      {categorizedSections.map((c, i) => {
         if (c.sections && c.sections.length > 0) {
           return (
-            <>
+            <Box key={i}>
               <Heading size="xl" color="black" my="2">
                 {c.sections.length > 1 ? c.plural : c.singular}
               </Heading>
               <Sections sections={c.sections} seats={seats} />
               <Divider />
-            </>
+            </Box>
           );
         }
         return null;
