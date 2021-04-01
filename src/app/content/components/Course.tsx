@@ -79,16 +79,6 @@ export function CourseInfo({
 }: CourseInfoProps): JSX.Element {
   return (
     <Box as="section" bg="white" color="black">
-      <Flex
-        justifyItems="center"
-        alignItems={{ base: 'start', sm: 'center' }}
-        direction={{ base: 'column', sm: 'row' }}
-      >
-        <Heading mr="5" size="2xl" as="h2" whiteSpace="pre">{`${subject} ${code}`}</Heading>
-        <Heading size="lg" as="h3" color="gray">
-          {title}
-        </Heading>
-      </Flex>
       <Divider my="3" />
       <Flex my="3" flexWrap="wrap">
         {hours && (

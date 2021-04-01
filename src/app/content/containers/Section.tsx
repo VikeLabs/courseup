@@ -46,44 +46,44 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
     return (
       <Center>
         <Heading size="md" color="gray">
-          Unable to find sections for {getReadableTerm(term)}
+          Unable to find sections for{' '}
+          <Box as="span" color="black">
+            {getReadableTerm(term)}
+          </Box>
         </Heading>
       </Center>
     );
   }
 
-  const lectures = sections?.filter((s) => s.sectionType === 'lecture');
-  const labs = sections?.filter((s) => s.sectionType === 'lab');
-  const tutorials = sections?.filter((s) => s.sectionType === 'tutorial');
+  const sectionTypes: { sn: string; pl: string; type: string }[] = [
+    { sn: 'Lecture', pl: 'Lectures', type: 'lecture' },
+    { sn: 'Lecture Topic', pl: 'Lecture Topics', type: 'lecture topic' },
+    { sn: 'Lab', pl: 'Labs', type: 'lab' },
+    { sn: 'Gradable Lab', pl: 'Gradable Labs', type: 'gradable lab' },
+    { sn: 'Tutorial', pl: 'Tutorials', type: 'tutorial' },
+    { sn: 'Practicum', pl: 'Practicums', type: 'practicum' },
+  ];
+
+  const categorizedSections = sectionTypes.map(({ type, sn: singular, pl: plural }) => {
+    return { singular, plural, sections: sections?.filter((s) => (s.sectionType as string) === type) };
+  });
 
   return (
     <Box>
-      {lectures && lectures.length > 0 && (
-        <>
-          <Heading size="2xl" color="black" my="2">
-            Lectures
-          </Heading>
-          <Sections sections={lectures} seats={seats} />
-        </>
-      )}
-      {labs && labs.length > 0 && (
-        <>
-          <Divider />
-          <Heading size="2xl" color="black" my="2">
-            Labs
-          </Heading>
-          <Sections sections={labs} seats={seats} />
-        </>
-      )}
-      {tutorials && tutorials.length > 0 && (
-        <>
-          <Divider />
-          <Heading size="2xl" color="black" my="2">
-            Tutorials
-          </Heading>
-          <Sections sections={tutorials} seats={seats} />
-        </>
-      )}
+      {categorizedSections.map((c, i) => {
+        if (c.sections && c.sections.length > 0) {
+          return (
+            <Box key={i}>
+              <Heading size="xl" color="black" my="2">
+                {c.sections.length > 1 ? c.plural : c.singular}
+              </Heading>
+              <Sections sections={c.sections} seats={seats} />
+              <Divider />
+            </Box>
+          );
+        }
+        return null;
+      })}
     </Box>
   );
 }

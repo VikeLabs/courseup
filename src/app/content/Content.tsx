@@ -1,4 +1,4 @@
-import { Box, Skeleton } from '@chakra-ui/react';
+import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react';
 
 import { SelectedCourse } from '../../calendar';
 import { Term, useGetCourse } from '../../fetchers';
@@ -15,11 +15,33 @@ export interface ContentProps {
   selectedCourse: SelectedCourse;
 }
 
-export function Content({ term, selectedCourse: { pid, subject, code } }: ContentProps): JSX.Element {
+/**
+ * Primary UI component for content
+ */
+export function Content({ term, selectedCourse: { pid, subject, code, title } }: ContentProps): JSX.Element {
   const { data, loading } = useGetCourse({ term, pid });
 
   return (
-    <Box maxWidth="85%" bg="white" p="5" my="4" height="100%" boxShadow="sm" zIndex={60}>
+    <Box
+      width={['container.md', 'container.lg', 'container.xl']}
+      bg="white"
+      p="5"
+      my="4"
+      height="100%"
+      boxShadow="sm"
+      zIndex={60}
+    >
+      <Flex
+        justifyItems="center"
+        alignItems={{ base: 'start', sm: 'center' }}
+        direction={{ base: 'column', sm: 'row' }}
+      >
+        <Heading mr="5" size="2xl" as="h2" whiteSpace="pre" color="black">{`${subject} ${code}`}</Heading>
+        <Heading size="lg" as="h3" color="gray">
+          {title}
+        </Heading>
+      </Flex>
+
       <Skeleton isLoaded={!loading}>
         {data && (
           <CourseInfo

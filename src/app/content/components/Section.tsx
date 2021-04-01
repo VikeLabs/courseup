@@ -68,7 +68,7 @@ export function SectionInfo({
   const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
 
   return (
-    <Box as="section" bg="white" color="black" my="5">
+    <Box as="section" bg="white" color="black" my="4" boxShadow="md" p="3" rounded="lg">
       <Flex my="2" alignItems="center">
         <Heading mr="5" size="lg" as="h2" whiteSpace="pre">
           {sectionCode}

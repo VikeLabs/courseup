@@ -1,9 +1,10 @@
-import { Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
-import { Dispatch, SetStateAction } from 'react';
+import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { SelectedCourse } from '../../../calendar';
 import { Term, useGetCourses, useSubjects } from '../../../fetchers';
 import { CustomHits } from '../components/SearchResults';
+import { TopBar } from '../components/TopBar';
 import { Sidebar } from '../Sidebar';
 
 export interface SidebarContainerProps {
@@ -15,17 +16,28 @@ export interface SidebarContainerProps {
 
   searchQuery: string;
   selectedCourse?: SelectedCourse;
-  setSelectedCourse: Dispatch<SetStateAction<SelectedCourse | undefined>>;
+  onSelectedCourseChange: (selectedCourse?: SelectedCourse) => void;
 }
 
 export function SidebarContainer({
   term,
   selectedCourse,
-  setSelectedCourse,
+  onSelectedCourseChange,
   searchQuery,
 }: SidebarContainerProps): JSX.Element | null {
+  const [filter, setFilter] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
+
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
-  const { data: courses, loading: coursesLoading } = useGetCourses({ term: term });
+  const { data: courses, loading: coursesLoading } = useGetCourses({ term: term, queryParams: { in_session: filter } });
+
+  const handleSubjectChange = () => {
+    setSelectedSubject(undefined);
+  };
+
+  const handleFilter = (s: boolean) => {
+    setFilter(s);
+  };
 
   if (searchQuery.length !== 0) {
     return (
@@ -39,7 +51,7 @@ export function SidebarContainer({
             </HStack>
           </Box>
           <Flex id="sideBarScroller" direction="column" overflowY="auto">
-            <CustomHits selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} />
+            <CustomHits selectedCourse={selectedCourse} onSelectedCourseChange={onSelectedCourseChange} />
           </Flex>
         </Flex>
       </Flex>
@@ -47,15 +59,21 @@ export function SidebarContainer({
   }
 
   return (
-    <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="20%">
+    <Flex bg="#E4E4E4" minW="20%" flexDirection="column">
+      <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleSubjectChange} onFilter={handleFilter} />
+
       {subjectsLoading || coursesLoading || subjects === null || courses === null ? (
-        <Spinner size="xl" />
+        <Center height="100%">
+          <Spinner size="xl" />
+        </Center>
       ) : (
         <Sidebar
           subjects={subjects}
           courses={courses}
           selectedCourse={selectedCourse}
-          setSelectedCourse={setSelectedCourse}
+          selectedSubject={selectedSubject}
+          onSelectedCourseChange={onSelectedCourseChange}
+          onSelectedSubjectChange={setSelectedSubject}
         />
       )}
     </Flex>

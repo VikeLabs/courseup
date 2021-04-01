@@ -1,11 +1,10 @@
 import { Box, Collapse, Flex, SlideFade } from '@chakra-ui/react';
-import React, { Dispatch, MouseEvent, SetStateAction, useCallback, useMemo, useState } from 'react';
+import React, { MouseEvent, useCallback, useMemo } from 'react';
 
 import { SelectedCourse } from '../../calendar';
 import { Course, KualiSubject } from '../../fetchers';
 
 import { Card } from './components/Card';
-import { TopBar } from './components/TopBar';
 
 export interface SidebarProps {
   /**
@@ -18,7 +17,10 @@ export interface SidebarProps {
   courses: Course[];
 
   selectedCourse?: SelectedCourse;
-  setSelectedCourse: Dispatch<SetStateAction<SelectedCourse | undefined>>;
+  onSelectedCourseChange: (selectedCourse?: SelectedCourse) => void;
+
+  selectedSubject?: string;
+  onSelectedSubjectChange: (subject?: string) => void;
 }
 
 function computeParsedCourses(courses: Course[]) {
@@ -34,9 +36,14 @@ function computeParsedCourses(courses: Course[]) {
   );
 }
 
-export function Sidebar({ subjects, courses, selectedCourse, setSelectedCourse }: SidebarProps): JSX.Element {
-  const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
-
+export function Sidebar({
+  subjects,
+  courses,
+  selectedCourse,
+  onSelectedCourseChange: setSelectedCourse,
+  selectedSubject,
+  onSelectedSubjectChange: setSelectedSubject,
+}: SidebarProps): JSX.Element {
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
   const sortedSubjects = useMemo(() => subjects.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
 
@@ -53,24 +60,17 @@ export function Sidebar({ subjects, courses, selectedCourse, setSelectedCourse }
       const pid = e.currentTarget.getAttribute('data-pid');
       const subject = e.currentTarget.getAttribute('data-subject');
       const code = e.currentTarget.getAttribute('data-code');
+      const title = e.currentTarget.getAttribute('data-title');
 
-      if (pid && subject && code) {
-        setSelectedCourse({ pid, subject, code });
+      if (pid && subject && code && title) {
+        setSelectedCourse({ pid, subject, code, title });
       }
     },
     [setSelectedCourse]
   );
 
-  const handleTopBarBackClick = () => {
-    setSelectedSubject(undefined);
-  };
-
   return (
     <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
-      <Box>
-        <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleTopBarBackClick} />
-      </Box>
-
       <Flex id="sideBarScroller" direction="column" overflowY="auto">
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
           {sortedSubjects.map((subject, index) => (
@@ -82,8 +82,16 @@ export function Sidebar({ subjects, courses, selectedCourse, setSelectedCourse }
 
         <SlideFade in={selectedSubject !== undefined} offsetY="15em">
           {selectedSubject &&
+            parsedCourses[selectedSubject] &&
             parsedCourses[selectedSubject].map(({ pid, code, subject, title }) => (
-              <Box key={pid} data-pid={pid} data-code={code} data-subject={subject} onClick={handleClick}>
+              <Box
+                key={pid}
+                data-pid={pid}
+                data-code={code}
+                data-subject={subject}
+                data-title={title}
+                onClick={handleClick}
+              >
                 <Card title={title} subject={subject} code={code} selected={pid === selectedCourse?.pid} />
               </Box>
             ))}

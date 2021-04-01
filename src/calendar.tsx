@@ -10,6 +10,7 @@ export type SelectedCourse = {
   subject: string;
   code: string;
   pid: string;
+  title: string;
 };
 
 export function Calendar(): JSX.Element | null {
@@ -30,7 +31,7 @@ export function Calendar(): JSX.Element | null {
           <Flex color="white" height="100%">
             <SidebarContainer
               term={term as Term}
-              setSelectedCourse={setSelectedCourse}
+              onSelectedCourseChange={setSelectedCourse}
               selectedCourse={selectedCourse}
               searchQuery={query}
             />
