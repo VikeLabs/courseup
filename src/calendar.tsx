@@ -31,7 +31,7 @@ export function Calendar(): JSX.Element | null {
           <Flex color="white" height="100%">
             <SidebarContainer
               term={term as Term}
-              setSelectedCourse={setSelectedCourse}
+              onSelectedCourseChange={setSelectedCourse}
               selectedCourse={selectedCourse}
               searchQuery={query}
             />

@@ -1,5 +1,5 @@
 import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
-import { useState, Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 
 import { SelectedCourse } from '../../../calendar';
 import { Term, useGetCourses, useSubjects } from '../../../fetchers';
@@ -16,13 +16,13 @@ export interface SidebarContainerProps {
 
   searchQuery: string;
   selectedCourse?: SelectedCourse;
-  setSelectedCourse: Dispatch<SetStateAction<SelectedCourse | undefined>>;
+  onSelectedCourseChange: (selectedCourse?: SelectedCourse) => void;
 }
 
 export function SidebarContainer({
   term,
   selectedCourse,
-  setSelectedCourse,
+  onSelectedCourseChange,
   searchQuery,
 }: SidebarContainerProps): JSX.Element | null {
   const [filter, setFilter] = useState(false);
@@ -51,7 +51,7 @@ export function SidebarContainer({
             </HStack>
           </Box>
           <Flex id="sideBarScroller" direction="column" overflowY="auto">
-            <CustomHits selectedCourse={selectedCourse} setSelectedCourse={setSelectedCourse} />
+            <CustomHits selectedCourse={selectedCourse} onSelectedCourseChange={onSelectedCourseChange} />
           </Flex>
         </Flex>
       </Flex>
@@ -72,8 +72,8 @@ export function SidebarContainer({
           courses={courses}
           selectedCourse={selectedCourse}
           selectedSubject={selectedSubject}
-          setSelectedCourse={setSelectedCourse}
-          setSelectedSubject={setSelectedSubject}
+          onSelectedCourseChange={onSelectedCourseChange}
+          onSelectedSubjectChange={setSelectedSubject}
         />
       )}
     </Flex>

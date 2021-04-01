@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { MouseEvent } from 'react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 
@@ -15,10 +15,10 @@ type CourseRecord = {
 
 type Props = HitsProvided<CourseRecord> & {
   selectedCourse?: SelectedCourse;
-  setSelectedCourse: Dispatch<SetStateAction<SelectedCourse | undefined>>;
+  onSelectedCourseChange: (selectedCourse?: SelectedCourse) => void;
 };
 
-const SearchResults = ({ hits, selectedCourse, setSelectedCourse }: Props) => {
+const SearchResults = ({ hits, selectedCourse, onSelectedCourseChange }: Props) => {
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     const pid = e.currentTarget.getAttribute('data-pid');
     const subject = e.currentTarget.getAttribute('data-subject');
@@ -26,7 +26,7 @@ const SearchResults = ({ hits, selectedCourse, setSelectedCourse }: Props) => {
     const title = e.currentTarget.getAttribute('data-title');
 
     if (pid && subject && code && title) {
-      setSelectedCourse({ pid, subject, code, title });
+      onSelectedCourseChange({ pid, subject, code, title });
     }
   };
 

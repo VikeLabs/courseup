@@ -1,5 +1,5 @@
 import { Box, Collapse, Flex, SlideFade } from '@chakra-ui/react';
-import React, { Dispatch, MouseEvent, SetStateAction, useCallback, useMemo, useState } from 'react';
+import React, { MouseEvent, useCallback, useMemo } from 'react';
 
 import { SelectedCourse } from '../../calendar';
 import { Course, KualiSubject } from '../../fetchers';
@@ -17,10 +17,10 @@ export interface SidebarProps {
   courses: Course[];
 
   selectedCourse?: SelectedCourse;
-  setSelectedCourse: Dispatch<SetStateAction<SelectedCourse | undefined>>;
+  onSelectedCourseChange: (selectedCourse?: SelectedCourse) => void;
 
   selectedSubject?: string;
-  setSelectedSubject: Dispatch<SetStateAction<string | undefined>>;
+  onSelectedSubjectChange: (subject?: string) => void;
 }
 
 function computeParsedCourses(courses: Course[]) {
@@ -40,9 +40,9 @@ export function Sidebar({
   subjects,
   courses,
   selectedCourse,
-  setSelectedCourse,
+  onSelectedCourseChange: setSelectedCourse,
   selectedSubject,
-  setSelectedSubject,
+  onSelectedSubjectChange: setSelectedSubject,
 }: SidebarProps): JSX.Element {
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
   const sortedSubjects = useMemo(() => subjects.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);

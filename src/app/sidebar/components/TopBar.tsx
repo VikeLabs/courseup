@@ -18,7 +18,7 @@ export interface TopBarProps {
   /**
    * Current selected subject, appears as heading
    */
-  selectedSubject: string | undefined;
+  selectedSubject?: string;
   /**
    * Back button click handler
    */
