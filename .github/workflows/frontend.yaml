@@ -11,6 +11,8 @@ on:
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - 'functions/**'
 jobs:
   lint:
     name: Lint
