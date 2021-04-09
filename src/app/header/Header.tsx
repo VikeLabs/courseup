@@ -1,4 +1,4 @@
-import { Center, Grid, GridItem, Text, Image } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Image, Button } from '@chakra-ui/react';
 
 import { Search } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';
@@ -23,7 +23,19 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
       maxH="56px"
     >
       <GridItem colSpan={1}>
-        <Image src={process.env.PUBLIC_URL + '/assets/logo.png'} h="40px" ml={5} />
+        <Button
+          as="a"
+          href="https://vikelabs.ca/"
+          target="_blank"
+          bg="transparent"
+          border="none"
+          _hover={{ bg: 'transparent' }}
+          _active={{ bg: 'transparent' }}
+          _focus={{ border: 'none' }}
+          ml={5}
+        >
+          <Image src={process.env.PUBLIC_URL + '/assets/logo.png'} alt="clockwork" h="40px" />
+        </Button>
       </GridItem>
       <GridItem colStart={2}>
         <Center>
