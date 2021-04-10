@@ -34,7 +34,7 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
           _focus={{ border: 'none' }}
           ml={5}
         >
-          <Image src={process.env.PUBLIC_URL + '/assets/logo.png'} alt="clockwork" h="40px" />
+          <Image src={process.env.PUBLIC_URL + '/assets/logo.svg'} alt="clockwork" h="40px" />
         </Button>
       </GridItem>
       <GridItem colStart={2}>
