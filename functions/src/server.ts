@@ -10,7 +10,7 @@ import * as openapi from '../build/swagger.json';
 
 export const app = express();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 2999;
 
 // Use body parser to read sent json payloads
 app.use(

@@ -8,7 +8,7 @@ export async function getSections(
   subject: string,
   code: string
 ): Promise<Section[]> {
-  const sections = await UVicCourseScraper.getCourseSections(
+  const {response: sections} = await UVicCourseScraper.getCourseSections(
     term,
     subject,
     code
@@ -28,8 +28,8 @@ export async function getSectionSeats(
   if (mapping) {
     return await Promise.all(
       mapping.crns.map(async (crn) => {
-        const seat = await UVicCourseScraper.getSectionSeats(term, crn);
-        return { ...seat, crn, date: new Date(Date.now()) };
+        const {response: seat, timestamp } = await UVicCourseScraper.getSectionSeats(term, crn);
+        return { ...seat, crn, date: timestamp };
       })
     );
   }

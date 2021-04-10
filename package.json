@@ -106,6 +106,7 @@
     "prettier": "^2.2.1",
     "storybook-addon-designs": "^5.4.5"
   },
+  "proxy": "http://localhost:2999",
   "jest": {
     "transformIgnorePatterns": [
       "/node_modules/(?!antd|@ant-design|rc-.+?|@babel/runtime).+(js|jsx)$"
