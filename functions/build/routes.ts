@@ -35,11 +35,13 @@ const models: TsoaRoute.Models = {
             "pid": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"string","required":true},
+            "credits": {"dataType":"nestedObjectLiteral","nestedProperties":{"chosen":{"dataType":"string","required":true},"value":{"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"nestedObjectLiteral","nestedProperties":{"max":{"dataType":"string","required":true},"min":{"dataType":"string","required":true}}}],"required":true},"credits":{"dataType":"nestedObjectLiteral","nestedProperties":{"max":{"dataType":"string","required":true},"min":{"dataType":"string","required":true}},"required":true}},"required":true},
             "dateStart": {"dataType":"string","required":true},
-            "credits": {"dataType":"nestedObjectLiteral","nestedProperties":{"chosen":{"dataType":"string","required":true},"value":{"dataType":"string","required":true},"credits":{"dataType":"nestedObjectLiteral","nestedProperties":{"max":{"dataType":"string","required":true},"min":{"dataType":"string","required":true}},"required":true}},"required":true},
+            "hoursCatalog": {"dataType":"nestedObjectLiteral","nestedProperties":{"lab":{"dataType":"string","required":true},"tutorial":{"dataType":"string","required":true},"lecture":{"dataType":"string","required":true}}},
             "subject": {"dataType":"string","required":true},
             "code": {"dataType":"string","required":true},
             "formally": {"dataType":"string"},
+            "hoursCatalogText": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"nestedObjectLiteral","nestedProperties":{"tutorial":{"dataType":"string","required":true},"lab":{"dataType":"string","required":true},"lecture":{"dataType":"string","required":true}}}]},
         },
         "additionalProperties": false,
     },
@@ -51,7 +53,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "sectionType": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["lecture"]},{"dataType":"enum","enums":["lab"]},{"dataType":"enum","enums":["tutorial"]}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["lecture"]},{"dataType":"enum","enums":["lab"]},{"dataType":"enum","enums":["tutorial"]},{"dataType":"enum","enums":["gradable lab"]},{"dataType":"enum","enums":["lecture topic"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "MeetingTimes": {
@@ -103,7 +105,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "classification": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["YEAR_1"]},{"dataType":"enum","enums":["YEAR_2"]},{"dataType":"enum","enums":["YEAR_3"]},{"dataType":"enum","enums":["YEAR_4"]},{"dataType":"enum","enums":["YEAR_5"]}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["YEAR_1"]},{"dataType":"enum","enums":["YEAR_2"]},{"dataType":"enum","enums":["YEAR_3"]},{"dataType":"enum","enums":["YEAR_4"]},{"dataType":"enum","enums":["YEAR_5"]},{"dataType":"enum","enums":["unclassified"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Requirements": {
@@ -112,6 +114,13 @@ const models: TsoaRoute.Models = {
             "level": {"dataType":"array","array":{"dataType":"refAlias","ref":"levelType"},"required":true},
             "fieldOfStudy": {"dataType":"array","array":{"dataType":"string"}},
             "classification": {"dataType":"array","array":{"dataType":"refAlias","ref":"classification"}},
+            "negClassification": {"dataType":"array","array":{"dataType":"refAlias","ref":"classification"}},
+            "degree": {"dataType":"array","array":{"dataType":"string"}},
+            "program": {"dataType":"array","array":{"dataType":"string"}},
+            "negProgram": {"dataType":"array","array":{"dataType":"string"}},
+            "college": {"dataType":"array","array":{"dataType":"string"}},
+            "negCollege": {"dataType":"array","array":{"dataType":"string"}},
+            "major": {"dataType":"array","array":{"dataType":"string"}},
         },
         "additionalProperties": false,
     },

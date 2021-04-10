@@ -51,16 +51,32 @@
 					"description": {
 						"type": "string"
 					},
-					"dateStart": {
-						"type": "string"
-					},
 					"credits": {
 						"properties": {
 							"chosen": {
 								"type": "string"
 							},
 							"value": {
-								"type": "string"
+								"anyOf": [
+									{
+										"type": "string"
+									},
+									{
+										"properties": {
+											"max": {
+												"type": "string"
+											},
+											"min": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"max",
+											"min"
+										],
+										"type": "object"
+									}
+								]
 							},
 							"credits": {
 								"properties": {
@@ -85,6 +101,28 @@
 						],
 						"type": "object"
 					},
+					"dateStart": {
+						"type": "string"
+					},
+					"hoursCatalog": {
+						"properties": {
+							"lab": {
+								"type": "string"
+							},
+							"tutorial": {
+								"type": "string"
+							},
+							"lecture": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"lab",
+							"tutorial",
+							"lecture"
+						],
+						"type": "object"
+					},
 					"subject": {
 						"type": "string",
 						"description": "Abbriviation of the subject of the course.",
@@ -99,14 +137,40 @@
 						"type": "string",
 						"description": "If a course was named something else previously.",
 						"example": "ELEC260"
+					},
+					"hoursCatalogText": {
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"properties": {
+									"tutorial": {
+										"type": "string"
+									},
+									"lab": {
+										"type": "string"
+									},
+									"lecture": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"tutorial",
+									"lab",
+									"lecture"
+								],
+								"type": "object"
+							}
+						]
 					}
 				},
 				"required": [
 					"pid",
 					"title",
 					"description",
-					"dateStart",
 					"credits",
+					"dateStart",
 					"subject",
 					"code"
 				],
@@ -126,7 +190,9 @@
 				"enum": [
 					"lecture",
 					"lab",
-					"tutorial"
+					"tutorial",
+					"gradable lab",
+					"lecture topic"
 				]
 			},
 			"MeetingTimes": {
@@ -286,7 +352,8 @@
 					"YEAR_2",
 					"YEAR_3",
 					"YEAR_4",
-					"YEAR_5"
+					"YEAR_5",
+					"unclassified"
 				]
 			},
 			"Requirements": {
@@ -306,6 +373,48 @@
 					"classification": {
 						"items": {
 							"$ref": "#/components/schemas/classification"
+						},
+						"type": "array"
+					},
+					"negClassification": {
+						"items": {
+							"$ref": "#/components/schemas/classification"
+						},
+						"type": "array"
+					},
+					"degree": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"program": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"negProgram": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"college": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"negCollege": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"major": {
+						"items": {
+							"type": "string"
 						},
 						"type": "array"
 					}
