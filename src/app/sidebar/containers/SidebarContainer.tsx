@@ -41,7 +41,7 @@ export function SidebarContainer({
 
   if (searchQuery.length !== 0) {
     return (
-      <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="20%">
+      <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="50%">
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
           <Box>
             <HStack bg="white" py="2" px="4" top="0" m="0" boxShadow="md" zIndex={500}>
@@ -59,7 +59,7 @@ export function SidebarContainer({
   }
 
   return (
-    <Flex bg="#E4E4E4" minW="20%" flexDirection="column">
+    <Flex bg="#E4E4E4" minW={['40%', '20%']} flexDirection="column">
       <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleSubjectChange} onFilter={handleFilter} />
 
       {subjectsLoading || coursesLoading || subjects === null || courses === null ? (

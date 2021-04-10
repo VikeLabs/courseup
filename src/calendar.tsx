@@ -35,7 +35,14 @@ export function Calendar(): JSX.Element | null {
               selectedCourse={selectedCourse}
               searchQuery={query}
             />
-            <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
+            <Flex
+              minW={['60%', '80%']}
+              overflow="auto"
+              justifyContent="center"
+              height="100%"
+              boxShadow="lg"
+              zIndex={56}
+            >
               {selectedCourse ? (
                 <Content term={term as Term} selectedCourse={selectedCourse} />
               ) : (

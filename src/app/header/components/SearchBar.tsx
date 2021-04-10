@@ -28,7 +28,8 @@ function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSub
         <Input
           placeholder="Search for courses"
           bg="white"
-          width={['xs', 'sm', 'md']}
+          display="flex"
+          width={['2xs', '3xs', 'xs', 'lg', '2xl']}
           value={currentRefinement}
           onChange={handleChange}
         />
