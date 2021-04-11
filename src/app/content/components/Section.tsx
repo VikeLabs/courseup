@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
 } from '@chakra-ui/react';
 
-import { MeetingTimes, Seat } from '../../../fetchers';
+import { MeetingTimes, Seat } from '../../../shared/fetchers';
 
 import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';

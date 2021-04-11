@@ -1,6 +1,6 @@
 import { Box, Center, Divider, Heading, Spinner } from '@chakra-ui/react';
 
-import { ClassScheduleListing, Seat, Term, useSeats, useSections } from '../../../fetchers';
+import { ClassScheduleListing, Seat, Term, useSeats, useSections } from '../../../shared/fetchers';
 import { getReadableTerm } from '../../shared/utils/terms';
 import { SectionInfo } from '../components/Section';
 

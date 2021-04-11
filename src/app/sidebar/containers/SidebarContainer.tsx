@@ -1,8 +1,8 @@
 import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { SelectedCourse } from '../../../calendar';
-import { Term, useGetCourses, useSubjects } from '../../../fetchers';
+import { SelectedCourse } from '../../../pages/calendar';
+import { Term, useGetCourses, useSubjects } from '../../../shared/fetchers';
 import { CustomHits } from '../components/SearchResults';
 import { TopBar } from '../components/TopBar';
 import { Sidebar } from '../Sidebar';

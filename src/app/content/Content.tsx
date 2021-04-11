@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react';
 
-import { SelectedCourse } from '../../calendar';
-import { Term, useGetCourse } from '../../fetchers';
+import { SelectedCourse } from '../../pages/calendar';
+import { Term, useGetCourse } from '../../shared/fetchers';
 
 import { CourseInfo } from './components/Course';
 import { SectionsContainer } from './containers/Section';
@@ -38,7 +38,7 @@ export function Content({ term, selectedCourse: { pid, subject, code, title } }:
       >
         <Heading mr="5" size="2xl" as="h2" whiteSpace="pre" color="black">{`${subject} ${code}`}</Heading>
         <Heading size="lg" as="h3" color="gray">
-          {title}
+          {title || ''}
         </Heading>
       </Flex>
 

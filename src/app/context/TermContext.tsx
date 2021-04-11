@@ -1,6 +1,5 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
+import { createContext } from 'react';
 
-export const TermContext = createContext<{ term: string; setTerm: Dispatch<SetStateAction<string>> }>({
+export const TermContext = createContext<{ term: string }>({
   term: '',
-  setTerm: () => undefined,
 });

@@ -9,7 +9,7 @@ const terms = getCurrentTerms();
 export function TermButtons(): JSX.Element {
   const [status, setStatus] = useState([false, false, false]);
 
-  const { term, setTerm } = useContext(TermContext);
+  const { term } = useContext(TermContext);
 
   //initally the current term button needs to be set active to reflect the default term of the context
   useEffect(() => {
@@ -24,7 +24,6 @@ export function TermButtons(): JSX.Element {
     const name = event.currentTarget.getAttribute('name');
     let idx = -1;
     if (name) {
-      setTerm(name);
       idx = terms.indexOf(name);
       const status = [false, false, false];
       status[idx] = true;

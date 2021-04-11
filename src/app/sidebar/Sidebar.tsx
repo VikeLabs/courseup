@@ -1,8 +1,8 @@
 import { Box, Collapse, Flex, SlideFade } from '@chakra-ui/react';
 import React, { MouseEvent, useCallback, useMemo } from 'react';
 
-import { SelectedCourse } from '../../calendar';
-import { Course, KualiSubject } from '../../fetchers';
+import { SelectedCourse } from '../../pages/calendar';
+import { Course, KualiSubject } from '../../shared/fetchers';
 
 import { Card } from './components/Card';
 

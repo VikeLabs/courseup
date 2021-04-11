@@ -1,30 +1,37 @@
 import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 
-import { TermContext } from './app/context/TermContext';
-import { Header, Content, SidebarContainer, Feedback } from './app/index';
-import { getCurrentTerm } from './app/shared/utils/terms';
-import { Term } from './fetchers';
+import { TermContext } from '../../app/context/TermContext';
+import { Header, Content, SidebarContainer, Feedback } from '../../app/index';
+import { getCurrentTerm } from '../../app/shared/utils/terms';
+import { Term } from '../../shared/fetchers';
 
 export type SelectedCourse = {
   subject: string;
   code: string;
   pid: string;
-  title: string;
+  title?: string;
 };
 
-export function Calendar(): JSX.Element | null {
-  const [term, setTerm] = useState(getCurrentTerm());
+export function Calendar(): JSX.Element {
+  const navigate = useNavigate();
+  const { term } = useParams();
+
   const [query, setQuery] = useState('');
 
   const [selectedCourse, setSelectedCourse] = useState<SelectedCourse>();
+
+  useEffect(() => {
+    !term && navigate(`/calendar/${getCurrentTerm()}`);
+  }, [navigate, term]);
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
   };
 
   return (
-    <TermContext.Provider value={{ term, setTerm }}>
+    <TermContext.Provider value={{ term }}>
       <Flex h="100vh" direction="column">
         <Header onSearchChange={handleSearchChange} />
         <Box grow={1} overflow="hidden" height="100%">

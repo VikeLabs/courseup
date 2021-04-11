@@ -3,7 +3,7 @@ import { MouseEvent } from 'react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 
-import { SelectedCourse } from '../../../calendar';
+import { SelectedCourse } from '../../../pages/calendar';
 import { Card } from '../components/Card';
 
 type CourseRecord = {
