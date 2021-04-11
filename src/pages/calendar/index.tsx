@@ -1,21 +1,22 @@
 import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 
 import { Header, Content, SidebarContainer, Feedback } from '../../app/index';
 import { getCurrentTerm } from '../../app/shared/utils/terms';
 import { Term } from '../../shared/fetchers';
 
 export type SelectedCourse = {
-  subject: string;
-  code: string;
-  pid: string;
   title?: string;
 };
 
 export function Calendar(): JSX.Element {
   const navigate = useNavigate();
-  const { term } = useParams();
+  const { term, subject, code } = useParams();
+  const [searchParams] = useSearchParams();
+
+  console.log(term, subject, code);
 
   const [query, setQuery] = useState('');
 
@@ -23,7 +24,7 @@ export function Calendar(): JSX.Element {
 
   useEffect(() => {
     !term && navigate(`/calendar/${getCurrentTerm()}`);
-  }, [navigate, term]);
+  }, [navigate, term, subject, code, setSelectedCourse, searchParams]);
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
@@ -41,8 +42,8 @@ export function Calendar(): JSX.Element {
             searchQuery={query}
           />
           <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
-            {selectedCourse ? (
-              <Content term={term as Term} selectedCourse={selectedCourse} />
+            {term && subject && code && searchParams.get('pid') ? (
+              <Content term={term as Term} />
             ) : (
               <Center p="10">
                 <VStack>

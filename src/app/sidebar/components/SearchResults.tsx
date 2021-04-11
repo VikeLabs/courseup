@@ -1,7 +1,8 @@
-import { Box } from '@chakra-ui/react';
+import { LinkBox } from '@chakra-ui/react';
 import { MouseEvent } from 'react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
+import { Link } from 'react-router-dom';
 
 import { SelectedCourse } from '../../../pages/calendar';
 import { Card } from '../components/Card';
@@ -26,14 +27,16 @@ const SearchResults = ({ hits, selectedCourse, onSelectedCourseChange }: Props) 
     const title = e.currentTarget.getAttribute('data-title');
 
     if (pid && subject && code && title) {
-      onSelectedCourseChange({ pid, subject, code, title });
+      onSelectedCourseChange({ title });
     }
   };
 
   return (
     <>
       {hits.map(({ objectID, pid, subject, code, title }) => (
-        <Box
+        <LinkBox
+          as={Link}
+          to={`/calendar/`}
           onClick={handleClick}
           data-pid={pid}
           data-subject={subject}
@@ -41,8 +44,8 @@ const SearchResults = ({ hits, selectedCourse, onSelectedCourseChange }: Props) 
           data-title={title}
           key={objectID}
         >
-          <Card subject={subject} title={title} code={code} selected={selectedCourse?.pid === pid} />
-        </Box>
+          <Card subject={subject} title={title} code={code} />
+        </LinkBox>
       ))}
     </>
   );

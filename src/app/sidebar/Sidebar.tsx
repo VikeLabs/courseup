@@ -1,5 +1,5 @@
-import { Box, Collapse, Flex, LinkBox, SlideFade } from '@chakra-ui/react';
-import React, { MouseEvent, useCallback, useMemo } from 'react';
+import { Collapse, Flex, LinkBox, SlideFade } from '@chakra-ui/react';
+import { MouseEvent, useCallback, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { SelectedCourse } from '../../pages/calendar';
@@ -39,7 +39,6 @@ function computeParsedCourses(courses: Course[]) {
 export function Sidebar({
   subjects,
   courses,
-  selectedCourse,
   onSelectedCourseChange: setSelectedCourse,
   selectedSubject,
 }: SidebarProps): JSX.Element {
@@ -56,7 +55,7 @@ export function Sidebar({
       const title = e.currentTarget.getAttribute('data-title');
 
       if (pid && subject && code && title) {
-        setSelectedCourse({ pid, subject, code, title });
+        setSelectedCourse({ title });
       }
     },
     [setSelectedCourse]
@@ -64,7 +63,8 @@ export function Sidebar({
 
   return (
     <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
-      <Flex id="sideBarScroller" direction="column" overflowY="auto">
+      <Flex direction="column" overflowY="auto">
+        {/* Subjects */}
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
           {sortedSubjects.map((subject, index) => (
             <LinkBox as={Link} to={`/calendar/${term}/${subject.subject}`} data-subject={subject.subject} key={index}>
@@ -72,21 +72,20 @@ export function Sidebar({
             </LinkBox>
           ))}
         </Collapse>
-
-        <SlideFade in={selectedSubject !== undefined} offsetY="15em">
+        {/* Courses */}
+        <SlideFade in={!!selectedSubject}>
           {selectedSubject &&
             parsedCourses[selectedSubject] &&
             parsedCourses[selectedSubject].map(({ pid, code, subject, title }) => (
-              <Box
+              <LinkBox
                 key={pid}
-                data-pid={pid}
-                data-code={code}
-                data-subject={subject}
-                data-title={title}
+                as={Link}
+                to={`/calendar/${term}/${subject}/${code}?pid=${pid}`}
                 onClick={handleClick}
+                data-title={title}
               >
-                <Card title={title} subject={subject} code={code} selected={pid === selectedCourse?.pid} />
-              </Box>
+                <Card title={title} subject={subject} code={code} />
+              </LinkBox>
             ))}
         </SlideFade>
       </Flex>

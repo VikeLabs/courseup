@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react';
+import { useParams } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 
-import { SelectedCourse } from '../../pages/calendar';
 import { Term, useGetCourse } from '../../shared/fetchers';
 
 import { CourseInfo } from './components/Course';
@@ -12,14 +13,15 @@ export interface ContentProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
-  selectedCourse: SelectedCourse;
 }
 
 /**
  * Primary UI component for content
  */
-export function Content({ term, selectedCourse: { pid, subject, code, title } }: ContentProps): JSX.Element {
-  const { data, loading } = useGetCourse({ term, pid });
+export function Content({ term }: ContentProps): JSX.Element {
+  const { subject, code } = useParams();
+  const [searchParams] = useSearchParams();
+  const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
   return (
     <Box
@@ -37,9 +39,11 @@ export function Content({ term, selectedCourse: { pid, subject, code, title } }:
         direction={{ base: 'column', sm: 'row' }}
       >
         <Heading mr="5" size="2xl" as="h2" whiteSpace="pre" color="black">{`${subject} ${code}`}</Heading>
-        <Heading size="lg" as="h3" color="gray">
-          {title || ''}
-        </Heading>
+        {!loading && data && (
+          <Heading size="lg" as="h3" color="gray">
+            {data.title}
+          </Heading>
+        )}
       </Flex>
 
       <Skeleton isLoaded={!loading}>

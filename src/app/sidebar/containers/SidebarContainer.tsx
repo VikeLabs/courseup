@@ -73,7 +73,6 @@ export function SidebarContainer({
           selectedCourse={selectedCourse}
           selectedSubject={selectedSubject}
           onSelectedCourseChange={onSelectedCourseChange}
-          // onSelectedSubjectChange={setSelectedSubject}
         />
       )}
     </Flex>
