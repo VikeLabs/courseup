@@ -1,5 +1,6 @@
-import { Box, Collapse, Flex, SlideFade } from '@chakra-ui/react';
+import { Box, Collapse, Flex, LinkBox, SlideFade } from '@chakra-ui/react';
 import React, { MouseEvent, useCallback, useMemo } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 import { SelectedCourse } from '../../pages/calendar';
 import { Course, KualiSubject } from '../../shared/fetchers';
@@ -20,7 +21,6 @@ export interface SidebarProps {
   onSelectedCourseChange: (selectedCourse?: SelectedCourse) => void;
 
   selectedSubject?: string;
-  onSelectedSubjectChange: (subject?: string) => void;
 }
 
 function computeParsedCourses(courses: Course[]) {
@@ -42,18 +42,11 @@ export function Sidebar({
   selectedCourse,
   onSelectedCourseChange: setSelectedCourse,
   selectedSubject,
-  onSelectedSubjectChange: setSelectedSubject,
 }: SidebarProps): JSX.Element {
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
   const sortedSubjects = useMemo(() => subjects.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
 
-  const handleSubjectChange = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const subject = e.currentTarget.getAttribute('data-subject');
-      setSelectedSubject(subject ?? undefined);
-    },
-    [setSelectedSubject]
-  );
+  const { term } = useParams();
 
   const handleClick = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
@@ -74,9 +67,9 @@ export function Sidebar({
       <Flex id="sideBarScroller" direction="column" overflowY="auto">
         <Collapse in={selectedSubject === undefined} style={{ overflowY: 'scroll' }}>
           {sortedSubjects.map((subject, index) => (
-            <Box data-subject={subject.subject} onClick={handleSubjectChange} key={index}>
+            <LinkBox as={Link} to={`/calendar/${term}/${subject.subject}`} data-subject={subject.subject} key={index}>
               <Card subject={subject.subject} title={subject.title} />
-            </Box>
+            </LinkBox>
           ))}
         </Collapse>
 

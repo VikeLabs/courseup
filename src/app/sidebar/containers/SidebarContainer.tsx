@@ -1,5 +1,6 @@
 import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useParams } from 'react-router';
 
 import { SelectedCourse } from '../../../pages/calendar';
 import { Term, useGetCourses, useSubjects } from '../../../shared/fetchers';
@@ -20,20 +21,19 @@ export interface SidebarContainerProps {
 }
 
 export function SidebarContainer({
-  term,
   selectedCourse,
   onSelectedCourseChange,
   searchQuery,
 }: SidebarContainerProps): JSX.Element | null {
   const [filter, setFilter] = useState(false);
-  const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
 
-  const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
-  const { data: courses, loading: coursesLoading } = useGetCourses({ term: term, queryParams: { in_session: filter } });
+  const { subject: selectedSubject, term } = useParams();
 
-  const handleSubjectChange = () => {
-    setSelectedSubject(undefined);
-  };
+  const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
+  const { data: courses, loading: coursesLoading } = useGetCourses({
+    term: term as Term,
+    queryParams: { in_session: filter },
+  });
 
   const handleFilter = (s: boolean) => {
     setFilter(s);
@@ -60,7 +60,7 @@ export function SidebarContainer({
 
   return (
     <Flex bg="#E4E4E4" minW="20%" flexDirection="column">
-      <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleSubjectChange} onFilter={handleFilter} />
+      <TopBar selectedSubject={selectedSubject} onFilter={handleFilter} />
 
       {subjectsLoading || coursesLoading || subjects === null || courses === null ? (
         <Center height="100%">
@@ -73,7 +73,7 @@ export function SidebarContainer({
           selectedCourse={selectedCourse}
           selectedSubject={selectedSubject}
           onSelectedCourseChange={onSelectedCourseChange}
-          onSelectedSubjectChange={setSelectedSubject}
+          // onSelectedSubjectChange={setSelectedSubject}
         />
       )}
     </Flex>

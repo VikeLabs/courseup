@@ -9,7 +9,7 @@ const terms = getCurrentTerms();
 export function TermButtons(): JSX.Element {
   const [status, setStatus] = useState([false, false, false]);
 
-  const { term } = useParams();
+  const { term, subject } = useParams();
   const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/schedule/*');
 
@@ -24,15 +24,16 @@ export function TermButtons(): JSX.Element {
   }, [term]);
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    event.preventDefault();
     const name = event.currentTarget.getAttribute('name');
     let idx = -1;
     if (name) {
       idx = terms.indexOf(name);
-      if (calendarMatch || scheduleMatch) {
-        navigate(`../${name}`, { replace: false });
+      if (calendarMatch) {
+        navigate(`/calendar/${name}/${subject || ''}`);
+      } else if (scheduleMatch) {
+        navigate(`/scheduler/${name}`);
       } else {
-        navigate('/calendar');
+        navigate(`/calendar/`);
       }
       const status = [false, false, false];
       status[idx] = true;

@@ -13,6 +13,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { Link, useParams } from 'react-router-dom';
 
 export interface TopBarProps {
   /**
@@ -22,12 +23,12 @@ export interface TopBarProps {
   /**
    * Back button click handler
    */
-  handleTopBarBackClick(): void;
   onFilter?: (filter: boolean) => void;
 }
 
-export function TopBar({ selectedSubject, handleTopBarBackClick, onFilter }: TopBarProps): JSX.Element {
+export function TopBar({ selectedSubject, onFilter }: TopBarProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
+  const { term } = useParams();
 
   return (
     <Box
@@ -43,7 +44,7 @@ export function TopBar({ selectedSubject, handleTopBarBackClick, onFilter }: Top
       <Flex justifyContent="space-between" alignItems="center" p="3">
         <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#" color="black" onClick={handleTopBarBackClick}>
+            <BreadcrumbLink as={Link} to={`/calendar/${term}/`} color="black">
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>
