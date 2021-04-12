@@ -36,8 +36,8 @@ export function Content({ term, selectedCourse: { pid, subject, code, title } }:
         alignItems={{ base: 'start', sm: 'center' }}
         direction={{ base: 'column', sm: 'row' }}
       >
-        <Heading mr="5" size="2xl" as="h2" whiteSpace="pre" color="black">{`${subject} ${code}`}</Heading>
-        <Heading size="lg" as="h3" color="gray">
+        <Heading mr="5" size="xl" as="h2" whiteSpace="pre" color="black">{`${subject} ${code}`}</Heading>
+        <Heading size="md" as="h3" color="gray">
           {title}
         </Heading>
       </Flex>

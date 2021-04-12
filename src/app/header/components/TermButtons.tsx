@@ -1,4 +1,4 @@
-import { Button, ButtonGroup } from '@chakra-ui/react';
+import { Button, ButtonGroup, useBreakpointValue } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { TermContext } from '../../context/TermContext';
@@ -19,6 +19,8 @@ export function TermButtons(): JSX.Element {
     setStatus(initStatus);
   }, [term]);
 
+  const buttonSize = useBreakpointValue(['xs', 'xs', 'sm']);
+
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault();
     const name = event.currentTarget.getAttribute('name');
@@ -36,7 +38,7 @@ export function TermButtons(): JSX.Element {
     <ButtonGroup spacing="0" isAttached>
       {terms.map((term, i) => {
         return (
-          <Button key={i} name={term} isActive={status[i]} onClick={onClick} size="sm" borderRadius="2px">
+          <Button key={i} name={term} isActive={status[i]} onClick={onClick} size={buttonSize} borderRadius="2px">
             {getReadableTerm(term)}
           </Button>
         );

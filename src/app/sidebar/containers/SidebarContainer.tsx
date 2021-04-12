@@ -59,7 +59,7 @@ export function SidebarContainer({
   }
 
   return (
-    <Flex bg="#E4E4E4" minW={['40%', '20%']} flexDirection="column">
+    <Flex bg="#E4E4E4" minW={[null, '25%', '20%']} flexDirection="column">
       <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleSubjectChange} onFilter={handleFilter} />
 
       {subjectsLoading || coursesLoading || subjects === null || courses === null ? (

@@ -21,7 +21,7 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
           <Th>Time</Th>
           {/* TODO: verify if we can safely exclude this for most cases */}
           {/* <Th>Schedule Type</Th> */}
-          <Th>Location</Th>
+          <Th display="none">Location</Th>
           <Th>Instructors</Th>
         </Tr>
       </Thead>
@@ -35,7 +35,7 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
             <Td>{m.time}</Td>
             {/* TODO: verify if we can safely exclude this for most cases */}
             {/* <Td>{m.scheduleType}</Td> */}
-            <Td>{m.where}</Td>
+            <Td display="none">{m.where}</Td>
             <Td>{m.instructors.join(', ')}</Td>
           </Tr>
         ))}

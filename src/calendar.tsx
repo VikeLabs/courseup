@@ -36,7 +36,7 @@ export function Calendar(): JSX.Element | null {
               searchQuery={query}
             />
             <Flex
-              minW={['60%', '80%']}
+              minW={[null, '75%', '80%']}
               overflow="auto"
               justifyContent="center"
               height="100%"
