@@ -70,10 +70,10 @@ export function SectionInfo({
   return (
     <Box as="section" bg="white" color="black" my="4" boxShadow="md" p="3" rounded="lg">
       <Flex my="2" alignItems="center">
-        <Heading mr="5" size="md" as="h2" whiteSpace="pre">
+        <Heading mr="5" size="lg" as="h2" whiteSpace="pre">
           {sectionCode}
         </Heading>
-        <Heading size="md" as="h3" color="gray">
+        <Heading size="lg" as="h3" color="gray">
           {crn}
         </Heading>
         <Box mx="5">
