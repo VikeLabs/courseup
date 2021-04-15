@@ -28,7 +28,7 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
         rowStart={{ base: 1, sm: 1, md: 1 }}
         justifySelf="center"
         minW="200px"
-        mb={{ sm: '10px', md: '0' }}
+        mb={{ sm: '5px', md: '0' }}
       >
         <Button
           as="a"
