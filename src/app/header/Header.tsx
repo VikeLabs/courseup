@@ -1,4 +1,4 @@
-import { Center, Grid, GridItem, Text } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Image, Button } from '@chakra-ui/react';
 
 import { Search } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';
@@ -19,16 +19,29 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
       py="3"
       px="8"
       boxShadow="md"
-      bg="white"
+      bg="#2e95d1"
       zIndex={100}
-      mt={{ base: -3, md: 0 }}
-      justifyItems="center"
-      alignItems="center"
     >
-      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }} rowStart={{ base: 1, sm: 1, md: 1 }}>
-        <Text fontSize="x-large" fontWeight="bold">
-          clockwork
-        </Text>
+      <GridItem
+        colSpan={{ base: 1, sm: 2, md: 1 }}
+        rowStart={{ base: 1, sm: 1, md: 1 }}
+        justifySelf="center"
+        minW="200px"
+        mb={{ sm: '10px', md: '0' }}
+      >
+        <Button
+          as="a"
+          href="https://vikelabs.ca/"
+          target="_blank"
+          bg="transparent"
+          border="none"
+          _hover={{ bg: 'transparent' }}
+          _active={{ bg: 'transparent' }}
+          _focus={{ border: 'none' }}
+          ml={5}
+        >
+          <Image src={process.env.PUBLIC_URL + '/assets/logo.png'} alt="clockwork" h="40px" />
+        </Button>
       </GridItem>
       <GridItem
         colStart={{ base: 1, sm: 1, md: 2 }}
