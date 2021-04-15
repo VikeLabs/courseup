@@ -40,7 +40,12 @@ export function TopBar({ selectedSubject, handleTopBarBackClick, onFilter }: Top
       borderBottomWidth="2px"
       borderBottomStyle="solid"
     >
-      <Flex flexDir="column" alignItems="center" p="3">
+      <Flex
+        flexDir={{ base: 'column', lg: 'row' }}
+        justifyContent={{ base: 'center', lg: 'space-between' }}
+        alignItems="center"
+        p="3"
+      >
         <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
             <BreadcrumbLink href="#" color="black" onClick={handleTopBarBackClick}>
