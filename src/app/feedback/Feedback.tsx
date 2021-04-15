@@ -24,7 +24,16 @@ type Props = {
 
 function FeedbackButton({ href, src, children }: PropsWithChildren<Props>): JSX.Element | null {
   return (
-    <Button as="a" href={href} target="_empty" bg="white" h="fit-content" w="fit-content" p="10px">
+    <Button
+      as="a"
+      href={href}
+      target="_empty"
+      h="fit-content"
+      w="fit-content"
+      p="10px"
+      boxShadow="md"
+      borderRadius="20%"
+    >
       <Image src={src} />
     </Button>
   );
@@ -39,6 +48,7 @@ export function Feedback(): JSX.Element | null {
       <PopoverTrigger>
         <IconButton
           colorScheme="blue"
+          bgColor="rgba(49, 130, 206, 0.75)"
           isRound
           aria-label="Feedback"
           size="lg"
@@ -52,8 +62,8 @@ export function Feedback(): JSX.Element | null {
         />
       </PopoverTrigger>
       <Portal>
-        <PopoverContent overflowY="auto" bg="#E4E4E4" minW="300px">
-          <PopoverHeader bg="blue.500" color="white" fontWeight="bold" textAlign="center">
+        <PopoverContent overflowY="auto" minW="300px" boxShadow="md">
+          <PopoverHeader bgGradient="linear(to-l, #2e95d1, #7cbce2)" color="white" fontWeight="bold" textAlign="center">
             Feedback
           </PopoverHeader>
           <PopoverBody color="gray.600" py="10px">
@@ -64,13 +74,13 @@ export function Feedback(): JSX.Element | null {
             <Center w="100%" mt="10px">
               <HStack w="75%">
                 <FeedbackButton
-                  src={process.env.PUBLIC_URL + '/assets/forms.png'}
+                  src={process.env.PUBLIC_URL + '/assets/brands/forms.png'}
                   //TODO: add link once google form is made
                   href=""
                 ></FeedbackButton>
                 <Spacer />
                 <FeedbackButton
-                  src={process.env.PUBLIC_URL + '/assets/github.png'}
+                  src={process.env.PUBLIC_URL + '/assets/brands/github.png'}
                   href="https://github.com/VikeLabs/clockwork/discussions"
                 ></FeedbackButton>
               </HStack>
