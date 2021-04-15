@@ -13,7 +13,7 @@
     "logs": "firebase functions:log",
     "dev": "concurrently \"FIRESTORE_EMULATOR_HOST=localhost:8080 nodemon\" \"nodemon -x tsoa spec-and-routes\" \"firebase emulators:start --only firestore\"",
     "build:routes": "tsoa spec-and-routes && tsc",
-    "start:server": "node build/src/server.js",
+    "start:server": "node build/src/server.js"
   },
   "engines": {
     "node": "12"
@@ -21,7 +21,6 @@
   "main": "lib/src/index.js",
   "dependencies": {
     "@vikelabs/uvic-course-scraper": "^1.0.0-alpha.1",
-    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "firebase-admin": "^9.5.0",
     "firebase-functions": "^3.13.2",
