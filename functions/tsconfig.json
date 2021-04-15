@@ -8,10 +8,16 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "types": []
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src",
+    "scripts"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib/build"
   ]
 }
