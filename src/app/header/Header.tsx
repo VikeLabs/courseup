@@ -13,7 +13,7 @@ export interface HeaderProps {
 export function Header({ onSearchChange }: HeaderProps): JSX.Element {
   return (
     <Grid
-      templateColumns={{ base: '1fr', sm: '1fr 1fr', md: '1fr 5fr 1fr' }}
+      templateColumns={{ base: '1fr', sm: '1fr 1fr', md: '1fr 7fr 3fr' }}
       templateRows={{ base: '1fr 1fr 1fr', sm: '1fr 1fr', md: '1fr' }}
       as="header"
       py="3"
@@ -27,7 +27,7 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
         colSpan={{ base: 1, sm: 2, md: 1 }}
         rowStart={{ base: 1, sm: 1, md: 1 }}
         justifySelf="center"
-        minW="200px"
+        minW="160px"
         mb={{ sm: '5px', md: '0' }}
       >
         <Button
@@ -39,7 +39,7 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
           _hover={{ bg: 'transparent' }}
           _active={{ bg: 'transparent' }}
           _focus={{ border: 'none' }}
-          ml={5}
+          p="0"
         >
           <Image src={process.env.PUBLIC_URL + '/assets/logo.png'} alt="clockwork" h="40px" />
         </Button>
