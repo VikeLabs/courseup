@@ -21,6 +21,7 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
       boxShadow="md"
       bg="#2e95d1"
       zIndex={100}
+      alignItems="center"
     >
       <GridItem
         colSpan={{ base: 1, sm: 2, md: 1 }}
