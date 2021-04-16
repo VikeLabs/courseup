@@ -1,7 +1,4 @@
-import { Center, Flex, Grid, GridItem, Text, Center, Grid, GridItem, Image, Button } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-
-import useWindowDimensions from '../../shared/hooks/useWindowDimensions';
+import { Center, Grid, GridItem, Image, Button } from '@chakra-ui/react';
 
 import { Search } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';

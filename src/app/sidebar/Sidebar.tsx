@@ -3,6 +3,7 @@ import React, { MouseEvent, useCallback, useMemo } from 'react';
 
 import { SelectedCourse } from '../../calendar';
 import { Course, KualiSubject } from '../../fetchers';
+import { useMobileContext } from '../context/mobile';
 
 import { Card } from './components/Card';
 
@@ -46,6 +47,7 @@ export function Sidebar({
 }: SidebarProps): JSX.Element {
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
   const sortedSubjects = useMemo(() => subjects.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
+  const { isMobile, setIsClicked } = useMobileContext();
 
   const handleSubjectChange = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -57,6 +59,7 @@ export function Sidebar({
 
   const handleClick = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
+      isMobile && setIsClicked(false);
       const pid = e.currentTarget.getAttribute('data-pid');
       const subject = e.currentTarget.getAttribute('data-subject');
       const code = e.currentTarget.getAttribute('data-code');
@@ -66,7 +69,7 @@ export function Sidebar({
         setSelectedCourse({ pid, subject, code, title });
       }
     },
-    [setSelectedCourse]
+    [isMobile, setIsClicked, setSelectedCourse]
   );
 
   return (

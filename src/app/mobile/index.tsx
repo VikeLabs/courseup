@@ -3,33 +3,36 @@ import { useCallback, useState } from 'react';
 
 import { SelectedCourse } from '../../calendar';
 import { Term } from '../../fetchers';
+import { useMobileContext } from '../context/mobile';
 import { TermContext } from '../context/TermContext';
 import { Content, Feedback } from '../index';
 import { getCurrentTerm } from '../shared/utils/terms';
 import { SidebarContainer } from '../sidebar/containers/SidebarContainer';
 
 import { HeaderMobile } from './header/HeaderMobile';
+import { HeaderSearch } from './header/HeaderSearch';
 
 export function MobileView(): JSX.Element {
   const [term, setTerm] = useState(getCurrentTerm());
-  const [sidebarStatus, setSidebarStatus] = useState(false);
   const [query, setQuery] = useState('');
 
   const [selectedCourse, setSelectedCourse] = useState<SelectedCourse>();
+
+  const { isClicked, setIsClicked } = useMobileContext();
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
   };
 
   const handleSidebar = useCallback(() => {
-    setSidebarStatus(!sidebarStatus);
-  }, [sidebarStatus]);
+    setIsClicked(!isClicked);
+  }, [isClicked, setIsClicked]);
 
   return (
     <TermContext.Provider value={{ term, setTerm }}>
-      {sidebarStatus ? (
+      {isClicked ? (
         <Flex h="100vh" direction="column">
-          <HeaderMobile handleSidebar={handleSidebar} />
+          <HeaderSearch handleSidebar={handleSidebar} onSearchChange={handleSearchChange} />
           <Box grow={1} overflow="scroll" height="100%">
             <SidebarContainer
               term={term as Term}

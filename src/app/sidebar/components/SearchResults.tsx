@@ -4,6 +4,7 @@ import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 
 import { SelectedCourse } from '../../../calendar';
+import { useMobileContext } from '../../context/mobile';
 import { Card } from '../components/Card';
 
 type CourseRecord = {
@@ -19,7 +20,10 @@ type Props = HitsProvided<CourseRecord> & {
 };
 
 const SearchResults = ({ hits, selectedCourse, onSelectedCourseChange }: Props) => {
+  const { isMobile, setIsClicked } = useMobileContext();
+
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    isMobile && setIsClicked(false);
     const pid = e.currentTarget.getAttribute('data-pid');
     const subject = e.currentTarget.getAttribute('data-subject');
     const code = e.currentTarget.getAttribute('data-code');

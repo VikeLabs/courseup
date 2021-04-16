@@ -1,12 +1,13 @@
 import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
+import { useMobileContext } from './app/context/mobile';
 import { TermContext } from './app/context/TermContext';
 import { Header, Content, SidebarContainer, Feedback } from './app/index';
 import { MobileView } from './app/mobile';
+import useWindowDimensions from './app/shared/hooks/useWindowDimensions';
 import { getCurrentTerm } from './app/shared/utils/terms';
 import { Term } from './fetchers';
-import useWindowDimensions from './shared/hooks/useWindowDimensions';
 
 export type SelectedCourse = {
   subject: string;
@@ -16,7 +17,6 @@ export type SelectedCourse = {
 };
 
 export function Calendar(): JSX.Element | null {
-  const [isMobile, setIsMobile] = useState(false);
   const [term, setTerm] = useState(getCurrentTerm());
   const [query, setQuery] = useState('');
 
@@ -24,10 +24,12 @@ export function Calendar(): JSX.Element | null {
 
   const { width } = useWindowDimensions();
 
+  const { isMobile, setIsMobile } = useMobileContext();
+
   useEffect(() => {
     if (width < 480) setIsMobile(true);
     else setIsMobile(false);
-  }, [width]);
+  }, [setIsMobile, width]);
   if (isMobile) return <MobileView />;
 
   const handleSearchChange = (q: string) => {
