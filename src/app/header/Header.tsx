@@ -49,6 +49,8 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
         colStart={{ base: 1, sm: 1, md: 2 }}
         colSpan={{ base: 1, sm: 1, md: 1 }}
         rowStart={{ base: 3, sm: 2, md: 1 }}
+        justifySelf={['center', 'center', 'flex-end']}
+        mr="10px"
       >
         <Center>
           <Search onChange={onSearchChange} />
