@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, useBreakpointValue } from '@chakra-ui/react';
+import { Button, ButtonGroup } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { TermContext } from '../../context/TermContext';

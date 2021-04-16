@@ -1,4 +1,4 @@
-import { Badge, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import React from 'react';
 
 import { MeetingTimes } from '../../../fetchers';
