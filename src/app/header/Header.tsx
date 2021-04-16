@@ -13,7 +13,7 @@ export interface HeaderProps {
 export function Header({ onSearchChange }: HeaderProps): JSX.Element {
   return (
     <Grid
-      templateColumns={{ base: '1fr', sm: '1fr 1fr', md: '1fr 7fr 3fr' }}
+      templateColumns={{ base: '1fr', sm: '1fr 1fr', md: '2fr 7fr 2fr' }}
       templateRows={{ base: '1fr 1fr 1fr', sm: '1fr 1fr', md: '1fr' }}
       as="header"
       py="3"
@@ -22,6 +22,7 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
       bg="#2e95d1"
       zIndex={100}
       alignItems="center"
+      justifyItems="center"
     >
       <GridItem
         colSpan={{ base: 1, sm: 2, md: 1 }}
