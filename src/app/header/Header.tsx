@@ -13,11 +13,10 @@ export interface HeaderProps {
 export function Header({ onSearchChange }: HeaderProps): JSX.Element {
   return (
     <Grid
-      templateColumns={{ base: '1fr', sm: '1fr 1fr', md: '2fr 7fr 3fr' }}
+      templateColumns={{ base: '1fr', sm: '1fr', md: '20% 80%' }}
       templateRows={{ base: '1fr 1fr 1fr', sm: '1fr 1fr', md: '1fr' }}
       as="header"
       py="3"
-      px="8"
       boxShadow="md"
       bg="#2e95d1"
       zIndex={100}
@@ -29,6 +28,7 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
         rowStart={{ base: 1, sm: 1, md: 1 }}
         justifySelf="center"
         minW="160px"
+        px="5"
         mb={{ sm: '5px', md: '0' }}
       >
         <Button
@@ -49,14 +49,12 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
         colStart={{ base: 1, sm: 1, md: 2 }}
         colSpan={{ base: 1, sm: 1, md: 1 }}
         rowStart={{ base: 3, sm: 2, md: 1 }}
-        justifySelf={['center', 'center', 'flex-end']}
-        mr="10px"
+        justifySelf="center"
+        display="inline-flex"
       >
-        <Center>
+        <Center mr="5px">
           <Search onChange={onSearchChange} />
         </Center>
-      </GridItem>
-      <GridItem colStart={{ base: 1, sm: 2, md: 3 }} rowStart={{ base: 2, sm: 2, md: 1 }} justifySelf="flex-start">
         <TermButtons />
       </GridItem>
     </Grid>
