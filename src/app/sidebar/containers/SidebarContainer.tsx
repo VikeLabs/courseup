@@ -5,8 +5,8 @@ import { useParams } from 'react-router';
 import { SelectedCourse } from '../../../pages/calendar';
 import { Term, useGetCourses, useSubjects } from '../../../shared/fetchers';
 import { CustomHits } from '../components/SearchResults';
+import { Sidebar } from '../components/Sidebar';
 import { TopBar } from '../components/TopBar';
-import { Sidebar } from '../Sidebar';
 
 export interface SidebarContainerProps {
   /**

@@ -15,7 +15,7 @@ export function Routes(): JSX.Element {
         <Route path="/calendar/:term" element={<Calendar />} />
         <Route path="/calendar/:term/:subject" element={<Calendar />} />
         <Route path="/calendar/:term/:subject/:code" element={<Calendar />} />
-        <Route path="/schedule/" element={<Scheduler />} />
+        <Route path="/schedule/*" element={<Scheduler />} />
       </ReactRouterRoutes>
     </BrowserRouter>
   );

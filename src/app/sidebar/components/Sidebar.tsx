@@ -2,10 +2,10 @@ import { Collapse, Flex, LinkBox, SlideFade } from '@chakra-ui/react';
 import { MouseEvent, useCallback, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { SelectedCourse } from '../../pages/calendar';
-import { Course, KualiSubject } from '../../shared/fetchers';
+import { SelectedCourse } from '../../../pages/calendar';
+import { Course, KualiSubject } from '../../../shared/fetchers';
 
-import { Card } from './components/Card';
+import { Card } from './Card';
 
 export interface SidebarProps {
   /**
