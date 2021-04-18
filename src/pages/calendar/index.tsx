@@ -13,7 +13,7 @@ export type SelectedCourse = {
 
 export function Calendar(): JSX.Element {
   const navigate = useNavigate();
-  const { term, subject, code } = useParams();
+  const { term } = useParams();
   const [searchParams] = useSearchParams();
 
   const [query, setQuery] = useState('');
@@ -21,8 +21,15 @@ export function Calendar(): JSX.Element {
   const [selectedCourse, setSelectedCourse] = useState<SelectedCourse>();
 
   useEffect(() => {
-    !term && navigate(`/calendar/${getCurrentTerm()}`);
-  }, [navigate, term, subject, code, setSelectedCourse, searchParams]);
+    const sessionTerm = sessionStorage.getItem('meta:term');
+    const currentTerm = getCurrentTerm();
+    if (term) {
+      sessionStorage.setItem('meta:term', term);
+    } else if (sessionTerm) {
+      sessionStorage.setItem('meta:term', currentTerm);
+      navigate(`/calendar/${sessionTerm}`);
+    }
+  }, [navigate, term]);
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
