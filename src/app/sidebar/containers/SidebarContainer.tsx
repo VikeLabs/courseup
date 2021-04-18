@@ -67,13 +67,7 @@ export function SidebarContainer({
           <Spinner size="xl" />
         </Center>
       ) : (
-        <Sidebar
-          subjects={subjects}
-          courses={courses}
-          selectedCourse={selectedCourse}
-          selectedSubject={selectedSubject}
-          onSelectedCourseChange={onSelectedCourseChange}
-        />
+        <Sidebar subjects={subjects} courses={courses} />
       )}
     </Flex>
   );
