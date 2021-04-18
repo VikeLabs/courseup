@@ -13,7 +13,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 export interface TopBarProps {
   /**
@@ -29,6 +29,9 @@ export interface TopBarProps {
 export function TopBar({ selectedSubject, onFilter }: TopBarProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
   const { term } = useParams();
+  const [searchParams] = useSearchParams();
+
+  const pid = searchParams.get('pid');
 
   return (
     <Box
@@ -44,7 +47,11 @@ export function TopBar({ selectedSubject, onFilter }: TopBarProps): JSX.Element 
       <Flex justifyContent="space-between" alignItems="center" p="3">
         <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
-            <BreadcrumbLink as={Link} to={`/calendar/${term}/`} color="black">
+            <BreadcrumbLink
+              as={Link}
+              to={{ pathname: `/calendar/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
+              color="black"
+            >
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>

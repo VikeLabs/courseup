@@ -1,6 +1,7 @@
 import { Button, ButtonGroup } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useMatch, useNavigate, useParams } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 
 import { getCurrentTerms, getReadableTerm } from '../../shared/utils/terms';
 
@@ -10,6 +11,9 @@ export function TermButtons(): JSX.Element {
   const [status, setStatus] = useState([false, false, false]);
 
   const { term, subject } = useParams();
+  const [searchParams] = useSearchParams();
+  const pid = searchParams.get('pid');
+
   const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/schedule/*');
 
@@ -29,7 +33,7 @@ export function TermButtons(): JSX.Element {
     if (name) {
       idx = terms.indexOf(name);
       if (calendarMatch) {
-        navigate(`/calendar/${name}/${subject || ''}`);
+        navigate({ pathname: `/calendar/${name}/${subject || ''}`, search: pid ? `?pid=${pid}` : undefined });
       } else if (scheduleMatch) {
         navigate(`/scheduler/${name}`);
       } else {
