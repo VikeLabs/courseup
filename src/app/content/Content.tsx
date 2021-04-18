@@ -1,5 +1,4 @@
 import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react';
-import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from '../../shared/fetchers';
@@ -19,7 +18,6 @@ export interface ContentProps {
  * Primary UI component for content
  */
 export function Content({ term }: ContentProps): JSX.Element {
-  const { subject, code } = useParams();
   const [searchParams] = useSearchParams();
   const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
@@ -38,7 +36,9 @@ export function Content({ term }: ContentProps): JSX.Element {
         alignItems={{ base: 'start', sm: 'center' }}
         direction={{ base: 'column', sm: 'row' }}
       >
-        <Heading mr="5" size="2xl" as="h2" whiteSpace="pre" color="black">{`${subject} ${code}`}</Heading>
+        <Heading mr="5" size="2xl" as="h2" whiteSpace="pre" color="black">{`${data?.subject || ''} ${
+          data?.code || ''
+        }`}</Heading>
         {!loading && data && (
           <Heading size="lg" as="h3" color="gray">
             {data.title}
@@ -48,15 +48,17 @@ export function Content({ term }: ContentProps): JSX.Element {
 
       <Skeleton isLoaded={!loading}>
         {data && (
-          <CourseInfo
-            subject={data.subject}
-            code={data.code}
-            title={data.title}
-            description={data.description || ''}
-            credits={data.credits.value}
-          />
+          <>
+            <CourseInfo
+              subject={data.subject}
+              code={data.code}
+              title={data.title}
+              description={data.description || ''}
+              credits={data.credits.value}
+            />
+            <SectionsContainer term={term} subject={data?.subject} code={data?.code} />
+          </>
         )}
-        <SectionsContainer term={term} subject={subject} code={code} />
       </Skeleton>
     </Box>
   );

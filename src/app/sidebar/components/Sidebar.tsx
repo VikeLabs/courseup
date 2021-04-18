@@ -18,7 +18,7 @@ export interface SidebarProps {
   courses: Course[];
 }
 
-function computeParsedCourses(courses: Course[]) {
+export function computeParsedCourses(courses: Course[]) {
   return (
     courses.reduce((dict, course) => {
       const subject = course.subject;

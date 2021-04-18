@@ -39,7 +39,7 @@ export function Calendar(): JSX.Element {
           searchQuery={query}
         />
         <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
-          {term && subject && code && searchParams.get('pid') ? (
+          {searchParams.get('pid') ? (
             <CourseContent term={term as Term} />
           ) : (
             <Center p="10">
