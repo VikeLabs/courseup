@@ -16,8 +16,6 @@ export function Calendar(): JSX.Element {
   const { term, subject, code } = useParams();
   const [searchParams] = useSearchParams();
 
-  console.log(term, subject, code);
-
   const [query, setQuery] = useState('');
 
   const [selectedCourse, setSelectedCourse] = useState<SelectedCourse>();
@@ -33,33 +31,31 @@ export function Calendar(): JSX.Element {
   return (
     <Flex h="100vh" direction="column">
       <Header onSearchChange={handleSearchChange} />
-      <Box grow={1} overflow="hidden" height="100%">
-        <Flex color="white" height="100%">
-          <SidebarContainer
-            term={term as Term}
-            onSelectedCourseChange={setSelectedCourse}
-            selectedCourse={selectedCourse}
-            searchQuery={query}
-          />
-          <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
-            {term && subject && code && searchParams.get('pid') ? (
-              <Content term={term as Term} />
-            ) : (
-              <Center p="10">
-                <VStack>
-                  <Heading color="black">Explore Courses</Heading>
-                  <Text color="gray">
-                    Select a subject and then a course to start viewing course details and section information.
-                  </Text>
-                </VStack>
-              </Center>
-            )}
-          </Flex>
+      <Flex grow={1} overflow="hidden" height="100%">
+        <SidebarContainer
+          term={term as Term}
+          onSelectedCourseChange={setSelectedCourse}
+          selectedCourse={selectedCourse}
+          searchQuery={query}
+        />
+        <Flex minW="80%" overflow="auto" justifyContent="center" height="100%" boxShadow="lg" zIndex={56}>
+          {term && subject && code && searchParams.get('pid') ? (
+            <Content term={term as Term} />
+          ) : (
+            <Center p="10">
+              <VStack>
+                <Heading color="black">Explore Courses</Heading>
+                <Text color="gray">
+                  Select a subject and then a course to start viewing course details and section information.
+                </Text>
+              </VStack>
+            </Center>
+          )}
         </Flex>
         <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
           <Feedback />
         </Box>
-      </Box>
+      </Flex>
     </Flex>
   );
 }
