@@ -54,7 +54,13 @@ export function Card({ subject, title, code, selected }: PropsWithChildren<CardP
         </VStack>
         {!code && (
           <Box>
-            <IconButton aria-label="Select course" icon={<ChevronRightIcon />} size="md" background="null" />
+            <IconButton
+              aria-label="Select course"
+              icon={<ChevronRightIcon />}
+              size="md"
+              background="null"
+              _hover={{ bg: 'none' }}
+            />
           </Box>
         )}
       </Flex>
