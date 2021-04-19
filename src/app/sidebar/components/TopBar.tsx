@@ -13,23 +13,22 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 export interface TopBarProps {
-  /**
-   * Current selected subject, appears as heading
-   */
-  selectedSubject?: string;
   /**
    * Back button click handler
    */
   onFilter?: (filter: boolean) => void;
 }
 
-export function TopBar({ selectedSubject, onFilter }: TopBarProps): JSX.Element {
+export function TopBar({ onFilter }: TopBarProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
   const { term } = useParams();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
+
+  const subject = location.pathname.split('/')[3];
 
   const pid = searchParams.get('pid');
 
@@ -55,9 +54,9 @@ export function TopBar({ selectedSubject, onFilter }: TopBarProps): JSX.Element 
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {selectedSubject && (
+          {subject && (
             <BreadcrumbItem color="black">
-              <Text fontWeight="semibold">{selectedSubject}</Text>
+              <Text fontWeight="semibold">{subject}</Text>
             </BreadcrumbItem>
           )}
         </Breadcrumb>

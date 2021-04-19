@@ -28,7 +28,7 @@ const SearchResults = ({ hits }: Props) => {
   return (
     <>
       {hits.map(({ objectID, pid, subject, code, title }) => (
-        <LinkBox onClick={handleClick} data-pid={pid} key={objectID} m={0} p={0}>
+        <LinkBox onClick={handleClick} data-pid={pid} key={objectID}>
           <Card subject={subject} title={title} code={code} />
         </LinkBox>
       ))}

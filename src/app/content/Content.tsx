@@ -22,15 +22,7 @@ export function Content({ term }: ContentProps): JSX.Element {
   const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
   return (
-    <Box
-      width={['container.md', 'container.lg', 'container.xl']}
-      bg="white"
-      p="5"
-      my="4"
-      height="100%"
-      boxShadow="sm"
-      zIndex={60}
-    >
+    <Box width={['container.md', 'container.lg', 'container.xl']} bg="white" p={4} zIndex={60}>
       <Flex
         justifyItems="center"
         alignItems={{ base: 'start', sm: 'center' }}
@@ -45,7 +37,6 @@ export function Content({ term }: ContentProps): JSX.Element {
           </Heading>
         )}
       </Flex>
-
       <Skeleton isLoaded={!loading}>
         {data && (
           <>

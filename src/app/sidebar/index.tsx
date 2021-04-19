@@ -1,1 +1,1 @@
-export { SidebarContainer as Sidebar } from './containers/SidebarContainer';
+export { SidebarContainer as ContentSidebar } from './containers/SidebarContainer';

@@ -36,7 +36,7 @@ export function Card({ subject, title, code, selected }: PropsWithChildren<CardP
       boxShadow="md"
       py={2}
       px={4}
-      my="0.5em"
+      my={1}
       cursor="pointer"
       _hover={{
         bgGradient: selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
