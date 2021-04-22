@@ -31,5 +31,6 @@ export interface CourseDetails
   /**
    * Course hours
    */
-  hoursCatalogText?: string | { lecture: string; lab: string; tutorial: string };
+  hoursCatalogText?:
+  { lecture: string; lab: string; tutorial: string } | string;
 }
