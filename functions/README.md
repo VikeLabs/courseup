@@ -8,7 +8,9 @@ In order to develop this application you will need to setup the development depe
 - Node.js 12 
     - We recommend using a Node version manager available on your platform like [nvm](https://github.com/nvm-sh/nvm).
 - Java Runtime Environment
-    - This is required to run some of the emulators as part of Firebase Tools 
+    - This is required to run some of the emulators as part of Firebase Tools
+- Using a *NIX compatible terminal like Git-Bash on Windows or literally anything else on Linux, macOS etc.
+    - _just don't use Powershell or the default Windows command prompt_
 
 #### Install
 1. Install Firebase Tools using `npm install -g firebase-tools`. 
