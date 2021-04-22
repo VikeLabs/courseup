@@ -37,7 +37,7 @@ export class CoursesService {
       }));
     }
 
-    const { response: courses } = await UVicCourseScraper.getCourses(term);  
+    const { response: courses } = await UVicCourseScraper.getCourses(term);
 
     return courses.map((course) => ({
       ...subjectCodeExtractor(course),
@@ -50,7 +50,10 @@ export class CoursesService {
     term: string,
     pid: string
   ): Promise<CourseDetails> {
-    const {response: course } = await UVicCourseScraper.getCourseDetailsByPid(term, pid);
+    const { response: course } = await UVicCourseScraper.getCourseDetailsByPid(
+      term,
+      pid
+    );
 
     
     return {
@@ -157,7 +160,7 @@ export async function setCourse(
   subject: string,
   code: string
 ): Promise<CourseDoc | undefined> {
-  const {response: courses} = await UVicCourseScraper.getCourses(term);
+  const { response: courses } = await UVicCourseScraper.getCourses(term);
 
   const key = constructSectionKey(term, subject, code);
 
@@ -166,7 +169,7 @@ export async function setCourse(
 
   if (!course) return undefined;
 
-  const {response: sections} = await UVicCourseScraper.getCourseSections(
+  const { response: sections } = await UVicCourseScraper.getCourseSections(
     term,
     subject,
     code
@@ -195,7 +198,7 @@ export async function updateCourse(
   code: string
 ): Promise<void> {
   try {
-    const {response: sections} = await UVicCourseScraper.getCourseSections(
+    const { response: sections } = await UVicCourseScraper.getCourseSections(
       term,
       subject,
       code
