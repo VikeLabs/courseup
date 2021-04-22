@@ -34,9 +34,11 @@ app.use((req, res, next) => {
 
 // Use body parser to read sent json payloads
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 // TODO: can probably accomplish the same thing using hosting.
 // serve the OpenAPI spec.
