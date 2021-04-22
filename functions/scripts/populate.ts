@@ -5,13 +5,12 @@ admin.initializeApp({
 
 import { CoursesService } from '../src/courses/Course.service';
 
-
-const term = '202105'
+const term = '202105';
 
 const main = async () => {
-  console.log(`populating Firestore with data for term = ${term}`)
+  console.log(`populating Firestore with data for term = ${term}`);
   await CoursesService.populateCourses(term);
-  console.log(`finished.`)
+  console.log(`finished.`);
 };
 
 main();
