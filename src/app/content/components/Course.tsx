@@ -78,7 +78,6 @@ export function CourseInfo({
   credits,
   units,
 }: CourseInfoProps): JSX.Element {
-  console.log(credits)
   return (
     <Box as="section" bg="white" color="black">
       <Divider my="3" />

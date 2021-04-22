@@ -30,7 +30,7 @@ export async function getSectionSeats(
       mapping.crns.map(async (crn) => {
         const {
           response: seat,
-            timestamp
+          timestamp,
         } = await UVicCourseScraper.getSectionSeats(term, crn);
         return { ...seat, crn, date: timestamp };
       })
