@@ -55,7 +55,6 @@ export class CoursesService {
       pid
     );
 
-    
     return {
       ...subjectCodeExtractor(course),
       dateStart: course.dateStart,

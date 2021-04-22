@@ -57,7 +57,7 @@ export interface CourseInfoProps {
    * course credits (units)
    * example: 1.5
    */
-  credits?: any;
+  credits?: { credits: { max: string; min: string }; chosen: string; value: {} };
   /**
    * course addtional notes
    */
@@ -78,6 +78,7 @@ export function CourseInfo({
   credits,
   units,
 }: CourseInfoProps): JSX.Element {
+  console.log(credits)
   return (
     <Box as="section" bg="white" color="black">
       <Divider my="3" />
@@ -100,7 +101,9 @@ export function CourseInfo({
         {credits && (
           <CourseShield bg="purple.200" title="Credits">
             <Heading size="md" title="lecture hours per week">
-              {JSON.stringify(credits)}
+              {credits.credits.max === credits.credits.min
+                ? credits.credits.max
+                : `${credits.credits.min} ~ ${credits.credits.max}`}
             </Heading>
           </CourseShield>
         )}
