@@ -1,7 +1,6 @@
 import { Box, Heading, Text } from '@chakra-ui/layout';
 import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
-import { createMethodSignature } from 'typescript';
 
 export interface CourseShieldProps {
   /**
