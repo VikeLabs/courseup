@@ -28,8 +28,4 @@ export interface CourseDetails
    * @example "ELEC260"
    */
   formally?: string;
-  /**
-   * Course hours
-   */
-  hoursCatalogText?: { lecture: string; lab: string; tutorial: string };
 }

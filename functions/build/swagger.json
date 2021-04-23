@@ -137,32 +137,6 @@
 						"type": "string",
 						"description": "If a course was named something else previously.",
 						"example": "ELEC260"
-					},
-					"hoursCatalogText": {
-						"anyOf": [
-							{
-								"type": "string"
-							},
-							{
-								"properties": {
-									"tutorial": {
-										"type": "string"
-									},
-									"lab": {
-										"type": "string"
-									},
-									"lecture": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"tutorial",
-									"lab",
-									"lecture"
-								],
-								"type": "object"
-							}
-						]
 					}
 				},
 				"required": [

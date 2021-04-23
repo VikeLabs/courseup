@@ -41,7 +41,6 @@ const models: TsoaRoute.Models = {
             "subject": {"dataType":"string","required":true},
             "code": {"dataType":"string","required":true},
             "formally": {"dataType":"string"},
-            "hoursCatalogText": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"nestedObjectLiteral","nestedProperties":{"tutorial":{"dataType":"string","required":true},"lab":{"dataType":"string","required":true},"lecture":{"dataType":"string","required":true}}}]},
         },
         "additionalProperties": false,
     },

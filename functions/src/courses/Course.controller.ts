@@ -3,8 +3,6 @@ import { Term } from '../constants';
 import { Course, CourseDetails } from './Course.model';
 import { CoursesService } from './Course.service';
 
-// /courses/202101
-
 @Route('courses')
 export class CoursesController extends Controller {
   /**
