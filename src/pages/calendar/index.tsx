@@ -6,7 +6,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Header, Content, Feedback } from '../../app/index';
 import { getCurrentTerm } from '../../app/shared/utils/terms';
 import { ContentSidebar } from '../../app/sidebar';
-import { Card } from '../../app/sidebar/components/Card';
 import { Term } from '../../shared/fetchers';
 
 export type SelectedCourse = {
@@ -25,9 +24,12 @@ export function Calendar(): JSX.Element {
     const currentTerm = getCurrentTerm();
     if (term) {
       sessionStorage.setItem('meta:term', term);
+      navigate(`/calendar/${term}`);
     } else if (sessionTerm) {
-      sessionStorage.setItem('meta:term', currentTerm);
       navigate(`/calendar/${sessionTerm}`);
+    } else {
+      sessionStorage.setItem('meta:term', currentTerm);
+      navigate(`/calendar/${currentTerm}`);
     }
   }, [navigate, term]);
 
@@ -51,13 +53,6 @@ export function Calendar(): JSX.Element {
                 <Text color="gray">
                   Select a subject and then a course to start viewing course details and section information.
                 </Text>
-                <Heading color="black">1. Select a subject</Heading>
-                <Text color="gray">
-                  Select a subject and then a course to start viewing course details and section information.
-                </Text>
-                <Card subject="CSC" title="Computer Science" />
-                <Heading color="black">2. Select a course</Heading>
-                <Card subject="CSC" code="111" title="Computer Science" />
               </VStack>
             </Center>
           )}
