@@ -7,6 +7,7 @@ import { Header, Content, Feedback } from '../../app/index';
 import { getCurrentTerm } from '../../app/shared/utils/terms';
 import { ContentSidebar } from '../../app/sidebar';
 import { Term } from '../../shared/fetchers';
+import { useSessionStorage } from '../../shared/useStorage';
 
 export type SelectedCourse = {
   title?: string;
@@ -16,21 +17,17 @@ export function Calendar(): JSX.Element {
   const navigate = useNavigate();
   const { term } = useParams();
   const [searchParams] = useSearchParams();
+  const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
 
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    const sessionTerm = sessionStorage.getItem('meta:term');
-    const currentTerm = getCurrentTerm();
     if (term) {
-      sessionStorage.setItem('meta:term', term);
-    } else if (sessionTerm) {
-      navigate(`/calendar/${sessionTerm}`);
+      setSavedTerm(term);
     } else {
-      sessionStorage.setItem('meta:term', currentTerm);
-      navigate(`/calendar/${currentTerm}`);
+      navigate(`/calendar/${savedTerm}`, { replace: true });
     }
-  }, [navigate, term]);
+  }, [navigate, term, savedTerm, setSavedTerm]);
 
   const pid = searchParams.get('pid');
 
