@@ -24,7 +24,6 @@ export function Calendar(): JSX.Element {
     const currentTerm = getCurrentTerm();
     if (term) {
       sessionStorage.setItem('meta:term', term);
-      navigate(`/calendar/${term}`);
     } else if (sessionTerm) {
       navigate(`/calendar/${sessionTerm}`);
     } else {
