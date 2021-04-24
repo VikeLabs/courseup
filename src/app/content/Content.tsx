@@ -45,7 +45,8 @@ export function Content({ term }: ContentProps): JSX.Element {
               code={data.code}
               title={data.title}
               description={data.description || ''}
-              credits={data.credits.value}
+              credits={data.credits}
+              hours={data.hoursCatalog}
             />
             <SectionsContainer term={term} subject={data?.subject} code={data?.code} />
           </>

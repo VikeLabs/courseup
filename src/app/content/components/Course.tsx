@@ -56,7 +56,7 @@ export interface CourseInfoProps {
    * course credits (units)
    * example: 1.5
    */
-  credits?: string;
+  credits?: { credits: { max: string; min: string }; chosen: string; value: {} };
   /**
    * course addtional notes
    */
@@ -99,7 +99,9 @@ export function CourseInfo({
         {credits && (
           <CourseShield bg="purple.200" title="Credits">
             <Heading size="md" title="lecture hours per week">
-              {credits}
+              {credits.credits.max === credits.credits.min
+                ? credits.credits.max
+                : `${credits.credits.min} ~ ${credits.credits.max}`}
             </Heading>
           </CourseShield>
         )}
