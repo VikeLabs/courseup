@@ -16,14 +16,19 @@ export interface CourseDetails {
   pid: string;
   title: string;
   description: string;
-  dateStart: string;
   credits: {
     chosen: string;
-    value: string;
+    value: {};
     credits: {
       max: string;
       min: string;
     };
+  };
+  dateStart: string;
+  hoursCatalog?: {
+    lab: string;
+    tutorial: string;
+    lecture: string;
   };
   /**
    * Abbriviation of the subject of the course.
@@ -37,11 +42,12 @@ export interface CourseDetails {
    * If a course was named something else previously.
    */
   formally?: string;
+  hoursCatalogText?: {};
 }
 
 export type LevelType = 'law' | 'undergraduate' | 'graduate';
 
-export type SectionType = 'lecture' | 'lab' | 'tutorial';
+export type SectionType = 'lecture' | 'lab' | 'tutorial' | 'gradable lab' | 'lecture topic';
 
 export interface MeetingTimes {
   type: string;
@@ -81,12 +87,19 @@ export interface Seating {
   remaining: number;
 }
 
-export type Classification = 'YEAR_1' | 'YEAR_2' | 'YEAR_3' | 'YEAR_4' | 'YEAR_5';
+export type Classification = 'YEAR_1' | 'YEAR_2' | 'YEAR_3' | 'YEAR_4' | 'YEAR_5' | 'unclassified';
 
 export interface Requirements {
   level: LevelType[];
   fieldOfStudy?: string[];
   classification?: Classification[];
+  negClassification?: Classification[];
+  degree?: string[];
+  program?: string[];
+  negProgram?: string[];
+  college?: string[];
+  negCollege?: string[];
+  major?: string[];
 }
 
 export interface Seat {

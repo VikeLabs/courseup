@@ -49,7 +49,8 @@ export function Content({ term, selectedCourse: { pid, subject, code, title } }:
             code={data.code}
             title={data.title}
             description={data.description || ''}
-            credits={data.credits.value}
+            credits={data.credits}
+            hours={data.hoursCatalog}
           />
         )}
         <SectionsContainer term={term} subject={subject} code={code} />
