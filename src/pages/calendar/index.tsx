@@ -9,10 +9,6 @@ import { ContentSidebar } from '../../app/sidebar';
 import { Term } from '../../shared/fetchers';
 import { useSessionStorage } from '../../shared/useStorage';
 
-export type SelectedCourse = {
-  title?: string;
-};
-
 export function Calendar(): JSX.Element {
   const navigate = useNavigate();
   const { term } = useParams();
@@ -41,8 +37,9 @@ export function Calendar(): JSX.Element {
       <Flex grow={1} overflow="hidden">
         <ContentSidebar term={term as Term} searchQuery={query} />
         <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>
-          {pid && <Content term={term as Term} />}
-          {!pid && (
+          {pid ? (
+            <Content term={term as Term} />
+          ) : (
             <Center p="10">
               <VStack>
                 <Heading color="black">Explore Courses</Heading>
