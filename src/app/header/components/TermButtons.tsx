@@ -1,7 +1,8 @@
 import { Button, ButtonGroup } from '@chakra-ui/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useMatch, useNavigate, useParams } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 
-import { TermContext } from '../../context/TermContext';
 import { getCurrentTerms, getReadableTerm } from '../../shared/utils/terms';
 
 const terms = getCurrentTerms();
@@ -9,9 +10,16 @@ const terms = getCurrentTerms();
 export function TermButtons(): JSX.Element {
   const [status, setStatus] = useState([false, false, false]);
 
-  const { term, setTerm } = useContext(TermContext);
+  const { term, subject } = useParams();
+  const [searchParams] = useSearchParams();
+  const pid = searchParams.get('pid');
 
-  //initally the current term button needs to be set active to reflect the default term of the context
+  const calendarMatch = useMatch('/calendar/*');
+  const scheduleMatch = useMatch('/schedule/*');
+
+  const navigate = useNavigate();
+
+  // initally the current term button needs to be set active to reflect the default term of the context
   useEffect(() => {
     const idx = terms.indexOf(term);
     const initStatus = [false, false, false];
@@ -20,12 +28,17 @@ export function TermButtons(): JSX.Element {
   }, [term]);
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    event.preventDefault();
     const name = event.currentTarget.getAttribute('name');
     let idx = -1;
     if (name) {
-      setTerm(name);
       idx = terms.indexOf(name);
+      if (calendarMatch) {
+        navigate({ pathname: `/calendar/${name}/${subject || ''}`, search: pid ? `?pid=${pid}` : undefined });
+      } else if (scheduleMatch) {
+        navigate(`/scheduler/${name}`);
+      } else {
+        navigate(`/calendar/`);
+      }
       const status = [false, false, false];
       status[idx] = true;
       setStatus(status);

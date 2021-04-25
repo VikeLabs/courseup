@@ -13,21 +13,24 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 export interface TopBarProps {
   /**
-   * Current selected subject, appears as heading
-   */
-  selectedSubject?: string;
-  /**
    * Back button click handler
    */
-  handleTopBarBackClick(): void;
   onFilter?: (filter: boolean) => void;
 }
 
-export function TopBar({ selectedSubject, handleTopBarBackClick, onFilter }: TopBarProps): JSX.Element {
+export function TopBar({ onFilter }: TopBarProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
+  const { term } = useParams();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+
+  const subject = location.pathname.split('/')[3];
+
+  const pid = searchParams.get('pid');
 
   return (
     <Box
@@ -43,13 +46,17 @@ export function TopBar({ selectedSubject, handleTopBarBackClick, onFilter }: Top
       <Flex justifyContent="space-between" alignItems="center" p="3">
         <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#" color="black" onClick={handleTopBarBackClick}>
+            <BreadcrumbLink
+              as={Link}
+              to={{ pathname: `/calendar/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
+              color="black"
+            >
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {selectedSubject && (
+          {subject && (
             <BreadcrumbItem color="black">
-              <Text fontWeight="semibold">{selectedSubject}</Text>
+              <Text fontWeight="semibold">{subject}</Text>
             </BreadcrumbItem>
           )}
         </Breadcrumb>

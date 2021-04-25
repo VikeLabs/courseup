@@ -1,11 +1,29 @@
 import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Route, Routes, useParams } from 'react-router';
 
-import { SelectedCourse } from '../../../calendar';
-import { Term, useGetCourses, useSubjects } from '../../../fetchers';
+import { Course, Term, useGetCourses, useSubjects } from '../../../shared/fetchers';
+import { CoursesList } from '../components/CoursesList';
 import { CustomHits } from '../components/SearchResults';
+import { SubjectsList } from '../components/SubjectsList';
 import { TopBar } from '../components/TopBar';
-import { Sidebar } from '../Sidebar';
+
+function computeParsedCourses(courses: Course[] | null) {
+  if (!courses) {
+    return {};
+  }
+
+  return (
+    courses.reduce((dict, course) => {
+      const subject = course.subject;
+      if (!(subject in dict)) {
+        dict[subject] = [];
+      }
+      dict[subject].push(course);
+      return dict;
+    }, {} as { [subject: string]: Course[] }) ?? {}
+  );
+}
 
 export interface SidebarContainerProps {
   /**
@@ -13,27 +31,24 @@ export interface SidebarContainerProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
-
   searchQuery: string;
-  selectedCourse?: SelectedCourse;
-  onSelectedCourseChange: (selectedCourse?: SelectedCourse) => void;
 }
 
-export function SidebarContainer({
-  term,
-  selectedCourse,
-  onSelectedCourseChange,
-  searchQuery,
-}: SidebarContainerProps): JSX.Element | null {
+export function SidebarContainer({ searchQuery }: SidebarContainerProps): JSX.Element | null {
   const [filter, setFilter] = useState(false);
-  const [selectedSubject, setSelectedSubject] = useState<string | undefined>();
+  const { term } = useParams();
 
-  const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
-  const { data: courses, loading: coursesLoading } = useGetCourses({ term: term, queryParams: { in_session: filter } });
+  const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
+  const { data: courses, loading: coursesLoading } = useGetCourses({
+    term: term as Term,
+    queryParams: { in_session: filter },
+  });
 
-  const handleSubjectChange = () => {
-    setSelectedSubject(undefined);
-  };
+  const loading = subjectsLoading || coursesLoading;
+
+  // sorts the list of subjects alphabetically
+  const sortedSubjects = useMemo(() => subjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
+  const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
 
   const handleFilter = (s: boolean) => {
     setFilter(s);
@@ -51,7 +66,7 @@ export function SidebarContainer({
             </HStack>
           </Box>
           <Flex id="sideBarScroller" direction="column" overflowY="auto">
-            <CustomHits selectedCourse={selectedCourse} onSelectedCourseChange={onSelectedCourseChange} />
+            <CustomHits />
           </Flex>
         </Flex>
       </Flex>
@@ -60,21 +75,24 @@ export function SidebarContainer({
 
   return (
     <Flex bg="#E4E4E4" minW="20%" flexDirection="column">
-      <TopBar selectedSubject={selectedSubject} handleTopBarBackClick={handleSubjectChange} onFilter={handleFilter} />
-
-      {subjectsLoading || coursesLoading || subjects === null || courses === null ? (
+      <TopBar onFilter={handleFilter} />
+      {!loading && sortedSubjects && courses ? (
+        <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
+          <Flex direction="column" overflowY="auto">
+            <Routes>
+              <Route path="/">
+                <SubjectsList term={term} subjects={sortedSubjects} />
+              </Route>
+              <Route path=":subject">
+                <CoursesList term={term} courses={parsedCourses} />
+              </Route>
+            </Routes>
+          </Flex>
+        </Flex>
+      ) : (
         <Center height="100%">
           <Spinner size="xl" />
         </Center>
-      ) : (
-        <Sidebar
-          subjects={subjects}
-          courses={courses}
-          selectedCourse={selectedCourse}
-          selectedSubject={selectedSubject}
-          onSelectedCourseChange={onSelectedCourseChange}
-          onSelectedSubjectChange={setSelectedSubject}
-        />
       )}
     </Flex>
   );
