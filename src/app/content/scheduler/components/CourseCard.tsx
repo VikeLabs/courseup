@@ -14,7 +14,7 @@ export function CourseCard({ subject, title, code, selected, colour }: PropsWith
             <Flex direction="row">
                 <Flex background={colour} alignItems="center" justifyContent="center" mr="10px">
                     <Flex>
-                        <Checkbox backgroundColor="blackAlpha.600" colorScheme="blackAlpha" size="lg" mx="7px" />
+                        <Checkbox backgroundColor="whiteAlpha.600" colorScheme="whiteAlpha" iconColor="black" size="lg" mx="7px" />
                     </Flex>
                 </Flex>
                 <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%" >
