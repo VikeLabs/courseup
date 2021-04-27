@@ -32,7 +32,7 @@ const eventStyleGetter = ({ resource }: Event) => {
 const CustomEvent = ({ title, event }: EventProps) => {
   return (
     <span>
-      {title}, {event.resource && event.resource.toString()}
+      {title}, {event.resource && event.resource.sectionCode}, {event.resource && event.resource.location}
     </span>
   );
 };
@@ -70,10 +70,10 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
     calendarEvents?.forEach((calendarEvent) => {
       const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
       const startEndHours = calendarEvent.meetingTime.time.split('-');
-      const startUpperDateRRule = dayjs(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm A')
+      const startUpperDateRRule = dayjs(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm a')
         .utc()
         .toDate();
-      const startLowerDateRRule = dayjs(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm A')
+      const startLowerDateRRule = dayjs(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm a')
         .utc()
         .toDate();
       const endDateRRule = dayjs(startEndDates[1].trim(), 'MMM, D, YYYY').utc().toDate();
@@ -105,6 +105,8 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
           end: ruleLowerAll[i],
           resource: {
             color: calendarEvent.color,
+            sectionCode: calendarEvent.sectionCode,
+            location: calendarEvent.meetingTime.where,
           },
         });
       });
@@ -113,12 +115,18 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
     return events;
   }, [calendarEvents]);
 
+  const today = new Date();
+
   return (
     <Box h="100%" w="100%" p="2em">
       <Calendar
         localizer={localizer}
         events={events}
+        min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)}
+        max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 22)}
         view="work_week"
+        timeslots={10}
+        step={3}
         views={['work_week']}
         defaultDate={new Date(2021, 5, 1)}
         eventPropGetter={eventStyleGetter}
