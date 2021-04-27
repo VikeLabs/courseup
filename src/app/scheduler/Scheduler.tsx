@@ -11,12 +11,27 @@ export interface CalendarProps {}
  */
 export function Scheduler(): JSX.Element {
   const term = '202105';
-  const { data: courses } = useGetCourses({ term });
+  const subject = 'MATH';
+  const code = '101';
+  const { data: scehdulelisting } = useSections({ term, queryParams: { subject, code } });
 
   return (
     <Box w="100%" height="100%">
-      {/* {courses != undefined && <SchedulerCalendar courses={courses} />} */}
-      <SchedulerCalendar />
+      {scehdulelisting && (
+        <SchedulerCalendar
+          calendarEvents={(() => {
+            const x = new Array();
+            x.push({
+              subject: subject,
+              code: code,
+              color: 'green',
+              sectionCode: scehdulelisting[0].sectionCode,
+              meetingTime: scehdulelisting[0].meetingTimes[0],
+            });
+            return x;
+          })()}
+        />
+      )}
     </Box>
   );
 }

@@ -1,21 +1,23 @@
 import { Box } from '@chakra-ui/layout';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
+import { useMemo } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
-import { Calendar, momentLocalizer, Event } from 'react-big-calendar';
+import { Calendar, momentLocalizer, Event, EventProps } from 'react-big-calendar';
+import { RRule } from 'rrule';
 
-import { ClassScheduleListing, Course, Section, useSections } from '../../../fetchers';
+import { CalendarEvent } from './CalendarEvent';
+
+dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 const localizer = momentLocalizer(moment);
 
-const titles: Map<string, string> = new Map();
-
-titles.set('event1', 'green');
-titles.set('event2', 'red');
-titles.set('event3', 'Blue');
-
-const eventStyleGetter = ({ title }: Event) => {
+const eventStyleGetter = ({ resource }: Event) => {
   var style = {
-    backgroundColor: title ? titles.get(title) : 'blue',
+    backgroundColor: resource && resource.color,
     borderRadius: '0px',
     opacity: 0.8,
     color: 'black',
@@ -27,41 +29,89 @@ const eventStyleGetter = ({ title }: Event) => {
   };
 };
 
-const events: Event[] = [
-  {
-    title: 'event1',
-    allDay: false,
-    start: new Date(2015, 3, 0, 5, 0, 0),
-    end: new Date(2015, 3, 0, 6, 0, 0),
-  },
-  {
-    title: 'event2',
-    allDay: false,
-    start: new Date(2015, 3, 9, 1, 0, 0),
-    end: new Date(2015, 3, 9, 2, 0, 0),
-  },
-  {
-    title: 'event3',
-    allDay: false,
-    start: new Date(2015, 3, 9, 3, 0, 0),
-    end: new Date(2015, 3, 9, 4, 0, 0),
-  },
-];
+const CustomEvent = ({ title, event }: EventProps) => {
+  return (
+    <span>
+      {title}, {event.resource && event.resource.toString()}
+    </span>
+  );
+};
 
 export interface CalendarProps {
-  courses?: Course[];
+  calendarEvents?: CalendarEvent[];
 }
 
-export function SchedulerCalendar({ courses }: CalendarProps): JSX.Element {
-  const term = '202105';
-  const classScheduleListing: ClassScheduleListing[] | null = new Array();
+export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Element {
+  const computeMeetingTimeDays = (calendarEvent: CalendarEvent) => {
+    const days = calendarEvent.meetingTime.days;
+    const daysRRule = new Array();
 
-  // for (var i = 0; i < courses.length; i++) {
-  //   const subject = courses[i].subject;
-  //   const code = courses[i].code;
-  //   const { data: scehdulelisting } = useSections({ term, queryParams: { subject, code } });
-  //   classScheduleListing.push(scehdulelisting);
-  // }
+    if (days.includes('M')) {
+      daysRRule.push(RRule.MO);
+    }
+    if (days.includes('T')) {
+      daysRRule.push(RRule.TU);
+    }
+    if (days.includes('W')) {
+      daysRRule.push(RRule.WE);
+    }
+    if (days.includes('R')) {
+      daysRRule.push(RRule.TH);
+    }
+    if (days.includes('F')) {
+      daysRRule.push(RRule.FR);
+    }
+
+    return daysRRule;
+  };
+
+  const events = useMemo(() => {
+    const events: Event[] = new Array();
+    calendarEvents?.forEach((calendarEvent) => {
+      const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
+      const startEndHours = calendarEvent.meetingTime.time.split('-');
+      const startUpperDateRRule = dayjs(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm A')
+        .utc()
+        .toDate();
+      const startLowerDateRRule = dayjs(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm A')
+        .utc()
+        .toDate();
+      const endDateRRule = dayjs(startEndDates[1].trim(), 'MMM, D, YYYY').utc().toDate();
+
+      const days = computeMeetingTimeDays(calendarEvent);
+
+      const ruleUpper = new RRule({
+        freq: RRule.WEEKLY,
+        byweekday: days,
+        dtstart: startUpperDateRRule,
+        until: endDateRRule,
+        tzid: 'America/Vancouver',
+      });
+
+      const ruleLower = new RRule({
+        freq: RRule.WEEKLY,
+        byweekday: days,
+        dtstart: startLowerDateRRule,
+        until: endDateRRule,
+        tzid: 'America/Vancouver',
+      });
+
+      const ruleLowerAll = ruleLower.all();
+
+      ruleUpper.all().map((dateUpper, i) => {
+        events.push({
+          title: `${calendarEvent.subject} ${calendarEvent.code}`,
+          start: dateUpper,
+          end: ruleLowerAll[i],
+          resource: {
+            color: calendarEvent.color,
+          },
+        });
+      });
+    });
+
+    return events;
+  }, [calendarEvents]);
 
   return (
     <Box h="100%" w="100%" p="2em">
@@ -70,8 +120,11 @@ export function SchedulerCalendar({ courses }: CalendarProps): JSX.Element {
         events={events}
         view="work_week"
         views={['work_week']}
-        defaultDate={new Date(2015, 3, 1)}
+        defaultDate={new Date(2021, 5, 1)}
         eventPropGetter={eventStyleGetter}
+        components={{
+          event: CustomEvent,
+        }}
       />
     </Box>
   );
