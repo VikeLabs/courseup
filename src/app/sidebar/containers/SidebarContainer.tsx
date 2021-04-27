@@ -1,7 +1,29 @@
-import { Flex, Spinner } from '@chakra-ui/react';
+import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
+import { useMemo, useState } from 'react';
+import { Route, Routes, useParams } from 'react-router';
 
-import { Term, useGetCourses, useSubjects } from '../../../fetchers';
-import { Sidebar } from '../Sidebar';
+import { Course, Term, useGetCourses, useSubjects } from '../../../shared/fetchers';
+import { CoursesList } from '../components/CoursesList';
+import { CustomHits } from '../components/SearchResults';
+import { SubjectsList } from '../components/SubjectsList';
+import { TopBar } from '../components/TopBar';
+
+function computeParsedCourses(courses: Course[] | null) {
+  if (!courses) {
+    return {};
+  }
+
+  return (
+    courses.reduce((dict, course) => {
+      const subject = course.subject;
+      if (!(subject in dict)) {
+        dict[subject] = [];
+      }
+      dict[subject].push(course);
+      return dict;
+    }, {} as { [subject: string]: Course[] }) ?? {}
+  );
+}
 
 export interface SidebarContainerProps {
   /**
@@ -9,48 +31,68 @@ export interface SidebarContainerProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
-  /**
-   * Current pid selected in content
-   * default is ''
-   */
-  pid?: string;
-  /**
-   * Sets pid for content -> displays course info in content component
-   */
-  setPid?: (pid: string) => void;
-  /**
-   * Sets subject for content -> displays course info in content component
-   */
-  setSubject?: (currentSubject: string) => void;
-  /**
-   * Sets code for content -> displays course info in content component
-   */
-  setCode?: (currentSubject: string) => void;
+  searchQuery: string;
 }
 
-export function SidebarContainer({
-  term,
-  pid,
-  setPid,
-  setSubject,
-  setCode,
-}: SidebarContainerProps): JSX.Element | null {
-  const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term });
-  const { data: courses, loading: coursesLoading } = useGetCourses({ term: term });
+export function SidebarContainer({ searchQuery }: SidebarContainerProps): JSX.Element | null {
+  const [filter, setFilter] = useState(false);
+  const { term } = useParams();
+
+  const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
+  const { data: courses, loading: coursesLoading } = useGetCourses({
+    term: term as Term,
+    queryParams: { in_session: filter },
+  });
+
+  const loading = subjectsLoading || coursesLoading;
+
+  // sorts the list of subjects alphabetically
+  const sortedSubjects = useMemo(() => subjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
+  const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
+
+  const handleFilter = (s: boolean) => {
+    setFilter(s);
+  };
+
+  if (searchQuery.length !== 0) {
+    return (
+      <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="20%">
+        <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
+          <Box>
+            <HStack bg="white" py="2" px="4" top="0" m="0" boxShadow="md" zIndex={500}>
+              <Heading pt="0.25em" color="black" size="sm">
+                Search Results
+              </Heading>
+            </HStack>
+          </Box>
+          <Flex id="sideBarScroller" direction="column" overflowY="auto">
+            <CustomHits />
+          </Flex>
+        </Flex>
+      </Flex>
+    );
+  }
 
   return (
-    <Flex justifyContent="center" alignItems="center" bg="#E4E4E4" minW="20%">
-      {subjectsLoading || coursesLoading || subjects === null || courses === null ? (
-        <Spinner size="xl" />
+    <Flex bg="#E4E4E4" minW="20%" flexDirection="column">
+      <TopBar onFilter={handleFilter} />
+      {!loading && sortedSubjects && courses ? (
+        <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
+          <Flex direction="column" overflowY="auto">
+            <Routes>
+              <Route path="/">
+                <SubjectsList term={term} subjects={sortedSubjects} />
+              </Route>
+              <Route path=":subject">
+                <CoursesList term={term} courses={parsedCourses} />
+              </Route>
+            </Routes>
+          </Flex>
+        </Flex>
       ) : (
-        <Sidebar
-          subjects={subjects}
-          courses={courses}
-          setPid={setPid}
-          pid={pid}
-          setSubject={setSubject}
-          setCode={setCode}
-        />
+        <Center height="100%">
+          <Spinner size="xl" />
+        </Center>
       )}
     </Flex>
   );

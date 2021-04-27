@@ -6,7 +6,6 @@ export const SPEC_VERSION = 'undefined';
 export interface Course {
   pid: string;
   title: string;
-  dateStart: string;
   subject: string;
   code: string;
 }
@@ -16,15 +15,20 @@ export type Term = '202001' | '202005' | '202009' | '202101' | '202105';
 export interface CourseDetails {
   pid: string;
   title: string;
-  dateStart: string;
   description: string;
   credits: {
     chosen: string;
-    value: string;
+    value: {};
     credits: {
       max: string;
       min: string;
     };
+  };
+  dateStart: string;
+  hoursCatalog?: {
+    lab: string;
+    tutorial: string;
+    lecture: string;
   };
   /**
    * Abbriviation of the subject of the course.
@@ -38,11 +42,12 @@ export interface CourseDetails {
    * If a course was named something else previously.
    */
   formally?: string;
+  hoursCatalogText?: {};
 }
 
 export type LevelType = 'law' | 'undergraduate' | 'graduate';
 
-export type SectionType = 'lecture' | 'lab' | 'tutorial';
+export type SectionType = 'lecture' | 'lab' | 'tutorial' | 'gradable lab' | 'lecture topic';
 
 export interface MeetingTimes {
   type: string;
@@ -82,12 +87,19 @@ export interface Seating {
   remaining: number;
 }
 
-export type Classification = 'YEAR_1' | 'YEAR_2' | 'YEAR_3' | 'YEAR_4' | 'YEAR_5';
+export type Classification = 'YEAR_1' | 'YEAR_2' | 'YEAR_3' | 'YEAR_4' | 'YEAR_5' | 'unclassified';
 
 export interface Requirements {
   level: LevelType[];
   fieldOfStudy?: string[];
   classification?: Classification[];
+  negClassification?: Classification[];
+  degree?: string[];
+  program?: string[];
+  negProgram?: string[];
+  college?: string[];
+  negCollege?: string[];
+  major?: string[];
 }
 
 export interface Seat {
@@ -104,28 +116,35 @@ export interface KualiSubject {
 
 export type Subject = KualiSubject;
 
+export interface GetCoursesQueryParams {
+  in_session?: boolean;
+}
+
 export interface GetCoursesPathParams {
   term: Term;
 }
 
-export type GetCoursesProps = Omit<GetProps<Course[], unknown, void, GetCoursesPathParams>, 'path'> &
+export type GetCoursesProps = Omit<GetProps<Course[], unknown, GetCoursesQueryParams, GetCoursesPathParams>, 'path'> &
   GetCoursesPathParams;
 
 /**
  * Retrieves all the courses available. If query params are passed in, they will be used to filter results.
  */
 export const GetCourses = ({ term, ...props }: GetCoursesProps) => (
-  <Get<Course[], unknown, void, GetCoursesPathParams> path={`/courses/${term}`} {...props} />
+  <Get<Course[], unknown, GetCoursesQueryParams, GetCoursesPathParams> path={`/courses/${term}`} {...props} />
 );
 
-export type UseGetCoursesProps = Omit<UseGetProps<Course[], unknown, void, GetCoursesPathParams>, 'path'> &
+export type UseGetCoursesProps = Omit<
+  UseGetProps<Course[], unknown, GetCoursesQueryParams, GetCoursesPathParams>,
+  'path'
+> &
   GetCoursesPathParams;
 
 /**
  * Retrieves all the courses available. If query params are passed in, they will be used to filter results.
  */
 export const useGetCourses = ({ term, ...props }: UseGetCoursesProps) =>
-  useGet<Course[], unknown, void, GetCoursesPathParams>(
+  useGet<Course[], unknown, GetCoursesQueryParams, GetCoursesPathParams>(
     (paramsInPath: GetCoursesPathParams) => `/courses/${paramsInPath.term}`,
     { pathParams: { term }, ...props }
   );

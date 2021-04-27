@@ -1,4 +1,4 @@
-import { KualiSubject, MeetingTimes, Section } from '../../../fetchers';
+import { KualiSubject, MeetingTimes, Section } from '../../../shared/fetchers';
 
 export interface CalendarEvent {
   subject: String;

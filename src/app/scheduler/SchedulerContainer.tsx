@@ -1,6 +1,6 @@
-import { Box, Heading, Spinner } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
-import { Course, useGetCourse, useGetCourses, useSections } from '../../fetchers';
+import { useSections } from '../../shared/fetchers';
 
 import { SchedulerCalendar } from './components/SchedulerCalendar';
 
@@ -9,7 +9,7 @@ export interface CalendarProps {}
 /**
  * Primary UI component for content
  */
-export function Scheduler(): JSX.Element {
+export function SchedulerContainer(): JSX.Element {
   const term = '202105';
   const subject = 'MATH';
   const code = '101';

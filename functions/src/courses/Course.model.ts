@@ -1,6 +1,6 @@
 import {
   KualiCourseCatalog,
-  KualiCourseItem,
+  KualiCourseItemParsed,
 } from '@vikelabs/uvic-course-scraper/dist/types';
 
 export interface Course extends Pick<KualiCourseCatalog, 'pid' | 'title'> {
@@ -10,8 +10,8 @@ export interface Course extends Pick<KualiCourseCatalog, 'pid' | 'title'> {
 
 export interface CourseDetails
   extends Pick<
-    KualiCourseItem,
-    'pid' | 'title' | 'description' | 'dateStart' | 'credits'
+    KualiCourseItemParsed,
+    'pid' | 'title' | 'description' | 'dateStart' | 'credits' | 'hoursCatalog'
   > {
   /**
    * Abbriviation of the subject of the course.

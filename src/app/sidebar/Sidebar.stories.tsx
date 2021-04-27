@@ -1,22 +1,18 @@
 import { Story, Meta } from '@storybook/react/types-6-0';
 import React from 'react';
-// also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 
-import { Sidebar, SidebarProps } from './Sidebar';
+import { SidebarContainer, SidebarContainerProps } from './containers/SidebarContainer';
+// also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 
 export default {
   title: 'Sidebar',
-  component: Sidebar,
+  component: SidebarContainer,
 } as Meta;
 
-const Template: Story<SidebarProps> = (args) => <Sidebar {...args} />;
+const Template: Story<SidebarContainerProps> = (args) => <SidebarContainer {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {
-  pid: '',
-  subjects: [],
-  courses: [],
-};
+Default.args = {};
 
 Default.parameters = {
   design: {
