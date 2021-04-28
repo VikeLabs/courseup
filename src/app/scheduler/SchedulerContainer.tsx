@@ -10,13 +10,13 @@ export interface CalendarProps {}
  * Primary UI component for content
  */
 export function SchedulerContainer(): JSX.Element {
-  const term = '202105';
-  const subject = 'MATH';
-  const code = '101';
+  const term = '202101';
+  const subject = 'CSC';
+  const code = '226';
   const { data: scehdulelisting } = useSections({ term, queryParams: { subject, code } });
 
   return (
-    <Box w="100%" height="100%">
+    <Box w="100%" height="100%" p="2em">
       {scehdulelisting && (
         <SchedulerCalendar
           calendarEvents={(() => {

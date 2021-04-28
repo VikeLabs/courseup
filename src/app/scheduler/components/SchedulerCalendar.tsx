@@ -70,11 +70,11 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
     calendarEvents?.forEach((calendarEvent) => {
       const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
       const startEndHours = calendarEvent.meetingTime.time.split('-');
-      const startUpperDateRRule = dayjs(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm a')
-        .utc()
+      const startUpperDateRRule = dayjs
+        .utc(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm a')
         .toDate();
-      const startLowerDateRRule = dayjs(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm a')
-        .utc()
+      const startLowerDateRRule = dayjs
+        .utc(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm a')
         .toDate();
       const endDateRRule = dayjs(startEndDates[1].trim(), 'MMM, D, YYYY').utc().toDate();
 
@@ -85,7 +85,6 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
         byweekday: days,
         dtstart: startUpperDateRRule,
         until: endDateRRule,
-        tzid: 'America/Vancouver',
       });
 
       const ruleLower = new RRule({
@@ -93,7 +92,6 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
         byweekday: days,
         dtstart: startLowerDateRRule,
         until: endDateRRule,
-        tzid: 'America/Vancouver',
       });
 
       const ruleLowerAll = ruleLower.all();
@@ -101,8 +99,8 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
       ruleUpper.all().map((dateUpper, i) => {
         events.push({
           title: `${calendarEvent.subject} ${calendarEvent.code}`,
-          start: dateUpper,
-          end: ruleLowerAll[i],
+          start: new Date(dateUpper.toUTCString().replace('GMT', '')),
+          end: new Date(ruleLowerAll[i].toUTCString().replace('GMT', '')),
           resource: {
             color: calendarEvent.color,
             sectionCode: calendarEvent.sectionCode,
@@ -118,22 +116,20 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
   const today = new Date();
 
   return (
-    <Box h="100%" w="100%" p="2em">
-      <Calendar
-        localizer={localizer}
-        events={events}
-        min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)}
-        max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 22)}
-        view="work_week"
-        timeslots={10}
-        step={3}
-        views={['work_week']}
-        defaultDate={new Date(2021, 5, 1)}
-        eventPropGetter={eventStyleGetter}
-        components={{
-          event: CustomEvent,
-        }}
-      />
-    </Box>
+    <Calendar
+      localizer={localizer}
+      events={events}
+      min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)}
+      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 22)}
+      view="work_week"
+      timeslots={10}
+      step={3}
+      views={['work_week']}
+      defaultDate={new Date(2021, 1, 10)}
+      eventPropGetter={eventStyleGetter}
+      components={{
+        event: CustomEvent,
+      }}
+    />
   );
 }
