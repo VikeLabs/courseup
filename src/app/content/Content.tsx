@@ -53,8 +53,8 @@ export function Content({ term }: ContentProps): JSX.Element {
           </>
         )}
       </Skeleton>
-      <Center>
-        <Text as="span" bottom="0" pos="absolute" fontWeight="bold" fontSize={12}>
+      <Center as="footer" py="1">
+        <Text as="span" bottom="0" pos="static" fontWeight="bold" fontSize={12}>
           Sources:
           <Text as="span" color="blue.500" decoration="underline" fontWeight="light">
             <Text
