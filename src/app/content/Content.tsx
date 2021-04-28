@@ -57,7 +57,7 @@ export function Content({ term }: ContentProps): JSX.Element {
       </Box>
       <Spacer />
       <Center>
-        <Text as="span" fontWeight="bold" fontSize={12}>
+        <Text as="span" fontWeight="bold" fontSize={12} mb={5}>
           Sources:
           <Text as="span" color="blue.500" fontWeight="light">
             <Text
