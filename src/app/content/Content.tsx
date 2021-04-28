@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Skeleton } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Skeleton, Text } from '@chakra-ui/react';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from '../../shared/fetchers';
@@ -6,13 +6,13 @@ import { Term, useGetCourse } from '../../shared/fetchers';
 import { CourseInfo } from './components/Course';
 import { SectionsContainer } from './containers/Section';
 
-export interface ContentProps {
+export type ContentProps = {
   /**
    * Term Selected
    * Determines what term the subjects and courses are from
    */
   term: Term;
-}
+};
 
 /**
  * Primary UI component for content
@@ -20,6 +20,7 @@ export interface ContentProps {
 export function Content({ term }: ContentProps): JSX.Element {
   const [searchParams] = useSearchParams();
   const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
+  console.log(data);
 
   return (
     <Box width={['container.md', 'container.lg', 'container.xl']} bg="white" p={4} zIndex={60}>
@@ -52,6 +53,30 @@ export function Content({ term }: ContentProps): JSX.Element {
           </>
         )}
       </Skeleton>
+      <Center>
+        <Text as="span" bottom="0" pos="absolute" fontWeight="bold" fontSize={12}>
+          Sources:
+          <Text as="span" color="blue.500" decoration="underline" fontWeight="light">
+            <Text
+              as="a"
+              href={`https://www.uvic.ca/calendar/undergrad/index.php#/courses/${data?.pid}`}
+              target="_blank"
+              mx="3"
+              _hover={{ color: 'blue' }}
+            >
+              {`UVic Undergraduate Calendar ${new Date().getFullYear()}`}
+            </Text>
+            <Text
+              as="a"
+              href={`https://www.uvic.ca/BAN1P/bwckctlg.p_disp_listcrse?term_in=${term}&subj_in=${data?.subject}&crse_in=${data?.code}&schd_in=`}
+              target="_blank"
+              _hover={{ color: 'blue' }}
+            >
+              UVic Class Schedule Listings
+            </Text>
+          </Text>
+        </Text>
+      </Center>
     </Box>
   );
 }
