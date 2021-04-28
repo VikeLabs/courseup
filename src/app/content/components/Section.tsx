@@ -138,9 +138,9 @@ export function SectionInfo({
             href={`https://www.uvic.ca/BAN1P/bwckschd.p_disp_detail_sched?term_in=${term}&crn_in=${crn}`}
             target="_blank"
             _hover={{ color: 'blue' }}
-            ml="2"
+            ml="1"
           >
-            UVic Detailed Class Information
+            UVic
           </Text>
         </Text>
       </Text>
