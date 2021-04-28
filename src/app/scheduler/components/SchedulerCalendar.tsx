@@ -1,10 +1,13 @@
+import format from 'date-fns/format';
+import getDay from 'date-fns/getDay';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
-import moment from 'moment';
 import { MutableRefObject, useMemo, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
-import { Calendar, momentLocalizer, Event, EventProps } from 'react-big-calendar';
+import { Calendar, dateFnsLocalizer, Event, EventProps } from 'react-big-calendar';
 import { RRule } from 'rrule';
 
 import { CalendarEvent } from './CalendarEvent';
@@ -12,7 +15,17 @@ import { CalendarEvent } from './CalendarEvent';
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
 
-const localizer = momentLocalizer(moment);
+const locales = {
+  'en-US': require('date-fns/locale/en-US'),
+};
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
 const eventStyleGetter = ({ resource }: Event) => {
   const style = {
