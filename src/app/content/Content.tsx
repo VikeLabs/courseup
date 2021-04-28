@@ -20,7 +20,6 @@ export type ContentProps = {
 export function Content({ term }: ContentProps): JSX.Element {
   const [searchParams] = useSearchParams();
   const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
-  console.log(data);
 
   return (
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column" minH="100%">
