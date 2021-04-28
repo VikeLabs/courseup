@@ -1,5 +1,6 @@
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
+import * as enUS from 'date-fns/locale';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
@@ -16,7 +17,7 @@ dayjs.extend(utc);
 dayjs.extend(customParseFormat);
 
 const locales = {
-  'en-US': require('date-fns/locale/en-US'),
+  'en-US': enUS,
 };
 
 const localizer = dateFnsLocalizer({
