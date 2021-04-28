@@ -59,7 +59,7 @@ export function Content({ term }: ContentProps): JSX.Element {
       <Center>
         <Text as="span" fontWeight="bold" fontSize={12}>
           Sources:
-          <Text as="span" color="blue.500" decoration="underline" fontWeight="light">
+          <Text as="span" color="blue.500" fontWeight="light">
             <Text
               as="a"
               href={`https://www.uvic.ca/calendar/undergrad/index.php#/courses/${data?.pid}`}
@@ -74,6 +74,7 @@ export function Content({ term }: ContentProps): JSX.Element {
               href={`https://www.uvic.ca/BAN1P/bwckctlg.p_disp_listcrse?term_in=${term}&subj_in=${data?.subject}&crse_in=${data?.code}&schd_in=`}
               target="_blank"
               _hover={{ color: 'blue' }}
+              ml="2"
             >
               UVic Class Schedule Listings
             </Text>

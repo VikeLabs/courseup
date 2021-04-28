@@ -130,9 +130,9 @@ export function SectionInfo({
           <SeatInfo seat={seat} />
         </Box>
       </Box>
-      <Text as="span" fontWeight="bold" fontSize={10} align="right" w="100%" display="block">
+      <Text as="span" fontWeight="bold" fontSize={12} align="right" w="100%" display="block">
         Source:
-        <Text as="span" color="blue.500" decoration="underline" fontWeight="light">
+        <Text as="span" color="blue.500" fontWeight="light">
           <Text
             as="a"
             href={`https://www.uvic.ca/BAN1P/bwckschd.p_disp_detail_sched?term_in=${term}&crn_in=${crn}`}
