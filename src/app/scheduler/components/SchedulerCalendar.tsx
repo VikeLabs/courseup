@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/layout';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
@@ -68,46 +67,50 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
   const events = useMemo(() => {
     const events: Event[] = new Array();
     calendarEvents?.forEach((calendarEvent) => {
-      const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
-      const startEndHours = calendarEvent.meetingTime.time.split('-');
-      const startUpperDateRRule = dayjs
-        .utc(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm a')
-        .toDate();
-      const startLowerDateRRule = dayjs
-        .utc(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm a')
-        .toDate();
-      const endDateRRule = dayjs(startEndDates[1].trim(), 'MMM, D, YYYY').utc().toDate();
+      try {
+        const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
+        const startEndHours = calendarEvent.meetingTime.time.split('-');
+        const startUpperDateRRule = dayjs
+          .utc(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm a')
+          .toDate();
+        const startLowerDateRRule = dayjs
+          .utc(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm a')
+          .toDate();
+        const endDateRRule = dayjs(startEndDates[1].trim(), 'MMM, D, YYYY').utc().toDate();
 
-      const days = computeMeetingTimeDays(calendarEvent);
+        const days = computeMeetingTimeDays(calendarEvent);
 
-      const ruleUpper = new RRule({
-        freq: RRule.WEEKLY,
-        byweekday: days,
-        dtstart: startUpperDateRRule,
-        until: endDateRRule,
-      });
-
-      const ruleLower = new RRule({
-        freq: RRule.WEEKLY,
-        byweekday: days,
-        dtstart: startLowerDateRRule,
-        until: endDateRRule,
-      });
-
-      const ruleLowerAll = ruleLower.all();
-
-      ruleUpper.all().map((dateUpper, i) => {
-        events.push({
-          title: `${calendarEvent.subject} ${calendarEvent.code}`,
-          start: new Date(dateUpper.toUTCString().replace('GMT', '')),
-          end: new Date(ruleLowerAll[i].toUTCString().replace('GMT', '')),
-          resource: {
-            color: calendarEvent.color,
-            sectionCode: calendarEvent.sectionCode,
-            location: calendarEvent.meetingTime.where,
-          },
+        const ruleUpper = new RRule({
+          freq: RRule.WEEKLY,
+          byweekday: days,
+          dtstart: startUpperDateRRule,
+          until: endDateRRule,
         });
-      });
+
+        const ruleLower = new RRule({
+          freq: RRule.WEEKLY,
+          byweekday: days,
+          dtstart: startLowerDateRRule,
+          until: endDateRRule,
+        });
+
+        const ruleLowerAll = ruleLower.all();
+
+        ruleUpper.all().map((dateUpper, i) => {
+          events.push({
+            title: `${calendarEvent.subject} ${calendarEvent.code}`,
+            start: new Date(dateUpper.toUTCString().replace('GMT', '')),
+            end: new Date(ruleLowerAll[i].toUTCString().replace('GMT', '')),
+            resource: {
+              color: calendarEvent.color,
+              sectionCode: calendarEvent.sectionCode,
+              location: calendarEvent.meetingTime.where,
+            },
+          });
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     return events;
