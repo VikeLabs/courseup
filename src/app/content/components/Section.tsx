@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/layout';
+import { Box, Heading, Text } from '@chakra-ui/layout';
 import {
   Accordion,
   AccordionButton,
@@ -14,6 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@chakra-ui/react';
+import { useParams } from 'react-router';
 
 import { MeetingTimes, Seat } from '../../../shared/fetchers';
 
@@ -66,6 +67,8 @@ export function SectionInfo({
   const isASYNC = additionalNotes?.indexOf('asynchronous') !== -1;
   const isSENG = additionalNotes?.indexOf('Reserved for BSENG students') !== -1;
   const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
+
+  const { term } = useParams();
 
   return (
     <Box as="section" bg="white" color="black" my="4" boxShadow="md" p="3" rounded="lg">
@@ -127,6 +130,20 @@ export function SectionInfo({
           <SeatInfo seat={seat} />
         </Box>
       </Box>
+      <Text as="span" fontWeight="bold" fontSize={10} align="right" w="100%" display="block">
+        Source:
+        <Text as="span" color="blue.500" decoration="underline" fontWeight="light">
+          <Text
+            as="a"
+            href={`https://www.uvic.ca/BAN1P/bwckschd.p_disp_detail_sched?term_in=${term}&crn_in=${crn}`}
+            target="_blank"
+            _hover={{ color: 'blue' }}
+            ml="2"
+          >
+            UVic Detailed Class Information
+          </Text>
+        </Text>
+      </Text>
     </Box>
   );
 }
