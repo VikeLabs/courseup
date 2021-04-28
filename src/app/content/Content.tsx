@@ -67,7 +67,7 @@ export function Content({ term }: ContentProps): JSX.Element {
               mx="3"
               _hover={{ color: 'blue' }}
             >
-              {`UVic Undergraduate Calendar ${new Date().getFullYear()}`}
+              UVic Undergraduate Calendar
             </Text>
             <Text
               as="a"
