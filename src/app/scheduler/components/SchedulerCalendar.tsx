@@ -68,6 +68,10 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
     const events: Event[] = new Array();
     calendarEvents?.forEach((calendarEvent) => {
       try {
+        if (calendarEvent.meetingTime.time === 'TBA') {
+          return;
+        }
+
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
         const startEndHours = calendarEvent.meetingTime.time.split('-');
         const startUpperDateRRule = dayjs
