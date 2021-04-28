@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
 import moment from 'moment';
-import { useMemo } from 'react';
+import { MutableRefObject, useMemo, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import { Calendar, momentLocalizer, Event, EventProps } from 'react-big-calendar';
 import { RRule } from 'rrule';
@@ -45,9 +45,11 @@ export interface SchedulerCalendarProps {
 }
 
 export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
+  const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
+
   const computeMeetingTimeDays = (calendarEvent: CalendarEvent) => {
     const days = calendarEvent.meetingTime.days;
-    const daysRRule = new Array();
+    const daysRRule = [];
 
     if (days.includes('M')) {
       daysRRule.push(RRule.MO);
@@ -68,10 +70,8 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     return daysRRule;
   };
 
-  var minEventDate: Date | undefined = undefined;
-
   const events = useMemo(() => {
-    const events: Event[] = new Array();
+    const events: Event[] = [];
     calendarEvents?.forEach((calendarEvent) => {
       try {
         if (calendarEvent.meetingTime.time === 'TBA') {
@@ -106,7 +106,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
 
         const ruleLowerAll = ruleLower.all();
 
-        ruleUpper.all().map((dateUpper, i) => {
+        ruleUpper.all().forEach((dateUpper, i) => {
           const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
           events.push({
             title: `${calendarEvent.subject} ${calendarEvent.code}`,
@@ -119,10 +119,10 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
             },
           });
 
-          if (minEventDate === undefined) {
-            minEventDate = startDate;
-          } else if (startDate > minEventDate) {
-            minEventDate = startDate;
+          if (minEventDate.current === undefined) {
+            minEventDate.current = startDate;
+          } else if (startDate < minEventDate.current) {
+            minEventDate.current = startDate;
           }
         });
       } catch (error) {
@@ -145,7 +145,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       timeslots={10}
       step={3}
       views={['work_week']}
-      defaultDate={minEventDate}
+      defaultDate={minEventDate.current}
       eventPropGetter={eventStyleGetter}
       components={{
         event: CustomEvent,
