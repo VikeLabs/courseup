@@ -15,7 +15,7 @@ dayjs.extend(customParseFormat);
 const localizer = momentLocalizer(moment);
 
 const eventStyleGetter = ({ resource }: Event) => {
-  var style = {
+  const style = {
     backgroundColor: resource && resource.color,
     borderRadius: '0px',
     opacity: 0.8,
@@ -74,7 +74,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     const events: Event[] = [];
     calendarEvents?.forEach((calendarEvent) => {
       try {
-        if (calendarEvent.meetingTime.time === 'TBA') {
+        if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) {
           return;
         }
 
