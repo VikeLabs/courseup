@@ -128,7 +128,7 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
       events={events}
       min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)}
       max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 22)}
-      view="work_week"
+      defaultView="work_week"
       timeslots={10}
       step={3}
       views={['work_week']}
