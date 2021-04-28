@@ -36,11 +36,15 @@ const CustomEvent = ({ title, event }: EventProps) => {
   );
 };
 
-export interface CalendarProps {
+export interface SchedulerCalendarProps {
+  /**
+   * CalendarEvents
+   * Parses events that can go into the calendar from this
+   */
   calendarEvents?: CalendarEvent[];
 }
 
-export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Element {
+export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
   const computeMeetingTimeDays = (calendarEvent: CalendarEvent) => {
     const days = calendarEvent.meetingTime.days;
     const daysRRule = new Array();
@@ -63,6 +67,8 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
 
     return daysRRule;
   };
+
+  var minEventDate: Date | undefined = undefined;
 
   const events = useMemo(() => {
     const events: Event[] = new Array();
@@ -101,9 +107,10 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
         const ruleLowerAll = ruleLower.all();
 
         ruleUpper.all().map((dateUpper, i) => {
+          const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
           events.push({
             title: `${calendarEvent.subject} ${calendarEvent.code}`,
-            start: new Date(dateUpper.toUTCString().replace('GMT', '')),
+            start: startDate,
             end: new Date(ruleLowerAll[i].toUTCString().replace('GMT', '')),
             resource: {
               color: calendarEvent.color,
@@ -111,6 +118,12 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
               location: calendarEvent.meetingTime.where,
             },
           });
+
+          if (minEventDate === undefined) {
+            minEventDate = startDate;
+          } else if (startDate > minEventDate) {
+            minEventDate = startDate;
+          }
         });
       } catch (error) {
         console.error(error);
@@ -132,7 +145,7 @@ export function SchedulerCalendar({ calendarEvents }: CalendarProps): JSX.Elemen
       timeslots={10}
       step={3}
       views={['work_week']}
-      defaultDate={new Date(2021, 1, 10)}
+      defaultDate={minEventDate}
       eventPropGetter={eventStyleGetter}
       components={{
         event: CustomEvent,

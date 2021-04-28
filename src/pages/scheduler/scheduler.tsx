@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@chakra-ui/layout';
+import { Flex } from '@chakra-ui/layout';
 
 import { Header, SchedulerContainer } from '../../app';
 
