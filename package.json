@@ -25,7 +25,6 @@
     "react-big-calendar": "^0.33.2",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
-    "react-infinite-scroll-component": "^6.0.0",
     "react-instantsearch-core": "^6.10.3",
     "react-instantsearch-dom": "^6.10.3",
     "react-router": "^6.0.0-beta.0",
