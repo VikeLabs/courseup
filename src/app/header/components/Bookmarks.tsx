@@ -47,7 +47,7 @@ export function Bookmarks(): JSX.Element | null {
   const [fresh, setFresh] = useState<string[]>([]);
   const open = () => setIsOpen(!isOpen);
 
-  const [data, , deleteCourse] = useSavedCourses('123');
+  const [data, , deleteCourse] = useSavedCourses('newKEY');
   useEffect(() => {
     if (data) {
       setFresh(JSON.parse(data));
@@ -57,7 +57,7 @@ export function Bookmarks(): JSX.Element | null {
   const onClick = useCallback(
     (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
       const name = event.currentTarget.getAttribute('name');
-      console.log(name);
+      console.log(name + 'Hello');
       deleteCourse(name!);
     },
     [deleteCourse]

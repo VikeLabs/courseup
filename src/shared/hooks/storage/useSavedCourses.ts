@@ -1,7 +1,7 @@
 import useLocalStorage from './useLocalStorage';
 
 export const useSavedCourses = (key: string): [string, (courseInfo: string) => void, (key: string) => void] => {
-  const [data, setData, deleteData] = useLocalStorage(key, '');
+  const [data, setData] = useLocalStorage(key, '');
 
   const addCourse = (pid: string) => {
     if (data) {

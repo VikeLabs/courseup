@@ -1,6 +1,10 @@
-import { Box, Heading, Text } from '@chakra-ui/layout';
-import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
-import { PropsWithChildren } from 'react';
+import { Box, Heading, Text, Spacer } from '@chakra-ui/layout';
+import { BackgroundProps, Divider, Flex, Button, background } from '@chakra-ui/react';
+import { PropsWithChildren, useCallback, useState, useEffect } from 'react';
+import { BsFillBookmarkFill } from 'react-icons/bs';
+import { useSearchParams } from 'react-router-dom';
+
+import { useSavedCourses } from '../../../shared/hooks/storage/useSavedCourses';
 
 export interface CourseShieldProps {
   /**
@@ -77,6 +81,21 @@ export function CourseInfo({
   credits,
   units,
 }: CourseInfoProps): JSX.Element {
+  const [data, addCourse, deleteCourse] = useSavedCourses('newKEY');
+  const [bookmark, setBookmark] = useState(false);
+  const [searchParams] = useSearchParams();
+  const pid = searchParams.get('pid');
+  const handleBookmarkClick = useCallback(() => {
+    setBookmark(!bookmark);
+  }, [bookmark]);
+
+  useEffect(() => {
+    if (bookmark) {
+      addCourse(pid!);
+    } else {
+      deleteCourse(pid!);
+    }
+  }, [addCourse, bookmark, deleteCourse, pid]);
   return (
     <Box as="section" bg="white" color="black">
       <Divider my="3" />
@@ -112,6 +131,14 @@ export function CourseInfo({
             </Heading>
           </CourseShield>
         )}
+        {data}
+
+        <Spacer />
+        <Flex justify="right" align="right" borderBottomRightRadius="md" borderTopRightRadius="md">
+          <button onClick={handleBookmarkClick} style={{ backgroundColor: bookmark ? 'lightgreen' : 'red' }}>
+            bookmark
+          </button>
+        </Flex>
       </Flex>
       <Text as="article">{description}</Text>
       {addtionalNotes && (
