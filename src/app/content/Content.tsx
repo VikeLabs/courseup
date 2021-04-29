@@ -23,7 +23,7 @@ export function Content({ term }: ContentProps): JSX.Element {
   const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
   return (
-    <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column" minH="100%">
+    <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
       <Helmet>
         <title>{`${data?.subject || 'clockwork · We make school easier'} ${
           data?.code ? data?.code + ' · View Courses · clockwork' : ''

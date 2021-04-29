@@ -7,6 +7,7 @@ import { Scheduler } from './pages/scheduler/scheduler';
 // TODO: use nested routes but it doesn't work right now
 
 export function Routes(): JSX.Element {
+  document.body.style.overflow = 'hidden';
   return (
     <BrowserRouter>
       <ReactRouterRoutes>
