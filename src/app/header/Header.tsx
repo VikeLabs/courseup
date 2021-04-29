@@ -1,6 +1,7 @@
 import { Center, Grid, GridItem, Image, Button, Flex } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
+import { Bookmarks } from './components/Bookmarks';
 import { NavButtons } from './components/NavButtons';
 import { Search } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';
@@ -15,7 +16,7 @@ export interface HeaderProps {
 export function Header({ onSearchChange }: HeaderProps): JSX.Element {
   return (
     <Grid
-      templateColumns="repeat(3, 1fr)"
+      templateColumns="repeat(4, 1fr)"
       as="header"
       py="3"
       px="8"
@@ -48,6 +49,9 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
       </GridItem>
       <GridItem colStart={3} alignContent="flex-end">
         <TermButtons />
+      </GridItem>
+      <GridItem>
+        <Bookmarks />
       </GridItem>
     </Grid>
   );

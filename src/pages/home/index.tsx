@@ -14,7 +14,7 @@ export function Home(): JSX.Element {
   const [data, addCourse, deleteCourse] = useSavedCourses('123');
 
   const onClick = useCallback(() => {
-    addCourse('13804719238');
+    addCourse('a pid');
   }, [addCourse]);
 
   const onClick1 = useCallback(() => {
@@ -22,9 +22,10 @@ export function Home(): JSX.Element {
   }, [addCourse]);
 
   const onClick2 = useCallback(() => {
-    console.log(JSON.parse(data));
     deleteCourse('13804719238');
   }, [deleteCourse]);
+
+  localStorage.clear();
 
   return (
     <Flex h="100vh" direction="column">
