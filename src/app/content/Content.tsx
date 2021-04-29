@@ -2,6 +2,7 @@ import { Box, Center, Flex, Heading, Skeleton, Spacer, Text } from '@chakra-ui/r
 import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from '../../shared/fetchers';
+import { useSavedCourses } from '../../shared/hooks/storage/useSavedCourses';
 
 import { CourseInfo } from './components/Course';
 import { SectionsContainer } from './containers/Section';

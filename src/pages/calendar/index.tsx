@@ -7,7 +7,7 @@ import { Header, Content, Feedback } from '../../app/index';
 import { getCurrentTerm } from '../../app/shared/utils/terms';
 import { ContentSidebar } from '../../app/sidebar';
 import { Term } from '../../shared/fetchers';
-import { useSessionStorage } from '../../shared/useStorage';
+import { useSessionStorage } from '../../shared/hooks/storage/useStorage';
 
 export function Calendar(): JSX.Element {
   const navigate = useNavigate();
