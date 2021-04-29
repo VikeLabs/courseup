@@ -36,8 +36,10 @@ export function SidebarTemplate({ children, term, route }: SidebarTemplateProps)
     <Flex h="100vh" direction="column">
       <Header onSearchChange={handleSearchChange} />
       <Flex grow={1} overflow="hidden">
-        <ContentSidebar term={term} searchQuery={query} />
-        {children}
+        <ContentSidebar route={route} term={term} searchQuery={query} />
+        <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>
+          {children}
+        </Flex>
         <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
           <Feedback />
         </Box>

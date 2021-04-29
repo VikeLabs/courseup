@@ -14,20 +14,18 @@ export function Calendar(): JSX.Element {
 
   return (
     <SidebarTemplate route="calendar" term={term as Term}>
-      <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>
-        {pid ? (
-          <Content term={term as Term} />
-        ) : (
-          <Center p="10">
-            <VStack>
-              <Heading color="black">Explore Courses</Heading>
-              <Text color="gray">
-                Select a subject and then a course to start viewing course details and section information.
-              </Text>
-            </VStack>
-          </Center>
-        )}
-      </Flex>
+      {pid ? (
+        <Content term={term as Term} />
+      ) : (
+        <Center p="10">
+          <VStack>
+            <Heading color="black">Explore Courses</Heading>
+            <Text color="gray">
+              Select a subject and then a course to start viewing course details and section information.
+            </Text>
+          </VStack>
+        </Center>
+      )}
     </SidebarTemplate>
   );
 }

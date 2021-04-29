@@ -10,9 +10,14 @@ export function Scheduler(): JSX.Element {
 
   return (
     <SidebarTemplate route="schedule" term={term as Term}>
-      <Box flexGrow={1}>
-        <SchedulerContainer />
-      </Box>
+      <Flex flexGrow={1}>
+        <Box flexGrow={1}>
+          <SchedulerContainer />
+        </Box>
+        <Flex minW="25%" backgroundColor="black">
+          <Box>asdf</Box>
+        </Flex>
+      </Flex>
     </SidebarTemplate>
   );
 }

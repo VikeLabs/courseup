@@ -1,6 +1,6 @@
 import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { Route, Routes, useParams } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Course, Term, useGetCourses, useSubjects } from '../../../shared/fetchers';
 import { CoursesList } from '../components/CoursesList';
@@ -32,11 +32,11 @@ export interface SidebarContainerProps {
    */
   term: Term;
   searchQuery: string;
+  route: String;
 }
 
-export function SidebarContainer({ searchQuery }: SidebarContainerProps): JSX.Element | null {
+export function SidebarContainer({ searchQuery, route, term }: SidebarContainerProps): JSX.Element | null {
   const [filter, setFilter] = useState(false);
-  const { term } = useParams();
 
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
@@ -75,16 +75,17 @@ export function SidebarContainer({ searchQuery }: SidebarContainerProps): JSX.El
 
   return (
     <Flex bg="#E4E4E4" minW="20%" flexDirection="column">
-      <TopBar onFilter={handleFilter} />
+      <TopBar route={route} onFilter={handleFilter} />
       {!loading && sortedSubjects && courses ? (
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
           <Flex direction="column" overflowY="auto">
             <Routes>
               <Route path="/">
-                <SubjectsList term={term} subjects={sortedSubjects} />
+                <SubjectsList route={route} term={term} subjects={sortedSubjects} />
               </Route>
               <Route path=":subject">
-                <CoursesList term={term} courses={parsedCourses} />
+                {(route.includes('calendar') && <CoursesList term={term} courses={parsedCourses} />) ||
+                  (route.includes('schedule') && <Box>sadsf</Box>)}
               </Route>
             </Routes>
           </Flex>

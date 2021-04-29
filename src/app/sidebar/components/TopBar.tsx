@@ -20,9 +20,10 @@ export interface TopBarProps {
    * Back button click handler
    */
   onFilter?: (filter: boolean) => void;
+  route: String;
 }
 
-export function TopBar({ onFilter }: TopBarProps): JSX.Element {
+export function TopBar({ onFilter, route }: TopBarProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
   const { term } = useParams();
   const location = useLocation();
@@ -48,7 +49,7 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
           <BreadcrumbItem>
             <BreadcrumbLink
               as={Link}
-              to={{ pathname: `/calendar/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
+              to={{ pathname: `/${route}/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
               color="black"
             >
               Subjects

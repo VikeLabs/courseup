@@ -35,7 +35,7 @@ export function TermButtons(): JSX.Element {
       if (calendarMatch) {
         navigate({ pathname: `/calendar/${name}/${subject || ''}`, search: pid ? `?pid=${pid}` : undefined });
       } else if (scheduleMatch) {
-        navigate(`/scheduler/${name}`);
+        navigate(`/schedule/${name}`);
       } else {
         navigate(`/calendar/`);
       }
