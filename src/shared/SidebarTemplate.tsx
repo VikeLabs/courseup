@@ -10,7 +10,7 @@ import { Term } from './fetchers';
 import { useSessionStorage } from './useStorage';
 
 export interface SidebarTemplateProps {
-  route: String;
+  route: string;
   children: JSX.Element;
   term: Term;
 }

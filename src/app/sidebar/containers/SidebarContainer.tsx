@@ -32,7 +32,7 @@ export interface SidebarContainerProps {
    */
   term: Term;
   searchQuery: string;
-  route: String;
+  route: string;
 }
 
 export function SidebarContainer({ searchQuery, route, term }: SidebarContainerProps): JSX.Element | null {
@@ -84,8 +84,7 @@ export function SidebarContainer({ searchQuery, route, term }: SidebarContainerP
                 <SubjectsList route={route} term={term} subjects={sortedSubjects} />
               </Route>
               <Route path=":subject">
-                {(route.includes('calendar') && <CoursesList term={term} courses={parsedCourses} />) ||
-                  (route.includes('schedule') && <Box>sadsf</Box>)}
+                <CoursesList route={route} term={term} courses={parsedCourses} />
               </Route>
             </Routes>
           </Flex>
