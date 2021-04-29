@@ -3,7 +3,9 @@ import { BackgroundProps, Divider, Flex, Button, background } from '@chakra-ui/r
 import { PropsWithChildren, useCallback, useState, useEffect } from 'react';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 import { useSearchParams } from 'react-router-dom';
+import { textSpanContainsPosition } from 'typescript';
 
+import useLocalStorage from '../../../shared/hooks/storage/useLocalStorage';
 import { useSavedCourses } from '../../../shared/hooks/storage/useSavedCourses';
 
 export interface CourseShieldProps {
@@ -82,20 +84,24 @@ export function CourseInfo({
   units,
 }: CourseInfoProps): JSX.Element {
   const [data, addCourse, deleteCourse] = useSavedCourses('newKEY');
-  const [bookmark, setBookmark] = useState(false);
-  const [searchParams] = useSearchParams();
-  const pid = searchParams.get('pid');
+  const [bookmark, setBookmark] = useLocalStorage(subject + ' ' + code, false);
+
   const handleBookmarkClick = useCallback(() => {
     setBookmark(!bookmark);
+    if (bookmark) {
+      addCourse(subject + ' ' + code);
+    } else {
+      deleteCourse(subject + ' ' + code);
+    }
   }, [bookmark]);
 
-  useEffect(() => {
-    if (bookmark) {
-      addCourse(pid!);
-    } else {
-      deleteCourse(pid!);
-    }
-  }, [addCourse, bookmark, deleteCourse, pid]);
+  // useEffect(() => {
+  //   if (bookmark) {
+  //     addCourse(subject + ' ' + code);
+  //   } else {
+  //     deleteCourse(subject + ' ' + code);
+  //   }
+  // }, [addCourse, bookmark, deleteCourse]);
   return (
     <Box as="section" bg="white" color="black">
       <Divider my="3" />
