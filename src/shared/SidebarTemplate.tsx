@@ -1,13 +1,13 @@
 import { Flex, Box } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { Header, Feedback } from '../app';
 import { getCurrentTerm } from '../app/shared/utils/terms';
 import { ContentSidebar } from '../app/sidebar';
 
 import { Term } from './fetchers';
+import { useSessionStorage } from './useStorage';
 
 export interface SidebarTemplateProps {
   route: String;
@@ -15,12 +15,22 @@ export interface SidebarTemplateProps {
   term: Term;
 }
 
-export function SidebarTemplate({ children, term }: SidebarTemplateProps): JSX.Element {
+export function SidebarTemplate({ children, term, route }: SidebarTemplateProps): JSX.Element {
   const [query, setQuery] = useState('');
+  const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
+  const navigate = useNavigate();
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
   };
+
+  useEffect(() => {
+    if (term) {
+      setSavedTerm(term);
+    } else {
+      navigate(`/${route}/${savedTerm}`, { replace: true });
+    }
+  }, [navigate, term, savedTerm, setSavedTerm]);
 
   return (
     <Flex h="100vh" direction="column">
