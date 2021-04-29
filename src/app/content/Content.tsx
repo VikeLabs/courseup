@@ -25,7 +25,11 @@ export function Content({ term }: ContentProps): JSX.Element {
   return (
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
       <Helmet>
-        {data?.subject && data?.code && <title>{`${data?.subject} ${data?.code} · View Courses · clockwork`}</title>}
+        {data?.subject && data?.code ? (
+          <title>{`${data?.subject} ${data?.code} · View Courses · clockwork`}</title>
+        ) : (
+          'clockwork · We make school easier'
+        )}
       </Helmet>
       <Box bg="white" p={4} zIndex={60}>
         <Flex
