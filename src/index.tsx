@@ -4,11 +4,14 @@ import { Integrations } from '@sentry/tracing';
 import algoliasearch from 'algoliasearch';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Helmet } from 'react-helmet';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
+
+import './index.css';
 
 Sentry.init({
   dsn: 'https://08218d366eab4945abe3e09054bc5cce@o551348.ingest.sentry.io/5674718',
@@ -27,6 +30,7 @@ ReactDOM.render(
     <RestfulProvider base={process.env.NODE_ENV === 'production' ? '/api' : 'https://clockwork.vikelabs.dev/api'}>
       <InstantSearch searchClient={searchClient} indexName="dev_uvic">
         <ChakraProvider portalZIndex={999}>
+          <Helmet titleTemplate="%s · clockwork" defaultTitle="clockwork · We make school easier" />
           <Routes />
         </ChakraProvider>
       </InstantSearch>
