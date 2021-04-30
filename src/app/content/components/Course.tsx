@@ -1,11 +1,9 @@
 import { Box, Heading, Text, Spacer } from '@chakra-ui/layout';
-import { BackgroundProps, Divider, Flex, Button, background } from '@chakra-ui/react';
-import { PropsWithChildren, useCallback, useState, useEffect } from 'react';
-import { BsFillBookmarkFill } from 'react-icons/bs';
+import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
+import { PropsWithChildren, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { textSpanContainsPosition } from 'typescript';
 
-import useLocalStorage from '../../../shared/hooks/storage/useLocalStorage';
+import { CourseDetails } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/storage/useSavedCourses';
 
 export interface CourseShieldProps {
@@ -71,6 +69,14 @@ export interface CourseInfoProps {
    * course units
    */
   units?: string;
+  /**
+   * pid of the course
+   */
+  pid: string;
+  /**
+   * current term
+   */
+  term: string;
 }
 
 export function CourseInfo({
@@ -82,28 +88,28 @@ export function CourseInfo({
   addtionalNotes,
   credits,
   units,
+  pid,
+  term,
 }: CourseInfoProps): JSX.Element {
-  const { courses, addCourse, deleteCourse } = useSavedCourses();
-  const [bookmark, setBookmark] = useState(true);
+  const { courses, addCourse, deleteCourse, contains } = useSavedCourses();
 
-  const [searchParams] = useSearchParams();
-  const pid = searchParams.get('pid');
+  // const [searchParams] = useSearchParams();
+  // TODO: get pid by props
+  // const pid = searchParams.get('pid') || 'XYZ';
 
-  useEffect(() => {
-    if (courses.find((course) => course.pid === pid)) {
-      setBookmark(true);
-    } else {
-      setBookmark(false);
-    }
-  }, [courses, pid]);
+  // TODO: fix and inject with props
+  // const term = '202009';
+
+  // is this course currently saved already?
+  const courseIsSaved = contains(pid, term);
 
   const handleBookmarkClick = useCallback(() => {
-    if (!bookmark) {
-      pid && addCourse({ subject, code, pid });
+    if (!courseIsSaved) {
+      addCourse({ subject, code, pid, term });
     } else {
-      pid && deleteCourse(pid);
+      deleteCourse(pid, term);
     }
-  }, [addCourse, bookmark, code, deleteCourse, pid, subject]);
+  }, [addCourse, code, courseIsSaved, deleteCourse, pid, subject, term]);
 
   return (
     <Box as="section" bg="white" color="black">
@@ -140,11 +146,10 @@ export function CourseInfo({
             </Heading>
           </CourseShield>
         )}
-
         <Spacer />
         <Flex justify="right" align="right" borderBottomRightRadius="md" borderTopRightRadius="md">
-          <button onClick={handleBookmarkClick} style={{ backgroundColor: bookmark ? 'red' : 'lightgreen' }}>
-            bookmark
+          <button onClick={handleBookmarkClick} style={{ backgroundColor: courseIsSaved ? 'red' : 'lightgreen' }}>
+            {courseIsSaved ? 'Remove' : 'Add'}
           </button>
         </Flex>
       </Flex>

@@ -1,52 +1,50 @@
-import { useEffect, useState } from 'react';
-
 import useLocalStorage from './useLocalStorage';
 
 export type Course = {
   subject: string;
   code: string;
   pid: string;
+  term: string;
 };
 
 type SavedCourses = {
   courses: Course[];
   addCourse: (newCourse: Course) => void;
-  deleteCourse: (pid: string) => void;
-  deleteAllCourses?: () => void;
+  deleteCourse: (pid: string, term: string) => void;
+  clearCourses: () => void;
+  contains: (pid: string, term: string) => boolean;
 };
 
 export const useSavedCourses = (): SavedCourses => {
-  const [data, setData] = useLocalStorage('saved_courses', '');
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [data, setData] = useLocalStorage<Course[]>('user:saved_courses', []);
 
-  useEffect(() => {
-    if (data) {
-      const courses: Course[] = JSON.parse(data);
-      setCourses(courses);
+  const contains = (pid: string, term: string): boolean => {
+    const result = data.find((course) => course.pid === pid && course.term === term);
+    if (result) {
+      return true;
+    } else {
+      return false;
     }
-  }, [data]);
+  };
 
   const addCourse = (newCourse: Course) => {
-    if (data) {
-      const arr: Course[] = JSON.parse(data);
-      !arr.find((course) => course.pid === newCourse.pid) && arr.push(newCourse);
-      setData(JSON.stringify(arr));
-    } else {
-      setData(JSON.stringify([newCourse]));
+    // is this course saved already?
+    if (!contains(newCourse.pid, newCourse.term)) {
+      setData([...data, newCourse]);
     }
   };
 
-  const deleteCourse = (pid: string) => {
-    if (data) {
-      const arr: Course[] = JSON.parse(data);
-      const newArr = arr.filter((course) => course.pid !== pid);
-      setData(JSON.stringify(newArr));
-    }
+  const deleteCourse = (pid: string, term: string): void => {
+    // find the course, delete if found
+    const newArr: Course[] = data.filter((course) => {
+      return course.pid !== pid && course.term === term;
+    });
+    setData(newArr);
   };
 
-  // const deleteAllCourses = () => {
-  //   deleteData('saved_courses');
-  // };
+  const clearCourses = () => {
+    setData([]);
+  };
 
-  return { courses, addCourse, deleteCourse };
+  return { courses: data, addCourse, deleteCourse, clearCourses, contains };
 };

@@ -49,6 +49,8 @@ export function Content({ term }: ContentProps): JSX.Element {
                 description={data.description || ''}
                 credits={data.credits}
                 hours={data.hoursCatalog}
+                pid={data.pid}
+                term={term}
               />
               <SectionsContainer term={term} subject={data?.subject} code={data?.code} />
             </>
