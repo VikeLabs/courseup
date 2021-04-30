@@ -11,7 +11,7 @@ import { RestfulProvider } from 'restful-react';
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
 
-import './App.css';
+import './index.css';
 
 Sentry.init({
   dsn: 'https://08218d366eab4945abe3e09054bc5cce@o551348.ingest.sentry.io/5674718',
