@@ -83,25 +83,28 @@ export function CourseInfo({
   credits,
   units,
 }: CourseInfoProps): JSX.Element {
-  const [data, addCourse, deleteCourse] = useSavedCourses('newKEY');
-  const [bookmark, setBookmark] = useLocalStorage(subject + ' ' + code, false);
+  const { courses, addCourse, deleteCourse } = useSavedCourses();
+  const [bookmark, setBookmark] = useState(true);
+
+  const [searchParams] = useSearchParams();
+  const pid = searchParams.get('pid');
+
+  useEffect(() => {
+    if (courses.find((course) => course.pid === pid)) {
+      setBookmark(true);
+    } else {
+      setBookmark(false);
+    }
+  }, [courses, pid]);
 
   const handleBookmarkClick = useCallback(() => {
-    setBookmark(!bookmark);
-    if (bookmark) {
-      addCourse(subject + ' ' + code);
+    if (!bookmark) {
+      pid && addCourse({ subject, code, pid });
     } else {
-      deleteCourse(subject + ' ' + code);
+      pid && deleteCourse(pid);
     }
-  }, [bookmark]);
+  }, [addCourse, bookmark, code, deleteCourse, pid, subject]);
 
-  // useEffect(() => {
-  //   if (bookmark) {
-  //     addCourse(subject + ' ' + code);
-  //   } else {
-  //     deleteCourse(subject + ' ' + code);
-  //   }
-  // }, [addCourse, bookmark, deleteCourse]);
   return (
     <Box as="section" bg="white" color="black">
       <Divider my="3" />
@@ -137,11 +140,10 @@ export function CourseInfo({
             </Heading>
           </CourseShield>
         )}
-        {data}
 
         <Spacer />
         <Flex justify="right" align="right" borderBottomRightRadius="md" borderTopRightRadius="md">
-          <button onClick={handleBookmarkClick} style={{ backgroundColor: bookmark ? 'lightgreen' : 'red' }}>
+          <button onClick={handleBookmarkClick} style={{ backgroundColor: bookmark ? 'red' : 'lightgreen' }}>
             bookmark
           </button>
         </Flex>
