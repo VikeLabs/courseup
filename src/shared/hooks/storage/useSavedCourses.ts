@@ -1,25 +1,52 @@
+import { useEffect, useState } from 'react';
+
 import useLocalStorage from './useLocalStorage';
 
-export const useSavedCourses = (key: string): [string, (courseInfo: string) => void, (key: string) => void] => {
-  const [data, setData, deleteData] = useLocalStorage(key, '');
+export type Course = {
+  subject: string;
+  code: string;
+  pid: string;
+};
 
-  const addCourse = (pid: string) => {
+type SavedCourses = {
+  courses: Course[];
+  addCourse: (newCourse: Course) => void;
+  deleteCourse: (pid: string) => void;
+  deleteAllCourses: () => void;
+};
+
+export const useSavedCourses = (): SavedCourses => {
+  const [data, setData, deleteData] = useLocalStorage('saved_courses', '');
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
     if (data) {
-      const arr: string[] = JSON.parse(data);
-      !arr.includes(pid) && arr.push(pid);
+      const courses: Course[] = JSON.parse(data);
+      setCourses(courses);
+    }
+  }, [data]);
+
+  const addCourse = (newCourse: Course) => {
+    if (data) {
+      const arr: Course[] = JSON.parse(data);
+      !arr.find((course) => course.pid === newCourse.pid) && arr.push(newCourse);
       setData(JSON.stringify(arr));
     } else {
-      setData(JSON.stringify([pid]));
+      setData(JSON.stringify([newCourse]));
     }
   };
 
   const deleteCourse = (pid: string) => {
     if (data) {
-      const arr: string[] = JSON.parse(data);
-      const newArr = arr.filter((dataPid) => dataPid !== pid);
+      const arr: Course[] = JSON.parse(data);
+      const newArr = arr.filter((course) => course.pid !== pid);
       setData(JSON.stringify(newArr));
     }
   };
 
-  return [data, addCourse, deleteCourse];
+  const deleteAllCourses = () => {
+    deleteData('saved_courses');
+  };
+
+  return { courses, addCourse, deleteCourse, deleteAllCourses };
 };
