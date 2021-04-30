@@ -93,14 +93,6 @@ export function CourseInfo({
 }: CourseInfoProps): JSX.Element {
   const { courses, addCourse, deleteCourse, contains } = useSavedCourses();
 
-  // const [searchParams] = useSearchParams();
-  // TODO: get pid by props
-  // const pid = searchParams.get('pid') || 'XYZ';
-
-  // TODO: fix and inject with props
-  // const term = '202009';
-
-  // is this course currently saved already?
   const courseIsSaved = contains(pid, term);
 
   const handleBookmarkClick = useCallback(() => {
