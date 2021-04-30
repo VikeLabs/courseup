@@ -6,7 +6,7 @@ import { Header } from '../../app';
 import { useSavedCourses } from '../../shared/hooks/storage/useSavedCourses';
 
 export function Home(): JSX.Element {
-  const { addCourse, deleteAllCourses } = useSavedCourses();
+  const { addCourse } = useSavedCourses();
 
   const onClick = useCallback(() => {
     addCourse({ subject: 'CSC', code: '111', pid: 'abc123' });
@@ -17,8 +17,8 @@ export function Home(): JSX.Element {
   }, [addCourse]);
 
   const onClick2 = useCallback(() => {
-    deleteAllCourses();
-  }, [deleteAllCourses]);
+    // deleteAllCourses();
+  }, []);
 
   return (
     <Flex h="100vh" direction="column">

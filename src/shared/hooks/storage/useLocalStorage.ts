@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void, (value: T) => void] {
+function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
   // Get from local storage then
   // parse stored json or return initialValue
   const readValue = () => {
@@ -47,26 +47,6 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => voi
     }
   };
 
-  //delete an Item
-
-  const deleteValue = (value: T) => {
-    if (typeof window == 'undefined') {
-      console.warn(`Tried deleting localStorage key “${key}” even though environment is not a client`);
-    }
-    try {
-      //Remove item
-      window.localStorage.removeItem(key);
-
-      // Not sure what to do here
-      //   setStoredValue('');
-
-      // We dispatch a custom event so every useLocalStorage hook are notified
-      window.dispatchEvent(new Event('local-storage'));
-    } catch (error) {
-      console.warn(`Error setting localStorage key “${key}”:`, error);
-    }
-  };
-
   useEffect(() => {
     setStoredValue(readValue());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,7 +70,7 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => voi
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [storedValue, setValue, deleteValue];
+  return [storedValue, setValue];
 }
 
 export default useLocalStorage;

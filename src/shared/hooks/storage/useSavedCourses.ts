@@ -12,11 +12,11 @@ type SavedCourses = {
   courses: Course[];
   addCourse: (newCourse: Course) => void;
   deleteCourse: (pid: string) => void;
-  deleteAllCourses: () => void;
+  deleteAllCourses?: () => void;
 };
 
 export const useSavedCourses = (): SavedCourses => {
-  const [data, setData, deleteData] = useLocalStorage('saved_courses', '');
+  const [data, setData] = useLocalStorage('saved_courses', '');
   const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {
@@ -44,9 +44,9 @@ export const useSavedCourses = (): SavedCourses => {
     }
   };
 
-  const deleteAllCourses = () => {
-    deleteData('saved_courses');
-  };
+  // const deleteAllCourses = () => {
+  //   deleteData('saved_courses');
+  // };
 
-  return { courses, addCourse, deleteCourse, deleteAllCourses };
+  return { courses, addCourse, deleteCourse };
 };
