@@ -1,4 +1,5 @@
 import { Box, Center, Flex, Heading, Skeleton, Spacer, Text } from '@chakra-ui/react';
+import { Helmet } from 'react-helmet';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from '../../shared/fetchers';
@@ -22,7 +23,8 @@ export function Content({ term }: ContentProps): JSX.Element {
   const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
   return (
-    <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column" minH="100%">
+    <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
+      <Helmet>{data?.subject && data?.code && <title>{`${data?.subject} ${data?.code} · Calendar`}</title>}</Helmet>
       <Box bg="white" p={4} zIndex={60}>
         <Flex
           justifyItems="center"
