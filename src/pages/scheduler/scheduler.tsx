@@ -7,7 +7,7 @@ export function Scheduler(): JSX.Element {
   return (
     <Flex h="100vh" direction="column">
       <Helmet>
-        <title>Schedule Courses · clockwork</title>
+        <title>Schedule Courses</title>
       </Helmet>
       <Header />
       <Heading>Schedule Builder</Heading>

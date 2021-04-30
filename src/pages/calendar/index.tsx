@@ -35,7 +35,7 @@ export function Calendar(): JSX.Element {
   return (
     <Flex h="100vh" direction="column">
       <Helmet>
-        <title>View Courses · clockwork</title>
+        <title>Calendar</title>
       </Helmet>
       <Header onSearchChange={handleSearchChange} />
       <Flex grow={1} overflow="hidden">
