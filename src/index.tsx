@@ -1,8 +1,17 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import {
+  ChakraProvider,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import algoliasearch from 'algoliasearch';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 import { InstantSearch } from 'react-instantsearch-dom';
@@ -25,12 +34,37 @@ Sentry.init({
 
 const searchClient = algoliasearch('CR92D3S394', '5477854d63b676fe021f8f83f5839a3a');
 
+function Mobile(): JSX.Element | null {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isMobile] = useMediaQuery('(max-width: 600px)');
+
+  useEffect(() => {
+    onOpen();
+  }, [onOpen]);
+
+  if (!isMobile) return null;
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <ModalOverlay />
+      <ModalContent w="90%" minW="200px" zIndex={999}>
+        <ModalBody textAlign="center">
+          (╯°□°)╯︵ ┻━┻<Text my="5px"> Hey! We're still not quite there with mobile support.</Text>
+          <Text>
+            Please use a <Text as="strong">tablet</Text> or <Text as="strong">desktop</Text> to get the best experience
+          </Text>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <RestfulProvider base={process.env.NODE_ENV === 'production' ? '/api' : 'https://clockwork.vikelabs.dev/api'}>
       <InstantSearch searchClient={searchClient} indexName="dev_uvic">
         <ChakraProvider portalZIndex={999}>
           <Helmet titleTemplate="%s · clockwork" defaultTitle="clockwork · We make school easier" />
+          <Mobile />
           <Routes />
         </ChakraProvider>
       </InstantSearch>
