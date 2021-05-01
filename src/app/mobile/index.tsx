@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 // TODO: real mobile functionality
 export function Mobile(): JSX.Element | null {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isMobile] = useMediaQuery('(max-width: 600px)');
+  const [isMobile] = useMediaQuery('(max-width: 1030px)');
 
   useEffect(() => {
     onOpen();
@@ -18,7 +18,7 @@ export function Mobile(): JSX.Element | null {
         <ModalBody textAlign="center">
           (╯°□°)╯︵ ┻━┻<Text my="5px"> Hey! We're still not quite there with mobile support.</Text>
           <Text>
-            Please use a <Text as="strong">tablet</Text> or <Text as="strong">desktop</Text> to get the best experience
+            Please use a <Text as="strong">desktop</Text> to get the best experience
           </Text>
         </ModalBody>
       </ModalContent>
