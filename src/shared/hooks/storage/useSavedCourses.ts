@@ -37,7 +37,10 @@ export const useSavedCourses = (): SavedCourses => {
   const deleteCourse = (pid: string, term: string): void => {
     // find the course, delete if found
     const newArr: Course[] = data.filter((course) => {
-      return course.pid !== pid && course.term === term;
+      if (course.pid === pid) {
+        return course.term !== term;
+      }
+      return course.pid !== pid;
     });
     setData(newArr);
   };
