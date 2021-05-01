@@ -1,13 +1,11 @@
-import { PhoneIcon, AddIcon, WarningIcon, DeleteIcon } from '@chakra-ui/icons';
 import { Box, Center, Flex, Heading, Skeleton, Spacer, Text, Button } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
-import { BsFillBookmarkFill } from 'react-icons/bs';
 import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from '../../shared/fetchers';
-import { useSavedCourses } from '../../shared/hooks/storage/useSavedCourses';
+import { useSavedCourses } from '../../shared/hooks/useSavedCourses';
 
 import { CourseInfo } from './components/Course';
 import { SectionsContainer } from './containers/Section';
@@ -27,17 +25,19 @@ export function Content({ term }: ContentProps): JSX.Element {
   const [searchParams] = useSearchParams();
   const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
-  const { courses, addCourse, deleteCourse, contains } = useSavedCourses();
+  const { addCourse, deleteCourse, contains } = useSavedCourses();
 
   const courseIsSaved = contains(data?.pid!, term);
 
   const handleBookmarkClick = useCallback(() => {
-    if (!courseIsSaved) {
-      data?.subject && data?.code && addCourse({ subject: data?.subject, code: data?.code, pid: data?.pid, term });
-    } else {
-      data?.pid && deleteCourse(data?.pid, term);
+    if (data) {
+      if (!courseIsSaved) {
+        addCourse({ subject: data.subject, code: data.code, pid: data.pid, term });
+      } else {
+        deleteCourse({ subject: data.subject, code: data.code, pid: data.pid, term });
+      }
     }
-  }, [addCourse, data?.code, courseIsSaved, deleteCourse, data?.pid, data?.subject, term]);
+  }, [data, courseIsSaved, addCourse, term, deleteCourse]);
 
   return (
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">

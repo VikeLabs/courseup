@@ -1,10 +1,6 @@
-import { Box, Heading, Text, Spacer } from '@chakra-ui/layout';
+import { Box, Heading, Text } from '@chakra-ui/layout';
 import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
-import { PropsWithChildren, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
-
-import { CourseDetails } from '../../../shared/fetchers';
-import { useSavedCourses } from '../../../shared/hooks/storage/useSavedCourses';
+import { PropsWithChildren } from 'react';
 
 export interface CourseShieldProps {
   /**
