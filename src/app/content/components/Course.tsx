@@ -91,18 +91,6 @@ export function CourseInfo({
   pid,
   term,
 }: CourseInfoProps): JSX.Element {
-  const { courses, addCourse, deleteCourse, contains } = useSavedCourses();
-
-  const courseIsSaved = contains(pid, term);
-
-  const handleBookmarkClick = useCallback(() => {
-    if (!courseIsSaved) {
-      addCourse({ subject, code, pid, term });
-    } else {
-      deleteCourse(pid, term);
-    }
-  }, [addCourse, code, courseIsSaved, deleteCourse, pid, subject, term]);
-
   return (
     <Box as="section" bg="white" color="black">
       <Divider my="3" />
@@ -138,12 +126,6 @@ export function CourseInfo({
             </Heading>
           </CourseShield>
         )}
-        <Spacer />
-        <Flex justify="right" align="right" borderBottomRightRadius="md" borderTopRightRadius="md">
-          <button onClick={handleBookmarkClick} style={{ backgroundColor: courseIsSaved ? 'red' : 'lightgreen' }}>
-            {courseIsSaved ? 'Remove' : 'Add'}
-          </button>
-        </Flex>
       </Flex>
       <Text as="article">{description}</Text>
       {addtionalNotes && (

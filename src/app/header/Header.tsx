@@ -15,7 +15,7 @@ export interface HeaderProps {
 export function Header({ onSearchChange }: HeaderProps): JSX.Element {
   return (
     <Grid
-      templateColumns="repeat(4, 1fr)"
+      templateColumns="repeat(3, 1fr)"
       as="header"
       py="3"
       px="8"
