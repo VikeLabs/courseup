@@ -36,14 +36,9 @@ export interface SidebarContainerProps {
    * EX) CSC, computer Science
    */
   searchQuery: string;
-  /**
-   * Route that the subject clicked will go to
-   * EX) calendar or scheduler
-   */
-  route: string;
 }
 
-export function SidebarContainer({ searchQuery, route, term }: SidebarContainerProps): JSX.Element | null {
+export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): JSX.Element | null {
   const [filter, setFilter] = useState(false);
 
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
@@ -83,16 +78,16 @@ export function SidebarContainer({ searchQuery, route, term }: SidebarContainerP
 
   return (
     <Flex bg="#E4E4E4" minW="20%" flexDirection="column">
-      <TopBar route={route} onFilter={handleFilter} />
+      <TopBar onFilter={handleFilter} />
       {!loading && sortedSubjects && courses ? (
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
           <Flex direction="column" overflowY="auto">
             <Routes>
               <Route path="/">
-                <SubjectsList route={route} term={term} subjects={sortedSubjects} />
+                <SubjectsList term={term} subjects={sortedSubjects} />
               </Route>
               <Route path=":subject">
-                <CoursesList route={route} term={term} courses={parsedCourses} />
+                <CoursesList term={term} courses={parsedCourses} />
               </Route>
             </Routes>
           </Flex>
