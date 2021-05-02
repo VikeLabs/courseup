@@ -9,7 +9,7 @@ import Landing from '../../app/landing';
 import { getCurrentTerm } from '../../app/shared/utils/terms';
 import { ContentSidebar } from '../../app/sidebar';
 import { Term } from '../../shared/fetchers';
-import { useSessionStorage } from '../../shared/useStorage';
+import { useSessionStorage } from '../../shared/hooks/storage/useSessionStorage';
 
 export function Calendar(): JSX.Element {
   const navigate = useNavigate();
