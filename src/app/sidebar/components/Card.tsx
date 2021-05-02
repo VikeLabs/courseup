@@ -1,4 +1,4 @@
-import { ChevronRightIcon, PlusSquareIcon, InfoOutlineIcon } from '@chakra-ui/icons';
+import { ChevronRightIcon, AddIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 
@@ -48,18 +48,13 @@ export function Card({ subject, title, code, selected, schedule }: PropsWithChil
       );
     } else if (code && schedule) {
       return (
-        <VStack spacing="-0">
-          <IconButton
-            aria-label="Add to Scheduler"
-            icon={<PlusSquareIcon color="green" />}
-            size="sm"
-            background="null"
-          />
+        <VStack>
+          <IconButton aria-label="Add to Scheduler" icon={<AddIcon color="white" />} size="xs" background="green.400" />
           <IconButton
             aria-label="More information"
-            icon={<InfoOutlineIcon color="blue.400" />}
-            size="sm"
-            background="null"
+            icon={<InfoOutlineIcon color="white" />}
+            size="xs"
+            background="blue.400"
           />
         </VStack>
       );
