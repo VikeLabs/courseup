@@ -1,14 +1,10 @@
 import { Image } from '@chakra-ui/image';
 import { Flex, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
-import { useMediaQuery } from '@chakra-ui/media-query';
 
 export default function Landing() {
-  const [isLargerThan1100] = useMediaQuery('(min-width: 1100px)');
-  console.log(isLargerThan1100);
-
   return (
     <Grid
-      templateColumns={isLargerThan1100 ? 'repeat(2, 1fr)' : 'repeat(1, 1fr)'}
+      templateColumns={{ xl: 'repeat(2, 1fr)', lg: 'repeat(1, 1fr)' }}
       px="150px"
       gap="81px"
       justifyItems="center"
@@ -28,18 +24,16 @@ export default function Landing() {
           <Image src={process.env.PUBLIC_URL + '/assets/vikelabs.svg'} alt="VikeLabs" />
         </Flex>
       </GridItem>
-      {isLargerThan1100 && (
-        <GridItem maxH="563px" minW="fit-content">
-          <Image
-            src={process.env.PUBLIC_URL + '/assets/computer.svg'}
-            flex="1"
-            style={{
-              WebkitFilter: 'drop-shadow( 27px 8px 36px rgba(0, 0, 0, .25))',
-              filter: 'drop-shadow( 27px 8px 36px rgba(0, 0, 0, .25))',
-            }}
-          />
-        </GridItem>
-      )}
+      <GridItem maxH="563px" minW="fit-content" display={{ base: 'none', xl: 'initial' }}>
+        <Image
+          src={process.env.PUBLIC_URL + '/assets/computer.svg'}
+          flex="1"
+          style={{
+            WebkitFilter: 'drop-shadow( 27px 8px 36px rgba(0, 0, 0, .25))',
+            filter: 'drop-shadow( 27px 8px 36px rgba(0, 0, 0, .25))',
+          }}
+        />
+      </GridItem>
     </Grid>
   );
 }
