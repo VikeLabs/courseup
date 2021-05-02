@@ -13,7 +13,7 @@ export function Calendar(): JSX.Element {
   const pid = searchParams.get('pid');
 
   return (
-    <SidebarTemplate route="calendar" term={term as Term}>
+    <SidebarTemplate title="Calendar" route="calendar" term={term as Term}>
       {pid ? (
         <Content term={term as Term} />
       ) : (

@@ -1,5 +1,6 @@
 import { Flex, Box } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router';
 
 import { Header, Feedback } from '../app';
@@ -7,15 +8,16 @@ import { getCurrentTerm } from '../app/shared/utils/terms';
 import { ContentSidebar } from '../app/sidebar';
 
 import { Term } from './fetchers';
-import { useSessionStorage } from './useStorage';
+import { useSessionStorage } from './hooks/storage/useSessionStorage';
 
 export interface SidebarTemplateProps {
   route: string;
+  title: string;
   children: JSX.Element;
   term: Term;
 }
 
-export function SidebarTemplate({ children, term, route }: SidebarTemplateProps): JSX.Element {
+export function SidebarTemplate({ children, term, route, title }: SidebarTemplateProps): JSX.Element {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
@@ -34,6 +36,9 @@ export function SidebarTemplate({ children, term, route }: SidebarTemplateProps)
 
   return (
     <Flex h="100vh" direction="column">
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
       <Header onSearchChange={handleSearchChange} />
       <Flex grow={1} overflow="hidden">
         <ContentSidebar route={route} term={term} searchQuery={query} />
