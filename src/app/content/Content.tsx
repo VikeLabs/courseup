@@ -1,8 +1,11 @@
-import { Box, Center, Flex, Heading, Skeleton, Spacer, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Skeleton, Spacer, Text, Button } from '@chakra-ui/react';
+import { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
+import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from '../../shared/fetchers';
+import { useSavedCourses } from '../../shared/hooks/useSavedCourses';
 
 import { CourseInfo } from './components/Course';
 import { SectionsContainer } from './containers/Section';
@@ -22,6 +25,20 @@ export function Content({ term }: ContentProps): JSX.Element {
   const [searchParams] = useSearchParams();
   const { data, loading } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
+  const { addCourse, deleteCourse, contains } = useSavedCourses();
+
+  const courseIsSaved = contains(data?.pid!, term);
+
+  const handleBookmarkClick = useCallback(() => {
+    if (data) {
+      if (!courseIsSaved) {
+        addCourse({ subject: data.subject, code: data.code, pid: data.pid, term });
+      } else {
+        deleteCourse({ subject: data.subject, code: data.code, pid: data.pid, term });
+      }
+    }
+  }, [data, courseIsSaved, addCourse, term, deleteCourse]);
+
   return (
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
       <Helmet>{data?.subject && data?.code && <title>{`${data?.subject} ${data?.code} · Calendar`}</title>}</Helmet>
@@ -39,6 +56,17 @@ export function Content({ term }: ContentProps): JSX.Element {
               {data.title}
             </Heading>
           )}
+          <Spacer />
+          <Button
+            rightIcon={!courseIsSaved ? <MdAdd /> : <MdDelete />}
+            onClick={handleBookmarkClick}
+            colorScheme={courseIsSaved ? 'red' : 'green'}
+            minW="fit-content"
+            justifyContent="center"
+            alignItems="center"
+          >
+            Bookmark
+          </Button>
         </Flex>
         <Skeleton isLoaded={!loading}>
           {data && (
@@ -50,6 +78,8 @@ export function Content({ term }: ContentProps): JSX.Element {
                 description={data.description || ''}
                 credits={data.credits}
                 hours={data.hoursCatalog}
+                pid={data.pid}
+                term={term}
               />
               <SectionsContainer term={term} subject={data?.subject} code={data?.code} />
             </>
