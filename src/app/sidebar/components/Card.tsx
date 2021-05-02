@@ -75,7 +75,7 @@ export function Card({ subject, title, code, selected, schedule }: PropsWithChil
       py={2}
       px={4}
       my={1}
-      cursor="pointer"
+      cursor={!schedule ? 'pointer' : 'auto'}
       _hover={{
         bgGradient: schedule ? undefined : selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
         color: schedule ? undefined : 'white',
