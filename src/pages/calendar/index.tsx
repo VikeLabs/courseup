@@ -1,4 +1,4 @@
-import { Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Center, Heading, Text, VStack } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 

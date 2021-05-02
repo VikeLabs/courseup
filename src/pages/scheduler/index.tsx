@@ -1,4 +1,4 @@
-import { Flex, Box } from '@chakra-ui/layout';
+import { Flex } from '@chakra-ui/layout';
 import { useParams } from 'react-router';
 
 import { SchedulerContainer, SchedulerSidebar } from '../../app';

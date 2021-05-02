@@ -34,7 +34,6 @@ export interface CardProps {
 
 export function Card({ subject, title, code, selected, schedule }: PropsWithChildren<CardProps>): JSX.Element {
   const buttons = (code: string | undefined, schedule: boolean | undefined) => {
-    console.log(code, schedule);
     if (!code) {
       return (
         <Box>

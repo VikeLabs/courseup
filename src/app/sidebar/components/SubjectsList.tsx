@@ -1,20 +1,30 @@
 import { LinkBox } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { KualiSubject } from '../../../shared/fetchers';
 
 import { Card } from './Card';
 
 type SubjectsListProps = {
+  /**
+   * Term to be displayed
+   */
   term: string;
+  /**
+   * Subject to be displayed
+   * EX) SENG 265 -> SENG
+   */
   subjects: KualiSubject[];
+  /**
+   * Route that the subject clicked will go to
+   * EX) calendar or scheduler
+   */
   route: String;
 };
 
 export function SubjectsList({ term, subjects, route }: SubjectsListProps): JSX.Element {
   const [searchParams] = useSearchParams();
-  const location = useLocation();
   const pid = searchParams.get('pid');
 
   return (

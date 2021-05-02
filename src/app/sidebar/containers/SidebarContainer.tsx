@@ -31,7 +31,15 @@ export interface SidebarContainerProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
+  /**
+   * Search Query for the search bar
+   * EX) CSC, computer Science
+   */
   searchQuery: string;
+  /**
+   * Route that the subject clicked will go to
+   * EX) calendar or scheduler
+   */
   route: string;
 }
 

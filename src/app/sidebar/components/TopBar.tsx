@@ -20,6 +20,10 @@ export interface TopBarProps {
    * Back button click handler
    */
   onFilter?: (filter: boolean) => void;
+  /**
+   * Route that the subject clicked will go to
+   * EX) calendar or scheduler
+   */
   route: String;
 }
 
