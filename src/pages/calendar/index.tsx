@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
