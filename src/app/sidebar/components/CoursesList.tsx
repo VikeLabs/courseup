@@ -1,5 +1,4 @@
 import { LinkBox } from '@chakra-ui/layout';
-import { Box } from '@chakra-ui/react';
 import { SlideFade } from '@chakra-ui/transition';
 import { Link, useParams } from 'react-router-dom';
 

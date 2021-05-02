@@ -32,7 +32,7 @@ export function SidebarTemplate({ children, term, route, title }: SidebarTemplat
     } else {
       navigate(`/${route}/${savedTerm}`, { replace: true });
     }
-  }, [navigate, term, savedTerm, setSavedTerm]);
+  }, [navigate, term, route, savedTerm, setSavedTerm]);
 
   return (
     <Flex h="100vh" direction="column">
