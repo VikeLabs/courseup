@@ -28,8 +28,7 @@ export default function Landing() {
         <Image
           src={process.env.PUBLIC_URL + '/assets/computer.svg'}
           flex="1"
-          style={{
-            WebkitFilter: 'drop-shadow( 27px 8px 36px rgba(0, 0, 0, .25))',
+          sx={{
             filter: 'drop-shadow( 27px 8px 36px rgba(0, 0, 0, .25))',
           }}
         />
