@@ -12,7 +12,7 @@ export function NavButtons(): JSX.Element {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
     if (!scheduleMatch && name !== 'calendar') {
-      navigate(`/schedule/${term || ''}`);
+      navigate(`/scheduler/${term || ''}`);
     } else if (!calendarMatch && name !== 'scheduler') {
       navigate(`/calendar/${term || ''}`);
     }

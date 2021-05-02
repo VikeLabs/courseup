@@ -25,7 +25,7 @@ export function CoursesList({ term, courses, route }: CoursesListProps): JSX.Ele
           <Card title={title} subject={subject} code={code} />
         </LinkBox>
       );
-    else if (route.includes('schedule')) {
+    else if (route.includes('scheduler')) {
       return <Card title={title} subject={subject} code={code} schedule={true} />;
     }
   };
