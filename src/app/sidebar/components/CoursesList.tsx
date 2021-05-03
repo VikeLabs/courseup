@@ -18,6 +18,10 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
   const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/scheduler/*');
 
+  if (!courses || !courses[subject]) {
+    return null;
+  }
+
   const createCard = (pid: string, code: string, subject: string, title: string) => {
     if (calendarMatch)
       return (
@@ -29,10 +33,6 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
       return <Card title={title} subject={subject} code={code} schedule={true} />;
     }
   };
-
-  if (!courses || !courses[subject]) {
-    return null;
-  }
 
   return (
     <SlideFade in>
