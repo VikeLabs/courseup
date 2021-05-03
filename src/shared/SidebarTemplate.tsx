@@ -1,5 +1,5 @@
 import { Flex, Box } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -11,12 +11,18 @@ import { Term } from './fetchers';
 import { useSessionStorage } from './hooks/storage/useSessionStorage';
 
 export interface SidebarTemplateProps {
+  /**
+   * Title for react-helmet
+   */
   title: string;
-  children: JSX.Element;
+  /**
+   * Term Selected
+   * Determines what term the subjects and courses are from
+   */
   term: Term;
 }
 
-export function SidebarTemplate({ children, term, title }: SidebarTemplateProps): JSX.Element {
+export function SidebarTemplate({ children, term, title }: PropsWithChildren<SidebarTemplateProps>): JSX.Element {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
