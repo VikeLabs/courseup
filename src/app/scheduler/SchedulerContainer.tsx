@@ -4,7 +4,7 @@ import { SchedulerCalendar, SchedulerCalendarProps } from './components/Schedule
 
 export function SchedulerContainer({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
   return (
-    <Flex height="100%" overflow="hidden">
+    <Flex grow={1} height="100%" overflow="hidden">
       <Box w="100%" height="100%" p="2em">
         <SchedulerCalendar calendarEvents={calendarEvents} />
       </Box>
