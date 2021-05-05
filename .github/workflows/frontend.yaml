@@ -7,12 +7,7 @@ on:
     paths-ignore:
       - 'functions/**'
     branches: 
-      - main
-  pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - 'functions/**'
+      - main/**
 jobs:
   lint:
     name: Lint
