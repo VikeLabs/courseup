@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ChevronRightIcon } from '@chakra-ui/icons';
-import { Box, Button, ButtonGroup, Text, Flex, VStack, IconButton, Checkbox, Switch } from '@chakra-ui/react';
+import { Box, Button, Text, Flex, VStack, Checkbox } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 
 import { CardProps } from '../../../sidebar/components/Card';
