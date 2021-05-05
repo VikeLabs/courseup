@@ -46,19 +46,10 @@ export function TermButtons(): JSX.Element {
   };
 
   return (
-    <ButtonGroup spacing="0" isAttached>
+    <ButtonGroup isAttached>
       {terms.map((term, i) => {
         return (
-          <Button
-            colorScheme="whiteAlpha"
-            key={i}
-            name={term}
-            isActive={status[i]}
-            onClick={onClick}
-            size="sm"
-            borderRadius="2px"
-            color="black"
-          >
+          <Button colorScheme="green" key={i} name={term} isActive={status[i]} onClick={onClick} size="sm">
             {getReadableTerm(term)}
           </Button>
         );
