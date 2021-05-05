@@ -1,4 +1,4 @@
-import { Center, Grid, GridItem, Image, Button, Flex, Text, LinkBox } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Flex, Text, LinkBox } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { NavButtons } from './components/NavButtons';
