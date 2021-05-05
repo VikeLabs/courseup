@@ -29,6 +29,7 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
   const [searchParams] = useSearchParams();
 
   const subject = location.pathname.split('/')[3];
+  const route = location.pathname.split('/')[1];
 
   const pid = searchParams.get('pid');
 
@@ -48,7 +49,7 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
           <BreadcrumbItem>
             <BreadcrumbLink
               as={Link}
-              to={{ pathname: `/calendar/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
+              to={{ pathname: `/${route}/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
               color="black"
             >
               Subjects

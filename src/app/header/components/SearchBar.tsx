@@ -24,10 +24,11 @@ function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSub
 
   return (
     <form noValidate action="" role="search" onSubmit={handleSubmit}>
-      <InputGroup size="sm">
+      <InputGroup size="sm" mx="4">
         <Input
           placeholder="Search for courses"
           bg="white"
+          borderRadius="md"
           width={['xs', 'sm', 'md']}
           value={currentRefinement}
           onChange={handleChange}

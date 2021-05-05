@@ -65,6 +65,14 @@ export interface CourseInfoProps {
    * course units
    */
   units?: string;
+  /**
+   * pid of the course
+   */
+  pid: string;
+  /**
+   * current term
+   */
+  term: string;
 }
 
 export function CourseInfo({
@@ -76,6 +84,8 @@ export function CourseInfo({
   addtionalNotes,
   credits,
   units,
+  pid,
+  term,
 }: CourseInfoProps): JSX.Element {
   return (
     <Box as="section" bg="white" color="black">

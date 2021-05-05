@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from '@chakra-ui/icons';
+import { ChevronRightIcon, AddIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 
@@ -27,9 +27,42 @@ export interface CardProps {
    * Boolean to check Card is selected by user
    */
   selected?: boolean;
+
+  /**
+   * Boolean to check if in schedule mode
+   */
+  schedule?: boolean;
 }
 
-export function Card({ subject, title, code, selected }: PropsWithChildren<CardProps>): JSX.Element {
+export function Card({ subject, title, code, selected, schedule }: PropsWithChildren<CardProps>): JSX.Element {
+  const buttons = (code: string | undefined, schedule: boolean | undefined) => {
+    if (!code) {
+      return (
+        <Box>
+          <IconButton
+            aria-label="Select course"
+            icon={<ChevronRightIcon />}
+            size="md"
+            background="null"
+            _hover={{ bg: 'none' }}
+          />
+        </Box>
+      );
+    } else if (code && schedule) {
+      return (
+        <VStack>
+          <IconButton aria-label="Add to Scheduler" icon={<AddIcon color="white" />} size="xs" background="green.400" />
+          <IconButton
+            aria-label="More information"
+            icon={<InfoOutlineIcon color="white" />}
+            size="xs"
+            background="blue.400"
+          />
+        </VStack>
+      );
+    }
+  };
+
   return (
     <Box
       bgColor={selected ? undefined : 'white'}
@@ -39,10 +72,10 @@ export function Card({ subject, title, code, selected }: PropsWithChildren<CardP
       py={2}
       px={4}
       my={1}
-      cursor="pointer"
+      cursor={!schedule ? 'pointer' : 'auto'}
       _hover={{
-        bgGradient: selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
-        color: 'white',
+        bgGradient: schedule ? undefined : selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
+        color: schedule ? undefined : 'white',
       }}
     >
       <Flex direction="row" alignItems="center" justifyContent="space-between">
@@ -54,17 +87,7 @@ export function Card({ subject, title, code, selected }: PropsWithChildren<CardP
             {title}
           </Text>
         </VStack>
-        {!code && (
-          <Box>
-            <IconButton
-              aria-label="Select course"
-              icon={<ChevronRightIcon />}
-              size="md"
-              background="null"
-              _hover={{ bg: 'none' }}
-            />
-          </Box>
-        )}
+        {buttons(code, schedule)}
       </Flex>
     </Box>
   );
