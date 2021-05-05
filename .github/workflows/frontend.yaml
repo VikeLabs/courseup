@@ -7,7 +7,7 @@ on:
     paths-ignore:
       - 'functions/**'
     branches: 
-      - main/**
+      - main
 jobs:
   lint:
     name: Lint
