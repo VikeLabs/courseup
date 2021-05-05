@@ -1,4 +1,4 @@
-import { Center, Grid, GridItem, Image, Button, Flex } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Image, Button, Flex, Text, LinkBox } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { NavButtons } from './components/NavButtons';
@@ -17,27 +17,20 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
     <Grid
       templateColumns="repeat(3, 1fr)"
       as="header"
-      py="3"
+      py="1.5"
       px="8"
       boxShadow="md"
-      bg="#2e95d1"
+      bg="#82cbee"
       zIndex={100}
       maxH="56px"
     >
       <GridItem colSpan={1}>
-        <Flex justifyContent="space-between">
-          <Button
-            as={Link}
-            to="/"
-            bg="transparent"
-            border="none"
-            _hover={{ bg: 'transparent' }}
-            _active={{ bg: 'transparent' }}
-            _focus={{ border: 'none' }}
-            ml={5}
-          >
-            <Image src={process.env.PUBLIC_URL + '/assets/logo.png'} alt="clockwork" h="40px" />
-          </Button>
+        <Flex justifyContent="space-between" alignContent="center" alignItems="flex-start">
+          <LinkBox as={Link} to="/" bg="transparent" border="none" ml={5}>
+            <Text fontSize="xl" fontWeight="bold" color="white">
+              CourseUp
+            </Text>
+          </LinkBox>
           <NavButtons />
         </Flex>
       </GridItem>
@@ -46,7 +39,7 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
           <Search onChange={onSearchChange} />
         </Center>
       </GridItem>
-      <GridItem colStart={3} alignContent="flex-end">
+      <GridItem colStart={3}>
         <TermButtons />
       </GridItem>
     </Grid>
