@@ -8,6 +8,11 @@ on:
       - 'functions/**'
     branches: 
       - main
+  pull_request:
+    paths-ignore:
+      - 'functions/**'
+    branches:
+      - main
 jobs:
   lint:
     name: Lint
