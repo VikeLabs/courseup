@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "firebase-admin": "^9.5.0",
     "firebase-functions": "^3.13.2",
-    "tsoa": "^3.5.2",
+    "tsoa": "^3.7.0",
     "typesaurus": "^7.1.0"
   },
   "devDependencies": {
