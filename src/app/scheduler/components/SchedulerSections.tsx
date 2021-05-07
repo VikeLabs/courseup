@@ -1,18 +1,29 @@
-import { Text, Box, Stack, Radio, RadioGroup, HStack } from '@chakra-ui/react';
+import { Radio, RadioGroup, Thead, Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import React from 'react';
 
 import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
 
 export function Sectionss({ sections }: { sections: ClassScheduleListing[] }): JSX.Element {
-  const [section, setSection] = React.useState('0');
-
+  const [section, setSection] = React.useState('');
+  console.log(section);
   return (
     <RadioGroup onChange={setSection} value={section}>
-      <Stack>
-        {sections.map(({ sectionCode, meetingTimes }, index) => (
-          <Option radioValue={index.toString()} sectionCode={sectionCode} meetingTimes={meetingTimes} />
-        ))}
-      </Stack>
+      <Table size="sm">
+        <Thead>
+          <Tr>
+            <Th>Option</Th>
+            <Th>Section</Th>
+            <Th>Days</Th>
+            <Th>Times</Th>
+            <Th>Location</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {sections.map(({ sectionCode, meetingTimes }) => (
+            <Option sectionCode={sectionCode} meetingTimes={meetingTimes} />
+          ))}
+        </Tbody>
+      </Table>
     </RadioGroup>
   );
 }
@@ -28,26 +39,22 @@ export interface OptionsProps {
    * example: A01, B01, T01 etc.
    */
   sectionCode: string;
-  /**
-   * value for radio group from index
-   * example: '0', '1' etc.
-   */
-  radioValue: string;
 }
 
-export function Option({ meetingTimes, sectionCode, radioValue }: OptionsProps): JSX.Element {
+export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element {
   return (
-    <Box>
+    <>
       {meetingTimes.map((m) => (
-        <Radio value={radioValue}>
-          <HStack>
-            <Text fontWeight="bold"> {sectionCode} </Text>
-            <Text>
-              {m.days} {m.time} {m.where}
-            </Text>
-          </HStack>
-        </Radio>
+        <Tr>
+          <Td>
+            <Radio value={sectionCode} />
+          </Td>
+          <Td fontWeight="bold"> {sectionCode} </Td>
+          <Td>{m.days}</Td>
+          <Td>{m.time}</Td>
+          <Td>{m.where}</Td>
+        </Tr>
       ))}
-    </Box>
+    </>
   );
 }
