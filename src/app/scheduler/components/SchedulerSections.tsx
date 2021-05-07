@@ -5,7 +5,6 @@ import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
 
 export function Sectionss({ sections }: { sections: ClassScheduleListing[] }): JSX.Element {
   const [section, setSection] = React.useState('');
-  console.log(section);
   return (
     <RadioGroup onChange={setSection} value={section}>
       <Table size="sm">
