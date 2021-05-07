@@ -72,42 +72,44 @@ export function SectionInfo({
 
   return (
     <Box as="section" bg="white" color="black" my="4" boxShadow="md" p="3" rounded="lg">
-      <Flex my="2" alignItems="center">
-        <Heading mr="5" size="lg" as="h2" whiteSpace="pre">
-          {sectionCode}
-        </Heading>
-        <Heading size="lg" as="h3" color="gray">
+      <Flex my="2" alignItems="center" justifyContent="space-between">
+        <Flex alignItems="center">
+          <Heading size="lg" as="h2" whiteSpace="pre" id={sectionCode}>
+            {sectionCode}
+          </Heading>
+          <Box mx="5">
+            <Popover>
+              <PopoverTrigger>
+                <Badge colorScheme="green" mx="1">
+                  {instructionalMethod}
+                </Badge>
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverBody>This means this section takes place online.</PopoverBody>
+              </PopoverContent>
+            </Popover>
+            {isASYNC && (
+              <Badge colorScheme="cyan" mx="1">
+                Asynchronous
+              </Badge>
+            )}
+            {isSENG && (
+              <Badge colorScheme="orange" mx="1">
+                SENG ONLY
+              </Badge>
+            )}
+            {isCSC && (
+              <Badge colorScheme="yellow" mx="1">
+                CSC ONLY
+              </Badge>
+            )}
+          </Box>
+        </Flex>
+        <Heading size="md" as="h3" color="gray">
           {crn}
         </Heading>
-        <Box mx="5">
-          <Popover>
-            <PopoverTrigger>
-              <Badge colorScheme="green" mx="1">
-                {instructionalMethod}
-              </Badge>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverCloseButton />
-              <PopoverBody>This means this section takes place online.</PopoverBody>
-            </PopoverContent>
-          </Popover>
-          {isASYNC && (
-            <Badge colorScheme="cyan" mx="1">
-              Asynchronous
-            </Badge>
-          )}
-          {isSENG && (
-            <Badge colorScheme="orange" mx="1">
-              SENG ONLY
-            </Badge>
-          )}
-          {isCSC && (
-            <Badge colorScheme="yellow" mx="1">
-              CSC ONLY
-            </Badge>
-          )}
-        </Box>
       </Flex>
       <Box>
         {additionalNotes && (
