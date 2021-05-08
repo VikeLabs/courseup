@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Grid, Heading, HStack, IconButton, Spacer, VStack } from '@chakra-ui/react';
+import { Button, Flex, Heading, HStack, IconButton, VStack } from '@chakra-ui/react';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
@@ -8,7 +8,7 @@ import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
-import React, { MutableRefObject, useMemo, useRef } from 'react';
+import { MutableRefObject, useMemo, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import './CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
@@ -72,7 +72,11 @@ const CustomEvent = ({ title, event }: EventProps) => {
         <Heading size="xs">{event.resource && event.resource.sectionCode}</Heading>
       </HStack>
       <VStack flex={1} justifyContent="center">
-        <Heading justifyContent="center" size="md">
+        <Heading
+          color={event.resource.textColor ? event.resource.textColor : 'black'}
+          justifyContent="center"
+          size="sm"
+        >
           {event.resource && event.resource.location}
         </Heading>
       </VStack>
@@ -186,6 +190,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
             end: new Date(ruleLowerAll[i].toUTCString().replace('GMT', '')),
             resource: {
               color: calendarEvent.color,
+              textColor: calendarEvent.textColor,
               sectionCode: calendarEvent.sectionCode,
               location: calendarEvent.meetingTime.where,
             },
