@@ -85,6 +85,7 @@ const eventStyleGetter = ({ resource }: Event) => {
     backgroundColor: resource && resource.color,
     color: 'black',
     borderRadius: 0,
+    cursor: 'default',
   };
   return {
     style: style,
