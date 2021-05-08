@@ -8,8 +8,9 @@ import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
-import React, { MutableRefObject, useMemo, useRef } from 'react';
+import { MutableRefObject, useMemo, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
+import './CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { RRule } from 'rrule';
 
@@ -29,6 +30,28 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
+
+const slotPropGetter = (date: Date, resourceId?: number | string) => {
+  const today = new Date();
+  if (
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  ) {
+    return {
+      style: {
+        backgroundColor: '#e6e6e6',
+      },
+    };
+  } else if (date.getDay() == 2 || date.getDay() == 4)
+    return {
+      style: {
+        backgroundColor: '#F7F7F7',
+      },
+    };
+  else return {};
+  return {};
+};
 
 const eventStyleGetter = ({ resource }: Event) => {
   const style = {
@@ -186,11 +209,10 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)}
       max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 22)}
       defaultView="work_week"
-      timeslots={10}
-      step={3}
       views={['work_week']}
       defaultDate={minEventDate.current}
       eventPropGetter={eventStyleGetter}
+      slotPropGetter={slotPropGetter}
       components={{
         toolbar: CustomToolBar,
         event: CustomEvent,
