@@ -2,6 +2,18 @@
   padding: 1em;
 }
 
+.rbc-time-slot {
+  min-height: 1.85em;
+}
+
+.rbc-event {
+  padding: 0;
+}
+
+.rbc-event-label {
+  display: none;
+}
+
 .rbc-allday-cell {
   display: none !important;
 }

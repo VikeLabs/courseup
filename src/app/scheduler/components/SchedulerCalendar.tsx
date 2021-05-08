@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, HStack, IconButton } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Heading, HStack, IconButton, Spacer, VStack } from '@chakra-ui/react';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
@@ -8,7 +8,7 @@ import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
-import { MutableRefObject, useMemo, useRef } from 'react';
+import React, { MutableRefObject, useMemo, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import './CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
@@ -56,11 +56,8 @@ const slotPropGetter = (date: Date, resourceId?: number | string) => {
 const eventStyleGetter = ({ resource }: Event) => {
   const style = {
     backgroundColor: resource && resource.color,
-    borderRadius: '0px',
-    opacity: 0.8,
     color: 'black',
-    border: '0px',
-    display: 'block',
+    borderRadius: 0,
   };
   return {
     style: style,
@@ -69,9 +66,17 @@ const eventStyleGetter = ({ resource }: Event) => {
 
 const CustomEvent = ({ title, event }: EventProps) => {
   return (
-    <span>
-      {title}, {event.resource && event.resource.sectionCode}, {event.resource && event.resource.location}
-    </span>
+    <Flex height="100%" direction="column">
+      <HStack w="100%" bg="#EDF2F7" justifyContent="space-between" p="0.2em">
+        <Heading size="xs">{title}</Heading>
+        <Heading size="xs">{event.resource && event.resource.sectionCode}</Heading>
+      </HStack>
+      <VStack flex={1} justifyContent="center">
+        <Heading justifyContent="center" size="md">
+          {event.resource && event.resource.location}
+        </Heading>
+      </VStack>
+    </Flex>
   );
 };
 
