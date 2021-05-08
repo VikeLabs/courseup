@@ -216,8 +216,8 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     <Calendar
       localizer={localizer}
       events={events}
-      min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)}
-      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 22)}
+      min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)}
+      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)}
       defaultView="work_week"
       views={['work_week']}
       defaultDate={minEventDate.current}
