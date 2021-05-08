@@ -10,7 +10,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
 import { MutableRefObject, useMemo, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
-import './CalendarStyles.scss';
+import '../../shared/styles/CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { RRule } from 'rrule';
 
@@ -43,7 +43,7 @@ const slotPropGetter = (date: Date, resourceId?: number | string) => {
         backgroundColor: '#e6e6e6',
       },
     };
-  } else if (date.getDay() == 2 || date.getDay() == 4)
+  } else if (date.getDay() === 2 || date.getDay() === 4)
     return {
       style: {
         backgroundColor: '#F7F7F7',
