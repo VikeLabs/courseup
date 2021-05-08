@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, HStack, IconButton, VStack } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
@@ -50,7 +50,34 @@ const slotPropGetter = (date: Date, resourceId?: number | string) => {
       },
     };
   else return {};
-  return {};
+};
+
+const CustomToolBar = ({ onNavigate, label }: ToolbarProps) => {
+  return (
+    <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
+      <Heading size="md">Scheduler</Heading>
+      <Text fontSize="xl">{label}</Text>
+      <HStack pb="0.2em">
+        <Button size="sm" bg="gray.200" onClick={() => onNavigate('TODAY')}>
+          Today
+        </Button>
+        <IconButton
+          aria-label="Previous Week"
+          bg="gray"
+          icon={<ChevronLeftIcon color="white" />}
+          size="sm"
+          onClick={() => onNavigate('PREV')}
+        />
+        <IconButton
+          aria-label="Next Week"
+          bg="gray"
+          icon={<ChevronRightIcon color="white" />}
+          size="sm"
+          onClick={() => onNavigate('NEXT')}
+        />
+      </HStack>
+    </Flex>
+  );
 };
 
 const eventStyleGetter = ({ resource }: Event) => {
@@ -80,34 +107,6 @@ const CustomEvent = ({ title, event }: EventProps) => {
           {event.resource && event.resource.location}
         </Heading>
       </VStack>
-    </Flex>
-  );
-};
-
-const CustomToolBar = ({ onNavigate, label }: ToolbarProps) => {
-  return (
-    <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
-      <Heading size="md">Schedule</Heading>
-      <Heading size="md">{label}</Heading>
-      <HStack pb="0.2em">
-        <Button size="sm" bg="gray.200" onClick={() => onNavigate('TODAY')}>
-          Today
-        </Button>
-        <IconButton
-          aria-label="Previous Week"
-          bg="gray"
-          icon={<ChevronLeftIcon color="white" />}
-          size="sm"
-          onClick={() => onNavigate('PREV')}
-        />
-        <IconButton
-          aria-label="Next Week"
-          bg="gray"
-          icon={<ChevronRightIcon color="white" />}
-          size="sm"
-          onClick={() => onNavigate('NEXT')}
-        />
-      </HStack>
     </Flex>
   );
 };
