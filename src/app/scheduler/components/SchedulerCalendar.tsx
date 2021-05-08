@@ -1,3 +1,5 @@
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
@@ -8,8 +10,11 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
 import { MutableRefObject, useMemo, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
-import { Calendar, dateFnsLocalizer, Event, EventProps } from 'react-big-calendar';
+import '../../shared/styles/CalendarStyles.scss';
+import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { RRule } from 'rrule';
+
+import { isSameDay } from '../../shared/utils/dates';
 
 import { CalendarEvent } from './CalendarEvent';
 
@@ -28,14 +33,57 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
+const slotPropGetter = (date: Date, resourceId?: number | string) => {
+  const today = new Date();
+  if (isSameDay(date, today)) {
+    return {
+      style: {
+        backgroundColor: '#e6e6e6',
+      },
+    };
+  } else if (date.getDay() === 2 || date.getDay() === 4)
+    return {
+      style: {
+        backgroundColor: '#F7F7F7',
+      },
+    };
+  else return {};
+};
+
+const CustomToolBar = ({ onNavigate, label }: ToolbarProps) => {
+  return (
+    <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
+      <Heading size="md">Scheduler</Heading>
+      <Text fontSize="xl">{label}</Text>
+      <HStack pb="0.2em">
+        <Button size="sm" bg="gray.200" onClick={() => onNavigate('TODAY')}>
+          Today
+        </Button>
+        <IconButton
+          aria-label="Previous Week"
+          bg="gray"
+          icon={<ChevronLeftIcon color="white" />}
+          size="sm"
+          onClick={() => onNavigate('PREV')}
+        />
+        <IconButton
+          aria-label="Next Week"
+          bg="gray"
+          icon={<ChevronRightIcon color="white" />}
+          size="sm"
+          onClick={() => onNavigate('NEXT')}
+        />
+      </HStack>
+    </Flex>
+  );
+};
+
 const eventStyleGetter = ({ resource }: Event) => {
   const style = {
     backgroundColor: resource && resource.color,
-    borderRadius: '0px',
-    opacity: 0.8,
     color: 'black',
-    border: '0px',
-    display: 'block',
+    borderRadius: 0,
+    cursor: 'default',
   };
   return {
     style: style,
@@ -44,9 +92,21 @@ const eventStyleGetter = ({ resource }: Event) => {
 
 const CustomEvent = ({ title, event }: EventProps) => {
   return (
-    <span>
-      {title}, {event.resource && event.resource.sectionCode}, {event.resource && event.resource.location}
-    </span>
+    <Flex height="100%" direction="column">
+      <HStack w="100%" bg="#EDF2F7" justifyContent="space-between" p="0.2em">
+        <Heading size="xs">{title}</Heading>
+        <Heading size="xs">{event.resource && event.resource.sectionCode}</Heading>
+      </HStack>
+      <VStack flex={1} justifyContent="center">
+        <Heading
+          color={event.resource.textColor ? event.resource.textColor : 'black'}
+          justifyContent="center"
+          size="sm"
+        >
+          {event.resource && event.resource.location}
+        </Heading>
+      </VStack>
+    </Flex>
   );
 };
 
@@ -128,6 +188,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
             end: new Date(ruleLowerAll[i].toUTCString().replace('GMT', '')),
             resource: {
               color: calendarEvent.color,
+              textColor: calendarEvent.textColor,
               sectionCode: calendarEvent.sectionCode,
               location: calendarEvent.meetingTime.where,
             },
@@ -153,15 +214,15 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     <Calendar
       localizer={localizer}
       events={events}
-      min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)}
-      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 22)}
+      min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)}
+      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)}
       defaultView="work_week"
-      timeslots={10}
-      step={3}
       views={['work_week']}
       defaultDate={minEventDate.current}
       eventPropGetter={eventStyleGetter}
+      slotPropGetter={slotPropGetter}
       components={{
+        toolbar: CustomToolBar,
         event: CustomEvent,
       }}
     />
