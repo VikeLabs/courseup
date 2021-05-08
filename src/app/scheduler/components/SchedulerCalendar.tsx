@@ -1,3 +1,5 @@
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { Button, Flex, Heading, HStack, IconButton } from '@chakra-ui/react';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
@@ -6,9 +8,9 @@ import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
-import { MutableRefObject, useMemo, useRef } from 'react';
+import React, { MutableRefObject, useMemo, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
-import { Calendar, dateFnsLocalizer, Event, EventProps } from 'react-big-calendar';
+import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { RRule } from 'rrule';
 
 import { CalendarEvent } from './CalendarEvent';
@@ -47,6 +49,34 @@ const CustomEvent = ({ title, event }: EventProps) => {
     <span>
       {title}, {event.resource && event.resource.sectionCode}, {event.resource && event.resource.location}
     </span>
+  );
+};
+
+const CustomToolBar = ({ onNavigate, label }: ToolbarProps) => {
+  return (
+    <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
+      <Heading size="md">Schedule</Heading>
+      <Heading size="md">{label}</Heading>
+      <HStack pb="0.2em">
+        <Button size="sm" bg="gray.200" onClick={() => onNavigate('TODAY')}>
+          Today
+        </Button>
+        <IconButton
+          aria-label="Previous Week"
+          bg="gray"
+          icon={<ChevronLeftIcon color="white" />}
+          size="sm"
+          onClick={() => onNavigate('PREV')}
+        />
+        <IconButton
+          aria-label="Next Week"
+          bg="gray"
+          icon={<ChevronRightIcon color="white" />}
+          size="sm"
+          onClick={() => onNavigate('NEXT')}
+        />
+      </HStack>
+    </Flex>
   );
 };
 
@@ -162,6 +192,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       defaultDate={minEventDate.current}
       eventPropGetter={eventStyleGetter}
       components={{
+        toolbar: CustomToolBar,
         event: CustomEvent,
       }}
     />
