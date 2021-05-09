@@ -17,14 +17,14 @@ import { Routes } from './routes';
 import './index.css';
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || 'AIzaSyBh3shP0neAHQCRrESGjQVfKpCdz2EbSEE',
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || 'staging-clockwork.firebaseapp.com',
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || 'https://staging-clockwork-default-rtdb.firebaseio.com',
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || 'staging-clockwork',
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || 'staging-clockwork.appspot.com',
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || '53599730639',
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || '1:53599730639:web:f31b0eeaf4f0529233f0ba',
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || 'G-M645REB5LQ',
 };
 
 Sentry.init({
@@ -37,7 +37,7 @@ Sentry.init({
 });
 
 // only enable Firebase if the required config values are present
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 }
@@ -65,7 +65,7 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals(({ id, name, value }) => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
     firebase.analytics().logEvent('Web Vitals', {
       eventCategory: 'Web Vitals',
       eventAction: name,
