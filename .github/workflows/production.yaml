@@ -106,6 +106,7 @@ jobs:
     needs: [ lint, lint-functions, build, build-functions ]
     environment: production
     steps:
+      - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
