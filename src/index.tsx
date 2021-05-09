@@ -16,15 +16,15 @@ import { Routes } from './routes';
 
 import './index.css';
 
-const firebaseConfigStaging = {
-  apiKey: 'AIzaSyBh3shP0neAHQCRrESGjQVfKpCdz2EbSEE',
-  authDomain: 'staging-clockwork.firebaseapp.com',
-  databaseURL: 'https://staging-clockwork-default-rtdb.firebaseio.com',
-  projectId: 'staging-clockwork',
-  storageBucket: 'staging-clockwork.appspot.com',
-  messagingSenderId: '53599730639',
-  appId: '1:53599730639:web:f31b0eeaf4f0529233f0ba',
-  measurementId: 'G-M645REB5LQ',
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 Sentry.init({
@@ -36,27 +36,27 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-firebase.initializeApp(firebaseConfigStaging);
-
-firebase.analytics();
+// only enable Firebase if the required config values are present
+if (process.env.NODE_ENV === 'production') {
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+}
 
 const searchClient = algoliasearch('CR92D3S394', '5477854d63b676fe021f8f83f5839a3a');
 
-// The base URL used for all REST api requests.
-// TODO: switch
-const base = process.env.NODE_ENV === 'production' ? '/api' : 'https://clockwork.vikelabs.dev/api';
-
 ReactDOM.render(
   <React.StrictMode>
-    <RestfulProvider base={base}>
-      <InstantSearch searchClient={searchClient} indexName="dev_uvic">
-        <ChakraProvider portalZIndex={999}>
-          <Helmet titleTemplate="%s · CourseUp" defaultTitle="CourseUp · We make school easier" />
-          <Mobile />
-          <Routes />
-        </ChakraProvider>
-      </InstantSearch>
-    </RestfulProvider>
+    <Sentry.ErrorBoundary fallback={'An error has occurred'}>
+      <RestfulProvider base={'/api'}>
+        <InstantSearch searchClient={searchClient} indexName="dev_uvic">
+          <ChakraProvider portalZIndex={999}>
+            <Helmet titleTemplate="%s · CourseUp" defaultTitle="CourseUp · We make school easier" />
+            <Mobile />
+            <Routes />
+          </ChakraProvider>
+        </InstantSearch>
+      </RestfulProvider>
+    </Sentry.ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -64,4 +64,14 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(({ id, name, value }) => {
+  if (process.env.NODE_ENV === 'production') {
+    firebase.analytics().logEvent('Web Vitals', {
+      eventCategory: 'Web Vitals',
+      eventAction: name,
+      eventValue: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
+      eventLabel: id, // id unique to current page load
+      nonInteraction: true, // avoids affecting bounce rate
+    });
+  }
+});
