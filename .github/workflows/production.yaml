@@ -120,7 +120,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: functions-build
-          path: function/lib
+          path: functions/lib
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
       - name: Deploy to Firebase
