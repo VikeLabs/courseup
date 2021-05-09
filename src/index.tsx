@@ -75,14 +75,25 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals(({ id, name, value }) => {
-  // Don't log web vitals when we're not in production mode
-  if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
-    firebase.analytics().logEvent('Web Vitals', {
-      eventCategory: 'Web Vitals',
-      eventAction: name,
-      eventValue: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
-      eventLabel: id, // id unique to current page load
-      nonInteraction: true, // avoids affecting bounce rate
-    });
-  }
+  logEvent('Web Vitals', {
+    eventCategory: 'Web Vitals',
+    eventAction: name,
+    eventValue: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
+    eventLabel: id, // id unique to current page load
+    nonInteraction: true, // avoids affecting bounce rate
+  });
 });
+
+export function logEvent(
+  eventName: string,
+  eventParams?:
+    | {
+        [key: string]: any;
+      }
+    | undefined,
+  options?: firebase.analytics.AnalyticsCallOptions | undefined
+): void {
+  if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
+    firebase.analytics().logEvent(eventName, eventParams);
+  }
+}
