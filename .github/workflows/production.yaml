@@ -66,6 +66,8 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Build
         run: npm run build
+        env:
+          REACT_APP_ENV: production
       - name: Share artifact inside workflow
         uses: actions/upload-artifact@v2
         with:

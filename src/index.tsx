@@ -16,16 +16,26 @@ import { Routes } from './routes';
 
 import './index.css';
 
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || 'AIzaSyBh3shP0neAHQCRrESGjQVfKpCdz2EbSEE',
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || 'staging-clockwork.firebaseapp.com',
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || 'https://staging-clockwork-default-rtdb.firebaseio.com',
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || 'staging-clockwork',
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || 'staging-clockwork.appspot.com',
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || '53599730639',
-  appId: process.env.REACT_APP_FIREBASE_APP_ID || '1:53599730639:web:f31b0eeaf4f0529233f0ba',
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || 'G-M645REB5LQ',
-};
+const firebaseConfig =
+  process.env.REACT_APP_ENV === 'production'
+    ? {
+        apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+        authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+        storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.REACT_APP_FIREBASE_APP_ID,
+        measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+      }
+    : {
+        apiKey: 'AIzaSyBh3shP0neAHQCRrESGjQVfKpCdz2EbSEE',
+        authDomain: 'staging-clockwork.firebaseapp.com',
+        projectId: 'staging-clockwork',
+        storageBucket: 'staging-clockwork.appspot.com',
+        messagingSenderId: '53599730639',
+        appId: '1:53599730639:web:f31b0eeaf4f0529233f0ba',
+        measurementId: 'G-M645REB5LQ',
+      };
 
 Sentry.init({
   dsn: 'https://08218d366eab4945abe3e09054bc5cce@o551348.ingest.sentry.io/5674718',
@@ -65,6 +75,7 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals(({ id, name, value }) => {
+  // Don't log web vitals when we're not in production mode
   if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
     firebase.analytics().logEvent('Web Vitals', {
       eventCategory: 'Web Vitals',
