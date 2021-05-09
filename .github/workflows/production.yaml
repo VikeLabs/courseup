@@ -131,10 +131,10 @@ jobs:
       - name: Install Cloud Function dependencies
         working-directory: './functions'
         run: npm ci --ignore-scripts --no-audit --no-progress
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
       - name: Deploy to Firebase
-        run: firebase deploy --only hosting,functions --project production
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting,functions --project production
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Create Sentry release
