@@ -121,6 +121,16 @@ jobs:
         with:
           name: functions-build
           path: functions/lib
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          key: npm-${{ hashFiles('functions/package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install Cloud Function dependencies
+        working-directory: './functions'
+        run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
       - name: Deploy to Firebase
