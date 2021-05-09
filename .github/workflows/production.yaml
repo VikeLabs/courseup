@@ -1,18 +1,138 @@
-name: Promote to Production
+name: Deploy to Production
 on:
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'     
-        required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'
-        required: true
+  workflow_dispatch
 jobs:
-  printInputs:
+  lint:
+    name: Lint React App
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Tags: ${{ github.event.inputs.tags }}" 
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Lint
+        run: npm run lint
+  lint-functions:
+    name: Lint Cloud Functions
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./functions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Lint
+        run: npm run lint
+  build:
+    name: Build
+    needs: [ lint ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Build
+        run: npm run build
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v2
+        with:
+          name: create-react-app-build
+          path: build
+  build-functions:
+    name: Build Cloud Functions
+    needs: [ lint-functions ]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./functions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache npm dependencies
+        uses: actions/cache@v1
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Build
+        run: npm run build
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v2
+        with:
+          name: functions-build
+          path: functions/lib
+  deploy:
+    name: Deploy to Firebase
+    runs-on: ubuntu-latest
+    needs: [ lint, lint-functions, build, build-functions ]
+    environment: production
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Get React build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: create-react-app-build
+          path: build
+      - name: Get Functions build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: functions-build
+          path: function/lib
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+      - name: Deploy to Firebase
+        run: firebase deploy --only hosting,functions --project production
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
+          sourcemaps: './build/static/js/'
+          url_prefix: '~/static/js'
