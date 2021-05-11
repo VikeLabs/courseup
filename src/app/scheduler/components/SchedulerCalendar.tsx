@@ -14,8 +14,6 @@ import '../../shared/styles/CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { RRule } from 'rrule';
 
-import { isSameDay } from '../../shared/utils/dates';
-
 import { CalendarEvent } from './CalendarEvent';
 
 dayjs.extend(utc);
@@ -34,14 +32,7 @@ const localizer = dateFnsLocalizer({
 });
 
 const slotPropGetter = (date: Date, resourceId?: number | string) => {
-  const today = new Date();
-  if (isSameDay(date, today)) {
-    return {
-      style: {
-        backgroundColor: '#e6e6e6',
-      },
-    };
-  } else if (date.getDay() === 2 || date.getDay() === 4)
+  if (date.getDay() === 2 || date.getDay() === 4)
     return {
       style: {
         backgroundColor: '#F7F7F7',
