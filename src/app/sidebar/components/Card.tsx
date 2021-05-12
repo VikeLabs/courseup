@@ -1,6 +1,10 @@
-import { ChevronRightIcon, AddIcon, InfoOutlineIcon } from '@chakra-ui/icons';
+import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { Term } from '../../../shared/fetchers';
+import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 
 export interface CardProps {
   /**
@@ -14,6 +18,11 @@ export interface CardProps {
    * EX) SENG 265 -> SENG
    */
   subject: string;
+
+  /**
+   * Pid of course
+   */
+  pid?: string;
 
   /**
    * Code to be displayed
@@ -32,7 +41,23 @@ export interface CardProps {
   schedule?: boolean;
 }
 
-export function Card({ subject, title, code, selected, schedule }: PropsWithChildren<CardProps>): JSX.Element {
+export function Card({ subject, title, code, selected, schedule, pid }: PropsWithChildren<CardProps>): JSX.Element {
+  let { term } = useParams();
+
+  const { addCourse, deleteCourse, contains } = useSavedCourses();
+
+  const courseIsSaved = pid && contains(pid, term);
+
+  const handleBookmarkClick = useCallback(() => {
+    if (code && pid) {
+      if (!courseIsSaved) {
+        addCourse({ subject, code, pid, term });
+      } else {
+        deleteCourse({ subject, code, pid, term });
+      }
+    }
+  }, [code, pid, courseIsSaved, addCourse, subject, term, deleteCourse]);
+
   const buttons = (code: string | undefined, schedule: boolean | undefined) => {
     if (!code) {
       return (
@@ -48,8 +73,14 @@ export function Card({ subject, title, code, selected, schedule }: PropsWithChil
       );
     } else if (code && schedule) {
       return (
-        <VStack>
-          <IconButton aria-label="Add to Scheduler" icon={<AddIcon color="white" />} size="xs" background="green.400" />
+        <VStack paddingLeft="0.1em">
+          <IconButton
+            aria-label="Add to Scheduler"
+            onClick={handleBookmarkClick}
+            icon={courseIsSaved ? <CloseIcon color="white" /> : <AddIcon color="white" />}
+            size="xs"
+            background={courseIsSaved ? 'red.400' : 'green.400'}
+          />
           <IconButton
             aria-label="More information"
             icon={<InfoOutlineIcon color="white" />}

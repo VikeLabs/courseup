@@ -1,5 +1,6 @@
 import { LinkBox } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
+import React from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 import { KualiSubject } from '../../../shared/fetchers';
