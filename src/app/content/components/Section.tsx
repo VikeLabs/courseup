@@ -111,9 +111,18 @@ export function SectionInfo({
           {crn}
         </Heading>
         <Box mx="5">
-          <Badge colorScheme="green" mx="1">
-            {instructionalMethod}
-          </Badge>
+          <Popover>
+            <PopoverTrigger>
+              <Badge colorScheme="green" mx="1">
+                {instructionalMethod}
+              </Badge>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverBody>This means this section takes place online.</PopoverBody>
+            </PopoverContent>
+          </Popover>
           {isASYNC && (
             <Badge colorScheme="cyan" mx="1">
               Asynchronous
