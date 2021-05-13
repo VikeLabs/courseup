@@ -3,7 +3,7 @@ import 'firebase/analytics';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import algoliasearch from 'algoliasearch';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
