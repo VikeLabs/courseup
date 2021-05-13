@@ -16,13 +16,14 @@ export const useSectionList = (courses: Course[]) => {
 
   useEffect(() => {
     async function fetchData() {
-      courses.forEach(async ({ term, subject, code }) => {
+      const actions = courses.map(async ({ term, subject, code }) => {
         const sections = (await getSectionList({ term, subject, code })) as Section[];
         let check: boolean = true;
         data.forEach((sectionListData) => {
           if (sections[0] === sectionListData.section) check = false;
         });
         check &&
+          sections[0] &&
           setData([
             ...data,
             {
@@ -32,6 +33,9 @@ export const useSectionList = (courses: Course[]) => {
             },
           ]);
       });
+
+      Promise.all(actions);
+      console.log(data);
     }
     void fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
