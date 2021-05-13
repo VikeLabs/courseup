@@ -1,10 +1,9 @@
-import { AddIcon, CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
+import { CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Term } from '../../../shared/fetchers';
-import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 
 export type CourseCardProps = {
   term: Term;
@@ -14,8 +13,8 @@ export type CourseCardProps = {
   color: BackgroundProps['bg'];
   pid: string;
   selected: boolean;
-  handleChange: Function;
-  handleBookmarkClick: Function;
+  onCourseChange: Function;
+  onCourseDelete: Function;
 };
 
 export function CourseCard({
@@ -26,19 +25,16 @@ export function CourseCard({
   color,
   pid,
   selected,
-  handleChange,
-  handleBookmarkClick,
+  onCourseChange,
+  onCourseDelete,
 }: CourseCardProps): JSX.Element {
-  const { contains } = useSavedCourses();
-  const courseIsSaved = contains(pid, term);
+  const handleCourseChange = useCallback(() => {
+    onCourseChange();
+  }, [onCourseChange]);
 
-  const onBookmarkClick = useCallback(() => {
-    handleBookmarkClick();
-  }, [handleBookmarkClick]);
-
-  const onChange = useCallback(() => {
-    handleChange();
-  }, [handleChange]);
+  const handleCourseDelete = useCallback(() => {
+    onCourseDelete();
+  }, [onCourseDelete]);
 
   return (
     <Box boxShadow="md" cursor="pointer" as="label">
@@ -52,7 +48,7 @@ export function CourseCard({
               size="lg"
               mx="7px"
               isChecked={selected}
-              onChange={onChange}
+              onChange={handleCourseChange}
             />
           </Flex>
         </Flex>
@@ -67,11 +63,11 @@ export function CourseCard({
           </VStack>
           <VStack alignContent="right" pr="5px" py="5px">
             <IconButton
-              aria-label="Add to Scheduler"
-              icon={courseIsSaved ? <CloseIcon color="white" /> : <AddIcon color="white" />}
-              background={courseIsSaved ? 'red' : 'green.400'}
+              aria-label="Remove from Scheduler"
+              icon={<CloseIcon color="white" />}
+              background={'red'}
               size="sm"
-              onClick={onBookmarkClick}
+              onClick={handleCourseDelete}
             />
             <IconButton
               aria-label="More information"
