@@ -1,4 +1,16 @@
-import { Popover, PopoverTrigger, PopoverContent, PopoverBody, Portal, Text, Button } from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons';
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  Portal,
+  Text,
+  Button,
+  Spacer,
+  Box,
+  IconButton,
+} from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 
 import { Course, useSavedCourses } from '../../../shared/hooks/useSavedCourses';
@@ -27,21 +39,37 @@ export function Bookmarks(): JSX.Element {
         <Button onClick={open}>{!isOpen ? 'My Bookmarks' : 'Close'}</Button>
       </PopoverTrigger>
       <Portal>
-        <PopoverContent overflowY="auto" minW="300px" boxShadow="md" h="90vh">
+        <PopoverContent overflowY="auto" minW="300px" boxShadow="md" h="90vh" borderColor="blue.800">
           <PopoverBody color="gray.600" py="10px">
             {courses.map((course: Course) => {
               return (
                 <>
-                  <Text>{`${course.subject} ${course.code}`}</Text>
-                  <Button
-                    onClick={onClick}
-                    pid={course.pid}
-                    subject={course.subject}
-                    term={course.term}
-                    code={course.code}
-                  >
-                    remove
-                  </Button>
+                  <Box display="flex" bg="red">
+                    <Text fontSize="lg">
+                      {`${course.subject} ${course.code}`}
+                      {/* <Spacer /> */}
+                      {/* <Button
+                        colorScheme="red"
+                        onClick={onClick}
+                        pid={course.pid}
+                        subject={course.subject}
+                        term={course.term}
+                        code={course.code}
+                      >
+                        Remove
+                      </Button> */}
+                    </Text>
+                    <IconButton
+                      onClick={onClick}
+                      pid={course.pid}
+                      subject={course.subject}
+                      term={course.term}
+                      code={course.code}
+                      colorScheme="blue"
+                      aria-label="Search database"
+                      icon={<CloseIcon />}
+                    />
+                  </Box>
                 </>
               );
             })}
