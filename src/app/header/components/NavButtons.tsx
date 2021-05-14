@@ -12,18 +12,18 @@ export function NavButtons(): JSX.Element {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
     if (!scheduleMatch && name !== 'calendar') {
-      navigate(`/schedule/${term || ''}`);
+      navigate(`/scheduler/${term || ''}`);
     } else if (!calendarMatch && name !== 'scheduler') {
       navigate(`/calendar/${term || ''}`);
     }
   };
 
   return (
-    <ButtonGroup spacing="0" colorScheme="whiteAlpha" size="sm" isAttached>
-      <Button isActive={!!calendarMatch} color="black" borderRadius="2px" onClick={onClick} name="calendar">
+    <ButtonGroup isAttached colorScheme="whiteAlpha" size="sm">
+      <Button isActive={!!calendarMatch} colorScheme="purple" onClick={onClick} name="calendar">
         Courses
       </Button>
-      <Button isActive={!!scheduleMatch} color="black" borderRadius="2px" onClick={onClick} name="scheduler">
+      <Button isActive={!!scheduleMatch} colorScheme="purple" onClick={onClick} name="scheduler">
         Timetable
       </Button>
     </ButtonGroup>

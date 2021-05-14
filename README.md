@@ -32,14 +32,6 @@ This will execute tests using Jest files with the extension `*.test*`.
 
 `npx jest --watch` will put Jest into watch mode, which will execute tests as files change.
 
-## Developer Tools
-
-When developing in your local environment, to view components which require requests to populate with data you will need to enable CORS. Install the following extension to do so:
-* [Chrome](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf)
-* [Firefox](https://addons.mozilla.org/en-CA/firefox/addon/access-control-allow-origin/)
-
-For Safari: `Preferences >> Advanced, and select "Disable Cross-Origin Restrictions" from the develop menu.`
-
 ## UVic Course Scraper
 
 The website uses the npm package [`uvic-course-scraper`](https://github.com/VikeLabs/uvic-course-scraper). The package is a web-scraping tool made with TypeScript that is the main way of extracting data from UVic. It is contributed to and maintained by the original development team of `clockwork`.

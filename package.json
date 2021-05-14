@@ -1,5 +1,5 @@
 {
-  "name": "clockwork",
+  "name": "courseup",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,6 +19,7 @@
     "@types/react-dom": "^17.0.2",
     "algoliasearch": "^4.8.6",
     "date-fns": "^2.21.1",
+    "firebase": "^8.4.3",
     "framer-motion": "^3.10.6",
     "history": "^5.0.0",
     "react": "^17.0.1",
@@ -49,6 +50,7 @@
     "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
     "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
   },
+  "proxy": "https://courseup.vikelabs.dev/",
   "eslintConfig": {
     "extends": [
       "react-app",

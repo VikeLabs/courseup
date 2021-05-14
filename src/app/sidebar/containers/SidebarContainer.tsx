@@ -1,6 +1,6 @@
 import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { Route, Routes, useParams } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { Course, Term, useGetCourses, useSubjects } from '../../../shared/fetchers';
 import { CoursesList } from '../components/CoursesList';
@@ -31,12 +31,15 @@ export interface SidebarContainerProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
+  /**
+   * Search Query for the search bar
+   * EX) CSC, computer Science
+   */
   searchQuery: string;
 }
 
-export function SidebarContainer({ searchQuery }: SidebarContainerProps): JSX.Element | null {
+export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): JSX.Element | null {
   const [filter, setFilter] = useState(false);
-  const { term } = useParams();
 
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
