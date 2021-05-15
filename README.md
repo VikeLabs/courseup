@@ -4,7 +4,7 @@
 [![Issues][issues-shield]][issues-link]
 [![Website][website-shield]][website-link]
 
-Clockwork is a website built to simplify the experience of searching courses and building timetables for the [University of Victoria](https://uvic.ca) (UVic). The website is a TypeScript app which uses React on the front-end and Firebase on the back-end.
+CourseUp is a website built to simplify the experience of searching courses and building timetables for the [University of Victoria](https://uvic.ca) (UVic). The website is a TypeScript app which uses React on the front-end and Firebase on the back-end.
 
 ## Contribute
 1. Fork the repo
