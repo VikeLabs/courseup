@@ -1,7 +1,7 @@
 import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
 import { PropsWithChildren, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { Term } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
@@ -86,6 +86,8 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
             icon={<InfoOutlineIcon color="white" />}
             size="xs"
             background="blue.400"
+            as={Link}
+            to={`/calendar/${term}/${subject}?pid=${pid}`}
           />
         </VStack>
       );
