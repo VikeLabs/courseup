@@ -1,7 +1,7 @@
 import { Radio, RadioGroup, Thead, Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import React from 'react';
 
-import { ClassScheduleListing, MeetingTimes, Sections } from '../../../shared/fetchers';
+import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
 
 export function SectionsCardContainer({ sections }: { sections: ClassScheduleListing[] }): JSX.Element {
   const sectionTypes = sections.map((s) => s.sectionType).filter((item, pos, self) => self.indexOf(item) === pos);
