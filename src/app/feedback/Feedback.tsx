@@ -81,7 +81,7 @@ export function Feedback(): JSX.Element | null {
                 <Spacer />
                 <FeedbackButton
                   src={process.env.PUBLIC_URL + '/assets/brands/github.png'}
-                  href="https://github.com/VikeLabs/clockwork/discussions"
+                  href="https://github.com/VikeLabs/courseup/discussions"
                 ></FeedbackButton>
               </HStack>
             </Center>
