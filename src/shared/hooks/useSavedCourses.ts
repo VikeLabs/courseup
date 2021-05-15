@@ -10,12 +10,17 @@ export type Course = {
   code: string;
   pid: string;
   term: string;
+  lecture?: Section;
+  lab?: Section;
+  tutorial?: Section;
   // sections: Section[];
 };
 
 type Section = {
   sectionCode: string;
   meetingTimes: MeetingTimes[];
+  color?: string;
+  textColor?: string;
 };
 
 type SavedCourses = {
@@ -23,6 +28,7 @@ type SavedCourses = {
   addCourse: (newCourse: Course) => void;
   deleteCourse: (newCourse: Course) => void;
   clearCourses: () => void;
+  setSection: (type: string, newSection: Section, existingCourse: Course) => void;
   contains: (pid: string, term: string) => boolean;
 };
 
@@ -58,5 +64,23 @@ export const useSavedCourses = (): SavedCourses => {
     setData([]);
   };
 
-  return { courses: data, addCourse, deleteCourse, clearCourses, contains };
+  const setSection = (type: string, newSection: Section, existingCourse: Course) => {
+    // find the course, add to it if found
+    setData([]);
+    const newArr: Course[] = data.map((course) => {
+      if (_.isEqual(course, existingCourse)) {
+        if (type === 'lecture') {
+          course.lecture = newSection;
+        } else if (type === 'lab') {
+          course.lab = newSection;
+        } else if (type === 'tutorial') {
+          course.tutorial = newSection;
+        }
+      }
+      return course;
+    });
+    setData(newArr);
+  };
+
+  return { courses: data, addCourse, deleteCourse, clearCourses, setSection, contains };
 };
