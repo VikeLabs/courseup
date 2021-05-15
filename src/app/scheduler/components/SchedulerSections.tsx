@@ -1,28 +1,53 @@
 import { Radio, RadioGroup, Thead, Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import React from 'react';
 
-import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
+import { ClassScheduleListing, MeetingTimes, Sections } from '../../../shared/fetchers';
 
-export function Sectionss({ sections }: { sections: ClassScheduleListing[] }): JSX.Element {
-  const [section, setSection] = React.useState('');
+export function SectionsCardContainer({ sections }: { sections: ClassScheduleListing[] }): JSX.Element {
+  const sectionTypes = sections.map((s) => s.sectionType).filter((item, pos, self) => self.indexOf(item) === pos);
+
   return (
-    <RadioGroup onChange={setSection} value={section}>
-      <Table size="sm">
-        <Thead>
-          <Tr>
-            <Th>Option</Th>
-            <Th>Section</Th>
-            <Th>Days</Th>
-            <Th>Times</Th>
-            <Th>Location</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {sections.map(({ sectionCode, meetingTimes }) => (
-            <Option sectionCode={sectionCode} meetingTimes={meetingTimes} />
-          ))}
-        </Tbody>
-      </Table>
+    <Table size="sm">
+      <Thead>
+        <Tr>
+          <Th>Option</Th>
+          <Th>Section</Th>
+          <Th>Days</Th>
+          <Th>Times</Th>
+          <Th>Location</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {sectionTypes.map((type) => (
+          <SectionGroup sections={sections} type={type} />
+        ))}
+      </Tbody>
+    </Table>
+  );
+}
+
+export interface SectionGroupProps {
+  /**
+   * Array of sections of a course
+   */
+  sections: ClassScheduleListing[];
+  /**
+   * type of section
+   * example: Lecture, Tutorial, Lab etc.
+   */
+  type: string;
+}
+
+export function SectionGroup({ sections, type }: SectionGroupProps): JSX.Element {
+  const [section, setSection] = React.useState('');
+
+  return (
+    <RadioGroup onChange={setSection} value={section} name={type}>
+      {sections
+        .filter((s) => s.sectionType === type)
+        .map(({ sectionCode, meetingTimes }) => (
+          <Option sectionCode={sectionCode} meetingTimes={meetingTimes} />
+        ))}
     </RadioGroup>
   );
 }
