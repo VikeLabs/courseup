@@ -43,17 +43,19 @@ export function SchedulerSidebar(): JSX.Element {
                 {course.sections.map((section, key) => {
                   return (
                     <Button
-                      onClick={() =>
-                        // onClick(
-                        //   section.sectionType,
-                        //   section.sectionCode,
-                        //   section.meetingTimes,
-                        //   course.code,
-                        //   course.subject,
-                        //   course.pid,
-                        //   course.term
-                        // )
-                        console.log(section.sectionCode)
+                      onClick={
+                        () => {
+                          onClick(
+                            section.sectionType,
+                            section.sectionCode,
+                            section.meetingTimes,
+                            course.code,
+                            course.subject,
+                            course.pid,
+                            course.term
+                          );
+                        }
+                        // console.log(section.sectionCode)
                       }
                     >
                       {section.sectionCode}

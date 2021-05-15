@@ -55,7 +55,10 @@ export const useSavedCourses = (): SavedCourses => {
   const deleteCourse = (newCourse: Course): void => {
     // find the course, delete if found
     const newArr: Course[] = data.filter((course) => {
-      return !_.isEqual(course, newCourse);
+      return !_.isEqual(
+        _.omit(course, ['lecture', 'lab', 'tutorial']),
+        _.omit(newCourse, ['lecture', 'lab', 'tutorial'])
+      );
     });
     setData(newArr);
   };
@@ -68,7 +71,12 @@ export const useSavedCourses = (): SavedCourses => {
     // find the course, add to it if found
     setData([]);
     const newArr: Course[] = data.map((course) => {
-      if (_.isEqual(course, existingCourse)) {
+      if (
+        _.isEqual(
+          _.omit(course, ['lecture', 'lab', 'tutorial']),
+          _.omit(existingCourse, ['lecture', 'lab', 'tutorial'])
+        )
+      ) {
         if (type === 'lecture') {
           course.lecture = newSection;
         } else if (type === 'lab') {
