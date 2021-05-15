@@ -14,7 +14,8 @@
     "dev": "concurrently \"FIRESTORE_EMULATOR_HOST=localhost:8080 nodemon\" \"nodemon -x tsoa spec-and-routes\" \"firebase emulators:start --only firestore\"",
     "build:routes": "tsoa spec-and-routes && tsc",
     "start:server": "node build/src/server.js",
-    "db:populate": "FIRESTORE_EMULATOR_HOST=localhost:8080 ts-node scripts/populate.ts"
+    "db:populate": "FIRESTORE_EMULATOR_HOST=localhost:8080 ts-node scripts/populate.ts",
+    "db:start": "firebase emulators:start --import=./tmp --export-on-exit"
   },
   "engines": {
     "node": "12"

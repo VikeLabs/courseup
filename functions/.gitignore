@@ -4,6 +4,8 @@ lib
 # TypeScript v1 declaration files
 typings/
 
+tmp
+
 # Node.js dependency directory
 node_modules/
 *.log
