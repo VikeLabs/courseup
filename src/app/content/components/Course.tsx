@@ -15,13 +15,13 @@ export interface CourseShieldProps {
 
 export function CourseShield({ title, children, bg }: PropsWithChildren<CourseShieldProps>): JSX.Element {
   return (
-    <Flex m="1">
+    <Flex mx="2">
       <Box bg="gray.100" p="1" borderTopLeftRadius="md" borderBottomLeftRadius="md">
-        <Heading size="md" color="gray.600" px="3">
+        <Heading size="sm" color="gray.600" px="2">
           {title}
         </Heading>
       </Box>
-      <Flex bg={bg} p="1" px="3" borderBottomRightRadius="md" borderTopRightRadius="md">
+      <Flex bg={bg} p="1" px="2" borderBottomRightRadius="md" borderTopRightRadius="md">
         {children}
       </Flex>
     </Flex>
@@ -93,22 +93,26 @@ export function CourseInfo({
       <Flex my="3" flexWrap="wrap">
         {hours && (
           <CourseShield bg="green.200" title="Hours">
-            <Heading size="md" title="lecture hours per week">
+            <Heading as={'span'} size="sm" title="lecture hours per week">
               {hours.lecture}
             </Heading>
-            {'-'}
-            <Heading size="md" title="lab hours per week">
+            <Heading as={'span'} size="sm">
+              {'-'}
+            </Heading>
+            <Heading as={'span'} size="sm" title="lab hours per week">
               {hours.lab}
             </Heading>
-            {'-'}
-            <Heading size="md" title="tutorial hours per week">
+            <Heading as={'span'} size="sm">
+              {'-'}
+            </Heading>
+            <Heading as={'span'} size="sm" title="tutorial hours per week">
               {hours.tutorial}
             </Heading>
           </CourseShield>
         )}
         {credits && (
           <CourseShield bg="purple.200" title="Credits">
-            <Heading size="md" title="lecture hours per week">
+            <Heading as="span" size="sm" title="lecture hours per week">
               {credits.credits.max === credits.credits.min
                 ? credits.credits.max
                 : `${credits.credits.min} ~ ${credits.credits.max}`}
