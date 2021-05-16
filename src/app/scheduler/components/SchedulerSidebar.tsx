@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/button';
-import { Flex, Heading, VStack } from '@chakra-ui/layout';
+import { Box, Flex, Heading, VStack } from '@chakra-ui/layout';
 import { useCallback } from 'react';
 
 import { MeetingTimes } from '../../../shared/fetchers';
@@ -7,13 +7,15 @@ import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 import { useSectionList } from '../../../shared/hooks/useSectionList';
 import { useDefaultSections } from '../hooks/useDefaultSections';
 
+import { SectionsCardContainer } from './SchedulerSections';
+
 export function SchedulerSidebar(): JSX.Element {
   const { deleteCourse, setSection } = useSavedCourses();
   const sectionList = useSectionList();
 
   useDefaultSections(sectionList);
 
-  const onClick = useCallback(
+  const handleChange = useCallback(
     (
       sectionType: string,
       sectionCode: string,
@@ -43,28 +45,9 @@ export function SchedulerSidebar(): JSX.Element {
             return (
               <VStack key={key}>
                 <Heading>{`${course.subject} ${course.code}`}</Heading>
-                {course.sections.map((section, key) => {
-                  return (
-                    <Button
-                      onClick={
-                        () => {
-                          onClick(
-                            section.sectionType,
-                            section.sectionCode,
-                            section.meetingTimes,
-                            course.code,
-                            course.subject,
-                            course.pid,
-                            course.term
-                          );
-                        }
-                        // console.log(section.sectionCode)
-                      }
-                    >
-                      {section.sectionCode}
-                    </Button>
-                  );
-                })}
+                <Box w="100%">
+                  <SectionsCardContainer course={course} handleChange={handleChange} />
+                </Box>
                 <Button
                   style={{
                     backgroundColor: 'red',

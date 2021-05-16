@@ -29,6 +29,7 @@ type SavedCourses = {
   clearCourses: () => void;
   setSection: (type: string, newSection: Section, existingCourse: Course) => void;
   contains: (pid: string, term: string) => boolean;
+  sectionIsSaved: (pid: string, term: string, sectionCode: string) => boolean;
 };
 
 export const useSavedCourses = (): SavedCourses => {
@@ -37,6 +38,23 @@ export const useSavedCourses = (): SavedCourses => {
   const contains = useCallback(
     (pid: string, term: string): boolean => {
       return !!data.find((course) => course.pid === pid && course.term === term);
+    },
+    [data]
+  );
+
+  const sectionIsSaved = useCallback(
+    (pid: string, term: string, sectionCode: string): boolean => {
+      let check: boolean = false;
+      data.forEach((course) => {
+        if (course.pid === pid && course.term === term) {
+          check =
+            course.lab?.sectionCode === sectionCode ||
+            course.lecture?.sectionCode === sectionCode ||
+            course.tutorial?.sectionCode === sectionCode;
+        }
+      });
+
+      return check;
     },
     [data]
   );
@@ -90,5 +108,5 @@ export const useSavedCourses = (): SavedCourses => {
     setData(newArr);
   };
 
-  return { courses: data, addCourse, deleteCourse, clearCourses, setSection, contains };
+  return { courses: data, addCourse, deleteCourse, clearCourses, setSection, contains, sectionIsSaved };
 };
