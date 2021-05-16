@@ -5,7 +5,6 @@ import { useCallback, useState } from 'react';
 import { MeetingTimes } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 import { useSectionList } from '../../../shared/hooks/useSectionList';
-import { useDefaultSections } from '../hooks/useDefaultSections';
 
 import { SectionsCardContainer } from './SchedulerSections';
 
@@ -17,7 +16,7 @@ export function SchedulerSidebar(): JSX.Element {
   const [counter, setCounter] = useState(0);
   const sectionList = useSectionList();
 
-  useDefaultSections(sectionList);
+  // useDefaultSections(sectionList);
 
   const handleChange = useCallback(
     (
@@ -34,9 +33,8 @@ export function SchedulerSidebar(): JSX.Element {
         {
           sectionCode,
           meetingTimes,
-          color: COLORS[counter],
         },
-        { code, subject, term, pid }
+        { code, subject, term, pid, sections: [] }
       );
       console.log(counter, COLORS[counter]);
       setCounter(counter + 1);
@@ -60,7 +58,13 @@ export function SchedulerSidebar(): JSX.Element {
                     backgroundColor: 'red',
                   }}
                   onClick={() =>
-                    deleteCourse({ code: course.code, pid: course.pid, subject: course.subject, term: course.term })
+                    deleteCourse({
+                      code: course.code,
+                      pid: course.pid,
+                      subject: course.subject,
+                      term: course.term,
+                      sections: [],
+                    })
                   }
                 >
                   remove

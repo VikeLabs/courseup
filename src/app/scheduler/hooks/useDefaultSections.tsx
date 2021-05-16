@@ -10,6 +10,7 @@ export const useDefaultSections = (courseList: SectionListData[]) => {
   useEffect(() => {
     if (courseList.length !== courses.length) return;
     courses.forEach((course, i) => {
+      if (i === 6) return;
       if (hasSectionType(courseList[i].sections, 'lecture') && !course.lecture) {
         const index = getFirstSectionType(courseList[i].sections, 'lecture');
         setSection('lecture', courseList[i].sections[index], course);

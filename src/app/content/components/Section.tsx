@@ -7,12 +7,6 @@ import {
   AccordionPanel,
   Badge,
   Flex,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverTrigger,
 } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
