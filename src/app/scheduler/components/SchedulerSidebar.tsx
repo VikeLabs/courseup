@@ -39,37 +39,52 @@ export function SchedulerSidebar(): JSX.Element {
   );
 
   return (
-    <Flex minW="25%" maxW="25%" grow={1} bg="#E4E4E4">
-      <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
-        <Flex direction="column" overflowY="auto" overflowX="hidden">
-          {courses.map((course, key) => {
-            return (
-              <VStack key={key}>
-                <Heading>{`${course.subject} ${course.code}`}</Heading>
-                <Box w="100%">
-                  <SectionsCardContainer course={course} handleChange={handleChange} />
-                </Box>
-                <Button
-                  style={{
-                    backgroundColor: 'red',
-                  }}
-                  onClick={() =>
-                    deleteCourse({
-                      code: course.code,
-                      pid: course.pid,
-                      subject: course.subject,
-                      term: course.term,
-                      sections: [],
-                    })
-                  }
-                >
-                  remove
-                </Button>
-              </VStack>
-            );
-          })}
-        </Flex>
-      </Flex>
+    <Flex minW="25%" maxW="25%" bg="white" overflowY="auto" direction="column">
+      {courses.map((course, key) => {
+        return (
+          <VStack key={key}>
+            <Heading bg="white">{`${course.subject} ${course.code}`}</Heading>
+            <Box w="100%">
+              <SectionsCardContainer course={course} handleChange={handleChange} />
+              {/* {course.sections.map(({ sectionCode, sectionType, meetingTimes }) => {
+                    return (
+                      <Button
+                        onClick={() =>
+                          handleChange(
+                            sectionType,
+                            sectionCode,
+                            meetingTimes,
+                            course.code,
+                            course.subject,
+                            course.pid,
+                            course.term
+                          )
+                        }
+                      >
+                        {sectionCode}
+                      </Button>
+                    );
+                  })} */}
+            </Box>
+            <Button
+              style={{
+                backgroundColor: 'red',
+              }}
+              onClick={() =>
+                deleteCourse({
+                  code: course.code,
+                  pid: course.pid,
+                  subject: course.subject,
+                  term: course.term,
+                  sections: [],
+                })
+              }
+            >
+              remove
+            </Button>
+          </VStack>
+        );
+      })}
     </Flex>
   );
 }

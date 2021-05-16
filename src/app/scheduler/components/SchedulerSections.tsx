@@ -1,4 +1,4 @@
-import { Radio, RadioGroup, Table, Tbody, Tr, Td } from '@chakra-ui/react';
+import { Radio, RadioGroup, Table, Tbody, Box, HStack, Text } from '@chakra-ui/react';
 import React, { useCallback, useEffect } from 'react';
 
 import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
@@ -57,7 +57,7 @@ export interface SectionGroupProps {
 
 export function SectionGroup({ sections, type, course, handleChange }: SectionGroupProps): JSX.Element {
   const [section, setSection] = React.useState('');
-  const { sectionIsSaved, courses } = useSavedCourses();
+  const { courses } = useSavedCourses();
 
   useEffect(() => {
     courses.forEach((c) => {
@@ -89,11 +89,8 @@ export function SectionGroup({ sections, type, course, handleChange }: SectionGr
         .filter((s) => s.sectionType === type)
         .map(({ sectionCode, meetingTimes }) => {
           return (
-            <Option
-              sectionCode={sectionCode}
-              meetingTimes={meetingTimes}
-              isChecked={sectionIsSaved(course.pid, course.term, sectionCode)}
-            />
+            // <label style={{}}>
+            <Option sectionCode={sectionCode} meetingTimes={meetingTimes} />
           );
         })}
     </RadioGroup>
@@ -111,22 +108,34 @@ export interface OptionsProps {
    * example: A01, B01, T01 etc.
    */
   sectionCode: string;
-  isChecked: boolean;
 }
 
-export function Option({ meetingTimes, sectionCode, isChecked }: OptionsProps): JSX.Element {
+export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element {
   return (
     <>
-      {meetingTimes.map((m) => (
-        <Tr>
-          <Td>
-            <Radio value={sectionCode} defaultChecked={isChecked} />
-          </Td>
-          <Td fontWeight="bold"> {sectionCode} </Td>
-          <Td>{m.days}</Td>
-          <Td>{m.time}</Td>
-          <Td>{m.where}</Td>
-        </Tr>
+      {meetingTimes.map((m, key) => (
+        <HStack
+          px="3"
+          my="0.5"
+          spacing="3"
+          fontSize="12px"
+          bgColor="#e4e4e4"
+          minH="50px"
+          justifyContent="space-between"
+          key={key}
+        >
+          <HStack>
+            <Radio value={sectionCode} bgColor="white" position="sticky" />
+            <Text as="strong">{sectionCode}</Text>
+          </HStack>
+          <Box minW="56px">
+            {m.time.split('-').map((time) => (
+              <Text>{time}</Text>
+            ))}
+          </Box>
+          <Box minW="27px">{m.days}</Box>
+          <Box>{m.where}</Box>
+        </HStack>
       ))}
     </>
   );

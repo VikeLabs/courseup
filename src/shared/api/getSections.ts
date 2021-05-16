@@ -5,6 +5,6 @@ interface getSectionsProps {
 }
 
 export const getSections = async ({ term, subject, code }: getSectionsProps) => {
-  const response = await fetch(`https://clockwork.vikelabs.dev/api/sections/${term}?subject=${subject}&code=${code}`);
+  const response = await fetch(`/api/sections/${term}?subject=${subject}&code=${code}`);
   return response.json();
 };
