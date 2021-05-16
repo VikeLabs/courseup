@@ -76,7 +76,6 @@ export function SectionGroup({ sections, type, course, handleChange }: SectionGr
 
   const onChange = useCallback(
     (newSection: string) => {
-      console.log(newSection);
       setSection(newSection);
       const section = sections.find((section) => section.sectionCode === newSection);
       section &&
@@ -90,7 +89,6 @@ export function SectionGroup({ sections, type, course, handleChange }: SectionGr
       {sections
         .filter((s) => s.sectionType === type)
         .map(({ sectionCode, meetingTimes }) => {
-          console.log(sectionIsSaved(course.pid, course.term, sectionCode), sectionCode);
           return (
             <Option
               sectionCode={sectionCode}
@@ -118,7 +116,6 @@ export interface OptionsProps {
 }
 
 export function Option({ meetingTimes, sectionCode, isChecked }: OptionsProps): JSX.Element {
-  console.log(sectionCode, isChecked);
   return (
     <>
       {meetingTimes.map((m) => (

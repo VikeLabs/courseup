@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { useCallback } from 'react';
 
+import { COLORS } from '../../app/scheduler/components/SchedulerSidebar';
 import { MeetingTimes } from '../fetchers';
 
 import useLocalStorage from './storage/useLocalStorage';
@@ -10,6 +11,7 @@ export type Course = {
   code: string;
   pid: string;
   term: string;
+  color?: string;
   lecture?: Section;
   lab?: Section;
   tutorial?: Section;
@@ -63,6 +65,7 @@ export const useSavedCourses = (): SavedCourses => {
     async (newCourse: Course) => {
       // is this course saved already?
       if (!contains(newCourse.pid, newCourse.term)) {
+        newCourse.color = COLORS[data.length];
         setData([...data, newCourse]);
       }
     },
@@ -73,8 +76,8 @@ export const useSavedCourses = (): SavedCourses => {
     // find the course, delete if found
     const newArr: Course[] = data.filter((course) => {
       return !_.isEqual(
-        _.omit(course, ['lecture', 'lab', 'tutorial']),
-        _.omit(oldCourse, ['lecture', 'lab', 'tutorial'])
+        _.omit(course, ['lecture', 'lab', 'tutorial', 'color']),
+        _.omit(oldCourse, ['lecture', 'lab', 'tutorial', 'color'])
       );
     });
 
@@ -91,8 +94,8 @@ export const useSavedCourses = (): SavedCourses => {
     const newArr: Course[] = data.map((course) => {
       if (
         _.isEqual(
-          _.omit(course, ['lecture', 'lab', 'tutorial']),
-          _.omit(existingCourse, ['lecture', 'lab', 'tutorial'])
+          _.omit(course, ['lecture', 'lab', 'tutorial', 'color']),
+          _.omit(existingCourse, ['lecture', 'lab', 'tutorial', 'color'])
         )
       ) {
         if (type === 'lecture') {
