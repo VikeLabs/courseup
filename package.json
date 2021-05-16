@@ -50,6 +50,7 @@
     "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
     "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
   },
+  "proxy": "https://courseup.vikelabs.dev/",
   "eslintConfig": {
     "extends": [
       "react-app",
