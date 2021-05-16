@@ -12,6 +12,8 @@ export interface CardProps {
    */
   title: string;
 
+  colour?: string;
+
   /**
    * Subject to be displayed
    * EX) SENG 265 -> SENG
