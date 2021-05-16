@@ -14,7 +14,7 @@ export function SchedulerContainer(): JSX.Element {
 
     courses.forEach((course) => {
       for (const sectionType of [course.lecture, course.lab, course.tutorial]) {
-        if (sectionType !== undefined) {
+        if (sectionType) {
           for (const meetingTime of sectionType.meetingTimes) {
             events.push({
               subject: course.subject,

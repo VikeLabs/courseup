@@ -3,7 +3,6 @@ import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
 import { PropsWithChildren, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { Term } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 
 export interface CardProps {

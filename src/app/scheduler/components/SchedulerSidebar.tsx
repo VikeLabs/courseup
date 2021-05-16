@@ -5,10 +5,13 @@ import { useCallback } from 'react';
 import { MeetingTimes } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 import { useSectionList } from '../../../shared/hooks/useSectionList';
+import { useDefaultSections } from '../hooks/useDefaultSections';
 
 export function SchedulerSidebar(): JSX.Element {
   const { deleteCourse, setSection } = useSavedCourses();
   const sectionList = useSectionList();
+
+  useDefaultSections(sectionList);
 
   const onClick = useCallback(
     (

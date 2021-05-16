@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { useCallback } from 'react';
 
-import { MeetingTimes, Term } from '../fetchers';
+import { MeetingTimes } from '../fetchers';
 
 import useLocalStorage from './storage/useLocalStorage';
 
@@ -13,7 +13,6 @@ export type Course = {
   lecture?: Section;
   lab?: Section;
   tutorial?: Section;
-  // sections: Section[];
 };
 
 type Section = {
@@ -52,14 +51,15 @@ export const useSavedCourses = (): SavedCourses => {
     [contains, data, setData]
   );
 
-  const deleteCourse = (newCourse: Course): void => {
+  const deleteCourse = (oldCourse: Course): void => {
     // find the course, delete if found
     const newArr: Course[] = data.filter((course) => {
       return !_.isEqual(
         _.omit(course, ['lecture', 'lab', 'tutorial']),
-        _.omit(newCourse, ['lecture', 'lab', 'tutorial'])
+        _.omit(oldCourse, ['lecture', 'lab', 'tutorial'])
       );
     });
+
     setData(newArr);
   };
 
