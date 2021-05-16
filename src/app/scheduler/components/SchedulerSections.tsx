@@ -2,14 +2,13 @@ import { Radio, RadioGroup, Table, Tbody, Tr, Td } from '@chakra-ui/react';
 import React, { useCallback, useEffect } from 'react';
 
 import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
-import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
-import { SectionListData } from '../../../shared/hooks/useSectionList';
+import { Course, useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 
 export function SectionsCardContainer({
   course,
   handleChange,
 }: {
-  course: SectionListData;
+  course: Course;
   handleChange: (
     sectionType: string,
     sectionCode: string,
@@ -44,7 +43,7 @@ export interface SectionGroupProps {
    * example: Lecture, Tutorial, Lab etc.
    */
   type: string;
-  course: SectionListData;
+  course: Course;
   handleChange: (
     sectionType: string,
     sectionCode: string,

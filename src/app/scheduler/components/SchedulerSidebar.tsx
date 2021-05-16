@@ -4,7 +4,6 @@ import { useCallback, useState } from 'react';
 
 import { MeetingTimes } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
-import { useSectionList } from '../../../shared/hooks/useSectionList';
 
 import { SectionsCardContainer } from './SchedulerSections';
 
@@ -12,11 +11,8 @@ import { SectionsCardContainer } from './SchedulerSections';
 export const COLORS = ['#32a852', '#b33127', '#e8e523', '#247fe0', '#971dcc', '#cc7d1d'];
 
 export function SchedulerSidebar(): JSX.Element {
-  const { deleteCourse, setSection } = useSavedCourses();
+  const { deleteCourse, setSection, courses } = useSavedCourses();
   const [counter, setCounter] = useState(0);
-  const sectionList = useSectionList();
-
-  // useDefaultSections(sectionList);
 
   const handleChange = useCallback(
     (
@@ -46,7 +42,7 @@ export function SchedulerSidebar(): JSX.Element {
     <Flex minW="25%" maxW="25%" grow={1} bg="#E4E4E4">
       <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
         <Flex direction="column" overflowY="auto" overflowX="hidden">
-          {sectionList.map((course, key) => {
+          {courses.map((course, key) => {
             return (
               <VStack key={key}>
                 <Heading>{`${course.subject} ${course.code}`}</Heading>

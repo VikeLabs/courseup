@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { useCallback } from 'react';
 
 import { COLORS } from '../../app/scheduler/components/SchedulerSidebar';
-import { getSectionList } from '../api/getSectionList';
+import { getSections } from '../api/getSections';
 import { MeetingTimes, Section } from '../fetchers';
 import { getFirstSectionType, hasSectionType } from '../utils/courses';
 
@@ -68,7 +68,7 @@ export const useSavedCourses = (): SavedCourses => {
       // is this course saved already?
       if (!contains(newCourse.pid, newCourse.term)) {
         const { term, subject, code } = newCourse;
-        const sections: Section[] = await getSectionList({ term, subject, code });
+        const sections: Section[] = await getSections({ term, subject, code });
         newCourse.sections = sections;
 
         if (hasSectionType(newCourse.sections, 'lecture')) {
