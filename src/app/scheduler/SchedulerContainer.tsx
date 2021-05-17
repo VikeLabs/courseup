@@ -16,14 +16,16 @@ export function SchedulerContainer(): JSX.Element {
       for (const sectionType of [course.lecture, course.lab, course.tutorial]) {
         if (sectionType) {
           for (const meetingTime of sectionType.meetingTimes) {
-            events.push({
-              subject: course.subject,
-              code: course.code,
-              meetingTime: meetingTime,
-              sectionCode: sectionType.sectionCode,
-              color: course.color ?? 'blue',
-              textColor: course.textColor ?? 'black',
-            });
+            if (course.selected) {
+              events.push({
+                subject: course.subject,
+                code: course.code,
+                meetingTime: meetingTime,
+                sectionCode: sectionType.sectionCode,
+                color: course.color ?? 'blue',
+                textColor: course.textColor ?? 'black',
+              });
+            }
           }
         }
       }

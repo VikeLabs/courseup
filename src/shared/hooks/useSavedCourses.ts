@@ -14,6 +14,7 @@ export type Course = {
   pid: string;
   term: string;
   sections: Section[];
+  selected?: boolean;
   color?: string;
   textColor?: string;
   lecture?: SavedSection;
@@ -34,6 +35,7 @@ type SavedCourses = {
   setSection: (type: string, newSection: SavedSection, existingCourse: Course) => void;
   contains: (pid: string, term: string) => boolean;
   sectionIsSaved: (pid: string, term: string, sectionCode: string) => boolean;
+  setSelected: (selected: boolean, existingCourse: Course) => void;
 };
 
 export const useSavedCourses = (): SavedCourses => {
@@ -70,6 +72,7 @@ export const useSavedCourses = (): SavedCourses => {
         const { term, subject, code } = newCourse;
         const sections: Section[] = await getSections({ term, subject, code });
         newCourse.sections = sections;
+        newCourse.selected = true;
 
         if (hasSectionType(newCourse.sections, 'lecture')) {
           const index = getFirstSectionType(newCourse.sections, 'lecture');
@@ -95,8 +98,8 @@ export const useSavedCourses = (): SavedCourses => {
     // find the course, delete if found
     const newArr: Course[] = data.filter((course) => {
       return !_.isEqual(
-        _.omit(course, ['lecture', 'lab', 'tutorial', 'color', 'sections']),
-        _.omit(oldCourse, ['lecture', 'lab', 'tutorial', 'color', 'sections'])
+        _.omit(course, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected']),
+        _.omit(oldCourse, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'])
       );
     });
 
@@ -113,8 +116,8 @@ export const useSavedCourses = (): SavedCourses => {
     const newArr: Course[] = data.map((course) => {
       if (
         _.isEqual(
-          _.omit(course, ['lecture', 'lab', 'tutorial', 'color', 'sections']),
-          _.omit(existingCourse, ['lecture', 'lab', 'tutorial', 'color', 'sections'])
+          _.omit(course, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected']),
+          _.omit(existingCourse, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'])
         )
       ) {
         if (type === 'lecture') {
@@ -130,5 +133,21 @@ export const useSavedCourses = (): SavedCourses => {
     setData(newArr);
   };
 
-  return { courses: data, addCourse, deleteCourse, clearCourses, setSection, contains, sectionIsSaved };
+  const setSelected = (selected: boolean, existingCourse: Course) => {
+    setData([]);
+    const newArr: Course[] = data.map((course) => {
+      if (
+        _.isEqual(
+          _.omit(course, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected']),
+          _.omit(existingCourse, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'])
+        )
+      ) {
+        course.selected = selected;
+      }
+      return course;
+    });
+    setData(newArr);
+  };
+
+  return { courses: data, addCourse, deleteCourse, clearCourses, setSection, contains, sectionIsSaved, setSelected };
 };

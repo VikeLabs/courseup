@@ -1,85 +1,101 @@
 import { CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
-import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps } from '@chakra-ui/react';
+import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Term } from '../../../shared/fetchers';
+import { Term, useGetCourse } from '../../../shared/fetchers';
 
 export type CourseCardProps = {
-  term: Term;
+  term: string;
   subject: string;
-  title: string;
   code: string;
   color: BackgroundProps['bg'];
   pid: string;
-  selected: boolean;
-  onCourseChange: Function;
-  onCourseDelete: Function;
+  selected?: boolean;
+  handleSelection: ({
+    code,
+    pid,
+    subject,
+    term,
+    selected,
+  }: {
+    code: string;
+    pid: string;
+    subject: string;
+    term: string;
+    selected?: boolean;
+  }) => void;
+  handleDelete: ({ code, pid, subject, term }: { code: string; pid: string; subject: string; term: string }) => void;
 };
 
 export function CourseCard({
   term,
   subject,
-  title,
   code,
   color,
   pid,
   selected,
-  onCourseChange,
-  onCourseDelete,
+  handleSelection,
+  handleDelete,
 }: CourseCardProps): JSX.Element {
-  const handleCourseChange = useCallback(() => {
-    onCourseChange();
-  }, [onCourseChange]);
+  const onChange = useCallback(() => {
+    handleSelection({ term, code, subject, pid, selected });
+  }, [code, handleSelection, pid, selected, subject, term]);
 
-  const handleCourseDelete = useCallback(() => {
-    onCourseDelete();
-  }, [onCourseDelete]);
+  const onDelete = useCallback(() => {
+    handleDelete({ term, code, subject, pid });
+  }, [code, handleDelete, pid, subject, term]);
+
+  const termTerm = term as Term;
+
+  const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Box boxShadow="md" cursor="pointer" as="label">
-      <Flex direction="row" background={selected ? 'white' : 'blackAlpha.200'}>
-        <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
-          <Flex>
-            <Checkbox
-              backgroundColor="whiteAlpha.600"
-              colorScheme="whiteAlpha"
-              iconColor="black"
-              size="lg"
-              mx="7px"
-              isChecked={selected}
-              onChange={handleCourseChange}
-            />
+    <Skeleton isLoaded={!loading} h="100%" w="100%">
+      <Box boxShadow="md" cursor="pointer" as="label" w="100%">
+        <Flex direction="row" background={selected ? 'white' : 'blackAlpha.200'}>
+          <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
+            <Flex>
+              <Checkbox
+                backgroundColor="whiteAlpha.600"
+                colorScheme="whiteAlpha"
+                iconColor="black"
+                size="lg"
+                mx="7px"
+                isChecked={selected}
+                onChange={onChange}
+              />
+            </Flex>
+          </Flex>
+          <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
+            <VStack alignItems="start" spacing="0" py="2">
+              <Text fontSize="lg" fontWeight="bold">
+                {subject} {code}
+              </Text>
+              <Text fontSize="sm" fontWeight="normal">
+                {data?.title}
+              </Text>
+            </VStack>
+            <VStack alignContent="right" pr="5px" py="5px">
+              <IconButton
+                aria-label="Remove from Scheduler"
+                icon={<CloseIcon color="white" />}
+                background={'red'}
+                size="xs"
+                onClick={onDelete}
+              />
+              <IconButton
+                aria-label="More information"
+                icon={<InfoOutlineIcon color="white" />}
+                size="xs"
+                background="blue.400"
+                as={Link}
+                to={`/calendar/${term}/${subject}?pid=${pid}`}
+              />
+            </VStack>
           </Flex>
         </Flex>
-        <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
-          <VStack alignItems="start" spacing="0" py="2">
-            <Text fontSize="lg" fontWeight="bold">
-              {subject} {code}
-            </Text>
-            <Text fontSize="sm" fontWeight="normal">
-              {title}
-            </Text>
-          </VStack>
-          <VStack alignContent="right" pr="5px" py="5px">
-            <IconButton
-              aria-label="Remove from Scheduler"
-              icon={<CloseIcon color="white" />}
-              background={'red'}
-              size="sm"
-              onClick={handleCourseDelete}
-            />
-            <IconButton
-              aria-label="More information"
-              icon={<InfoOutlineIcon color="white" />}
-              size="sm"
-              background="blue.400"
-              as={Link}
-              to={`/calendar/${term}/${subject}?pid=${pid}`}
-            />
-          </VStack>
-        </Flex>
-      </Flex>
-    </Box>
+      </Box>
+    </Skeleton>
   );
 }

@@ -1,17 +1,17 @@
-import { Button } from '@chakra-ui/button';
-import { Box, Flex, Heading, VStack } from '@chakra-ui/layout';
+import { Box, Flex, VStack } from '@chakra-ui/layout';
 import { useCallback, useState } from 'react';
 
 import { MeetingTimes } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 
+import { CourseCard } from './CourseCard';
 import { SectionsCardContainer } from './SchedulerSections';
 
 // GREEN, RED, YELLOW, BLUE, PURPLE, ORANGE
 export const COLORS = ['#32a852', '#b33127', '#e8e523', '#247fe0', '#971dcc', '#cc7d1d'];
 
 export function SchedulerSidebar(): JSX.Element {
-  const { deleteCourse, setSection, courses } = useSavedCourses();
+  const { deleteCourse, setSection, courses, setSelected } = useSavedCourses();
   const [counter, setCounter] = useState(0);
 
   const handleChange = useCallback(
@@ -38,50 +38,58 @@ export function SchedulerSidebar(): JSX.Element {
     [counter, setSection]
   );
 
+  const handleDelete = useCallback(
+    ({ code, pid, subject, term }: { code: string; pid: string; subject: string; term: string }) => {
+      deleteCourse({
+        code,
+        pid,
+        subject,
+        term,
+        sections: [],
+      });
+    },
+    [deleteCourse]
+  );
+
+  const handleSelection = useCallback(
+    ({
+      code,
+      pid,
+      subject,
+      term,
+      selected,
+    }: {
+      code: string;
+      pid: string;
+      subject: string;
+      term: string;
+      selected?: boolean;
+    }) => {
+      setSelected(!selected, { code, pid, subject, term, sections: [] });
+    },
+    [setSelected]
+  );
+
   return (
     <Flex minW="25%" maxW="25%" bg="white" overflowY="auto" direction="column">
       {courses.map((course, key) => {
         return (
-          <VStack key={key}>
-            <Heading bg="white">{`${course.subject} ${course.code}`}</Heading>
-            <Box w="100%">
-              <SectionsCardContainer course={course} handleChange={handleChange} />
-              {/* {course.sections.map(({ sectionCode, sectionType, meetingTimes }) => {
-                    return (
-                      <Button
-                        onClick={() =>
-                          handleChange(
-                            sectionType,
-                            sectionCode,
-                            meetingTimes,
-                            course.code,
-                            course.subject,
-                            course.pid,
-                            course.term
-                          )
-                        }
-                      >
-                        {sectionCode}
-                      </Button>
-                    );
-                  })} */}
-            </Box>
-            <Button
-              style={{
-                backgroundColor: 'red',
-              }}
-              onClick={() =>
-                deleteCourse({
-                  code: course.code,
-                  pid: course.pid,
-                  subject: course.subject,
-                  term: course.term,
-                  sections: [],
-                })
-              }
-            >
-              remove
-            </Button>
+          <VStack key={key} mt="5px" spacing="0">
+            <CourseCard
+              term={course.term}
+              subject={course.subject}
+              code={course.code}
+              color={course.color}
+              pid={course.pid}
+              selected={course.selected}
+              handleSelection={handleSelection}
+              handleDelete={handleDelete}
+            />
+            {course.selected && (
+              <Box w="100%">
+                <SectionsCardContainer course={course} handleChange={handleChange} />
+              </Box>
+            )}
           </VStack>
         );
       })}
