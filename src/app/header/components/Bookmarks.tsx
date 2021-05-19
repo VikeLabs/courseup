@@ -10,10 +10,14 @@ import {
   Spacer,
   Box,
   IconButton,
+  ButtonGroup,
+  Flex,
 } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 
 import { Course, useSavedCourses } from '../../../shared/hooks/useSavedCourses';
+import { SidebarTemplate } from '../../../shared/SidebarTemplate';
+import { Card } from '../../sidebar/components/Card';
 
 export function Bookmarks(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,41 +40,27 @@ export function Bookmarks(): JSX.Element {
   return (
     <Popover isOpen={isOpen} autoFocus={false} placement="bottom" flip={false}>
       <PopoverTrigger>
-        <Button onClick={open}>{!isOpen ? 'My Bookmarks' : 'Close'}</Button>
+        <ButtonGroup isAttached colorScheme="blackAlpha" size="sm">
+          <Button width="125px" onClick={open}>
+            {!isOpen ? 'My Bookmarks' : 'Close'}
+          </Button>
+        </ButtonGroup>
       </PopoverTrigger>
+
       <Portal>
-        <PopoverContent overflowY="auto" minW="300px" boxShadow="md" h="90vh" borderColor="blue.800">
-          <PopoverBody color="gray.600" py="10px">
+        <PopoverContent overflowY="auto" minW="300px" boxShadow="md" h="80vh" borderColor="blue.800">
+          <PopoverBody>
             {courses.map((course: Course) => {
               return (
-                <>
-                  <Box display="flex" bg="red">
-                    <Text fontSize="lg">
-                      {`${course.subject} ${course.code}`}
-                      {/* <Spacer /> */}
-                      {/* <Button
-                        colorScheme="red"
-                        onClick={onClick}
-                        pid={course.pid}
-                        subject={course.subject}
-                        term={course.term}
-                        code={course.code}
-                      >
-                        Remove
-                      </Button> */}
-                    </Text>
-                    <IconButton
-                      onClick={onClick}
-                      pid={course.pid}
-                      subject={course.subject}
-                      term={course.term}
-                      code={course.code}
-                      colorScheme="blue"
-                      aria-label="Search database"
-                      icon={<CloseIcon />}
-                    />
-                  </Box>
-                </>
+                <Box w="100%" padding="3px">
+                  <Card
+                    subject={course.subject}
+                    title="need title"
+                    code={course.code}
+                    selected={false}
+                    schedule={true}
+                  />
+                </Box>
               );
             })}
           </PopoverBody>
