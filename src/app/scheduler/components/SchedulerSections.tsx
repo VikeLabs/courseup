@@ -1,5 +1,5 @@
 import { Radio, RadioGroup, Table, Tbody, Box, HStack, Text } from '@chakra-ui/react';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
 import { Course, useSavedCourses } from '../../../shared/hooks/useSavedCourses';
@@ -20,7 +20,7 @@ export function SectionsCardContainer({
   ) => void;
 }): JSX.Element {
   const { sections } = course;
-  const sectionTypes = sections.map((s) => s.sectionType).filter((item, pos, self) => self.indexOf(item) === pos);
+  const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
     <Table size="sm" bg="white">
