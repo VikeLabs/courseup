@@ -71,28 +71,26 @@ export function SchedulerSidebar(): JSX.Element {
   );
 
   return (
-    <Flex minW="25%" maxW="25%" bg="white" overflowY="auto" direction="column">
-      {courses.map((course, key) => {
-        return (
-          <VStack key={key} mt="5px" spacing="0">
-            <CourseCard
-              term={course.term}
-              subject={course.subject}
-              code={course.code}
-              color={course.color}
-              pid={course.pid}
-              selected={course.selected}
-              handleSelection={handleSelection}
-              handleDelete={handleDelete}
-            />
-            {course.selected && (
-              <Box w="100%">
-                <SectionsCardContainer course={course} handleChange={handleChange} />
-              </Box>
-            )}
-          </VStack>
-        );
-      })}
+    <Flex minW="25%" maxW="25%" bg="#E4E4E4" overflowY="auto" direction="column">
+      {courses.map((course, key) => (
+        <VStack key={key} mt="5px" spacing="0">
+          <CourseCard
+            term={course.term}
+            subject={course.subject}
+            code={course.code}
+            color={course.color}
+            pid={course.pid}
+            selected={course.selected}
+            handleSelection={handleSelection}
+            handleDelete={handleDelete}
+          />
+          {course.selected && (
+            <Box w="100%">
+              <SectionsCardContainer course={course} handleChange={handleChange} />
+            </Box>
+          )}
+        </VStack>
+      ))}
     </Flex>
   );
 }
