@@ -115,6 +115,7 @@ export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element
     <>
       {meetingTimes.map((m, key) => (
         <HStack
+          as="label"
           px="3"
           my="0.5"
           spacing="3"
