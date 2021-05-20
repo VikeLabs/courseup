@@ -69,17 +69,15 @@ const CustomToolBar = ({ onNavigate, label }: ToolbarProps) => {
   );
 };
 
-const eventStyleGetter = ({ resource }: Event) => {
-  const style = {
+const eventStyleGetter = ({ resource }: Event) => ({
+  style: {
     backgroundColor: resource && resource.color,
     color: 'black',
     borderRadius: 0,
+    border: 'none',
     cursor: 'default',
-  };
-  return {
-    style: style,
-  };
-};
+  },
+});
 
 const CustomEvent = ({ title, event }: EventProps) => {
   return (
