@@ -1,4 +1,5 @@
-import { Box, Flex, VStack } from '@chakra-ui/layout';
+import { Flex, VStack } from '@chakra-ui/layout';
+import { Collapse } from '@chakra-ui/transition';
 import { useCallback, useState } from 'react';
 
 import { MeetingTimes } from '../../../shared/fetchers';
@@ -84,11 +85,9 @@ export function SchedulerSidebar(): JSX.Element {
             handleSelection={handleSelection}
             handleDelete={handleDelete}
           />
-          {course.selected && (
-            <Box w="100%">
-              <SectionsCardContainer course={course} handleChange={handleChange} />
-            </Box>
-          )}
+          <Collapse in={course.selected} animateOpacity style={{ width: '100%' }}>
+            <SectionsCardContainer course={course} handleChange={handleChange} />
+          </Collapse>
         </VStack>
       ))}
     </Flex>

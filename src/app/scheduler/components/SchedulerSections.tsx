@@ -26,7 +26,7 @@ export function SectionsCardContainer({
     <Table size="sm" bg="white">
       <Tbody>
         {sectionTypes.map((type) => (
-          <SectionGroup sections={sections} type={type} handleChange={handleChange} course={course} />
+          <SectionGroup sections={sections} type={type} handleChange={handleChange} course={course} key={type} />
         ))}
       </Tbody>
     </Table>
@@ -59,6 +59,8 @@ export function SectionGroup({ sections, type, course, handleChange }: SectionGr
   const [section, setSection] = React.useState('');
   const { courses } = useSavedCourses();
 
+  const filteredSections = useMemo(() => sections.filter((s) => s.sectionType === type), [sections, type]);
+
   useEffect(() => {
     courses.forEach((c) => {
       if (course.pid === c.pid && course.term === c.term) {
@@ -85,14 +87,9 @@ export function SectionGroup({ sections, type, course, handleChange }: SectionGr
 
   return (
     <RadioGroup onChange={onChange} value={section} name={type}>
-      {sections
-        .filter((s) => s.sectionType === type)
-        .map(({ sectionCode, meetingTimes }) => {
-          return (
-            // <label style={{}}>
-            <Option sectionCode={sectionCode} meetingTimes={meetingTimes} />
-          );
-        })}
+      {filteredSections.map(({ sectionCode, meetingTimes }) => (
+        <Option sectionCode={sectionCode} meetingTimes={meetingTimes} key={sectionCode} />
+      ))}
     </RadioGroup>
   );
 }
@@ -131,7 +128,7 @@ export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element
           </HStack>
           <Box minW="56px">
             {m.time.split('-').map((time) => (
-              <Text>{time}</Text>
+              <Text key={time}>{time}</Text>
             ))}
           </Box>
           <Box minW="27px">{m.days}</Box>

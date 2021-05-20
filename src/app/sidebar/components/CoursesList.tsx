@@ -30,7 +30,7 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
         </LinkBox>
       );
     else if (scheduleMatch) {
-      return <Card title={title} subject={subject} pid={pid} code={code} schedule={true} />;
+      return <Card key={pid} title={title} subject={subject} pid={pid} code={code} schedule={true} />;
     }
   };
 
