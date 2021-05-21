@@ -23,13 +23,11 @@ export function SectionsCardContainer({
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
-    <Table size="sm" bg="white">
-      <Tbody>
-        {sectionTypes.map((type) => (
-          <SectionGroup sections={sections} type={type} handleChange={handleChange} course={course} key={type} />
-        ))}
-      </Tbody>
-    </Table>
+    <Box bg="whiteAlpha.900">
+      {sectionTypes.map((type) => (
+        <SectionGroup sections={sections} type={type} handleChange={handleChange} course={course} key={type} />
+      ))}
+    </Box>
   );
 }
 
@@ -117,7 +115,9 @@ export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element
           my="0.5"
           spacing="3"
           fontSize="12px"
-          bgColor="#e4e4e4"
+          borderTop="#e4e4e4"
+          borderTopWidth="2"
+          borderTopStyle="solid"
           minH="50px"
           justifyContent="space-between"
           key={key}
