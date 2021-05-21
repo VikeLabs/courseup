@@ -8,7 +8,7 @@ import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
-import { MutableRefObject, useMemo, useRef } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import '../../shared/styles/CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
@@ -133,13 +133,11 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     return daysRRule;
   };
 
-  const events = useMemo(() => {
+  const events = () => {
     const events: Event[] = [];
     calendarEvents?.forEach((calendarEvent) => {
       try {
-        if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) {
-          return;
-        }
+        if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
         const startEndHours = calendarEvent.meetingTime.time.split('-');
@@ -193,16 +191,15 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
         console.error(error);
       }
     });
-
     return events;
-  }, [calendarEvents]);
+  };
 
   const today = new Date();
 
   return (
     <Calendar
       localizer={localizer}
-      events={events}
+      events={events()}
       min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)}
       max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)}
       defaultView="work_week"
