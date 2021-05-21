@@ -123,7 +123,12 @@ export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element
           key={key}
         >
           <HStack>
-            <Radio value={sectionCode} bgColor="white" position="sticky" />
+            <Radio
+              value={sectionCode}
+              bgColor="white"
+              // HACK: position: sticky needed to fix issue with button click jumping position on page
+              position="sticky"
+            />
             <Text as="strong">{sectionCode}</Text>
           </HStack>
           <Box minW="56px">
