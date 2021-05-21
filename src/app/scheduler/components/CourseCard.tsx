@@ -51,51 +51,49 @@ export function CourseCard({
   const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Skeleton isLoaded={!loading} h="100%" w="100%">
-      <Box boxShadow="md" cursor="pointer" as="label" w="100%">
-        <Flex direction="row" background={selected ? 'white' : 'blackAlpha.200'}>
-          <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
-            <Flex>
-              <Checkbox
-                backgroundColor="whiteAlpha.600"
-                colorScheme="whiteAlpha"
-                iconColor="black"
-                size="lg"
-                mx="7px"
-                isChecked={selected}
-                onChange={onChange}
-              />
-            </Flex>
-          </Flex>
-          <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
-            <VStack alignItems="start" spacing="0" py="2">
-              <Text fontSize="lg" fontWeight="bold">
-                {subject} {code}
-              </Text>
-              <Text fontSize="sm" fontWeight="normal">
-                {data?.title}
-              </Text>
-            </VStack>
-            <VStack alignContent="right" pr="5px" py="5px">
-              <IconButton
-                aria-label="Remove from Scheduler"
-                icon={<CloseIcon color="white" />}
-                background={'red'}
-                size="xs"
-                onClick={onDelete}
-              />
-              <IconButton
-                aria-label="More information"
-                icon={<InfoOutlineIcon color="white" />}
-                size="xs"
-                background="blue.400"
-                as={Link}
-                to={`/calendar/${term}/${subject}?pid=${pid}`}
-              />
-            </VStack>
+    <Box boxShadow="md" cursor="pointer" as="label" w="100%">
+      <Flex direction="row" bg="white">
+        <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
+          <Flex>
+            <Checkbox
+              backgroundColor="whiteAlpha.600"
+              colorScheme="whiteAlpha"
+              iconColor="black"
+              size="lg"
+              mx="7px"
+              isChecked={selected}
+              onChange={onChange}
+            />
           </Flex>
         </Flex>
-      </Box>
-    </Skeleton>
+        <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
+          <VStack alignItems="start" spacing="0" py="2">
+            <Text fontSize="lg" fontWeight="bold">
+              {subject} {code}
+            </Text>
+            <Text fontSize="sm" fontWeight="normal">
+              <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
+            </Text>
+          </VStack>
+          <VStack alignContent="right" pr="3" py="5px">
+            <IconButton
+              aria-label="Remove from Scheduler"
+              icon={<CloseIcon color="white" />}
+              bg="red.400"
+              size="xs"
+              onClick={onDelete}
+            />
+            <IconButton
+              aria-label="More information"
+              icon={<InfoOutlineIcon color="white" />}
+              size="xs"
+              bg="blue.400"
+              as={Link}
+              to={`/calendar/${term}/${subject}?pid=${pid}`}
+            />
+          </VStack>
+        </Flex>
+      </Flex>
+    </Box>
   );
 }
