@@ -36,7 +36,7 @@ export function SchedulerContainer(): JSX.Element {
 
   return (
     <Flex grow={1} height="100%" overflow="hidden">
-      <Box w="100%" height="100%" p="2em">
+      <Box w="100%" height="100%" px="3" py="2">
         <SchedulerCalendar calendarEvents={calendarEvents} />
       </Box>
     </Flex>
