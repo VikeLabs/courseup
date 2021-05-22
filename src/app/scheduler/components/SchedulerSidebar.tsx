@@ -16,7 +16,7 @@ export function SchedulerSidebar(): JSX.Element {
   const { deleteCourse, setSection, courses, setSelected, clearCourses } = useSavedCourses();
   const [counter, setCounter] = useState(0);
 
-  const handleChange = useCallback(
+  const handleCourseSectionChange = useCallback(
     (
       sectionType: string,
       sectionCode: string,
@@ -40,7 +40,7 @@ export function SchedulerSidebar(): JSX.Element {
     [counter, setSection]
   );
 
-  const handleDelete = useCallback(
+  const handleCourseDelete = useCallback(
     ({ code, pid, subject, term }: { code: string; pid: string; subject: string; term: string }) => {
       deleteCourse({
         code,
@@ -53,7 +53,7 @@ export function SchedulerSidebar(): JSX.Element {
     [deleteCourse]
   );
 
-  const handleSelection = useCallback(
+  const handleCourseToggle = useCallback(
     ({
       code,
       pid,
@@ -94,6 +94,7 @@ export function SchedulerSidebar(): JSX.Element {
       >
         <Flex justifyContent="space-between" alignItems="center" p="3">
           <Text>Saved Courses</Text>
+
           <Flex>
             <Button size="xs" colorScheme="red" onClick={() => clearCourses()}>
               Clear
@@ -111,11 +112,11 @@ export function SchedulerSidebar(): JSX.Element {
               color={course.color}
               pid={course.pid}
               selected={course.selected}
-              handleSelection={handleSelection}
-              handleDelete={handleDelete}
+              handleSelection={handleCourseToggle}
+              handleDelete={handleCourseDelete}
             />
             <Collapse in={course.selected} animateOpacity style={{ width: '100%' }}>
-              <SectionsCardContainer course={course} handleChange={handleChange} />
+              <SectionsCardContainer course={course} courses={courses} handleChange={handleCourseSectionChange} />
             </Collapse>
           </VStack>
         ))}

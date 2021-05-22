@@ -1,14 +1,16 @@
-import { Radio, RadioGroup, Table, Tbody, Box, HStack, Text } from '@chakra-ui/react';
+import { Radio, RadioGroup, Box, HStack, Text } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
-import { Course, useSavedCourses } from '../../../shared/hooks/useSavedCourses';
+import { Course } from '../../../shared/hooks/useSavedCourses';
 
 export function SectionsCardContainer({
   course,
+  courses,
   handleChange,
 }: {
   course: Course;
+  courses: Course[];
   handleChange: (
     sectionType: string,
     sectionCode: string,
@@ -25,7 +27,14 @@ export function SectionsCardContainer({
   return (
     <Box bg="whiteAlpha.900">
       {sectionTypes.map((type) => (
-        <SectionGroup sections={sections} type={type} handleChange={handleChange} course={course} key={type} />
+        <SectionGroup
+          sections={sections}
+          courses={courses}
+          type={type}
+          handleChange={handleChange}
+          course={course}
+          key={type}
+        />
       ))}
     </Box>
   );
@@ -42,6 +51,9 @@ export interface SectionGroupProps {
    */
   type: string;
   course: Course;
+
+  courses: Course[];
+
   handleChange: (
     sectionType: string,
     sectionCode: string,
@@ -53,9 +65,8 @@ export interface SectionGroupProps {
   ) => void;
 }
 
-export function SectionGroup({ sections, type, course, handleChange }: SectionGroupProps): JSX.Element {
+export function SectionGroup({ sections, type, course, courses, handleChange }: SectionGroupProps): JSX.Element {
   const [section, setSection] = React.useState('');
-  const { courses } = useSavedCourses();
 
   const filteredSections = useMemo(() => sections.filter((s) => s.sectionType === type), [sections, type]);
 
