@@ -3,10 +3,23 @@ import { useCallback } from 'react';
 
 import { COLORS } from '../../app/scheduler/components/SchedulerSidebar';
 import { getSections } from '../api/getSections';
-import { MeetingTimes, Section } from '../fetchers';
+import { MeetingTimes, Section, SectionType } from '../fetchers';
 import { getFirstSectionType, hasSectionType } from '../utils/courses';
 
 import useLocalStorage from './storage/useLocalStorage';
+
+const OMITTED_FIELDS = ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'];
+
+const SECTION_TYPES: {
+  sectionName: SectionType;
+  sectionType: 'lecture' | 'lab' | 'tutorial';
+}[] = [
+  { sectionName: 'lecture', sectionType: 'lecture' },
+  { sectionName: 'lecture topic', sectionType: 'lecture' },
+  { sectionName: 'lab', sectionType: 'lab' },
+  { sectionName: 'gradable lab', sectionType: 'lab' },
+  { sectionName: 'tutorial', sectionType: 'tutorial' },
+];
 
 export type Course = {
   subject: string;
@@ -28,7 +41,13 @@ export type SavedSection = {
 };
 
 type SavedCourses = {
+  /**
+   * An array of courses currently saved
+   */
   courses: Course[];
+
+  // Methods exposed by hook
+
   addCourse: (newCourse: Course) => void;
   deleteCourse: (newCourse: Course) => void;
   clearCourses: () => void;
@@ -39,8 +58,9 @@ type SavedCourses = {
 };
 
 export const useSavedCourses = (): SavedCourses => {
-  // The underlying data persistent storage.
   const [data, setData] = useLocalStorage<Course[]>('user:saved_courses', []);
+
+  // The underlying data persistent storage.
 
   /**
    * Checks whether a course is saved
@@ -51,6 +71,17 @@ export const useSavedCourses = (): SavedCourses => {
     },
     [data]
   );
+
+  /**
+   * Checks the equality of two courses
+   * @param a Course
+   * @param b Course
+   * @returns
+   */
+  const equals = useCallback((a: Course, b: Course): boolean => {
+    // TODO: remove use of lodash omit
+    return _.isEqual(_.omit(a, OMITTED_FIELDS), _.omit(b, OMITTED_FIELDS));
+  }, []);
 
   /**
    * Checks whether section for a course is saved.
@@ -70,58 +101,53 @@ export const useSavedCourses = (): SavedCourses => {
    * Adds a course to the saved courses.
    */
   const addCourse = useCallback(
-    async (newCourse: Course) => {
+    (newCourse: Course) => {
       // avoid adding a course if it is saved already.
       if (contains(newCourse.pid, newCourse.term)) return;
 
       const { term, subject, code } = newCourse;
-      const sections: Section[] = await getSections({ term, subject, code });
-      newCourse.sections = sections;
-      newCourse.selected = true;
 
-      if (hasSectionType(newCourse.sections, 'lecture')) {
-        const index = getFirstSectionType(newCourse.sections, 'lecture');
-        newCourse.lecture = newCourse.sections[index];
-      }
-      if (hasSectionType(newCourse.sections, 'lab')) {
-        const index = getFirstSectionType(newCourse.sections, 'lab');
-        newCourse.lab = newCourse.sections[index];
-      }
-      if (hasSectionType(newCourse.sections, 'tutorial')) {
-        const index = getFirstSectionType(newCourse.sections, 'tutorial');
-        newCourse.tutorial = newCourse.sections[index];
-      }
+      // load section data in for the course
+      getSections({ term, subject, code }).then((sections) => {
+        newCourse.sections = sections;
+        newCourse.selected = true;
 
-      newCourse.color = COLORS[data.length];
-      setData([...data, newCourse]);
+        // sets the default section to the first one for each section type
+        SECTION_TYPES.forEach(({ sectionName, sectionType }) => {
+          if (hasSectionType(newCourse.sections, sectionName)) {
+            const index = getFirstSectionType(newCourse.sections, sectionName);
+            newCourse[sectionType] = newCourse.sections[index];
+          }
+        });
+
+        // assign a colour to the course
+        newCourse.color = COLORS[data.length];
+
+        // TODO: minimize saved data
+        setData([...data, newCourse]);
+      });
     },
     [contains, data, setData]
   );
 
+  /**
+   * Deletes a course from the saved courses if it is found.
+   * @param oldCourse
+   */
   const deleteCourse = (oldCourse: Course): void => {
-    // find the course, delete if found
-    const newArr: Course[] = data.filter((course) => {
-      return !_.isEqual(
-        _.omit(course, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected']),
-        _.omit(oldCourse, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'])
-      );
-    });
-
-    setData(newArr);
+    setData(data.filter((course) => !equals(course, oldCourse)));
   };
 
+  /**
+   * Deletes all saved courses.
+   */
   const clearCourses = () => {
     setData([]);
   };
 
   const setSection = (type: string, newSection: SavedSection, existingCourse: Course) => {
     const newArr: Course[] = data.map((course) => {
-      if (
-        _.isEqual(
-          _.omit(course, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected']),
-          _.omit(existingCourse, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'])
-        )
-      ) {
+      if (equals(course, existingCourse)) {
         if (type === 'lecture') {
           course.lecture = newSection;
         } else if (type === 'lab') {
@@ -138,12 +164,7 @@ export const useSavedCourses = (): SavedCourses => {
   const setSelected = (selected: boolean, existingCourse: Course) => {
     setData(
       data.map((course) => {
-        if (
-          _.isEqual(
-            _.omit(course, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected']),
-            _.omit(existingCourse, ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'])
-          )
-        ) {
+        if (equals(course, existingCourse)) {
           course.selected = selected;
         }
 
@@ -152,5 +173,14 @@ export const useSavedCourses = (): SavedCourses => {
     );
   };
 
-  return { courses: data, addCourse, deleteCourse, clearCourses, setSection, contains, sectionIsSaved, setSelected };
+  return {
+    courses: data,
+    addCourse,
+    deleteCourse,
+    clearCourses,
+    setSection,
+    contains,
+    sectionIsSaved,
+    setSelected,
+  };
 };
