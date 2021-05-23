@@ -12,7 +12,11 @@ import { SectionsCardContainer } from './SchedulerSections';
 // GREEN, RED, YELLOW, BLUE, PURPLE, ORANGE
 export const COLORS = ['#32a852', '#b33127', '#e8e523', '#247fe0', '#971dcc', '#cc7d1d'];
 
-export function SchedulerSidebar(): JSX.Element {
+interface SchedulerSidebarProps {
+  term: string;
+}
+
+export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   const { deleteCourse, setSection, courses, setSelected, clearCourses } = useSavedCourses();
   const [counter, setCounter] = useState(0);
 
@@ -94,32 +98,33 @@ export function SchedulerSidebar(): JSX.Element {
       >
         <Flex justifyContent="space-between" alignItems="center" p="3">
           <Text>Saved Courses</Text>
-
           <Flex>
-            <Button size="xs" colorScheme="red" onClick={() => clearCourses()}>
+            <Button size="xs" colorScheme="red" onClick={() => clearCourses()} disabled>
               Clear
             </Button>
           </Flex>
         </Flex>
       </Box>
       <Box h="100%" overflow="auto">
-        {courses.map((course, key) => (
-          <VStack key={key} mt="1" spacing="0">
-            <CourseCard
-              term={course.term}
-              subject={course.subject}
-              code={course.code}
-              color={course.color}
-              pid={course.pid}
-              selected={course.selected}
-              handleSelection={handleCourseToggle}
-              handleDelete={handleCourseDelete}
-            />
-            <Collapse in={course.selected} animateOpacity style={{ width: '100%' }}>
-              <SectionsCardContainer course={course} courses={courses} handleChange={handleCourseSectionChange} />
-            </Collapse>
-          </VStack>
-        ))}
+        {courses
+          .filter((course) => course.term === term)
+          .map((course, key) => (
+            <VStack key={key} mt="1" spacing="0">
+              <CourseCard
+                term={course.term}
+                subject={course.subject}
+                code={course.code}
+                color={course.color}
+                pid={course.pid}
+                selected={course.selected}
+                handleSelection={handleCourseToggle}
+                handleDelete={handleCourseDelete}
+              />
+              <Collapse in={course.selected} animateOpacity style={{ width: '100%' }}>
+                <SectionsCardContainer course={course} courses={courses} handleChange={handleCourseSectionChange} />
+              </Collapse>
+            </VStack>
+          ))}
       </Box>
       <Box
         bg="white"
