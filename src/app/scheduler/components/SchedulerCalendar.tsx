@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
+import addWeeks from 'date-fns/addWeeks';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
@@ -8,7 +9,7 @@ import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
-import { MutableRefObject, useRef } from 'react';
+import { MutableRefObject, useMemo, useRef, useState } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import '../../shared/styles/CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
@@ -39,34 +40,6 @@ const slotPropGetter = (date: Date, resourceId?: number | string) => {
       },
     };
   else return {};
-};
-
-const CustomToolBar = ({ onNavigate, label }: ToolbarProps) => {
-  return (
-    <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
-      <Heading size="md">Scheduler</Heading>
-      <Text fontSize="xl">{label}</Text>
-      <HStack pb="0.2em">
-        <Button size="sm" bg="gray.200" onClick={() => onNavigate('TODAY')}>
-          Today
-        </Button>
-        <IconButton
-          aria-label="Previous Week"
-          bg="gray"
-          icon={<ChevronLeftIcon color="white" />}
-          size="sm"
-          onClick={() => onNavigate('PREV')}
-        />
-        <IconButton
-          aria-label="Next Week"
-          bg="gray"
-          icon={<ChevronRightIcon color="white" />}
-          size="sm"
-          onClick={() => onNavigate('NEXT')}
-        />
-      </HStack>
-    </Flex>
-  );
 };
 
 const eventStyleGetter = ({ resource }: Event) => ({
@@ -109,6 +82,49 @@ export interface SchedulerCalendarProps {
 
 export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const CustomToolBar = ({ label, date }: ToolbarProps) => {
+    return (
+      <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
+        <Heading size="md">Scheduler</Heading>
+        <Text fontSize="xl">{label}</Text>
+        <HStack pb="0.2em">
+          <Button
+            size="sm"
+            bg="gray.200"
+            onClick={() => {
+              setSelectedDate(new Date());
+            }}
+          >
+            Today
+          </Button>
+          <IconButton
+            aria-label="Previous Week"
+            bg="gray"
+            icon={<ChevronLeftIcon color="white" />}
+            size="sm"
+            onClick={() => {
+              const newDate = new Date(date);
+              newDate.setDate(newDate.getDate() - 7);
+              setSelectedDate(newDate);
+            }}
+          />
+          <IconButton
+            aria-label="Next Week"
+            bg="gray"
+            icon={<ChevronRightIcon color="white" />}
+            size="sm"
+            onClick={() => {
+              const newDate = new Date(date);
+              newDate.setDate(newDate.getDate() + 7);
+              setSelectedDate(newDate);
+            }}
+          />
+        </HStack>
+      </Flex>
+    );
+  };
 
   const computeMeetingTimeDays = (calendarEvent: CalendarEvent) => {
     const days = calendarEvent.meetingTime.days;
@@ -133,7 +149,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     return daysRRule;
   };
 
-  const events = () => {
+  const events = useMemo(() => {
     const events: Event[] = [];
     calendarEvents?.forEach((calendarEvent) => {
       try {
@@ -182,29 +198,30 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
           });
 
           if (minEventDate.current === undefined) {
-            minEventDate.current = startDate;
+            minEventDate.current = addWeeks(startDate, 1);
           } else if (startDate < minEventDate.current) {
-            minEventDate.current = startDate;
+            minEventDate.current = addWeeks(startDate, 1);
           }
         });
       } catch (error) {
         console.error(error);
       }
     });
+    setSelectedDate(minEventDate.current ? minEventDate.current : new Date());
     return events;
-  };
+  }, [calendarEvents]);
 
   const today = new Date();
 
   return (
     <Calendar
       localizer={localizer}
-      events={events()}
+      events={events}
       min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)}
       max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)}
       defaultView="work_week"
       views={['work_week']}
-      defaultDate={minEventDate.current}
+      date={selectedDate}
       eventPropGetter={eventStyleGetter}
       slotPropGetter={slotPropGetter}
       components={{

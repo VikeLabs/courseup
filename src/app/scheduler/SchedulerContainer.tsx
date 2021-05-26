@@ -1,5 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useMemo } from 'react';
+import { useParams } from 'react-router';
 
 import { useSavedCourses } from '../../shared/hooks/useSavedCourses';
 
@@ -8,6 +9,7 @@ import { SchedulerCalendar } from './components/SchedulerCalendar';
 
 export function SchedulerContainer(): JSX.Element {
   const { courses } = useSavedCourses();
+  const { term } = useParams();
 
   const calendarEvents = useMemo(() => {
     const events: CalendarEvent[] = [];
@@ -16,7 +18,7 @@ export function SchedulerContainer(): JSX.Element {
       for (const sectionType of [course.lecture, course.lab, course.tutorial]) {
         if (sectionType) {
           for (const meetingTime of sectionType.meetingTimes) {
-            if (course.selected) {
+            if (course.selected && course.term === term) {
               events.push({
                 subject: course.subject,
                 code: course.code,
@@ -32,7 +34,7 @@ export function SchedulerContainer(): JSX.Element {
     });
 
     return events;
-  }, [courses]);
+  }, [courses, term]);
 
   return (
     <Flex grow={1} height="100%" overflow="hidden">

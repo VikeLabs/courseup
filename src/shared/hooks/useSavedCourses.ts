@@ -69,15 +69,11 @@ type SavedCourses = {
 };
 
 export const useSavedCourses = (): SavedCourses => {
-  const [data, setData] = useLocalStorage<Course[]>('user:saved_courses', []);
-  // const [usedColors, setUsedColors] = useState<string[]>([]);
-
   // The underlying data persistent storage.
+  const [data, setData] = useLocalStorage<Course[]>('user:saved_courses', []);
 
   const containsColor = useCallback(
-    (color: string, term: string): boolean => {
-      return data.some((course) => course.term === term && course.color === color);
-    },
+    (color: string, term: string): boolean => data.some((course) => course.color === color && course.term === term),
     [data]
   );
 
@@ -86,7 +82,7 @@ export const useSavedCourses = (): SavedCourses => {
    */
   const contains = useCallback(
     (pid: string, term: string): boolean => {
-      return !!data.find((course) => course.pid === pid && course.term === term);
+      return data.some((course) => course.pid === pid && course.term === term);
     },
     [data]
   );
