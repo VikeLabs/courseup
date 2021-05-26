@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
+import addWeeks from 'date-fns/addWeeks';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
@@ -182,9 +183,9 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
           });
 
           if (minEventDate.current === undefined) {
-            minEventDate.current = startDate;
+            minEventDate.current = addWeeks(startDate, 1);
           } else if (startDate < minEventDate.current) {
-            minEventDate.current = startDate;
+            minEventDate.current = addWeeks(startDate, 1);
           }
         });
       } catch (error) {
