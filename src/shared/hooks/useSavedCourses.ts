@@ -69,10 +69,8 @@ type SavedCourses = {
 };
 
 export const useSavedCourses = (): SavedCourses => {
-  const [data, setData] = useLocalStorage<Course[]>('user:saved_courses', []);
-  // const [usedColors, setUsedColors] = useState<string[]>([]);
-
   // The underlying data persistent storage.
+  const [data, setData] = useLocalStorage<Course[]>('user:saved_courses', []);
 
   const containsColor = useCallback(
     (color: string, term: string): boolean => data.some((course) => course.color === color && course.term === term),
