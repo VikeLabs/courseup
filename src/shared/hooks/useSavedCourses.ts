@@ -75,14 +75,7 @@ export const useSavedCourses = (): SavedCourses => {
   // The underlying data persistent storage.
 
   const containsColor = useCallback(
-    (color: string, term: string): boolean => {
-      for (const course of data) {
-        if (course.color === color && course.term === term) {
-          return true;
-        }
-      }
-      return false;
-    },
+    (color: string, term: string): boolean => data.some((course) => course.color === color && course.term === term),
     [data]
   );
 
@@ -91,7 +84,7 @@ export const useSavedCourses = (): SavedCourses => {
    */
   const contains = useCallback(
     (pid: string, term: string): boolean => {
-      return !!data.find((course) => course.pid === pid && course.term === term);
+      return data.some((course) => course.pid === pid && course.term === term);
     },
     [data]
   );
