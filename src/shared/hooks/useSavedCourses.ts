@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import { getSections } from '../api/getSections';
 import { MeetingTimes, Section, SectionType } from '../fetchers';
