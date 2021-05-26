@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
-import { COLORS } from '../../app/scheduler/components/SchedulerSidebar';
 import { getSections } from '../api/getSections';
 import { MeetingTimes, Section, SectionType } from '../fetchers';
 import { getFirstSectionType, hasSectionType } from '../utils/courses';
@@ -9,6 +8,18 @@ import { getFirstSectionType, hasSectionType } from '../utils/courses';
 import useLocalStorage from './storage/useLocalStorage';
 
 const OMITTED_FIELDS = ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'];
+
+export const COLORS = [
+  '#F56565', // red
+  '#48BB78', // green
+  '#4299E1', // blue
+  '#ED8936', // orange
+  '#38B2AC', // teal
+  '#9F7AEA', // purple
+  '#ECC94B', // yellow
+  '#0BC5EA', // cyan
+  '#ED64A6', // pink
+];
 
 const SECTION_TYPES: {
   sectionName: SectionType;
@@ -59,8 +70,21 @@ type SavedCourses = {
 
 export const useSavedCourses = (): SavedCourses => {
   const [data, setData] = useLocalStorage<Course[]>('user:saved_courses', []);
+  // const [usedColors, setUsedColors] = useState<string[]>([]);
 
   // The underlying data persistent storage.
+
+  const containsColor = useCallback(
+    (color: string): boolean => {
+      for (const course of data) {
+        if (course.color === color) {
+          return true;
+        }
+      }
+      return false;
+    },
+    [data]
+  );
 
   /**
    * Checks whether a course is saved
@@ -119,15 +143,23 @@ export const useSavedCourses = (): SavedCourses => {
             newCourse[sectionType] = newCourse.sections[index];
           }
         });
-
         // assign a colour to the course
-        newCourse.color = COLORS[data.length];
+        for (const color of COLORS) {
+          if (!containsColor(color)) {
+            newCourse.color = color;
+            break;
+          }
+        }
+        // if no colors left, use grey
+        if (!newCourse.color) {
+          newCourse.color = '#A0AEC0';
+        }
 
         // TODO: minimize saved data
         setData([...data, newCourse]);
       });
     },
-    [contains, data, setData]
+    [contains, containsColor, data, setData]
   );
 
   /**

@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Text, VStack } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import { MeetingTimes } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
@@ -18,7 +18,6 @@ interface SchedulerSidebarProps {
 
 export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   const { deleteCourse, setSection, courses, setSelected, clearCourses } = useSavedCourses();
-  const [counter, setCounter] = useState(0);
 
   const handleCourseSectionChange = useCallback(
     (
@@ -38,10 +37,8 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
         },
         { code, subject, term, pid, sections: [] }
       );
-      console.log(counter, COLORS[counter]);
-      setCounter(counter + 1);
     },
-    [counter, setSection]
+    [setSection]
   );
 
   const handleCourseDelete = useCallback(
