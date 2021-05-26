@@ -150,6 +150,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
   };
 
   const events = useMemo(() => {
+    minEventDate.current = undefined;
     const events: Event[] = [];
     calendarEvents?.forEach((calendarEvent) => {
       try {
