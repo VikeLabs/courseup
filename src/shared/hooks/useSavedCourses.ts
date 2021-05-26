@@ -76,12 +76,7 @@ export const useSavedCourses = (): SavedCourses => {
 
   const containsColor = useCallback(
     (color: string, term: string): boolean => {
-      for (const course of data) {
-        if (course.color === color && course.term === term) {
-          return true;
-        }
-      }
-      return false;
+      return data.some((course) => course.term === term && course.color === color);
     },
     [data]
   );
