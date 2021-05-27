@@ -88,13 +88,11 @@ export function SectionGroup({ sections, type, course, courses, handleChange }: 
     (newSection: string) => {
       setSection(newSection);
       const section = sections.find((section) => section.sectionCode === newSection);
-      // console.log(section, newSection);
       section &&
         handleChange(type, newSection, section.meetingTimes, course.code, course.subject, course.pid, course.term);
     },
     [course.code, course.pid, course.subject, course.term, handleChange, sections, type]
   );
-  console.log(section);
 
   return (
     <RadioGroup onChange={onChange} value={section} name={type}>
@@ -120,41 +118,29 @@ export interface OptionsProps {
 
 export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element {
   return (
-    <>
-      {/* {meetingTimes.map((m, key) => ( */}
-      <HStack
-        as="label"
-        px="3"
-        my="0.5"
-        fontSize="12px"
-        borderTop="#e4e4e4"
-        borderTopWidth="2"
-        borderTopStyle="solid"
-        minH="50px"
-      >
-        <HStack>
-          <Radio
-            value={sectionCode}
-            bgColor="white"
-            // HACK: position: sticky needed to fix issue with button click jumping position on page
-            position="sticky"
-          />
-          <Text as="strong">{sectionCode}</Text>
-        </HStack>
-        <VStack flexGrow={1}>
-          {meetingTimes.map((m, key) => (
-            <HStack key={key} justifyContent="space-between" w="100%" px="5">
-              <Box minW="56px">
-                {m.time.split('-').map((time) => (
-                  <Text key={time}>{time}</Text>
-                ))}
-              </Box>
-              <Box minW="27px">{m.days}</Box>
-              <Box>{m.where}</Box>
-            </HStack>
-          ))}
-        </VStack>
+    <HStack as="label" px="3" my="0.5" fontSize="12px" borderTop="#e4e4e4" borderTopWidth="2" borderTopStyle="solid">
+      <HStack>
+        <Radio
+          value={sectionCode}
+          bgColor="white"
+          // HACK: position: sticky needed to fix issue with button click jumping position on page
+          position="sticky"
+        />
+        <Text as="strong">{sectionCode}</Text>
       </HStack>
-    </>
+      <VStack flexGrow={1} py="1.5">
+        {meetingTimes.map((m, key) => (
+          <HStack key={key} justifyContent="space-between" w="100%" px="5">
+            <Box minW="56px">
+              {m.time.split('-').map((time) => (
+                <Text key={time}>{time}</Text>
+              ))}
+            </Box>
+            <Box>{m.days}</Box>
+            <Box>{m.where}</Box>
+          </HStack>
+        ))}
+      </VStack>
+    </HStack>
   );
 }
