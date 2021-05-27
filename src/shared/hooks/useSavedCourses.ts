@@ -171,9 +171,9 @@ export const useSavedCourses = (): SavedCourses => {
   const setSection = (type: string, newSection: SavedSection, existingCourse: Course) => {
     const newArr: Course[] = data.map((course) => {
       if (equals(course, existingCourse)) {
-        if (type === 'lecture') {
+        if (type === 'lecture' || type === 'lecture topic') {
           course.lecture = newSection;
-        } else if (type === 'lab') {
+        } else if (type === 'lab' || type === 'gradable lab') {
           course.lab = newSection;
         } else if (type === 'tutorial') {
           course.tutorial = newSection;
