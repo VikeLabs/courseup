@@ -229,6 +229,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
         toolbar: CustomToolBar,
         event: CustomEvent,
       }}
+      dayLayoutAlgorithm="no-overlap"
     />
   );
 }
