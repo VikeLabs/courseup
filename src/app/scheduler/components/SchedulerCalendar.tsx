@@ -9,10 +9,11 @@ import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
-import { MutableRefObject, useMemo, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import '../../shared/styles/CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
+import { useParams } from 'react-router';
 import { RRule } from 'rrule';
 
 import { CalendarEvent } from './CalendarEvent';
@@ -83,6 +84,25 @@ export interface SchedulerCalendarProps {
 export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const { term } = useParams();
+
+  const getSelectedDate = useCallback(() => {
+    const month = /\d{4}(\d{2})/.exec(term);
+    const year = /(\d{4})\d{2}/.exec(term);
+    const today = new Date();
+    if (
+      month &&
+      year &&
+      Number(month[1]) > today.getMonth() &&
+      Number(month[1]) < today.getMonth() + 5 &&
+      Number(year[1]) === today.getFullYear()
+    ) {
+      return today;
+    } else {
+      if (year && month) return new Date(Number(year[1]), Number(month[1]) - 1, 10);
+    }
+    return today;
+  }, [term]);
 
   const CustomToolBar = ({ label, date }: ToolbarProps) => {
     return (
@@ -212,9 +232,9 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
         console.error(error);
       }
     });
-    setSelectedDate(minEventDate.current ? minEventDate.current : new Date());
+    setSelectedDate(getSelectedDate());
     return events;
-  }, [calendarEvents]);
+  }, [calendarEvents, getSelectedDate]);
 
   const today = new Date();
 
