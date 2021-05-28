@@ -61,7 +61,7 @@ type SavedCourses = {
 
   addCourse: (newCourse: Course) => void;
   deleteCourse: (newCourse: Course) => void;
-  clearCourses: () => void;
+  clearCourses: (term: string) => void;
   setSection: (type: string, newSection: SavedSection, existingCourse: Course) => void;
   contains: (pid: string, term: string) => boolean;
   sectionIsSaved: (pid: string, term: string, sectionCode: string) => boolean;
@@ -164,8 +164,8 @@ export const useSavedCourses = (): SavedCourses => {
   /**
    * Deletes all saved courses.
    */
-  const clearCourses = () => {
-    setData([]);
+  const clearCourses = (term: string) => {
+    setData(data.filter((course) => course.term !== term));
   };
 
   const setSection = (type: string, newSection: SavedSection, existingCourse: Course) => {
