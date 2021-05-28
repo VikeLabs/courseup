@@ -168,6 +168,10 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
 
         const days = computeMeetingTimeDays(calendarEvent);
 
+        // HACK: something doesn't like when start & end dates are the same
+        // adding 1 day to the end date makes everything happy :-)
+        endDateRRule.setDate(endDateRRule.getDate() + 1);
+
         const ruleUpper = new RRule({
           freq: RRule.WEEKLY,
           byweekday: days,
