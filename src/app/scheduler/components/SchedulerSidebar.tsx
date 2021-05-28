@@ -96,7 +96,12 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
         <Flex justifyContent="space-between" alignItems="center" p="3">
           <Text>Saved Courses</Text>
           <Flex>
-            <Button size="xs" colorScheme="red" onClick={() => clearCourses(term)}>
+            <Button
+              size="xs"
+              colorScheme="red"
+              onClick={() => clearCourses(term)}
+              disabled={courses.filter((course) => course.term === term).length === 0}
+            >
               Clear
             </Button>
           </Flex>
