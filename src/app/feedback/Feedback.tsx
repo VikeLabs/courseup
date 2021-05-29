@@ -75,8 +75,7 @@ export function Feedback(): JSX.Element | null {
               <HStack w="75%">
                 <FeedbackButton
                   src={process.env.PUBLIC_URL + '/assets/brands/forms.png'}
-                  //TODO: add link once google form is made
-                  href=""
+                  href="https://docs.google.com/forms/d/1b84DohHHxiPbkQi-YzQ6OH5Rq4LEu8ou7OPVP-S430I"
                 ></FeedbackButton>
                 <Spacer />
                 <FeedbackButton
