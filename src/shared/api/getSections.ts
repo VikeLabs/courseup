@@ -7,6 +7,6 @@ interface getSectionsProps {
 }
 
 export const getSections = async ({ term, subject, code }: getSectionsProps): Promise<Section[]> => {
-  const response = await fetch(`/sections/${term}?subject=${subject}&code=${code}`);
+  const response = await fetch(`/api/sections/${term}?subject=${subject}&code=${code}`);
   return response.json();
 };
