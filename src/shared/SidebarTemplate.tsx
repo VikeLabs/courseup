@@ -43,7 +43,7 @@ export function SidebarTemplate({ children, term, title }: PropsWithChildren<Sid
   }, [navigate, term, route, savedTerm, setSavedTerm]);
 
   return (
-    <Flex h="100vh" direction="column">
+    <Flex h="100vh" direction="column" overflowX="hidden">
       <Helmet>
         <title>{title}</title>
       </Helmet>

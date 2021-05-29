@@ -12,7 +12,7 @@ export function Scheduler(): JSX.Element {
     <SidebarTemplate title="Scheduler" term={term as Term}>
       <Flex flexGrow={1}>
         <SchedulerContainer />
-        <SchedulerSidebar />
+        <SchedulerSidebar term={term} />
       </Flex>
     </SidebarTemplate>
   );
