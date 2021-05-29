@@ -1,5 +1,5 @@
-# Clockwork - Backend Services
-The Clockwork application backend REST API exists as a [Express](https://expressjs.com/) application deployed on [Google Cloud Platform's Cloud Functions](https://cloud.google.com/functions) service.
+# CourseUp - Backend Services
+The CourseUp application backend REST API exists as a [Express](https://expressjs.com/) application deployed on [Google Cloud Platform's Cloud Functions](https://cloud.google.com/functions) service.
 
 ## Development
 Since we utilize Cloud Functions to run a Express app, it is faster and easier to run the Express app through normal means rather than starting it with `firebase emulators:start --only functions`.
