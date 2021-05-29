@@ -4,7 +4,7 @@ import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 import { useMatch, useSearchParams } from 'react-router-dom';
 
-import { Card } from '../components/Card';
+import { Card } from './Card';
 
 type CourseRecord = {
   pid: string;
@@ -30,7 +30,7 @@ const SearchResults = ({ hits }: Props) => {
     <>
       {hits.map(({ objectID, pid, subject, code, title }) => (
         <LinkBox onClick={handleClick} data-pid={pid} key={objectID}>
-          <Card subject={subject} title={title} code={code} schedule={scheduleMatch != null} />
+          <Card subject={subject} title={title} pid={pid} code={code} schedule={scheduleMatch != null} />
         </LinkBox>
       ))}
     </>

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { getCurrentTerms, getReadableTerm } from '../../shared/utils/terms';
+import { getReadableTerm } from '../../shared/utils/terms';
 
-const terms = getCurrentTerms();
+const terms = ['202009', '202101', '202105'];
 
 export function TermButtons(): JSX.Element {
   const [status, setStatus] = useState([false, false, false]);

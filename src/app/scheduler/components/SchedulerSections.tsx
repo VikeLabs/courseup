@@ -1,28 +1,42 @@
-import { Radio, RadioGroup, Thead, Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
-import React from 'react';
+import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
+import { Course } from '../../../shared/hooks/useSavedCourses';
 
-export function SectionsCardContainer({ sections }: { sections: ClassScheduleListing[] }): JSX.Element {
-  const sectionTypes = sections.map((s) => s.sectionType).filter((item, pos, self) => self.indexOf(item) === pos);
+export function SectionsCardContainer({
+  course,
+  courses,
+  handleChange,
+}: {
+  course: Course;
+  courses: Course[];
+  handleChange: (
+    sectionType: string,
+    sectionCode: string,
+    meetingTimes: MeetingTimes[],
+    code: string,
+    subject: string,
+    pid: string,
+    term: string
+  ) => void;
+}): JSX.Element {
+  const { sections } = course;
+  const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
-    <Table size="sm">
-      <Thead>
-        <Tr>
-          <Th>Option</Th>
-          <Th>Section</Th>
-          <Th>Days</Th>
-          <Th>Times</Th>
-          <Th>Location</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {sectionTypes.map((type) => (
-          <SectionGroup sections={sections} type={type} />
-        ))}
-      </Tbody>
-    </Table>
+    <Box bg="whiteAlpha.900">
+      {sectionTypes.map((type) => (
+        <SectionGroup
+          sections={sections}
+          courses={courses}
+          type={type}
+          handleChange={handleChange}
+          course={course}
+          key={type}
+        />
+      ))}
+    </Box>
   );
 }
 
@@ -36,18 +50,55 @@ export interface SectionGroupProps {
    * example: Lecture, Tutorial, Lab etc.
    */
   type: string;
+  course: Course;
+
+  courses: Course[];
+
+  handleChange: (
+    sectionType: string,
+    sectionCode: string,
+    meetingTimes: MeetingTimes[],
+    code: string,
+    subject: string,
+    pid: string,
+    term: string
+  ) => void;
 }
 
-export function SectionGroup({ sections, type }: SectionGroupProps): JSX.Element {
+export function SectionGroup({ sections, type, course, courses, handleChange }: SectionGroupProps): JSX.Element {
   const [section, setSection] = React.useState('');
 
+  const filteredSections = useMemo(() => sections.filter((s) => s.sectionType === type), [sections, type]);
+
+  useEffect(() => {
+    courses.forEach((c) => {
+      if (course.pid === c.pid && course.term === c.term) {
+        if ((type === 'lab' || type === 'gradable lab') && c.lab) {
+          setSection(c.lab.sectionCode);
+        } else if ((type === 'lecture' || type === 'lecture topic') && c.lecture) {
+          setSection(c.lecture.sectionCode);
+        } else if (type === 'tutorial' && c.tutorial) {
+          setSection(c.tutorial.sectionCode);
+        }
+      }
+    });
+  }, [course.pid, course.term, courses, type]);
+
+  const onChange = useCallback(
+    (newSection: string) => {
+      setSection(newSection);
+      const section = sections.find((section) => section.sectionCode === newSection);
+      section &&
+        handleChange(type, newSection, section.meetingTimes, course.code, course.subject, course.pid, course.term);
+    },
+    [course.code, course.pid, course.subject, course.term, handleChange, sections, type]
+  );
+
   return (
-    <RadioGroup onChange={setSection} value={section} name={type}>
-      {sections
-        .filter((s) => s.sectionType === type)
-        .map(({ sectionCode, meetingTimes }) => (
-          <Option sectionCode={sectionCode} meetingTimes={meetingTimes} />
-        ))}
+    <RadioGroup onChange={onChange} value={section} name={type}>
+      {filteredSections.map(({ sectionCode, meetingTimes }) => (
+        <Option sectionCode={sectionCode} meetingTimes={meetingTimes} key={sectionCode} />
+      ))}
     </RadioGroup>
   );
 }
@@ -67,18 +118,29 @@ export interface OptionsProps {
 
 export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element {
   return (
-    <>
-      {meetingTimes.map((m) => (
-        <Tr>
-          <Td>
-            <Radio value={sectionCode} />
-          </Td>
-          <Td fontWeight="bold"> {sectionCode} </Td>
-          <Td>{m.days}</Td>
-          <Td>{m.time}</Td>
-          <Td>{m.where}</Td>
-        </Tr>
-      ))}
-    </>
+    <HStack as="label" px="3" my="0.5" fontSize="12px" borderTop="#e4e4e4" borderTopWidth="2" borderTopStyle="solid">
+      <HStack>
+        <Radio
+          value={sectionCode}
+          bgColor="white"
+          // HACK: position: sticky needed to fix issue with button click jumping position on page
+          position="sticky"
+        />
+        <Text as="strong">{sectionCode}</Text>
+      </HStack>
+      <VStack flexGrow={1} py="1.5">
+        {meetingTimes.map((m, key) => (
+          <HStack key={key} justifyContent="space-between" w="100%" px="5">
+            <Box minW="56px">
+              {m.time.split('-').map((time) => (
+                <Text key={time}>{time}</Text>
+              ))}
+            </Box>
+            <Box>{m.days}</Box>
+            <Box>{m.where}</Box>
+          </HStack>
+        ))}
+      </VStack>
+    </HStack>
   );
 }

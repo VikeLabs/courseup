@@ -1,44 +1,58 @@
 import { CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
-import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps } from '@chakra-ui/react';
+import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Term } from '../../../shared/fetchers';
+import { Term, useGetCourse } from '../../../shared/fetchers';
 
 export type CourseCardProps = {
-  term: Term;
+  term: string;
   subject: string;
-  title: string;
   code: string;
   color: BackgroundProps['bg'];
   pid: string;
-  selected: boolean;
-  onCourseChange: Function;
-  onCourseDelete: Function;
+  selected?: boolean;
+  handleSelection: ({
+    code,
+    pid,
+    subject,
+    term,
+    selected,
+  }: {
+    code: string;
+    pid: string;
+    subject: string;
+    term: string;
+    selected?: boolean;
+  }) => void;
+  handleDelete: ({ code, pid, subject, term }: { code: string; pid: string; subject: string; term: string }) => void;
 };
 
 export function CourseCard({
   term,
   subject,
-  title,
   code,
   color,
   pid,
   selected,
-  onCourseChange,
-  onCourseDelete,
+  handleSelection,
+  handleDelete,
 }: CourseCardProps): JSX.Element {
-  const handleCourseChange = useCallback(() => {
-    onCourseChange();
-  }, [onCourseChange]);
+  const onChange = useCallback(() => {
+    handleSelection({ term, code, subject, pid, selected });
+  }, [code, handleSelection, pid, selected, subject, term]);
 
-  const handleCourseDelete = useCallback(() => {
-    onCourseDelete();
-  }, [onCourseDelete]);
+  const onDelete = useCallback(() => {
+    handleDelete({ term, code, subject, pid });
+  }, [code, handleDelete, pid, subject, term]);
+
+  const termTerm = term as Term;
+
+  const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Box boxShadow="md" cursor="pointer" as="label">
-      <Flex direction="row" background={selected ? 'white' : 'blackAlpha.200'}>
+    <Box boxShadow="md" cursor="pointer" as="label" w="100%">
+      <Flex direction="row" bg="white">
         <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
           <Flex>
             <Checkbox
@@ -48,7 +62,7 @@ export function CourseCard({
               size="lg"
               mx="7px"
               isChecked={selected}
-              onChange={handleCourseChange}
+              onChange={onChange}
             />
           </Flex>
         </Flex>
@@ -58,22 +72,22 @@ export function CourseCard({
               {subject} {code}
             </Text>
             <Text fontSize="sm" fontWeight="normal">
-              {title}
+              <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
             </Text>
           </VStack>
-          <VStack alignContent="right" pr="5px" py="5px">
+          <VStack alignContent="right" pr="3" py="5px">
             <IconButton
               aria-label="Remove from Scheduler"
               icon={<CloseIcon color="white" />}
-              background={'red'}
-              size="sm"
-              onClick={handleCourseDelete}
+              bg="red.400"
+              size="xs"
+              onClick={onDelete}
             />
             <IconButton
               aria-label="More information"
               icon={<InfoOutlineIcon color="white" />}
-              size="sm"
-              background="blue.400"
+              size="xs"
+              bg="blue.400"
               as={Link}
               to={`/calendar/${term}/${subject}?pid=${pid}`}
             />
