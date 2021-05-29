@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { getReadableTerm } from '../../shared/utils/terms';
 
-const terms = ['202009', '202101', '202105'];
+const terms = ['202105', '202109', '202201'];
 
 export function TermButtons(): JSX.Element {
   const [status, setStatus] = useState([false, false, false]);
