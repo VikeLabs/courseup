@@ -10,7 +10,7 @@ export interface Course {
   code: string;
 }
 
-export type Term = '202001' | '202005' | '202009' | '202101' | '202105';
+export type Term = '202001' | '202005' | '202009' | '202101' | '202105' | '202109' | '202201';
 
 export interface CourseDetails {
   pid: string;
@@ -42,7 +42,6 @@ export interface CourseDetails {
    * If a course was named something else previously.
    */
   formally?: string;
-  hoursCatalogText?: {};
 }
 
 export type LevelType = 'law' | 'undergraduate' | 'graduate';

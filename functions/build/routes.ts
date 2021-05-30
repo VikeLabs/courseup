@@ -26,7 +26,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Term": {
         "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["202001"]},{"dataType":"enum","enums":["202005"]},{"dataType":"enum","enums":["202009"]},{"dataType":"enum","enums":["202101"]},{"dataType":"enum","enums":["202105"]}],"validators":{}},
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["202001"]},{"dataType":"enum","enums":["202005"]},{"dataType":"enum","enums":["202009"]},{"dataType":"enum","enums":["202101"]},{"dataType":"enum","enums":["202105"]},{"dataType":"enum","enums":["202109"]},{"dataType":"enum","enums":["202201"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CourseDetails": {
