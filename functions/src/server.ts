@@ -31,6 +31,6 @@ RegisterRoutes(app);
 
 app.listen(port, () =>
   console.log(
-    `Clockwork Functions (Express) app listening at http://localhost:${port}`
+    `CourseUp Functions (Express) app listening at http://localhost:${port}`
   )
 );

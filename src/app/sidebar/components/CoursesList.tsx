@@ -26,11 +26,11 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
     if (calendarMatch)
       return (
         <LinkBox key={pid} as={Link} to={`/calendar/${term}/${subject}?pid=${pid}`} data-title={title}>
-          <Card title={title} subject={subject} code={code} />
+          <Card title={title} pid={pid} subject={subject} code={code} />
         </LinkBox>
       );
     else if (scheduleMatch) {
-      return <Card title={title} subject={subject} code={code} schedule={true} />;
+      return <Card key={pid} title={title} subject={subject} pid={pid} code={code} schedule={true} />;
     }
   };
 

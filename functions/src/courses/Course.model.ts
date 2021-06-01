@@ -3,6 +3,9 @@ import {
   KualiCourseItemParsed,
 } from '@vikelabs/uvic-course-scraper/dist/types';
 
+/**
+ * @tsoaModel
+ */
 export interface Course extends Pick<KualiCourseCatalog, 'pid' | 'title'> {
   subject: string;
   code: string;

@@ -14,9 +14,6 @@
                     "title": {
                         "type": "string"
                     },
-                    "dateStart": {
-                        "type": "string"
-                    },
                     "subject": {
                         "type": "string"
                     },
@@ -27,12 +24,23 @@
                 "required": [
                     "pid",
                     "title",
-                    "dateStart",
                     "subject",
                     "code"
                 ],
                 "type": "object",
                 "additionalProperties": false
+            },
+            "Term": {
+                "type": "string",
+                "enum": [
+                    "202001",
+                    "202005",
+                    "202009",
+                    "202101",
+                    "202105",
+                    "202109",
+                    "202201"
+                ]
             },
             "CourseDetails": {
                 "properties": {
@@ -40,9 +48,6 @@
                         "type": "string"
                     },
                     "title": {
-                        "type": "string"
-                    },
-                    "dateStart": {
                         "type": "string"
                     },
                     "description": {
@@ -54,7 +59,26 @@
                                 "type": "string"
                             },
                             "value": {
-                                "type": "string"
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "properties": {
+                                            "max": {
+                                                "type": "string"
+                                            },
+                                            "min": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "max",
+                                            "min"
+                                        ],
+                                        "type": "object"
+                                    }
+                                ]
                             },
                             "credits": {
                                 "properties": {
@@ -79,6 +103,28 @@
                         ],
                         "type": "object"
                     },
+                    "dateStart": {
+                        "type": "string"
+                    },
+                    "hoursCatalog": {
+                        "properties": {
+                            "lab": {
+                                "type": "string"
+                            },
+                            "tutorial": {
+                                "type": "string"
+                            },
+                            "lecture": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "lab",
+                            "tutorial",
+                            "lecture"
+                        ],
+                        "type": "object"
+                    },
                     "subject": {
                         "type": "string",
                         "description": "Abbriviation of the subject of the course.",
@@ -98,9 +144,9 @@
                 "required": [
                     "pid",
                     "title",
-                    "dateStart",
                     "description",
                     "credits",
+                    "dateStart",
                     "subject",
                     "code"
                 ],
@@ -120,7 +166,9 @@
                 "enum": [
                     "lecture",
                     "lab",
-                    "tutorial"
+                    "tutorial",
+                    "gradable lab",
+                    "lecture topic"
                 ]
             },
             "MeetingTimes": {
@@ -162,7 +210,7 @@
                 "type": "object",
                 "additionalProperties": false
             },
-            "Section": {
+            "ClassScheduleListing": {
                 "properties": {
                     "crn": {
                         "type": "string"
@@ -247,15 +295,8 @@
                 "type": "object",
                 "additionalProperties": false
             },
-            "Term": {
-                "type": "string",
-                "enum": [
-                    "202001",
-                    "202005",
-                    "202009",
-                    "202101",
-                    "202105"
-                ]
+            "Section": {
+                "$ref": "#/components/schemas/ClassScheduleListing"
             },
             "Seating": {
                 "properties": {
@@ -287,7 +328,8 @@
                     "YEAR_2",
                     "YEAR_3",
                     "YEAR_4",
-                    "YEAR_5"
+                    "YEAR_5",
+                    "unclassified"
                 ]
             },
             "Requirements": {
@@ -309,6 +351,48 @@
                             "$ref": "#/components/schemas/classification"
                         },
                         "type": "array"
+                    },
+                    "negClassification": {
+                        "items": {
+                            "$ref": "#/components/schemas/classification"
+                        },
+                        "type": "array"
+                    },
+                    "degree": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "program": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "negProgram": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "college": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "negCollege": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "major": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
                     }
                 },
                 "required": [
@@ -317,7 +401,7 @@
                 "type": "object",
                 "additionalProperties": false
             },
-            "DetailedClassInformation": {
+            "Seat": {
                 "properties": {
                     "seats": {
                         "$ref": "#/components/schemas/Seating"
@@ -327,14 +411,37 @@
                     },
                     "requirements": {
                         "$ref": "#/components/schemas/Requirements"
+                    },
+                    "crn": {
+                        "type": "string"
                     }
                 },
                 "required": [
                     "seats",
-                    "waitListSeats"
+                    "waitListSeats",
+                    "crn"
                 ],
                 "type": "object",
                 "additionalProperties": false
+            },
+            "KualiSubject": {
+                "properties": {
+                    "subject": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "subject",
+                    "title"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Subject": {
+                "$ref": "#/components/schemas/KualiSubject"
             }
         },
         "securitySchemes": {}
@@ -345,9 +452,9 @@
     },
     "openapi": "3.0.0",
     "paths": {
-        "/courses": {
+        "/courses/{term}": {
             "get": {
-                "operationId": "GetAllCourses",
+                "operationId": "GetCourses",
                 "responses": {
                     "200": {
                         "description": "Ok",
@@ -365,10 +472,28 @@
                 },
                 "description": "Retrieves all the courses available. If query params are passed in, they will be used to filter results.",
                 "security": [],
-                "parameters": []
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "term",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Term"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "in_session",
+                        "required": false,
+                        "schema": {
+                            "default": false,
+                            "type": "boolean"
+                        }
+                    }
+                ]
             }
         },
-        "/courses/{pid}": {
+        "/courses/{term}/{pid}": {
             "get": {
                 "operationId": "GetCourse",
                 "responses": {
@@ -383,6 +508,7 @@
                         }
                     }
                 },
+                "description": "Retrieves course details given the term and pid.",
                 "security": [],
                 "parameters": [
                     {
@@ -391,6 +517,14 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "term",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Term"
                         }
                     }
                 ]
@@ -456,7 +590,7 @@
                             "application/json": {
                                 "schema": {
                                     "items": {
-                                        "$ref": "#/components/schemas/DetailedClassInformation"
+                                        "$ref": "#/components/schemas/Seat"
                                     },
                                     "type": "array"
                                 }
@@ -491,6 +625,40 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/subjects/{term}": {
+            "get": {
+                "operationId": "Subjects",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Subject"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Subjects"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "term",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Term"
                         }
                     }
                 ]
