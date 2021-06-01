@@ -15,28 +15,18 @@ import {
 } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 
+import { MeetingTimes, useGetCourse, Term } from '../../../shared/fetchers';
 import { Course, useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 import { SidebarTemplate } from '../../../shared/SidebarTemplate';
+import { CourseCard } from '../../scheduler/components/CourseCard';
+import { getCurrentTerm } from '../../shared/utils/terms';
 import { Card } from '../../sidebar/components/Card';
 
 export function Bookmarks(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const open = () => setIsOpen(!isOpen);
-  const { courses, deleteCourse } = useSavedCourses();
+  const { courses } = useSavedCourses();
 
-  const onClick = useCallback(
-    (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-      const pid = event.currentTarget.getAttribute('pid');
-      const term = event.currentTarget.getAttribute('term');
-      const code = event.currentTarget.getAttribute('code');
-      const subject = event.currentTarget.getAttribute('subject');
-
-      if (subject && term && code && pid) {
-        deleteCourse({ subject, code, pid, term });
-      }
-    },
-    [deleteCourse]
-  );
   return (
     <Popover isOpen={isOpen} autoFocus={false} placement="bottom" flip={false}>
       <PopoverTrigger>
@@ -48,18 +38,15 @@ export function Bookmarks(): JSX.Element {
       </PopoverTrigger>
 
       <Portal>
-        <PopoverContent overflowY="auto" minW="300px" boxShadow="md" h="80vh" borderColor="blue.800">
+        <PopoverContent bgColor="#E4E4E4" overflowY="auto" minW="300px" boxShadow="md" h="80vh" borderColor="blue.800">
           <PopoverBody>
             {courses.map((course: Course) => {
+              const term = course.term as Term;
+              const pid = course.pid;
+              // const { data, loading } = useGetCourse({ term: term, pid });
               return (
                 <Box w="100%" padding="3px">
-                  <Card
-                    subject={course.subject}
-                    title="need title"
-                    code={course.code}
-                    selected={false}
-                    schedule={true}
-                  />
+                  <Card subject={course.subject} code={course.code} pid={course.pid} title="" schedule />
                 </Box>
               );
             })}
