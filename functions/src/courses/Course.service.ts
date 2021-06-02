@@ -1,5 +1,8 @@
 import { Course, CourseDetails } from './Course.model';
-import { UVicCourseScraper } from '@vikelabs/uvic-course-scraper/dist/index';
+import {
+  ClassScheduleListing,
+  UVicCourseScraper,
+} from '@vikelabs/uvic-course-scraper/dist/index';
 import { subjectCodeExtractor } from '../shared/subjectCodeExtractor';
 import { Term } from '../constants';
 import { query, where, batch, ref, get, update, set } from 'typesaurus';
@@ -9,6 +12,7 @@ import {
   SectionsSubstore,
 } from '../db/collections';
 import { getSections } from '../sections/Section.service';
+import { mapLimit } from 'async';
 
 export class CoursesService {
   /**
@@ -77,16 +81,25 @@ export class CoursesService {
     const courses = await CoursesService.getCourses(term);
     // get all sections for a given term and course
     console.log('fetching sections...');
-    const sections = await Promise.all(
-      courses.map(async ({ subject, code, title, pid }) => ({
-        // makes iterating over the data easier if we have the subject and code.
-        sections: await getSections(term, subject, code),
-        subject,
-        code,
-        title,
-        pid,
-      }))
-    );
+
+    const sections = await mapLimit<
+      Course,
+      {
+        subject: string;
+        code: string;
+        title: string;
+        pid: string;
+        sections: ClassScheduleListing[];
+      },
+      Error
+    >(courses, 50, async ({ subject, code, title, pid }) => ({
+      // makes iterating over the data easier if we have the subject and code.
+      sections: await getSections(term, subject, code),
+      subject,
+      code,
+      title,
+      pid,
+    }));
 
     console.log('inserting into db');
 
