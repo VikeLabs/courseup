@@ -41,9 +41,9 @@ export type Course = {
   selected?: boolean;
   color?: string;
   textColor?: string;
-  lecture?: SavedSection;
-  lab?: SavedSection;
-  tutorial?: SavedSection;
+  lecture?: string;
+  lab?: string;
+  tutorial?: string;
 };
 
 export type SavedSection = {
@@ -105,9 +105,9 @@ export const useSavedCourses = (): SavedCourses => {
     (pid: string, term: string, sectionCode: string) =>
       data.some(
         (course) =>
-          (course.pid === pid && course.term === term && course.lab?.sectionCode === sectionCode) ||
-          course.lecture?.sectionCode === sectionCode ||
-          course.tutorial?.sectionCode === sectionCode
+          (course.pid === pid && course.term === term && course.lab === sectionCode) ||
+          course.lecture === sectionCode ||
+          course.tutorial === sectionCode
       ),
     [data]
   );
@@ -131,7 +131,7 @@ export const useSavedCourses = (): SavedCourses => {
         SECTION_TYPES.forEach(({ sectionName, sectionType }) => {
           if (hasSectionType(newCourse.sections, sectionName)) {
             const index = getFirstSectionType(newCourse.sections, sectionName);
-            newCourse[sectionType] = newCourse.sections[index];
+            newCourse[sectionType] = newCourse.sections[index].sectionCode;
           }
         });
         // assign a colour to the course
@@ -172,11 +172,11 @@ export const useSavedCourses = (): SavedCourses => {
     const newArr: Course[] = data.map((course) => {
       if (equals(course, existingCourse)) {
         if (type === 'lecture' || type === 'lecture topic') {
-          course.lecture = newSection;
+          course.lecture = newSection.sectionCode;
         } else if (type === 'lab' || type === 'gradable lab') {
-          course.lab = newSection;
+          course.lab = newSection.sectionCode;
         } else if (type === 'tutorial') {
-          course.tutorial = newSection;
+          course.tutorial = newSection.sectionCode;
         }
       }
       return course;

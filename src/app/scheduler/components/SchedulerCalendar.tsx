@@ -16,6 +16,8 @@ import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'rea
 import { useParams } from 'react-router';
 import { RRule } from 'rrule';
 
+import { useCalendarEvents } from '../hooks/useCalendarEvents';
+
 import { CalendarEvent } from './CalendarEvent';
 
 dayjs.extend(utc);
@@ -85,6 +87,8 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { term } = useParams();
+
+  console.log(calendarEvents, 'what');
 
   const getSelectedDate = useCallback(() => {
     const month = /\d{4}(\d{2})/.exec(term);
@@ -172,6 +176,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
   const events = useMemo(() => {
     minEventDate.current = undefined;
     const events: Event[] = [];
+    console.log(calendarEvents);
     calendarEvents?.forEach((calendarEvent) => {
       try {
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
@@ -235,6 +240,8 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     setSelectedDate(getSelectedDate());
     return events;
   }, [calendarEvents, getSelectedDate]);
+
+  console.log(events);
 
   const today = new Date();
 

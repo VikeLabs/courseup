@@ -74,11 +74,11 @@ export function SectionGroup({ sections, type, course, courses, handleChange }: 
     courses.forEach((c) => {
       if (course.pid === c.pid && course.term === c.term) {
         if ((type === 'lab' || type === 'gradable lab') && c.lab) {
-          setSection(c.lab.sectionCode);
+          setSection(c.lab);
         } else if ((type === 'lecture' || type === 'lecture topic') && c.lecture) {
-          setSection(c.lecture.sectionCode);
+          setSection(c.lecture);
         } else if (type === 'tutorial' && c.tutorial) {
-          setSection(c.tutorial.sectionCode);
+          setSection(c.tutorial);
         }
       }
     });
