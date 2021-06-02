@@ -1,71 +1,50 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useEffect, useMemo, useState } from 'react';
 
 import { getSections } from '../../../shared/api/getSections';
-import { MeetingTimes } from '../../../shared/fetchers';
-import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
-import { CalendarEvent } from '../components/CalendarEvent';
+import { ClassScheduleListing } from '../../../shared/fetchers';
+import { SavedCourse } from '../../../shared/hooks/useSavedCourses';
+import { CalendarEvent } from '../shared/types';
 
-type Result =
-  | undefined
-  | { status: 'loaded'; data: CalendarEvent[] }
+type SavedCourseWithSections = SavedCourse & { sections: ClassScheduleListing[]; events?: CalendarEvent[] };
+
+type CalendarEventsResult =
   | { status: 'loading' }
+  | {
+      status: 'loaded';
+      data: SavedCourseWithSections[];
+    }
   | { status: 'error'; errorMessage: string };
 
-export const useCalendarEvents = (): (({
-  subject,
-  code,
-  sectionCode,
-}: {
-  subject: string;
-  code: string;
-  sectionCode: string;
-}) => Promise<MeetingTimes[]>) => {
-  const [result, setResult] = useState<Result>(undefined);
-  const { courses } = useSavedCourses();
-  const { term } = useParams();
+// takes in list of locally saved courses, returns the same list but with a sections property
+export function useCalendarEvents(term: string, courses: SavedCourse[]) {
+  // this hook is async so let the initial state to 'loading'
+  const [result, setResult] = useState<CalendarEventsResult>({ status: 'loading' });
 
-  const func = useCallback(
-    async ({ subject, code, sectionCode }: { subject: string; code: string; sectionCode: string }) => {
-      const sections = await getSections({ term, subject, code });
-      const section = sections.find((section) => section.sectionCode === sectionCode);
-      if (section) return section.meetingTimes;
-      else return [];
-    },
-    [term]
-  );
-  // useEffect(() => {
-  //   // setResult({ status: 'loading' });
+  // avoid unnessary filtering operations by memoization
+  const termCourses = useMemo(() => courses.filter((c) => c.term === term), [term, courses]);
 
-  //   const events: CalendarEvent[] = [];
-  //   async function fetchData() {
-  //     // You can await here
-  //     courses
-  //       .filter((course) => course.term === term)
-  //       .forEach(async ({ subject, code, lab, lecture, tutorial, color }) => {
-  //         const fella = await getSections({ subject, code, term });
-  //         const aa = fella.filter(
-  //           ({ sectionCode }) => sectionCode === lab || sectionCode === lecture || sectionCode === tutorial
-  //         );
-  //         aa.forEach((a) => {
-  //           events.push({
-  //             subject,
-  //             code,
-  //             meetingTime: a.meetingTimes[0],
-  //             sectionCode: a.sectionCode,
-  //             color,
-  //             textColor: 'black',
-  //           });
-  //         });
-  //       });
-  //     // ...
-  //   }
-  //   fetchData();
+  useEffect(() => {
+    (async () => {
+      try {
+        // get sections for each course
+        console.debug('fetching sections for saved courses');
+        const coursesSections = await Promise.all(
+          termCourses.map(async ({ term, subject, code, pid, lecture, lab, tutorial, selected, color }) => {
+            // get sections for course
+            const sections = await getSections({ term, subject, code });
 
-  //   // return events;
-  //   //   console.log(courses);
-  //   setResult({ status: 'loaded', data: events });
-  // }, [courses, term]);
+            // TODO: transform into calendar events :wink:
 
-  return func;
-};
+            return { sections, term, subject, code, pid, lecture, lab, tutorial, selected, color };
+          })
+        );
+
+        setResult({ status: 'loaded', data: coursesSections });
+      } catch (e) {
+        setResult({ status: 'error', errorMessage: e });
+      }
+    })();
+  }, [termCourses]);
+
+  return result;
+}

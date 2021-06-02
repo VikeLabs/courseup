@@ -2,15 +2,17 @@ import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
-import { Course } from '../../../shared/hooks/useSavedCourses';
+import { SavedCourse } from '../../../shared/hooks/useSavedCourses';
 
 export function SectionsCardContainer({
   course,
   courses,
+  sections,
   handleChange,
 }: {
-  course: Course;
-  courses: Course[];
+  course: SavedCourse;
+  courses: SavedCourse[];
+  sections: ClassScheduleListing[];
   handleChange: (
     sectionType: string,
     sectionCode: string,
@@ -21,7 +23,6 @@ export function SectionsCardContainer({
     term: string
   ) => void;
 }): JSX.Element {
-  const { sections } = course;
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
@@ -50,9 +51,9 @@ export interface SectionGroupProps {
    * example: Lecture, Tutorial, Lab etc.
    */
   type: string;
-  course: Course;
+  course: SavedCourse;
 
-  courses: Course[];
+  courses: SavedCourse[];
 
   handleChange: (
     sectionType: string,
