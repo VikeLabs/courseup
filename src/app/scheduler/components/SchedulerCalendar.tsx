@@ -90,16 +90,21 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     const month = /\d{4}(\d{2})/.exec(term);
     const year = /(\d{4})\d{2}/.exec(term);
     const today = new Date();
+    // if the selected term's first month is before or during the current month
+    // && the selected term's last month is after or during the current month
+    // && the selected term's year is the current year
+    // return today
+    // else return the 2nd week (when most labs start) of the first month of the selected term
     if (
       month &&
       year &&
-      Number(month[1]) > today.getMonth() &&
-      Number(month[1]) < today.getMonth() + 5 &&
+      Number(month[1]) <= today.getMonth() + 1 &&
+      Number(month[1]) + 4 >= today.getMonth() + 1 &&
       Number(year[1]) === today.getFullYear()
     ) {
       return today;
     } else {
-      if (year && month) return new Date(Number(year[1]), Number(month[1]) - 1, 10);
+      if (year && month) return new Date(Number(year[1]), Number(month[1]) - 1, 12);
     }
     return today;
   }, [term]);
@@ -233,8 +238,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       }
     });
 
-    const date = minEventDate.current !== undefined ? minEventDate.current : getSelectedDate();
-    setSelectedDate(date);
+    setSelectedDate(getSelectedDate());
     return events;
   }, [calendarEvents, getSelectedDate]);
 
