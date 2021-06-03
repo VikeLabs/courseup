@@ -5,6 +5,9 @@ import { ClassScheduleListing } from '../../../shared/fetchers';
 import { SavedCourse } from '../../../shared/hooks/useSavedCourses';
 import { CalendarEvent } from '../shared/types';
 
+// where key is the term, subject and code
+const SECTIONS_CACHE: { [key: string]: ClassScheduleListing[] } = {};
+
 type SavedCourseWithSections = SavedCourse & { sections: ClassScheduleListing[]; events?: CalendarEvent[] };
 
 type CalendarEventsResult =
@@ -30,12 +33,27 @@ export function useCalendarEvents(term: string, courses: SavedCourse[]) {
         console.debug('fetching sections for saved courses');
         const coursesSections = await Promise.all(
           termCourses.map(async ({ term, subject, code, pid, lecture, lab, tutorial, selected, color }) => {
-            // get sections for course
-            const sections = await getSections({ term, subject, code });
+            const key = `${term}_${subject}_${code}`;
+            const cachedSections = SECTIONS_CACHE[key];
 
+            if (!cachedSections) {
+              const sections = await getSections({ term, subject, code });
+              SECTIONS_CACHE[key] = sections;
+            }
             // TODO: transform into calendar events :wink:
 
-            return { sections, term, subject, code, pid, lecture, lab, tutorial, selected, color };
+            return {
+              sections: SECTIONS_CACHE[key],
+              term,
+              subject,
+              code,
+              pid,
+              lecture,
+              lab,
+              tutorial,
+              selected,
+              color,
+            };
           })
         );
 
