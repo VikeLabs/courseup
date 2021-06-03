@@ -18,32 +18,33 @@ export function SchedulerContainer(): JSX.Element {
   // transform, filter etc. the users selected courses.
   const calendarEvents = useMemo(() => {
     const events: CalendarEvent[] = [];
-
     if (coursesResult.status !== 'loaded') return [];
 
-    console.log(coursesResult.data);
-
-    coursesResult.data.forEach((course) => {
-      // for (const sectionType of [course.lecture, course.lab, course.tutorial]) {
-      //   if (sectionType) {
-      //     for (const meetingTime of sectionType.meetingTimes) {
-      //       if (course.selected && course.term === term) {
-      //         events.push({
-      //           subject: course.subject,
-      //           code: course.code,
-      //           meetingTime: meetingTime,
-      //           sectionCode: sectionType.sectionCode,
-      //           color: course.color ?? 'blue',
-      //           textColor: course.textColor ?? 'black',
-      //         });
-      //       }
-      //     }
-      //   }
-      // }
-    });
+    coursesResult.data
+      .filter((c) => !!c.selected)
+      .forEach((course) => {
+        for (const sectionType of [course.lecture, course.lab, course.tutorial]) {
+          if (!sectionType) continue;
+          const section = course.sections.find((s) => s.sectionCode === sectionType);
+          if (section) {
+            for (const meetingTime of section.meetingTimes) {
+              events.push({
+                subject: course.subject,
+                code: course.code,
+                meetingTime: meetingTime,
+                sectionCode: sectionType,
+                color: course.color ?? 'blue',
+                textColor: 'black',
+              });
+            }
+          }
+        }
+      });
 
     return events;
   }, [coursesResult]);
+
+  console.log('calendarEvents', calendarEvents);
 
   return (
     <Flex grow={1} height="100%" overflow="hidden">

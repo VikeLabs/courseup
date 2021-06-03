@@ -117,10 +117,7 @@ export const useSavedCourses = (): SavedCourses => {
       // avoid adding a course if it is saved already.
       if (contains(pid, term)) return;
 
-      const course: SavedCourse = { term, subject, code, pid };
-
-      console.info('Saving', term, subject, code);
-
+      const course: SavedCourse = { term, subject, code, pid, selected: true };
       // we need to load in the course sections given we have no idea which default sections to select
       getSections({ term, subject, code }).then((sections) => {
         SECTION_TYPES.forEach(({ sectionName, sectionType }) => {
