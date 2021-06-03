@@ -232,7 +232,9 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
         console.error(error);
       }
     });
-    setSelectedDate(getSelectedDate());
+
+    const date = minEventDate.current !== undefined ? minEventDate.current : getSelectedDate();
+    setSelectedDate(date);
     return events;
   }, [calendarEvents, getSelectedDate]);
 
