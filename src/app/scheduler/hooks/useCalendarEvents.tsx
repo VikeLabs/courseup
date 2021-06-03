@@ -29,8 +29,6 @@ export function useCalendarEvents(term: string, courses: SavedCourse[]) {
   useEffect(() => {
     (async () => {
       try {
-        // get sections for each course
-        console.debug('fetching sections for saved courses');
         const coursesSections = await Promise.all(
           termCourses.map(async ({ term, subject, code, pid, lecture, lab, tutorial, selected, color }) => {
             const key = `${term}_${subject}_${code}`;
