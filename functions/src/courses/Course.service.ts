@@ -152,6 +152,8 @@ export class CoursesService {
         j = 0;
       }
     }
+    // flush remaining courses in list.
+    await commit();
   }
 }
 
