@@ -239,6 +239,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     });
 
     setSelectedDate(getSelectedDate());
+
     return events;
   }, [calendarEvents, getSelectedDate]);
 
