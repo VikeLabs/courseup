@@ -26,7 +26,6 @@ export function TermButtons(): JSX.Element {
     initStatus[idx] = true;
     setStatus(initStatus);
   }, [term]);
-
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
     let idx = -1;
@@ -37,7 +36,7 @@ export function TermButtons(): JSX.Element {
       } else if (scheduleMatch) {
         navigate(`/scheduler/${name}`);
       } else {
-        navigate(`/calendar/`);
+        navigate(`/calendar/${name}`);
       }
       const status = [false, false, false];
       status[idx] = true;
