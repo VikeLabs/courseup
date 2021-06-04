@@ -52,9 +52,14 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
   const handleBookmarkClick = useCallback(() => {
     if (code && pid) {
       if (!courseIsSaved) {
-        addCourse({ subject, code, pid, term, sections: [] });
+        addCourse(term, subject, code, pid);
       } else {
-        deleteCourse({ subject, code, pid, term, sections: [] });
+        deleteCourse({
+          subject,
+          code,
+          pid,
+          term,
+        });
       }
     }
   }, [code, pid, courseIsSaved, addCourse, subject, term, deleteCourse]);

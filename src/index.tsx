@@ -13,8 +13,23 @@ import { RestfulProvider } from 'restful-react';
 import { Mobile } from './app/mobile';
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
-
 import './index.css';
+import { Section } from './shared/fetchers';
+import { SavedSection } from './shared/hooks/useSavedCourses';
+
+export type OldCourse = {
+  subject: string;
+  pid: string;
+  code: string;
+  term: string;
+  sections: Section[];
+  selected?: boolean;
+  color?: string;
+  textColor?: string;
+  lecture?: SavedSection;
+  lab?: SavedSection;
+  tutorial?: SavedSection;
+};
 
 const firebaseConfig =
   process.env.REACT_APP_ENV === 'production'
@@ -50,6 +65,37 @@ Sentry.init({
 if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+}
+
+// insert cat cry emoji here
+// this migrates the localStorage format to a new one.
+try {
+  const item = window.localStorage.getItem('user:saved_courses');
+  if (item) {
+    const parsedItem = JSON.parse(item) as OldCourse[];
+    if (parsedItem.some((c) => c.sections.length > 0)) {
+      logEvent('local_storage_migration', { coursesLength: parsedItem.length });
+      localStorage.setItem(
+        'user:saved_courses',
+        JSON.stringify(
+          parsedItem.map(({ subject, pid, code, term, selected, lecture, lab, tutorial, color }) => ({
+            subject,
+            pid,
+            code,
+            term,
+            selected,
+            lecture: lecture?.sectionCode,
+            lab: lab?.sectionCode,
+            tutorial: tutorial?.sectionCode,
+            color,
+          }))
+        )
+      );
+    }
+  }
+} catch (error) {
+  console.warn(`Error reading localStorage key “user:saved_courses”:`, error);
+  console.warn('Likely the format is fine.');
 }
 
 const searchClient = algoliasearch('CR92D3S394', '5477854d63b676fe021f8f83f5839a3a');

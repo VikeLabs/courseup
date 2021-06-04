@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 
 import { MeetingTimes } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
+import { useCalendarEvents } from '../hooks/useCalendarEvents';
 
 import { CourseCard } from './CourseCard';
 import { SectionsCardContainer } from './SchedulerSections';
@@ -18,6 +19,7 @@ interface SchedulerSidebarProps {
 
 export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   const { deleteCourse, setSection, courses, setSelected, clearCourses } = useSavedCourses();
+  const coursesResult = useCalendarEvents(term, courses);
 
   const handleCourseSectionChange = useCallback(
     (
@@ -35,7 +37,12 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
           sectionCode,
           meetingTimes,
         },
-        { code, subject, term, pid, sections: [] }
+        {
+          code,
+          subject,
+          term,
+          pid,
+        }
       );
     },
     [setSection]
@@ -48,7 +55,6 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
         pid,
         subject,
         term,
-        sections: [],
       });
     },
     [deleteCourse]
@@ -68,7 +74,12 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
       term: string;
       selected?: boolean;
     }) => {
-      setSelected(!selected, { code, pid, subject, term, sections: [] });
+      setSelected(!selected, {
+        code,
+        pid,
+        subject,
+        term,
+      });
     },
     [setSelected]
   );
@@ -108,25 +119,31 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
         </Flex>
       </Box>
       <Box h="100%" overflow="auto">
-        {courses
-          .filter((course) => course.term === term)
-          .map((course, key) => (
-            <VStack key={key} mt="1" spacing="0">
-              <CourseCard
-                term={course.term}
-                subject={course.subject}
-                code={course.code}
-                color={course.color}
-                pid={course.pid}
-                selected={course.selected}
-                handleSelection={handleCourseToggle}
-                handleDelete={handleCourseDelete}
-              />
-              <Collapse in={course.selected} animateOpacity style={{ width: '100%' }}>
-                <SectionsCardContainer course={course} courses={courses} handleChange={handleCourseSectionChange} />
-              </Collapse>
-            </VStack>
-          ))}
+        {coursesResult.status === 'loaded' &&
+          coursesResult.data
+            .filter((course) => course.term === term)
+            .map((course, key) => (
+              <VStack key={key} mt="1" spacing="0">
+                <CourseCard
+                  term={course.term}
+                  subject={course.subject}
+                  code={course.code}
+                  color={course.color}
+                  pid={course.pid}
+                  selected={course.selected}
+                  handleSelection={handleCourseToggle}
+                  handleDelete={handleCourseDelete}
+                />
+                <Collapse in={course.selected} animateOpacity style={{ width: '100%' }}>
+                  <SectionsCardContainer
+                    course={course}
+                    courses={courses}
+                    sections={course.sections}
+                    handleChange={handleCourseSectionChange}
+                  />
+                </Collapse>
+              </VStack>
+            ))}
       </Box>
       <Box
         bg="white"

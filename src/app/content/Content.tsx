@@ -33,10 +33,10 @@ export function Content({ term }: ContentProps): JSX.Element {
   const handleBookmarkClick = useCallback(() => {
     if (data) {
       if (!courseIsSaved) {
-        addCourse({ subject: data.subject, code: data.code, pid: data.pid, term, sections: [] });
+        addCourse(term, data.subject, data.code, data.pid);
         toast({ status: 'success', title: 'Added course to timetable!' });
       } else {
-        deleteCourse({ subject: data.subject, code: data.code, pid: data.pid, term, sections: [] });
+        deleteCourse({ subject: data.subject, code: data.code, pid: data.pid, term });
         toast({ status: 'info', title: 'Removed course from timetable!' });
       }
     }

@@ -2,15 +2,17 @@ import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
-import { Course } from '../../../shared/hooks/useSavedCourses';
+import { SavedCourse } from '../../../shared/hooks/useSavedCourses';
 
 export function SectionsCardContainer({
   course,
   courses,
+  sections,
   handleChange,
 }: {
-  course: Course;
-  courses: Course[];
+  course: SavedCourse;
+  courses: SavedCourse[];
+  sections: ClassScheduleListing[];
   handleChange: (
     sectionType: string,
     sectionCode: string,
@@ -21,7 +23,6 @@ export function SectionsCardContainer({
     term: string
   ) => void;
 }): JSX.Element {
-  const { sections } = course;
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
@@ -50,9 +51,9 @@ export interface SectionGroupProps {
    * example: Lecture, Tutorial, Lab etc.
    */
   type: string;
-  course: Course;
+  course: SavedCourse;
 
-  courses: Course[];
+  courses: SavedCourse[];
 
   handleChange: (
     sectionType: string,
@@ -74,11 +75,11 @@ export function SectionGroup({ sections, type, course, courses, handleChange }: 
     courses.forEach((c) => {
       if (course.pid === c.pid && course.term === c.term) {
         if ((type === 'lab' || type === 'gradable lab') && c.lab) {
-          setSection(c.lab.sectionCode);
+          setSection(c.lab);
         } else if ((type === 'lecture' || type === 'lecture topic') && c.lecture) {
-          setSection(c.lecture.sectionCode);
+          setSection(c.lecture);
         } else if (type === 'tutorial' && c.tutorial) {
-          setSection(c.tutorial.sectionCode);
+          setSection(c.tutorial);
         }
       }
     });

@@ -5,6 +5,6 @@ export interface CalendarEvent {
   code: String;
   meetingTime: MeetingTimes;
   sectionCode: String;
-  color: String;
+  color?: String;
   textColor?: String;
 }
