@@ -37,19 +37,7 @@ We use the [code generation](https://github.com/contiamo/restful-react/#code-gen
 To regenerate the fetchers, run `npm run fetchers:generate`. This is **only required if the backend controllers change**.
 
 ## Contribute
-Thanks for wanting to contribute! Make sure you read up on our contributions guidelines before submitting contributions. 
-
-Make sure 
-
-1. Find an **unassigned** task on [ZenHub](https://app.zenhub.com/workspaces/courseup-5f973f50ae36d70012eb5b2e/board?repos=340229870&showEstimates=false&showMilestones=false) to work on.
-    * Filter by label to show issues for `good first issue` to start off!
-    * Have discussions about the issue within the comment section of that issue!
-2. Create a new branch using `git checkout -b <branch-name>`
-    * Tip: Make sure you're up to date with `main`.
-    * Tip: Try to use a descriptive branch name.
-4. Commit the changes you've made and push to GitHub to create a Pull Request using the templates provided.
-    * Make sure you are clear with the changes and note anything that would be useful for the reviewer to know.
-    * Your PR doesn't have to be perfect right from the start so don't sweat. Coding is an iterative process with plenty of back and forth.
+Thanks for wanting to contribute! Make sure you read up on our [contributions guidelines](CONTRIBUTING.md) before submitting contributions. 
 
 ## Deployment
 Hosting is provided by [VikeLabs](https://vikelabs.ca) using [Firebase](https://firebase.google.com/). CourseUp has a **staging** and **production** environment. Changes will be first deployed to staging to be verfied before moving onto production.
