@@ -19,13 +19,4 @@ This document contains information related to contributing to this project and c
 Experience with React, TypeScript, and other technologies the website is built on is useful but ***not*** required! Contributing to the project can help you build skills and gain experience writing in a company-like codebase. Picking issues with the `good first issue` tag and communicating in the various locations can go a long way.
 
 ## I want to report a bug or problem
-[Click here](https://github.com/VikeLabs/courseup/issues/new) to create a new GitHub issue. When creating an issue, please consider the following points to ensure you are providing sufficient detail in your report:
-* Make sure the issue isn't a duplicate
-* Give the issue the `bug` label to help identify it
-* Provide detailed steps on how to reporduce the issue.
-    * Tip: If the issue happened on a specific page, provide the link.
-* Provide screenshots or a screen-recording, this can be especially useful if it is a visual bug.
-
-[Sample bug report](https://www.softwaretestinghelp.com/sample-bug-report/): creating an issue structured like this will make the developers life a lot easier and significantly increase the chances of the issue being addressed.
-
-## I want to suggest a feature
+[Click here](https://github.com/VikeLabs/courseup/issues/new?assignees=&labels=bug&template=bug_report.md&title=) to create a new GitHub issue. When creating an issue, there is a template provided for you to follow when you create a new issue which you are encouraged to follow. Doing so will make the developers life a lot easier and significantly increase the chances of the issue being addressed.
