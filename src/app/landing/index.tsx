@@ -33,9 +33,8 @@ export default function Landing() {
         <Text fontSize="25.71">CourseUp makes it simple to browse and schedule UVic Courses</Text>
         <Flex alignItems="center" mt="40px" as="a" w="fit-content" target="_blank" href="https://www.vikelabs.ca">
           <Text color="#4C6EA5" fontSize="24.25" mr="5px">
-            <span>{hands[handIndex]}</span> Built by students @
+            <span>{hands[handIndex]}</span> Built by students @VikeLabs
           </Text>
-          <Image src={process.env.PUBLIC_URL + '/assets/vikelabs.svg'} alt="VikeLabs" />
         </Flex>
       </GridItem>
       <GridItem maxH="563px" minW="fit-content" display={{ base: 'none', xl: 'initial' }}>
