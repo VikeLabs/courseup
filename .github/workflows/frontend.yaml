@@ -61,7 +61,7 @@ jobs:
           path: build
   deploy-preview:
     name: Deploy to Firebase Hosting Preview
-    if: github.ref != 'refs/heads/main'
+    if: ${{ github.ref != 'refs/heads/main' && github.repository_owner == 'VikeLabs'}}  
     runs-on: ubuntu-latest
     needs: [ lint, build ]
     steps:
