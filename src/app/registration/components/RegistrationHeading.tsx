@@ -59,7 +59,6 @@ export function RegistrationHeading() {
       >
         UVic Registration Page
       </Button>
-      <Divider my="5" />
     </Box>
   );
 }
