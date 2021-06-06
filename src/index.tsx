@@ -59,6 +59,7 @@ Sentry.init({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
+  release: process.env.REACT_APP_SENTRY_RELEASE,
 });
 
 // only enable Firebase if the required config values are present
