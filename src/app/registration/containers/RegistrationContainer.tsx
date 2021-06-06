@@ -17,7 +17,7 @@ export function RegistrationContainer(): JSX.Element | null {
   return (
     <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
       <Helmet>
-        <title>{`${term} · Registration`}</title>
+        <title>{`${getReadableTerm(term)} · Registration`}</title>
       </Helmet>
       <Header />
       <Flex width="100%" pt="20px" direction="column" alignItems="center" overflowY="auto">
