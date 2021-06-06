@@ -1,5 +1,5 @@
 import { Checkbox } from '@chakra-ui/checkbox';
-import { Box, Heading, HStack, Text, VStack } from '@chakra-ui/layout';
+import { Box, Heading, HStack, Text } from '@chakra-ui/layout';
 import { useCallback } from 'react';
 
 import { Seat } from '../../../shared/fetchers';
