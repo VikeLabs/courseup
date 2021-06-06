@@ -1,3 +1,4 @@
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel } from '@chakra-ui/accordion';
 import { IconButton } from '@chakra-ui/button';
 import { Checkbox } from '@chakra-ui/checkbox';
 import { useClipboard } from '@chakra-ui/hooks';
@@ -14,10 +15,11 @@ type Props = {
   crn: string;
   seats?: Seat;
   selected: boolean;
+  additionalNotes?: string;
   handleChange: ({ crn, seats, selected }: { crn: string; seats?: Seat; selected: boolean }) => void;
 };
 
-export function RegistrationSection({ section, crn, seats, selected, handleChange }: Props) {
+export function RegistrationSection({ section, crn, seats, additionalNotes, selected, handleChange }: Props) {
   const { hasCopied, onCopy } = useClipboard(crn);
   const toast = useToast();
 
@@ -47,18 +49,31 @@ export function RegistrationSection({ section, crn, seats, selected, handleChang
               aria-label="copy"
               colorScheme="white"
               color="black"
-              size="lg"
-              ml="-2.5"
+              size="sm"
+              fontSize="lg"
               _focus={{
                 outline: 'none',
-              }}
-              _active={{
-                color: 'rgb(155, 155, 155)',
+                color: 'rgb(19, 135, 243)',
               }}
             />
           </Heading>
         </HStack>
       </HStack>
+      {additionalNotes && (
+        <Accordion allowToggle my="3">
+          <AccordionItem>
+            <Heading as="h2">
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Addtional Notes
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </Heading>
+            <AccordionPanel pb={4}>{additionalNotes}</AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      )}
       <SeatInfo seat={seats} />
     </Box>
   );

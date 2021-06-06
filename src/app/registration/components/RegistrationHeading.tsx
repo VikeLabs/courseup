@@ -37,8 +37,7 @@ export function RegistrationHeading() {
           UVic Registration Page
         </Button>
       </HStack>
-
-      <Divider my="5" />
+      <Divider my="3" />
       <Text w="100%" textAlign="left">
         UVic offers a quick way to register for courses with the{' '}
         <Text

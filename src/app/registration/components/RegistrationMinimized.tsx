@@ -24,11 +24,10 @@ export function RegistrationMinimized({ subject, code, lecture, lab, tutorial, h
         <Heading size="lg" as="h2" textAlign="left" my="2" mr="2">
           {subject} {code}
         </Heading>
-        <Heading size="lg" as="h2" fontWeight="normal" color="rgb(155, 155, 155)">
+        <Heading size="md" as="h3" color="gray">
           {sections.filter((section) => section !== '').join(', ')}
         </Heading>
       </HStack>
-
       <Checkbox defaultChecked onChange={onChange}>
         Registered
       </Checkbox>
