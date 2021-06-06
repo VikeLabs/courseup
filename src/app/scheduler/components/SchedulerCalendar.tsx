@@ -114,7 +114,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     const month = /\d{4}(\d{2})/.exec(term);
     const year = /(\d{4})\d{2}/.exec(term);
 
-    const lowerBound = dayjs.utc(`${month ? month[1] : '09'}, 1, ${year ? year[1] : 2021}`, 'MM, D, YYYY');
+    const lowerBound = dayjs.utc(`${month ? month[1] : '01'}, 1, ${year ? year[1] : 2021}`, 'MM, D, YYYY');
 
     return lowerBound;
   }, [term]);
@@ -255,7 +255,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     setSelectedDate(getSelectedDate());
 
     return events;
-  }, [calendarEvents, getSelectedDate]);
+  }, [calendarEvents, getSelectedDate, getTermMonthLowerBound]);
 
   const today = new Date();
 
