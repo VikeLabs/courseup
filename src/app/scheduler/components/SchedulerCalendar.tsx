@@ -46,6 +46,7 @@ const slotPropGetter = (date: Date, resourceId?: number | string) => {
 const eventStyleGetter = ({ resource }: Event) => ({
   style: {
     backgroundColor: resource && resource.color,
+    opacity: resource.opacity ? 0.5 : 1,
     color: 'black',
     borderRadius: 0,
     border: 'none',
@@ -107,6 +108,15 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       if (year && month) return new Date(Number(year[1]), Number(month[1]) - 1, 12);
     }
     return today;
+  }, [term]);
+
+  const getTermMonthLowerBound = useCallback(() => {
+    const month = /\d{4}(\d{2})/.exec(term);
+    const year = /(\d{4})\d{2}/.exec(term);
+
+    const lowerBound = dayjs.utc(`${month ? month[1] : '09'}, 1, ${year ? year[1] : 2021}`, 'MM, D, YYYY');
+
+    return lowerBound;
   }, [term]);
 
   const CustomToolBar = ({ label, date }: ToolbarProps) => {
@@ -181,14 +191,17 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       try {
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
+        const dayjsLowerBound = getTermMonthLowerBound();
+
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
         const startEndHours = calendarEvent.meetingTime.time.split('-');
-        const startUpperDateRRule = dayjs
-          .utc(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm a')
-          .toDate();
-        const startLowerDateRRule = dayjs
-          .utc(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm a')
-          .toDate();
+
+        const courseStartDate = dayjs.utc(startEndDates[0].trim(), 'MMM, D, YYYY').toDate();
+
+        const startDateString = `${dayjsLowerBound.month() + 1}, 1, ${dayjsLowerBound.year()} `;
+        const startUpperDateRRule = dayjs.utc(startDateString + startEndHours[0].trim(), 'M, D, YYYY h:mm a').toDate();
+        const startLowerDateRRule = dayjs.utc(startDateString + startEndHours[1].trim(), 'M, D, YYYY h:mm a').toDate();
+
         const endDateRRule = dayjs(startEndDates[1].trim(), 'MMM, D, YYYY').utc().toDate();
 
         const days = computeMeetingTimeDays(calendarEvent);
@@ -224,6 +237,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
               textColor: calendarEvent.textColor,
               sectionCode: calendarEvent.sectionCode,
               location: calendarEvent.meetingTime.where,
+              opacity: startDate < courseStartDate,
             },
           });
 
