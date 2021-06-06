@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { Box, Divider, Heading, HStack, Text } from '@chakra-ui/layout';
+import { Box, Divider, Heading, HStack, ListItem, OrderedList, Text } from '@chakra-ui/layout';
 import { Button, Icon, IconButton } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoCopyOutline } from 'react-icons/io5';
@@ -50,31 +50,52 @@ export function RegistrationHeading() {
         >
           CRNs
         </Text>{' '}
-        of your desired sections. By clicking the{' '}
-        <Text as="span" fontWeight="bold">
-          UVic Registration Page
-        </Text>{' '}
-        button, you will be taken to the page to do so in a new tab. From this page, once you’ve selected a term, you
-        can quickly{' '}
-        <Text as="span" fontWeight="bold">
-          {' '}
-          copy <Icon as={IoCopyOutline} />{' '}
-        </Text>
-        the{' '}
-        <Text
-          as="span"
-          title="The 5-digit identifier of a section"
-          textDecoration="underline"
-          cursor="help"
-          style={{ textDecorationStyle: 'dotted' }}
-        >
-          CRNs
-        </Text>{' '}
-        provided and paste them in the designated areas on UVic’s page, select{' '}
-        <Text as="span" fontWeight="bold">
-          Submit Changes
-        </Text>
-        , and you’re registered!
+        of your desired sections. Follow the given steps to register in the sections chosen and saved on the timetable
+        builder:{' '}
+        <OrderedList mt="1">
+          <ListItem>
+            Click the{' '}
+            <Text as="span" fontWeight="bold">
+              UVic Registration Page
+            </Text>{' '}
+            button.
+          </ListItem>
+          <ListItem>Sign in to UVic with your netlink ID.</ListItem>
+          <ListItem>
+            Select the appropriate term and hit{' '}
+            <Text as="span" fontWeight="bold">
+              Submit
+            </Text>{' '}
+            to take you to the{' '}
+            <Text as="span" fontWeight="bold">
+              Add or drop classes page.
+            </Text>
+          </ListItem>
+          <ListItem>
+            <Text as="span" fontWeight="bold">
+              {' '}
+              Copy <Icon as={IoCopyOutline} />{' '}
+            </Text>{' '}
+            and paste the{' '}
+            <Text
+              as="span"
+              title="The 5-digit identifier of a section"
+              textDecoration="underline"
+              cursor="help"
+              style={{ textDecorationStyle: 'dotted' }}
+            >
+              CRNs
+            </Text>{' '}
+            below into the input fields on UVic's page.
+          </ListItem>
+          <ListItem>
+            Hit{' '}
+            <Text as="span" fontWeight="bold">
+              Submit Changes
+            </Text>
+            , and you’re registered!
+          </ListItem>
+        </OrderedList>
       </Text>
     </Box>
   );
