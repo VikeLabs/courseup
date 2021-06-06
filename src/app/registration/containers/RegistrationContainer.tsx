@@ -1,9 +1,10 @@
-import { Box, Flex } from '@chakra-ui/layout';
+import { Box, Divider, Flex, Heading } from '@chakra-ui/layout';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
 import { Header } from '../../header/Header';
+import { getReadableTerm } from '../../shared/utils/terms';
 import { RegistrationHeading } from '../components/RegistrationHeading';
 
 import { CourseContainer } from './CourseContainer';
@@ -13,19 +14,31 @@ export function RegistrationContainer(): JSX.Element | null {
   const { courses } = useSavedCourses();
 
   return (
-    <Flex h="100vh" direction="column" overflowX="hidden">
+    <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
       <Helmet>
         <title>{`${term} · Registration`}</title>
       </Helmet>
       <Header />
-      <Flex width="100%" mt="20px" direction="column" alignItems="center">
-        <Box width={['container.md', 'container.lg', 'container.xl']} textAlign="center">
+      <Flex width="100%" pt="20px" direction="column" alignItems="center" overflowY="auto">
+        <Box width="60rem" textAlign="center">
           <RegistrationHeading />
-          {courses
-            .filter((course) => course.term === term)
-            .map((course) => {
-              return <CourseContainer course={course} />;
-            })}
+          {courses.filter((course) => course.term === term).length > 0 ? (
+            courses
+              .filter((course) => course.term === term)
+              .map((course) => {
+                return <CourseContainer course={course} />;
+              })
+          ) : (
+            <>
+              <Divider my="4" />
+              <Heading size="md" color="gray">
+                Unable to find saved courses for{' '}
+                <Box as="span" color="black">
+                  {getReadableTerm(term)}
+                </Box>
+              </Heading>
+            </>
+          )}
         </Box>
       </Flex>
     </Flex>

@@ -22,7 +22,7 @@ export function RegistrationSection({ section, crn, seats, selected, handleChang
   const toast = useToast();
 
   useEffect(() => {
-    hasCopied && toast({ status: 'success', title: `Copied ${crn} to clipboard!` });
+    hasCopied && toast({ status: 'info', title: `Copied ${crn} to clipboard!` });
   }, [crn, hasCopied, toast]);
 
   const onChange = useCallback(() => {
@@ -41,12 +41,12 @@ export function RegistrationSection({ section, crn, seats, selected, handleChang
               onClick={onCopy}
               aria-label="copy"
               colorScheme="white"
-              color="rgb(155, 155, 155)"
+              color="black"
               _focus={{
                 outline: 'none',
               }}
               _active={{
-                color: 'black',
+                color: 'rgb(155, 155, 155)',
               }}
             />
           </Text>

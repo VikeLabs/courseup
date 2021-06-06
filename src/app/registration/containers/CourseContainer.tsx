@@ -1,6 +1,7 @@
 import { Heading, VStack } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/skeleton';
-import { useCallback, useEffect, useState } from 'react';
+import { Collapse } from '@chakra-ui/transition';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { useSeats, useSections, Term, Seat } from '../../../shared/fetchers';
@@ -63,6 +64,12 @@ export function CourseContainer({ course }: Props) {
     [data]
   );
 
+  const isMinimized = useMemo(() => !data.lab?.selected && !data.lecture?.selected && !data.tutorial?.selected, [
+    data.lab?.selected,
+    data.lecture?.selected,
+    data.tutorial?.selected,
+  ]);
+
   const handleMinimizedChange = useCallback(() => {
     setData({
       lecture: data.lecture ? { crn: data.lecture.crn, seats: data.lecture.seats, selected: true } : undefined,
@@ -75,7 +82,7 @@ export function CourseContainer({ course }: Props) {
 
   return (
     <Skeleton isLoaded={!loading} color="black" my="4" boxShadow="md" p="3" rounded="lg" textAlign="left">
-      {!data.lab?.selected && !data.lecture?.selected && !data.tutorial?.selected ? (
+      {isMinimized && (
         <RegistrationMinimized
           subject={course.subject}
           code={course.code}
@@ -84,42 +91,41 @@ export function CourseContainer({ course }: Props) {
           tutorial={course.tutorial}
           handleChange={handleMinimizedChange}
         />
-      ) : (
-        <>
-          <Heading size="lg" as="h2" textAlign="left" my="2">
-            {course.subject} {course.code}
-          </Heading>
-          <VStack alignItems="left" mb="4">
-            {data.lecture && course.lecture && (
-              <RegistrationSection
-                section={course.lecture}
-                seats={data.lecture.seats}
-                crn={data.lecture.crn}
-                selected={!data.lecture.selected}
-                handleChange={handleChange}
-              />
-            )}
-            {data.lab && course.lab && (
-              <RegistrationSection
-                section={course.lab}
-                seats={data.lab.seats}
-                crn={data.lab.crn}
-                selected={!data.lab.selected}
-                handleChange={handleChange}
-              />
-            )}
-            {data.tutorial && course.tutorial && (
-              <RegistrationSection
-                section={course.tutorial}
-                seats={data.tutorial.seats}
-                crn={data.tutorial.crn}
-                selected={!data.tutorial.selected}
-                handleChange={handleChange}
-              />
-            )}
-          </VStack>
-        </>
       )}
+      <Collapse in={!isMinimized} animateOpacity>
+        <Heading size="lg" as="h2" textAlign="left" my="2">
+          {course.subject} {course.code}
+        </Heading>
+        <VStack alignItems="left" mb="4">
+          {data.lecture && course.lecture && (
+            <RegistrationSection
+              section={course.lecture}
+              seats={data.lecture.seats}
+              crn={data.lecture.crn}
+              selected={!data.lecture.selected}
+              handleChange={handleChange}
+            />
+          )}
+          {data.lab && course.lab && (
+            <RegistrationSection
+              section={course.lab}
+              seats={data.lab.seats}
+              crn={data.lab.crn}
+              selected={!data.lab.selected}
+              handleChange={handleChange}
+            />
+          )}
+          {data.tutorial && course.tutorial && (
+            <RegistrationSection
+              section={course.tutorial}
+              seats={data.tutorial.seats}
+              crn={data.tutorial.crn}
+              selected={!data.tutorial.selected}
+              handleChange={handleChange}
+            />
+          )}
+        </VStack>
+      </Collapse>
     </Skeleton>
   );
 }
