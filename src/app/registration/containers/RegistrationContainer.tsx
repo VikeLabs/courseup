@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
+import { Feedback } from '../../feedback/Feedback';
 import { Header } from '../../header/Header';
 import { getReadableTerm } from '../../shared/utils/terms';
 import { RegistrationHeading } from '../components/RegistrationHeading';
@@ -41,6 +42,9 @@ export function RegistrationContainer(): JSX.Element | null {
           )}
         </Box>
       </Flex>
+      <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
+        <Feedback />
+      </Box>
     </Flex>
   );
 }
