@@ -1,7 +1,7 @@
 import { IconButton } from '@chakra-ui/button';
 import { Checkbox } from '@chakra-ui/checkbox';
 import { useClipboard } from '@chakra-ui/hooks';
-import { Box, Heading, HStack, Text } from '@chakra-ui/layout';
+import { Box, Heading, HStack } from '@chakra-ui/layout';
 import { useToast } from '@chakra-ui/toast';
 import { useCallback, useEffect } from 'react';
 import { IoCopyOutline } from 'react-icons/io5';
@@ -33,8 +33,13 @@ export function RegistrationSection({ section, crn, seats, selected, handleChang
     <Box py="2">
       <HStack justifyContent="space-between">
         <Heading size="md" as="h3" mt="2">
-          {section}{' '}
-          <Text as="span" fontWeight="normal" ml="2" color="rgb(155, 155, 155)">
+          {section}
+        </Heading>
+        <HStack spacing="3">
+          <Checkbox isChecked={selected} onChange={onChange}>
+            Registered
+          </Checkbox>
+          <Heading size="md" as="h3" color="gray">
             {crn}
             <IconButton
               icon={<IoCopyOutline />}
@@ -42,6 +47,8 @@ export function RegistrationSection({ section, crn, seats, selected, handleChang
               aria-label="copy"
               colorScheme="white"
               color="black"
+              size="lg"
+              ml="-2.5"
               _focus={{
                 outline: 'none',
               }}
@@ -49,11 +56,8 @@ export function RegistrationSection({ section, crn, seats, selected, handleChang
                 color: 'rgb(155, 155, 155)',
               }}
             />
-          </Text>
-        </Heading>
-        <Checkbox isChecked={selected} onChange={onChange}>
-          Registered
-        </Checkbox>
+          </Heading>
+        </HStack>
       </HStack>
       <SeatInfo seat={seats} />
     </Box>
