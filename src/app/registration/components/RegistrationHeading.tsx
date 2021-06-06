@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { Box, Divider, Heading, HStack, ListItem, OrderedList, Text } from '@chakra-ui/layout';
+import { Box, Divider, Flex, Heading, HStack, ListItem, OrderedList, Text } from '@chakra-ui/layout';
 import { Button, Icon, IconButton } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoCopyOutline } from 'react-icons/io5';
@@ -13,7 +13,7 @@ export function RegistrationHeading() {
 
   return (
     <Box alignItems="center">
-      <HStack justifyContent="space-between">
+      <Flex direction={{ md: 'row', base: 'column' }} justifyContent="space-between">
         <HStack>
           <IconButton
             icon={<ChevronLeftIcon fontSize="35px" />}
@@ -23,7 +23,7 @@ export function RegistrationHeading() {
             as={Link}
             to={`/scheduler/${term}`}
           />
-          <Heading size="xl" as="h1" whiteSpace="pre" color="black">
+          <Heading size="xl" as="h1" color="black">
             Registration for {`${getReadableTerm(term)}`}
           </Heading>
         </HStack>
@@ -36,7 +36,7 @@ export function RegistrationHeading() {
         >
           UVic Registration Page
         </Button>
-      </HStack>
+      </Flex>
       <Divider my="3" />
       <Text w="100%" textAlign="left">
         UVic offers a quick way to register for courses with the{' '}

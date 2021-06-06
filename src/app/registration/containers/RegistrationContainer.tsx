@@ -21,7 +21,7 @@ export function RegistrationContainer(): JSX.Element | null {
       </Helmet>
       <Header />
       <Flex width="100%" pt="20px" direction="column" alignItems="center" overflowY="auto">
-        <Box width="60rem" textAlign="center">
+        <Box maxW={{ md: '60rem', sm: '35rem', base: '20rem' }} textAlign="center">
           <RegistrationHeading />
           {courses.filter((course) => course.term === term).length > 0 ? (
             courses
