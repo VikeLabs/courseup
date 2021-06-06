@@ -131,14 +131,16 @@ export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element
       </HStack>
       <VStack flexGrow={1} py="1.5">
         {meetingTimes.map((m, key) => (
-          <HStack key={key} justifyContent="space-between" w="100%" px="5">
-            <Box minW="56px">
+          <HStack key={key} w="100%" px="5">
+            <Box w="33%" minW="27%">
               {m.time.split('-').map((time) => (
                 <Text key={time}>{time}</Text>
               ))}
             </Box>
-            <Box>{m.days}</Box>
-            <Box>{m.where}</Box>
+            <Box w="20%" minW="13%">
+              {m.days}
+            </Box>
+            <Box w="47%">{m.where}</Box>
           </HStack>
         ))}
       </VStack>
