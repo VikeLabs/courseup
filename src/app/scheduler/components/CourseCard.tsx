@@ -1,5 +1,5 @@
-import { CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
-import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton } from '@chakra-ui/react';
+import { ChevronDownIcon, ChevronRightIcon, CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
+import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton, Divider } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ export type CourseCardProps = {
   color: BackgroundProps['bg'];
   pid: string;
   selected?: boolean;
+  showSections?: boolean;
   handleSelection: ({
     code,
     pid,
@@ -26,6 +27,19 @@ export type CourseCardProps = {
     selected?: boolean;
   }) => void;
   handleDelete: ({ code, pid, subject, term }: { code: string; pid: string; subject: string; term: string }) => void;
+  handleShowSections: ({
+    code,
+    pid,
+    subject,
+    term,
+    showSections,
+  }: {
+    code: string;
+    pid: string;
+    subject: string;
+    term: string;
+    showSections?: boolean;
+  }) => void;
 };
 
 export function CourseCard({
@@ -35,12 +49,18 @@ export function CourseCard({
   color,
   pid,
   selected,
+  showSections,
   handleSelection,
+  handleShowSections,
   handleDelete,
 }: CourseCardProps): JSX.Element {
   const onChange = useCallback(() => {
     handleSelection({ term, code, subject, pid, selected });
   }, [code, handleSelection, pid, selected, subject, term]);
+
+  const onShowSections = useCallback(() => {
+    handleShowSections({ term, code, subject, pid, showSections });
+  }, [code, handleShowSections, pid, showSections, subject, term]);
 
   const onDelete = useCallback(() => {
     handleDelete({ term, code, subject, pid });
@@ -90,6 +110,15 @@ export function CourseCard({
               bg="blue.400"
               as={Link}
               to={`/calendar/${term}/${subject}?pid=${pid}`}
+            />
+          </VStack>
+          <Divider orientation="vertical" />
+          <VStack p="0.5em">
+            <IconButton
+              aria-label="Show Sections"
+              icon={showSections ? <ChevronDownIcon color="black" /> : <ChevronRightIcon color="black" />}
+              size="xs"
+              onClick={onShowSections}
             />
           </VStack>
         </Flex>
