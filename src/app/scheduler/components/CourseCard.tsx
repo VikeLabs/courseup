@@ -71,7 +71,7 @@ export function CourseCard({
   const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Box boxShadow="md" cursor="pointer" as="label" w="100%">
+    <Box boxShadow="md" w="100%">
       <Flex direction="row" bg="white">
         <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
           <Flex>
@@ -87,14 +87,16 @@ export function CourseCard({
           </Flex>
         </Flex>
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
-          <VStack as="label" alignItems="start" spacing="0" py="2" cursor="pointer" onClick={onShowSections}>
-            <Text fontSize="lg" fontWeight="bold">
-              {subject} {code}
-            </Text>
-            <Text fontSize="sm" fontWeight="normal">
-              <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
-            </Text>
-          </VStack>
+          <Flex as="label" grow={1} onClick={onShowSections} cursor="pointer">
+            <VStack alignItems="start" spacing="0" py="2">
+              <Text fontSize="lg" fontWeight="bold">
+                {subject} {code}
+              </Text>
+              <Text fontSize="sm" fontWeight="normal">
+                <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
+              </Text>
+            </VStack>
+          </Flex>
           <VStack alignContent="right" pr="3" py="5px">
             <IconButton
               aria-label="Remove from Scheduler"
