@@ -87,16 +87,14 @@ export function CourseCard({
           </Flex>
         </Flex>
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
-          <button onClick={onShowSections} style={{ all: 'unset' }}>
-            <VStack alignItems="start" spacing="0" py="2">
-              <Text fontSize="lg" fontWeight="bold">
-                {subject} {code}
-              </Text>
-              <Text fontSize="sm" fontWeight="normal">
-                <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
-              </Text>
-            </VStack>
-          </button>
+          <VStack as="label" alignItems="start" spacing="0" py="2" cursor="pointer" onClick={onShowSections}>
+            <Text fontSize="lg" fontWeight="bold">
+              {subject} {code}
+            </Text>
+            <Text fontSize="sm" fontWeight="normal">
+              <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
+            </Text>
+          </VStack>
           <VStack alignContent="right" pr="3" py="5px">
             <IconButton
               aria-label="Remove from Scheduler"
