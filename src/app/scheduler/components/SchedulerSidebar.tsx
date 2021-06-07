@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Text, VStack } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import { MeetingTimes } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
@@ -98,7 +98,6 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
       term: string;
       showSections?: boolean;
     }) => {
-      console.log(showSections);
       setShowSections(!showSections, {
         code,
         pid,

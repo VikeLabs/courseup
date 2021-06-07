@@ -1,5 +1,5 @@
-import { ChevronDownIcon, ChevronRightIcon, CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
-import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton, Divider } from '@chakra-ui/react';
+import { CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
+import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -87,14 +87,16 @@ export function CourseCard({
           </Flex>
         </Flex>
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
-          <VStack alignItems="start" spacing="0" py="2">
-            <Text fontSize="lg" fontWeight="bold">
-              {subject} {code}
-            </Text>
-            <Text fontSize="sm" fontWeight="normal">
-              <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
-            </Text>
-          </VStack>
+          <button onClick={onShowSections} style={{ all: 'unset' }}>
+            <VStack alignItems="start" spacing="0" py="2">
+              <Text fontSize="lg" fontWeight="bold">
+                {subject} {code}
+              </Text>
+              <Text fontSize="sm" fontWeight="normal">
+                <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
+              </Text>
+            </VStack>
+          </button>
           <VStack alignContent="right" pr="3" py="5px">
             <IconButton
               aria-label="Remove from Scheduler"
@@ -110,15 +112,6 @@ export function CourseCard({
               bg="blue.400"
               as={Link}
               to={`/calendar/${term}/${subject}?pid=${pid}`}
-            />
-          </VStack>
-          <Divider orientation="vertical" />
-          <VStack p="0.5em">
-            <IconButton
-              aria-label="Show Sections"
-              icon={showSections ? <ChevronDownIcon color="black" /> : <ChevronRightIcon color="black" />}
-              size="xs"
-              onClick={onShowSections}
             />
           </VStack>
         </Flex>
