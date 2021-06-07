@@ -73,7 +73,7 @@ export function CourseCard({
   return (
     <Box boxShadow="md" w="100%">
       <Flex direction="row" bg="white">
-        <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
+        <Flex as="label" cursor="pointer" background={color} alignItems="center" justifyContent="center" mr="10px">
           <Flex>
             <Checkbox
               backgroundColor="whiteAlpha.600"
