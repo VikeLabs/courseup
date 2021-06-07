@@ -9,6 +9,7 @@ import startOfWeek from 'date-fns/startOfWeek';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
+import _ from 'lodash';
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import '../../shared/styles/CalendarStyles.scss';
@@ -228,18 +229,28 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
 
         ruleUpper.all().forEach((dateUpper, i) => {
           const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
-          events.push({
-            title: `${calendarEvent.subject} ${calendarEvent.code}`,
-            start: startDate,
-            end: new Date(ruleLowerAll[i].toUTCString().replace('GMT', '')),
-            resource: {
-              color: calendarEvent.color,
-              textColor: calendarEvent.textColor,
-              sectionCode: calendarEvent.sectionCode,
-              location: calendarEvent.meetingTime.where,
-              opacity: startDate < courseStartDate,
-            },
-          });
+          const title = `${calendarEvent.subject} ${calendarEvent.code}`;
+          const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
+          if (
+            !_.find(events, {
+              title: title,
+              start: startDate,
+              end: endDate,
+            })
+          ) {
+            events.push({
+              title: title,
+              start: startDate,
+              end: endDate,
+              resource: {
+                color: calendarEvent.color,
+                textColor: calendarEvent.textColor,
+                sectionCode: calendarEvent.sectionCode,
+                location: calendarEvent.meetingTime.where,
+                opacity: startDate < courseStartDate,
+              },
+            });
+          }
 
           if (minEventDate.current === undefined) {
             minEventDate.current = addWeeks(startDate, 1);
