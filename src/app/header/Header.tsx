@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 
 import { useSessionStorage } from '../../shared/hooks/storage/useSessionStorage';
 
+import { ExternalLinks } from './components/ExternalLinks';
 import { NavButtons } from './components/NavButtons';
 import { Search } from './components/SearchBar';
 import { TermButtons } from './components/TermButtons';
@@ -65,6 +66,9 @@ export function Header({ onSearchChange }: HeaderProps): JSX.Element {
         </GridItem>
         <GridItem colStart={3}>
           <TermButtons />
+        </GridItem>
+        <GridItem colStart={4}>
+          <ExternalLinks />
         </GridItem>
       </Grid>
     </Box>
