@@ -2,6 +2,7 @@ import { Button } from '@chakra-ui/button';
 import { Box, Flex, Text, VStack } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
 import { useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 import { MeetingTimes } from '../../../shared/fetchers';
 import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
@@ -107,6 +108,16 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
         <Flex justifyContent="space-between" alignItems="center" p="3">
           <Text>Saved Courses</Text>
           <Flex>
+            <Button
+              size="xs"
+              mr="1"
+              colorScheme="blue"
+              disabled={courses.filter((course) => course.term === term).length === 0}
+              as={Link}
+              to={`/registration/${term}`}
+            >
+              Register
+            </Button>
             <Button
               size="xs"
               colorScheme="red"
