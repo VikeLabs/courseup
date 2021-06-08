@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input, InputGroup, VisuallyHidden } from '@chakra-ui/react';
+import { FormControl, FormLabel, Input, InputGroup } from '@chakra-ui/react';
 import React, { ChangeEvent } from 'react';
 import { SearchBoxProvided } from 'react-instantsearch-core';
 import { connectSearchBox } from 'react-instantsearch-dom';
