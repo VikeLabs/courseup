@@ -38,7 +38,7 @@ export function RegistrationSection({ section, crn, seats, additionalNotes, sele
           {section}
         </Heading>
         <HStack spacing="3" top="50%" minW="205px">
-          <Checkbox isChecked={selected} onChange={onChange} size="lg" h="32px" mb="1">
+          <Checkbox isChecked={selected} onChange={onChange} size="lg" h="32px">
             Registered
           </Checkbox>
           <Heading size="md" as="h3" color="gray" h="32px">
@@ -49,6 +49,7 @@ export function RegistrationSection({ section, crn, seats, additionalNotes, sele
               aria-label="copy"
               colorScheme="white"
               color="black"
+              mb="1"
               size="sm"
               fontSize="lg"
               _focus={{
