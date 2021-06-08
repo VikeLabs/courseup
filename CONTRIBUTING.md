@@ -16,6 +16,12 @@ This document contains information related to contributing to this project and c
     * Your PR doesn't have to be perfect right from the start so don't sweat. Coding is an iterative process with plenty of back and forth.
 5. Communicate with maintainers and the community in [CourseUp's discussion](https://github.com/VikeLabs/courseup/discussions)!
 
+### Chakra UI
+CourseUp uses the component library [Chakra UI](https://chakra-ui.com/) as the main source of components, styling, and formatting. You will notice throughout the codebase there is *no* use of raw HTML elements such as `<div>`, `<li>`, etc. as Chakra provides us with clean alternatives that help keep the code consistent and the website looking good.
+
+It is important you refer to the [Chakra docs](https://chakra-ui.com/docs/getting-started) and familiarize yourself with the available components and hooks because chances are if you find yourself wanting to use a raw HTML element, there is an existing component in Chakra. Exisitng files in the codebase can serve as solid examples of how and when specific components can be utilized. 
+
+---
 Experience with React, TypeScript, and other technologies the website is built on is useful but ***not*** required! Contributing to the project can help you build skills and gain experience writing in a company-like codebase. Picking issues with the `good first issue` tag and communicating in the various locations can go a long way.
 
 ## I want to report a bug or problem
