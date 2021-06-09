@@ -1,4 +1,4 @@
-import { Input, InputGroup } from '@chakra-ui/react';
+import { FormControl, FormLabel, Input, InputGroup } from '@chakra-ui/react';
 import React, { ChangeEvent } from 'react';
 import { SearchBoxProvided } from 'react-instantsearch-core';
 import { connectSearchBox } from 'react-instantsearch-dom';
@@ -25,14 +25,21 @@ function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSub
   return (
     <form noValidate action="" role="search" onSubmit={handleSubmit}>
       <InputGroup size="sm" mx="4">
-        <Input
-          placeholder="Search for courses"
-          bg="white"
-          borderRadius="md"
-          width={['xs', 'sm', 'md']}
-          value={currentRefinement}
-          onChange={handleChange}
-        />
+        <FormControl id="courseSearch">
+          <FormLabel margin={0}>
+            <Input
+              placeholder="Search for courses..."
+              bg="white"
+              borderRadius="md"
+              width={['xs', 'sm', 'md']}
+              height={8}
+              fontSize={['sm']}
+              value={currentRefinement}
+              onChange={handleChange}
+              aria-label="Search for courses..."
+            />
+          </FormLabel>
+        </FormControl>
       </InputGroup>
     </form>
   );
