@@ -192,21 +192,16 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
 
         const courseStartDate = new Date(startEndDates[0].replace(',', '') + ' 00:00:00 GMT');
 
-        // Doing it this way because our time formats don't match any standard
-
-        let startUpperHours = parseInt(startEndHours[0].split(':')[0]);
-        const startUpperMins = parseInt(startEndHours[0].split(':')[1].replace(/\D/g, ''));
-        if (startEndHours[0].includes('pm')) startUpperHours += 12;
-        const startUpperDateRRule = new Date(
-          Date.UTC(lowerBound.getUTCFullYear(), lowerBound.getMonth(), 1, startUpperHours, startUpperMins, 0)
+        const startDateString = `${lowerBound.getMonth() + 1}, 1, ${lowerBound.getUTCFullYear()}`;
+        const startUpperDateRRule = parse(
+          `${startDateString} ${startEndHours[0].trim()} +00:00`,
+          'MM, d, yyyy h:mm a XXX',
+          new Date()
         );
-
-        let startLowerHours = parseInt(startEndHours[1].split(':')[0]);
-        const startLowerMins = parseInt(startEndHours[1].split(':')[1].replace(/\D/g, ''));
-        if (startEndHours[1].includes('pm')) startLowerHours += 12;
-
-        const startLowerDateRRule = new Date(
-          Date.UTC(lowerBound.getUTCFullYear(), lowerBound.getMonth(), 1, startLowerHours, startLowerMins, 0)
+        const startLowerDateRRule = parse(
+          `${startDateString} ${startEndHours[1].trim()} +00:00`,
+          'MM, d, yyyy h:mm a XXX',
+          new Date()
         );
 
         const endDateRRule = new Date(startEndDates[1].replace(',', '') + ' 00:00:00 GMT');
