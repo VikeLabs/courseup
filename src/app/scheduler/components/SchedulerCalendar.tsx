@@ -6,10 +6,6 @@ import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import utc from 'dayjs/plugin/utc';
-import _ from 'lodash';
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import '../../shared/styles/CalendarStyles.scss';
@@ -18,9 +14,6 @@ import { useParams } from 'react-router';
 import { RRule } from 'rrule';
 
 import { CalendarEvent } from '../shared/types';
-
-dayjs.extend(utc);
-dayjs.extend(customParseFormat);
 
 const locales = {
   'en-US': enUS,
@@ -115,7 +108,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     const month = /\d{4}(\d{2})/.exec(term);
     const year = /(\d{4})\d{2}/.exec(term);
 
-    const lowerBound = dayjs.utc(`${month ? month[1] : '01'}, 1, ${year ? year[1] : 2021}`, 'MM, D, YYYY');
+    const lowerBound = new Date(Date.UTC(year ? parseInt(year[1]) : 2021, month ? parseInt(month[1]) : 1, 0, 0, 0, 0));
 
     return lowerBound;
   }, [term]);
@@ -192,18 +185,31 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       try {
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
-        const dayjsLowerBound = getTermMonthLowerBound();
+        const lowerBound = getTermMonthLowerBound();
 
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
         const startEndHours = calendarEvent.meetingTime.time.split('-');
 
-        const courseStartDate = dayjs.utc(startEndDates[0].trim(), 'MMM, D, YYYY').toDate();
+        const courseStartDate = new Date(startEndDates[0].replace(',', '') + ' 00:00:00 GMT');
 
-        const startDateString = `${dayjsLowerBound.month() + 1}, 1, ${dayjsLowerBound.year()} `;
-        const startUpperDateRRule = dayjs.utc(startDateString + startEndHours[0].trim(), 'M, D, YYYY h:mm a').toDate();
-        const startLowerDateRRule = dayjs.utc(startDateString + startEndHours[1].trim(), 'M, D, YYYY h:mm a').toDate();
+        // Doing it this way because our time formats don't match any standard
 
-        const endDateRRule = dayjs(startEndDates[1].trim(), 'MMM, D, YYYY').utc().toDate();
+        let startUpperHours = parseInt(startEndHours[0].split(':')[0]);
+        const startUpperMins = parseInt(startEndHours[0].split(':')[1].replace(/\D/g, ''));
+        if (startEndHours[0].includes('pm')) startUpperHours += 12;
+        const startUpperDateRRule = new Date(
+          Date.UTC(lowerBound.getUTCFullYear(), lowerBound.getMonth(), 1, startUpperHours, startUpperMins, 0)
+        );
+
+        let startLowerHours = parseInt(startEndHours[1].split(':')[0]);
+        const startLowerMins = parseInt(startEndHours[1].split(':')[1].replace(/\D/g, ''));
+        if (startEndHours[1].includes('pm')) startLowerHours += 12;
+
+        const startLowerDateRRule = new Date(
+          Date.UTC(lowerBound.getUTCFullYear(), lowerBound.getMonth(), 1, startLowerHours, startLowerMins, 0)
+        );
+
+        const endDateRRule = new Date(startEndDates[1].replace(',', '') + ' 00:00:00 GMT');
 
         const days = computeMeetingTimeDays(calendarEvent);
 
@@ -231,13 +237,14 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
           const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
           const title = `${calendarEvent.subject} ${calendarEvent.code}`;
           const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
-          if (
-            !_.find(events, {
-              title: title,
-              start: startDate,
-              end: endDate,
-            })
-          ) {
+          const duplicateEvent = events.find((event) => {
+            return (
+              event.title === title &&
+              event.start?.getTime() === startDate.getTime() &&
+              event.end?.getTime() === endDate.getTime()
+            );
+          });
+          if (!duplicateEvent) {
             events.push({
               title: title,
               start: startDate,
