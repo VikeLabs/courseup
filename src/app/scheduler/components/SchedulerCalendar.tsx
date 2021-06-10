@@ -6,9 +6,6 @@ import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import utc from 'dayjs/plugin/utc';
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 import '../../shared/styles/CalendarStyles.scss';
@@ -17,9 +14,6 @@ import { useParams } from 'react-router';
 import { RRule } from 'rrule';
 
 import { CalendarEvent } from '../shared/types';
-
-dayjs.extend(utc);
-dayjs.extend(customParseFormat);
 
 const locales = {
   'en-US': enUS,
@@ -46,6 +40,7 @@ const slotPropGetter = (date: Date, resourceId?: number | string) => {
 const eventStyleGetter = ({ resource }: Event) => ({
   style: {
     backgroundColor: resource && resource.color,
+    opacity: resource.opacity ? 0.5 : 1,
     color: 'black',
     borderRadius: 0,
     border: 'none',
@@ -107,6 +102,15 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       if (year && month) return new Date(Number(year[1]), Number(month[1]) - 1, 12);
     }
     return today;
+  }, [term]);
+
+  const getTermMonthLowerBound = useCallback(() => {
+    const month = /\d{4}(\d{2})/.exec(term);
+    const year = /(\d{4})\d{2}/.exec(term);
+
+    const lowerBound = new Date(Date.UTC(year ? parseInt(year[1]) : 2021, month ? parseInt(month[1]) : 1, 0, 0, 0, 0));
+
+    return lowerBound;
   }, [term]);
 
   const CustomToolBar = ({ label, date }: ToolbarProps) => {
@@ -181,15 +185,26 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       try {
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
+        const lowerBound = getTermMonthLowerBound();
+
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
         const startEndHours = calendarEvent.meetingTime.time.split('-');
-        const startUpperDateRRule = dayjs
-          .utc(startEndDates[0].trim() + startEndHours[0].trim(), 'MMM, D, YYYY h:mm a')
-          .toDate();
-        const startLowerDateRRule = dayjs
-          .utc(startEndDates[0].trim() + startEndHours[1].trim(), 'MMM, D, YYYY h:mm a')
-          .toDate();
-        const endDateRRule = dayjs(startEndDates[1].trim(), 'MMM, D, YYYY').utc().toDate();
+
+        const courseStartDate = new Date(startEndDates[0].replace(',', '') + ' 00:00:00 GMT');
+
+        const startDateString = `${lowerBound.getMonth() + 1}, 1, ${lowerBound.getUTCFullYear()}`;
+        const startUpperDateRRule = parse(
+          `${startDateString} ${startEndHours[0].trim()} +00:00`,
+          'MM, d, yyyy h:mm a XXX',
+          new Date()
+        );
+        const startLowerDateRRule = parse(
+          `${startDateString} ${startEndHours[1].trim()} +00:00`,
+          'MM, d, yyyy h:mm a XXX',
+          new Date()
+        );
+
+        const endDateRRule = new Date(startEndDates[1].replace(',', '') + ' 00:00:00 GMT');
 
         const days = computeMeetingTimeDays(calendarEvent);
 
@@ -215,17 +230,29 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
 
         ruleUpper.all().forEach((dateUpper, i) => {
           const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
-          events.push({
-            title: `${calendarEvent.subject} ${calendarEvent.code}`,
-            start: startDate,
-            end: new Date(ruleLowerAll[i].toUTCString().replace('GMT', '')),
-            resource: {
-              color: calendarEvent.color,
-              textColor: calendarEvent.textColor,
-              sectionCode: calendarEvent.sectionCode,
-              location: calendarEvent.meetingTime.where,
-            },
+          const title = `${calendarEvent.subject} ${calendarEvent.code}`;
+          const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
+          const duplicateEvent = events.find((event) => {
+            return (
+              event.title === title &&
+              event.start?.getTime() === startDate.getTime() &&
+              event.end?.getTime() === endDate.getTime()
+            );
           });
+          if (!duplicateEvent) {
+            events.push({
+              title: title,
+              start: startDate,
+              end: endDate,
+              resource: {
+                color: calendarEvent.color,
+                textColor: calendarEvent.textColor,
+                sectionCode: calendarEvent.sectionCode,
+                location: calendarEvent.meetingTime.where,
+                opacity: startDate < courseStartDate,
+              },
+            });
+          }
 
           if (minEventDate.current === undefined) {
             minEventDate.current = addWeeks(startDate, 1);
@@ -241,7 +268,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     setSelectedDate(getSelectedDate());
 
     return events;
-  }, [calendarEvents, getSelectedDate]);
+  }, [calendarEvents, getSelectedDate, getTermMonthLowerBound]);
 
   const today = new Date();
 
