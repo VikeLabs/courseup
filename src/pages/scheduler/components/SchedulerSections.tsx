@@ -1,8 +1,8 @@
 import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { ClassScheduleListing, MeetingTimes } from '../../../shared/fetchers';
-import { SavedCourse } from '../../../shared/hooks/useSavedCourses';
+import { ClassScheduleListing, MeetingTimes } from '../../../lib/fetchers';
+import { SavedCourse } from '../../../lib/hooks/useSavedCourses';
 
 export function SectionsCardContainer({
   course,

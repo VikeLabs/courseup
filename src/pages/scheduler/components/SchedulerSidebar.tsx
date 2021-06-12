@@ -4,8 +4,8 @@ import { Collapse } from '@chakra-ui/transition';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { MeetingTimes } from '../../../shared/fetchers';
-import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
+import { MeetingTimes } from '../../../lib/fetchers';
+import { useSavedCourses } from '../../../lib/hooks/useSavedCourses';
 import { useCalendarEvents } from '../hooks/useCalendarEvents';
 
 import { CourseCard } from './CourseCard';

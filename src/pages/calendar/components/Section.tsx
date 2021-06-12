@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
-import { MeetingTimes, Seat } from '../../../shared/fetchers';
+import { MeetingTimes, Seat } from '../../../lib/fetchers';
 
 import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';

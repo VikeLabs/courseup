@@ -4,8 +4,8 @@ import { useParams } from 'react-router';
 
 import { Feedback } from '../../../common/feedback/Feedback';
 import { Header } from '../../../common/header/Header';
-import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
-import { getReadableTerm } from '../../../shared/utils/terms';
+import { useSavedCourses } from '../../../lib/hooks/useSavedCourses';
+import { getReadableTerm } from '../../../lib/utils/terms';
 import { RegistrationHeading } from '../components/RegistrationHeading';
 
 import { CourseContainer } from './CourseContainer';

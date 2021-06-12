@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/layout';
 import { useParams } from 'react-router';
 
-import { Term } from '../../shared/fetchers';
-import { SidebarTemplate } from '../../shared/SidebarTemplate';
+import { Term } from '../../lib/fetchers';
+import { SidebarTemplate } from '../../lib/SidebarTemplate';
 
 import { SchedulerSidebar } from './components/SchedulerSidebar';
 import { SchedulerContainer } from './containers/SchedulerContainer';

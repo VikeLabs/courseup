@@ -11,11 +11,11 @@ import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
 import { Mobile } from './common/mobile/Mobile';
+import { Section } from './lib/fetchers';
+import { SavedSection } from './lib/hooks/useSavedCourses';
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
 import './index.css';
-import { Section } from './shared/fetchers';
-import { SavedSection } from './shared/hooks/useSavedCourses';
 
 export type OldCourse = {
   subject: string;

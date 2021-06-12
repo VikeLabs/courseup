@@ -7,7 +7,7 @@ import { useToast } from '@chakra-ui/toast';
 import { useCallback, useEffect } from 'react';
 import { IoCopyOutline } from 'react-icons/io5';
 
-import { Seat } from '../../../shared/fetchers';
+import { Seat } from '../../../lib/fetchers';
 import { SeatInfo } from '../../calendar/components/Seats';
 
 type Props = {

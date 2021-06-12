@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { getSections } from '../../../shared/api/getSections';
-import { ClassScheduleListing } from '../../../shared/fetchers';
-import { SavedCourse } from '../../../shared/hooks/useSavedCourses';
+import { getSections } from '../../../lib/api/getSections';
+import { ClassScheduleListing } from '../../../lib/fetchers';
+import { SavedCourse } from '../../../lib/hooks/useSavedCourses';
 import { CalendarEvent } from '../shared/types';
 
 // where key is the term, subject and code

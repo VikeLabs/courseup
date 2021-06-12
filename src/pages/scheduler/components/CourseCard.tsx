@@ -3,7 +3,7 @@ import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleto
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Term, useGetCourse } from '../../../shared/fetchers';
+import { Term, useGetCourse } from '../../../lib/fetchers';
 
 export type CourseCardProps = {
   term: string;
