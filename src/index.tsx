@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
-import { Mobile } from './app/mobile';
+import { Mobile } from './common/mobile/Mobile';
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
 import './index.css';

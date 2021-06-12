@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { getReadableTerm } from '../../shared/utils/terms';
+import { getReadableTerm } from '../../../shared/utils/terms';
 
 const terms = ['202105', '202109', '202201'];
 

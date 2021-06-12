@@ -1,9 +1,11 @@
 import { Flex } from '@chakra-ui/layout';
 import { useParams } from 'react-router';
 
-import { SchedulerContainer, SchedulerSidebar } from '../../app';
 import { Term } from '../../shared/fetchers';
 import { SidebarTemplate } from '../../shared/SidebarTemplate';
+
+import { SchedulerSidebar } from './components/SchedulerSidebar';
+import { SchedulerContainer } from './containers/SchedulerContainer';
 
 export function Scheduler(): JSX.Element {
   const { term } = useParams();

@@ -1,10 +1,11 @@
 import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { Content } from '../../app/index';
-import Landing from '../../app/landing';
 import { Term } from '../../shared/fetchers';
 import { SidebarTemplate } from '../../shared/SidebarTemplate';
+import { Landing } from '../home/containers/Landing';
+
+import { Content } from './containers/Content';
 
 export function Calendar(): JSX.Element {
   const { term } = useParams();

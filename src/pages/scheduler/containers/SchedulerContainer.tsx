@@ -2,11 +2,10 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
 
-import { useSavedCourses } from '../../shared/hooks/useSavedCourses';
-
-import { SchedulerCalendar } from './components/SchedulerCalendar';
-import { useCalendarEvents } from './hooks/useCalendarEvents';
-import { CalendarEvent } from './shared/types';
+import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
+import { SchedulerCalendar } from '../components/SchedulerCalendar';
+import { useCalendarEvents } from '../hooks/useCalendarEvents';
+import { CalendarEvent } from '../shared/types';
 
 export function SchedulerContainer(): JSX.Element {
   const { term } = useParams();

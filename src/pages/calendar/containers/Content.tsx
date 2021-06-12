@@ -4,11 +4,11 @@ import { Helmet } from 'react-helmet';
 import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-import { Term, useGetCourse } from '../../shared/fetchers';
-import { useSavedCourses } from '../../shared/hooks/useSavedCourses';
+import { Term, useGetCourse } from '../../../shared/fetchers';
+import { useSavedCourses } from '../../../shared/hooks/useSavedCourses';
+import { CourseInfo } from '../components/Course';
 
-import { CourseInfo } from './components/Course';
-import { SectionsContainer } from './containers/Section';
+import { SectionsContainer } from './Section';
 
 export type ContentProps = {
   /**

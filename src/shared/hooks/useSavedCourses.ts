@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { useCallback } from 'react';
 
-import { SECTION_TYPES } from '../../app/scheduler/shared/constants';
+import { SECTION_TYPES } from '../../pages/scheduler/shared/constants';
 import { getSections } from '../api/getSections';
 import { MeetingTimes } from '../fetchers';
 import { getFirstSectionType, hasSectionType } from '../utils/courses';

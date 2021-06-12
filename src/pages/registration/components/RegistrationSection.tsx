@@ -8,7 +8,7 @@ import { useCallback, useEffect } from 'react';
 import { IoCopyOutline } from 'react-icons/io5';
 
 import { Seat } from '../../../shared/fetchers';
-import { SeatInfo } from '../../content/components/Seats';
+import { SeatInfo } from '../../calendar/components/Seats';
 
 type Props = {
   section: string;

@@ -14,7 +14,7 @@ import {
   Box,
   Image,
 } from '@chakra-ui/react';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 import { VscFeedback, VscChevronDown } from 'react-icons/vsc';
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
   href: string;
 };
 
-function FeedbackButton({ href, src, children }: PropsWithChildren<Props>): JSX.Element | null {
+function FeedbackButton({ href, src }: Props): JSX.Element | null {
   return (
     <Button
       as="a"

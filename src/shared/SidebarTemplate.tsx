@@ -3,12 +3,13 @@ import { useState, useEffect, PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate } from 'react-router';
 
-import { Header, Feedback } from '../app';
-import { getCurrentTerm } from '../app/shared/utils/terms';
-import { ContentSidebar } from '../app/sidebar';
+import { Feedback } from '../common/feedback/Feedback';
+import { Header } from '../common/header/Header';
+import { ContentSidebar } from '../common/sidebar';
 
 import { Term } from './fetchers';
 import { useSessionStorage } from './hooks/storage/useSessionStorage';
+import { getCurrentTerm } from './utils/terms';
 
 export interface SidebarTemplateProps {
   /**

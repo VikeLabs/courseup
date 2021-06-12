@@ -1,7 +1,9 @@
 import { Box, Flex } from '@chakra-ui/layout';
 
-import { Feedback, Header } from '../../app';
-import Landing from '../../app/landing';
+import { Feedback } from '../../common/feedback/Feedback';
+import { Header } from '../../common/header/Header';
+
+import { Landing } from './containers/Landing';
 
 export function Home(): JSX.Element {
   return (
