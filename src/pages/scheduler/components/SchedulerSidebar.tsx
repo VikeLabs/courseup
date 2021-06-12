@@ -129,7 +129,7 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
           </Flex>
         </Flex>
       </Box>
-      <Box h="100%" overflow="auto">
+      <Box h="100%" overflow="auto" pb="20">
         {coursesResult.status === 'loaded' &&
           coursesResult.data
             .filter((course) => course.term === term)
@@ -165,14 +165,7 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
         borderColor="gray.200"
         borderBottomWidth="2px"
         borderBottomStyle="solid"
-      >
-        {/* TODO: summary for course registration */}
-        {/* <Flex justifyContent="space-between" alignItems="center" p="3">
-          <Button size="xs" colorScheme="green">
-            Summary
-          </Button>
-        </Flex> */}
-      </Box>
+      />
     </Flex>
   );
 }
