@@ -5,6 +5,7 @@ CourseUp uses a defined structure for directories in order to maintain organizat
 **It is important when you are developing to conform to these conventions (we'll remind you in your PR if something is out of place :wink:)**
 
 **Table of Contents**
+
 [src](#src)
 
 - [common](#common)
