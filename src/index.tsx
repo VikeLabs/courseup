@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
-import { Mobile } from './common/mobile/Mobile';
+import { Mobile } from './common/mobile';
 import { Section } from './lib/fetchers';
 import { SavedSection } from './lib/hooks/useSavedCourses';
 import reportWebVitals from './reportWebVitals';

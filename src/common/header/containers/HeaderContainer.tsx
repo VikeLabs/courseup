@@ -13,11 +13,10 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-import { useSessionStorage } from '../../lib/hooks/storage/useSessionStorage';
-
-import { NavButtons } from './components/NavButtons';
-import { Search } from './components/SearchBar';
-import { TermButtons } from './components/TermButtons';
+import { useSessionStorage } from '../../../lib/hooks/storage/useSessionStorage';
+import { NavButtons } from '../components/NavButtons';
+import { Search } from '../components/SearchBar';
+import { TermButtons } from '../components/TermButtons';
 
 export interface HeaderProps {
   onSearchChange?: (query: string) => void;
@@ -26,7 +25,7 @@ export interface HeaderProps {
 /**
  * Primary UI component for content
  */
-export function Header({ onSearchChange }: HeaderProps): JSX.Element {
+export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   return (
     <Box zIndex={1000}>

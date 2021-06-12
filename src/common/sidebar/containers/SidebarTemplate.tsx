@@ -7,8 +7,8 @@ import { ContentSidebar } from '..';
 import { Term } from '../../../lib/fetchers';
 import { useSessionStorage } from '../../../lib/hooks/storage/useSessionStorage';
 import { getCurrentTerm } from '../../../lib/utils/terms';
-import { Feedback } from '../../feedback/Feedback';
-import { Header } from '../../header/Header';
+import { Feedback } from '../../feedback';
+import { Header } from '../../header';
 
 export interface SidebarTemplateProps {
   /**
