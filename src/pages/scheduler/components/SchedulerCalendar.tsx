@@ -13,8 +13,7 @@ import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'rea
 import { useParams } from 'react-router';
 import { RRule } from 'rrule';
 
-import 'lib/styles/CalendarStyles.scss';
-
+import '../styles/CalendarStyles.scss';
 import { CalendarEvent } from '../shared/types';
 
 const locales = {
