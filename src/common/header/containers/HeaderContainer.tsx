@@ -13,7 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-import { useSessionStorage } from '../../../lib/hooks/storage/useSessionStorage';
+import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+
 import { NavButtons } from '../components/NavButtons';
 import { Search } from '../components/SearchBar';
 import { TermButtons } from '../components/TermButtons';

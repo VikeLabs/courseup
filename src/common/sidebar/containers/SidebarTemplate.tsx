@@ -1,14 +1,17 @@
-import { Flex, Box } from '@chakra-ui/react';
 import { useState, useEffect, PropsWithChildren } from 'react';
+
+import { Flex, Box } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate } from 'react-router';
 
+import { Term } from 'lib/fetchers';
+import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { getCurrentTerm } from 'lib/utils/terms';
+
+import { Feedback } from 'common/feedback';
+import { Header } from 'common/header';
+
 import { ContentSidebar } from '..';
-import { Term } from '../../../lib/fetchers';
-import { useSessionStorage } from '../../../lib/hooks/storage/useSessionStorage';
-import { getCurrentTerm } from '../../../lib/utils/terms';
-import { Feedback } from '../../feedback';
-import { Header } from '../../header';
 
 export interface SidebarTemplateProps {
   /**

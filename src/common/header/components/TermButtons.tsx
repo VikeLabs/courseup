@@ -1,9 +1,10 @@
-import { Button, ButtonGroup } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
+
+import { Button, ButtonGroup } from '@chakra-ui/react';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { getReadableTerm } from '../../../lib/utils/terms';
+import { getReadableTerm } from 'lib/utils';
 
 const terms = ['202105', '202109', '202201'];
 

@@ -1,6 +1,7 @@
+import { useCallback } from 'react';
+
 import { Checkbox } from '@chakra-ui/checkbox';
 import { Heading, HStack } from '@chakra-ui/layout';
-import { useCallback } from 'react';
 
 type Props = {
   subject: string;

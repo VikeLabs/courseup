@@ -2,10 +2,12 @@ import { Box, Divider, Flex, Heading } from '@chakra-ui/layout';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
-import { Feedback } from '../../../common/feedback';
-import { Header } from '../../../common/header';
-import { useSavedCourses } from '../../../lib/hooks/useSavedCourses';
-import { getReadableTerm } from '../../../lib/utils/terms';
+import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { getReadableTerm } from 'lib/utils/terms';
+
+import { Feedback } from 'common/feedback';
+import { Header } from 'common/header';
+
 import { RegistrationHeading } from '../components/RegistrationHeading';
 
 import { CourseContainer } from './CourseContainer';

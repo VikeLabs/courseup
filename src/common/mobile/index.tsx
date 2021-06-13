@@ -1,5 +1,6 @@
-import { Modal, ModalBody, ModalContent, ModalOverlay, Text, useDisclosure, useMediaQuery } from '@chakra-ui/react';
 import { useEffect } from 'react';
+
+import { Modal, ModalBody, ModalContent, ModalOverlay, Text, useDisclosure, useMediaQuery } from '@chakra-ui/react';
 
 // TODO: real mobile functionality
 export function Mobile(): JSX.Element | null {

@@ -1,5 +1,6 @@
-import { LinkBox } from '@chakra-ui/react';
 import { MouseEvent } from 'react';
+
+import { LinkBox } from '@chakra-ui/react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 import { useMatch, useSearchParams } from 'react-router-dom';

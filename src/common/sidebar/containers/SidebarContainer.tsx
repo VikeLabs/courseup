@@ -1,8 +1,10 @@
-import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
+
+import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
-import { Course, Term, useGetCourses, useSubjects } from '../../../lib/fetchers';
+import { Course, Term, useGetCourses, useSubjects } from 'lib/fetchers';
+
 import { CoursesList } from '../components/CoursesList';
 import { CustomHits } from '../components/SearchResults';
 import { SubjectsList } from '../components/SubjectsList';

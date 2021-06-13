@@ -1,9 +1,11 @@
 import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { SidebarTemplate } from '../../common/sidebar/';
-import { Term } from '../../lib/fetchers';
-import { Landing } from '../home/containers/Landing';
+import { Term } from 'lib/fetchers';
+
+import { SidebarTemplate } from 'common/sidebar/';
+
+import { Landing } from 'pages/home/containers/Landing';
 
 import { Content } from './containers/Content';
 

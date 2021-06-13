@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/layout';
 
-import { Feedback } from '../../common/feedback';
-import { Header } from '../../common/header';
+import { Feedback } from 'common/feedback';
+import { Header } from 'common/header';
 
 import { Landing } from './containers/Landing';
 

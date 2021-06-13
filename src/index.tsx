@@ -1,18 +1,21 @@
+import React from 'react';
+
 import { ChakraProvider } from '@chakra-ui/react';
 import 'firebase/analytics';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import algoliasearch from 'algoliasearch';
 import firebase from 'firebase/app';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
-import { Mobile } from './common/mobile';
-import { Section } from './lib/fetchers';
-import { SavedSection } from './lib/hooks/useSavedCourses';
+import { Section } from 'lib/fetchers';
+import { SavedSection } from 'lib/hooks/useSavedCourses';
+
+import { Mobile } from 'common/mobile';
+
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
 import './index.css';

@@ -2,7 +2,7 @@ import { LinkBox } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-import { KualiSubject } from '../../../lib/fetchers';
+import { KualiSubject } from 'lib/fetchers';
 
 import { Card } from './Card';
 

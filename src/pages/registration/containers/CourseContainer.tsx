@@ -1,11 +1,13 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { Heading, VStack } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/skeleton';
 import { Collapse } from '@chakra-ui/transition';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 
-import { useSeats, useSections, Term, Seat } from '../../../lib/fetchers';
-import { SavedCourse } from '../../../lib/hooks/useSavedCourses';
+import { useSeats, useSections, Term, Seat } from 'lib/fetchers';
+import { SavedCourse } from 'lib/hooks/useSavedCourses';
+
 import { RegistrationMinimized } from '../components/RegistrationMinimized';
 import { RegistrationSection } from '../components/RegistrationSection';
 

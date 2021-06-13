@@ -1,3 +1,5 @@
+import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
 import addWeeks from 'date-fns/addWeeks';
@@ -6,12 +8,12 @@ import getDay from 'date-fns/getDay';
 import * as enUS from 'date-fns/locale';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
-import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
-import '../../../lib/styles/CalendarStyles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { useParams } from 'react-router';
 import { RRule } from 'rrule';
+
+import 'lib/styles/CalendarStyles.scss';
 
 import { CalendarEvent } from '../shared/types';
 

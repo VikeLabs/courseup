@@ -1,4 +1,4 @@
-import { MeetingTimes } from '../../../lib/fetchers';
+import { MeetingTimes } from 'lib/fetchers';
 
 export interface CalendarEvent {
   subject: String;

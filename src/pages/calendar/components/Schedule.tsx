@@ -1,6 +1,6 @@
 import { Badge, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
-import { MeetingTimes } from '../../../lib/fetchers';
+import { MeetingTimes } from 'lib/fetchers';
 
 export interface ScheduleProps {
   /**

@@ -1,4 +1,4 @@
-import { Section, SectionType } from '../fetchers';
+import { Section, SectionType } from 'lib/fetchers';
 
 export const getFirstSectionType = (sections: Section[], type: SectionType): number => {
   return sections.findIndex((section) => section.sectionType === type);

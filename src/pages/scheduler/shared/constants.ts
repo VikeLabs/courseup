@@ -1,4 +1,4 @@
-import { SectionType } from '../../../lib/fetchers';
+import { SectionType } from 'lib/fetchers';
 
 export const SECTION_TYPES: {
   sectionName: SectionType;

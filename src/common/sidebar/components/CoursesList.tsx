@@ -2,7 +2,7 @@ import { LinkBox } from '@chakra-ui/layout';
 import { SlideFade } from '@chakra-ui/transition';
 import { Link, useMatch, useParams } from 'react-router-dom';
 
-import { Course } from '../../../lib/fetchers';
+import { Course } from 'lib/fetchers';
 
 import { Card } from './Card';
 

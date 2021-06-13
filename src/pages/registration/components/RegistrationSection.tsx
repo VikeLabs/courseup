@@ -1,14 +1,16 @@
+import { useCallback, useEffect } from 'react';
+
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel } from '@chakra-ui/accordion';
 import { IconButton } from '@chakra-ui/button';
 import { Checkbox } from '@chakra-ui/checkbox';
 import { useClipboard } from '@chakra-ui/hooks';
 import { Box, Heading, HStack } from '@chakra-ui/layout';
 import { useToast } from '@chakra-ui/toast';
-import { useCallback, useEffect } from 'react';
 import { IoCopyOutline } from 'react-icons/io5';
 
-import { Seat } from '../../../lib/fetchers';
-import { SeatInfo } from '../../calendar/components/Seats';
+import { Seat } from 'lib/fetchers';
+
+import { SeatInfo } from 'pages/calendar/components/Seats';
 
 type Props = {
   section: string;

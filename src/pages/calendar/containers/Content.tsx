@@ -1,11 +1,13 @@
-import { Box, Center, Flex, Heading, Skeleton, Spacer, Text, Button, Alert, useToast } from '@chakra-ui/react';
 import { useCallback } from 'react';
+
+import { Box, Center, Flex, Heading, Skeleton, Spacer, Text, Button, Alert, useToast } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-import { Term, useGetCourse } from '../../../lib/fetchers';
-import { useSavedCourses } from '../../../lib/hooks/useSavedCourses';
+import { Term, useGetCourse } from 'lib/fetchers';
+import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+
 import { CourseInfo } from '../components/Course';
 
 import { SectionsContainer } from './Section';

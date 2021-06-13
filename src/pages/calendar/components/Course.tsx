@@ -1,6 +1,7 @@
+import { PropsWithChildren } from 'react';
+
 import { Box, Heading, Text } from '@chakra-ui/layout';
 import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
-import { PropsWithChildren } from 'react';
 
 export interface CourseShieldProps {
   /**

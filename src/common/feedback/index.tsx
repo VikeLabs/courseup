@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { IconButton } from '@chakra-ui/button';
 import {
   Popover,
@@ -14,7 +16,6 @@ import {
   Box,
   Image,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { VscFeedback, VscChevronDown } from 'react-icons/vsc';
 
 type Props = {

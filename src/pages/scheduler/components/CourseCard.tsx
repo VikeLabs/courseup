@@ -1,9 +1,10 @@
+import { useCallback } from 'react';
+
 import { CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton } from '@chakra-ui/react';
-import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Term, useGetCourse } from '../../../lib/fetchers';
+import { Term, useGetCourse } from 'lib/fetchers';
 
 export type CourseCardProps = {
   term: string;

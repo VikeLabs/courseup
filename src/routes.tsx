@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes as ReactRouterRoutes, Route } from 'react-router-dom';
 
-import { Calendar } from './pages/calendar';
-import { Home } from './pages/home';
-import { Registration } from './pages/registration';
-import { Scheduler } from './pages/scheduler';
+import { Calendar } from 'pages/calendar';
+import { Home } from 'pages/home';
+import { Registration } from 'pages/registration';
+import { Scheduler } from 'pages/scheduler';
 
 // TODO: use nested routes but it doesn't work right now
 

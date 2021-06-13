@@ -1,4 +1,4 @@
-import { Section } from '../fetchers';
+import { Section } from 'lib/fetchers';
 
 interface getSectionsProps {
   term: string;

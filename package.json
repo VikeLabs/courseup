@@ -67,9 +67,41 @@
           "groups": [
             "builtin",
             "external",
+            "internal",
             "parent",
             "sibling",
-            "index"
+            "index",
+            "object"
+          ],
+          "pathGroupsExcludedImportTypes": [
+            "builtin"
+          ],
+          "pathGroups": [
+            {
+              "pattern": "react",
+              "group": "external",
+              "position": "before"
+            },
+            {
+              "pattern": "{@testing-library/**,ts-jest/**,jest-axe,jest-when}",
+              "group": "external",
+              "position": "before"
+            },
+            {
+              "pattern": "lib/**",
+              "group": "internal",
+              "position": "before"
+            },
+            {
+              "pattern": "common/**",
+              "group": "internal",
+              "position": "before"
+            },
+            {
+              "pattern": "pages/**",
+              "group": "internal",
+              "position": "before"
+            }
           ],
           "newlines-between": "always",
           "alphabetize": {
@@ -77,7 +109,8 @@
             "caseInsensitive": true
           }
         }
-      ]
+      ],
+      "import/no-unresolved": "off"
     },
     "ignorePatterns": [
       "functions/**"

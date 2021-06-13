@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
+
 import { Image } from '@chakra-ui/image';
 import { Container, Flex, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
-import { useEffect, useState } from 'react';
 
 export function Landing() {
   const [handIndex, setHandIndex] = useState(0);
