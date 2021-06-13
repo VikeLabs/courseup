@@ -7,7 +7,7 @@ This document contains information related to contributing to this project and c
 
 ## I want to contribute code
 
-1. [Follow the steps to set up your development environment](https://github.com/VikeLabs/courseup/tree/aomi/docs/README-CONTRIBUTORS#develop).
+1. [Follow the steps to set up your development environment](https://github.com/VikeLabs/courseup#develop).
 2. [Pick an **unassigned** GitHub issue to work on](https://github.com/VikeLabs/courseup/issues).
    - If you are a first time contributor, the [good first issue](https://github.com/VikeLabs/courseup/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) tag is a useful place to start!
    - Have discussions about the issue within the comment section of that issue!
