@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
-import { getReadableTerm } from 'lib/utils/terms';
+import { getReadableTerm } from 'lib/utils';
 
 import { Feedback } from 'common/feedback';
 import { Header } from 'common/header';

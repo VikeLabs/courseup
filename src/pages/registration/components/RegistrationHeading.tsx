@@ -6,7 +6,7 @@ import { IoCopyOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import { getReadableTerm } from 'lib/utils/terms';
+import { getReadableTerm } from 'lib/utils';
 
 export function RegistrationHeading() {
   const { term } = useParams();
