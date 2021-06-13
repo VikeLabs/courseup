@@ -9,9 +9,9 @@ import {
   Collapse,
   Alert,
   CloseButton,
+  Link,
   AlertDescription,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 
@@ -33,7 +33,14 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
       <Collapse in={banner} animateOpacity>
         <Alert status="success" alignItems="center" justifyContent="center" variant="solid">
           <AlertDescription>
-            ⚠️ We're in <b>beta</b> right now so expect things to be a bit rocky. ⚠️
+            ☕ Hey! We're holding <b>office hours</b> and <b>backend developer workshop</b> for CourseUp on June, 19th
+            at 11 am PDT on the{' '}
+            <Link href="https://discord.gg/ZhpnafrxKQ" fontWeight="bold" isExternal>
+              VikeLabs Discord!
+            </Link>{' '}
+            <Link href="https://github.com/VikeLabs/courseup/discussions/218" isExternal>
+              Click here to learn more!
+            </Link>
           </AlertDescription>
           <CloseButton position="absolute" right="8px" top="8px" onClick={() => setBanner(false)} />
         </Alert>
