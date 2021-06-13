@@ -29,6 +29,10 @@ You will now be able to develop the frontend React application. Any changes made
 
 If you get stuck setting up the development environment, try Google **then** if you're still stuck drop a question in our [GitHub Discussions](https://github.com/VikeLabs/courseup/discussions/categories/q-a).
 
+### Directory Structure
+
+CourseUp uses a defined structure for directories. Make sure you read up on our [frontend directory structure guidelines](https://github.com/VikeLabs/courseup/wiki/Frontend-Directory-Structure) before submitting contributions.
+
 ### Chakra UI
 
 CourseUp uses the component library [Chakra UI](https://chakra-ui.com/) as it's main source of components, styling, and formatting. You will notice throughout the codebase there is _no_ use of raw HTML elements such as `<div>`, `<li>`, etc. as Chakra provides us with clean alternatives that help keep the code consistent and the website looking good.

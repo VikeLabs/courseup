@@ -1,1 +1,1 @@
-export { Registration } from '../../app/registration';
+export { RegistrationContainer as Registration } from './containers/RegistrationContainer';
