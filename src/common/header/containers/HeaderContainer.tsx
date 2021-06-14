@@ -33,7 +33,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
       <Collapse in={banner} animateOpacity>
         <Alert status="success" alignItems="center" justifyContent="center" variant="solid">
           <AlertDescription>
-            ☕ Hey! We're holding <b>office hours</b> and <b>backend developer workshop</b> for CourseUp on June, 19th
+            ☕ Hey! We're holding <b>office hours</b> and a <b>backend developer workshop</b> for CourseUp on June, 19th
             at 11 am PDT on the{' '}
             <Link href="https://discord.gg/ZhpnafrxKQ" fontWeight="bold" isExternal>
               VikeLabs Discord!
