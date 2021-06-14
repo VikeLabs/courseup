@@ -35,10 +35,11 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
           <AlertDescription>
             ☕ Hey! We're holding <b>office hours</b> and a <b>backend developer workshop</b> for CourseUp on June, 19th
             at 11 am PDT on the{' '}
-            <Link href="https://discord.gg/ZhpnafrxKQ" fontWeight="bold" isExternal>
-              VikeLabs Discord!
-            </Link>{' '}
-            <Link href="https://github.com/VikeLabs/courseup/discussions/218" isExternal>
+            <Link href="https://discord.gg/ZhpnafrxKQ" fontWeight="bold" textDecoration="underline" isExternal>
+              VikeLabs Discord
+            </Link>
+            {'! '}
+            <Link href="https://github.com/VikeLabs/courseup/discussions/218" textDecoration="underline" isExternal>
               Click here to learn more!
             </Link>
           </AlertDescription>
