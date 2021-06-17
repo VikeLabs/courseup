@@ -49,7 +49,6 @@ export default function Landing() {
             sx={{
               filter: 'drop-shadow( 1.5rem 1rem 1.75rem rgba(0, 0, 0, .25) )',
             }}
-            
           />
         </Container>
       </GridItem>
