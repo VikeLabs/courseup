@@ -54,10 +54,8 @@ export function RegistrationSection({ section, crn, seats, additionalNotes, sele
               mb="1"
               size="sm"
               fontSize="lg"
-              _focus={{
-                outline: 'none',
-                color: 'rgb(19, 135, 243)',
-                fontSize: '22.5px',
+              _active={{
+                color: '#e4e4e4',
               }}
             />
           </Heading>

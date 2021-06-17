@@ -13,11 +13,13 @@ import { RestfulProvider } from 'restful-react';
 
 import { Section } from 'lib/fetchers';
 import { SavedSection } from 'lib/hooks/useSavedCourses';
+import { customTheme } from 'lib/theme';
 
 import { Mobile } from 'common/mobile';
 
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
+
 import './index.css';
 
 export type OldCourse = {
@@ -109,7 +111,7 @@ ReactDOM.render(
     <Sentry.ErrorBoundary fallback={'An error has occurred'}>
       <RestfulProvider base={'/api'}>
         <InstantSearch searchClient={searchClient} indexName="dev_uvic">
-          <ChakraProvider portalZIndex={999}>
+          <ChakraProvider portalZIndex={999} theme={customTheme}>
             <Helmet titleTemplate="%s · CourseUp" defaultTitle="CourseUp · We make school easier" />
             <Mobile />
             <Routes />

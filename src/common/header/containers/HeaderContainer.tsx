@@ -51,7 +51,13 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
         <GridItem colSpan={1}>
           <Flex justifyContent="space-between" alignContent="center" alignItems="flex-start">
             <LinkBox as={Link} to="/" bg="transparent" border="none" ml={5}>
-              <Text fontSize="xl" fontWeight="bold" color="white">
+              <Text
+                fontSize="xl"
+                fontWeight="bold"
+                color="white"
+                _focusVisible={{ textShadow: '2px 2px 5px black', outline: 'none' }}
+                tabIndex={0}
+              >
                 CourseUp
               </Text>
             </LinkBox>

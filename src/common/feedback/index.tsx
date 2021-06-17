@@ -57,13 +57,10 @@ export function Feedback(): JSX.Element | null {
           icon={isOpen ? <VscChevronDown /> : <VscFeedback />}
           shadow="dark-lg"
           onClick={open}
-          _focus={{
-            shadow: 'dark-lg',
-          }}
         />
       </PopoverTrigger>
       <Portal>
-        <PopoverContent overflowY="auto" minW="300px" boxShadow="md">
+        <PopoverContent overflowY="auto" minW="300px" boxShadow="md" border="0">
           <PopoverHeader bgGradient="linear(to-l, #2e95d1, #7cbce2)" color="white" fontWeight="bold" textAlign="center">
             Feedback
           </PopoverHeader>
