@@ -81,7 +81,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Sentry.ErrorBoundary fallback={'An error has occurred'}>
       <RestfulProvider base={'/api'}>
-        <InstantSearch searchClient={searchClient} indexName="dev_uvic">
+        <InstantSearch searchClient={searchClient} indexName="production">
           <ChakraProvider portalZIndex={999}>
             <Helmet titleTemplate="%s · CourseUp" defaultTitle="CourseUp · We make school easier" />
             <Mobile />
