@@ -1,6 +1,6 @@
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { Container, Divider, Flex, Heading, HStack, ListItem, OrderedList, Text } from '@chakra-ui/layout';
-import { Link as Links, Button, Icon } from '@chakra-ui/react';
+import { Button, Icon, Link as Links } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoCopyOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
@@ -23,7 +23,7 @@ export function RegistrationHeading() {
           >
             <Links as={Link} to={`/scheduler/${term}`} display="flex" alignItems="center">
               <ChevronLeftIcon
-                fontSize="35px"
+                fontSize="2.1875rem"
                 colorScheme="white"
                 color="black"
                 verticalAlign="bottom"

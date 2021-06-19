@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading } from '@chakra-ui/layout';
+import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/layout';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
@@ -34,12 +34,14 @@ export function RegistrationContainer(): JSX.Element | null {
           ) : (
             <>
               <Divider my="4" />
-              <Heading size="md" color="gray">
-                Unable to find saved courses for{' '}
-                <Box as="span" color="black">
-                  {getReadableTerm(term)}
-                </Box>
-              </Heading>
+              <Container alignItems="center" maxW="container.xl">
+                <Heading size="md" color="gray">
+                  Unable to find saved courses for{' '}
+                  <Box as="span" color="black">
+                    {getReadableTerm(term)}
+                  </Box>
+                </Heading>
+              </Container>
             </>
           )}
         </Box>

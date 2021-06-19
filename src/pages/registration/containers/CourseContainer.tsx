@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Heading, VStack } from '@chakra-ui/layout';
+import { Container, Heading, VStack } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/skeleton';
 import { Collapse } from '@chakra-ui/transition';
 import { useParams } from 'react-router';
@@ -123,64 +123,66 @@ export function CourseContainer({ course }: Props) {
   if (!course.selected) return null;
 
   return (
-    <Skeleton
-      isLoaded={!loading}
-      color="black"
-      mt="4"
-      mb="2"
-      boxShadow="md"
-      px="3"
-      py="1"
-      rounded="lg"
-      textAlign="left"
-    >
-      {isMinimized && (
-        <RegistrationMinimized
-          subject={course.subject}
-          code={course.code}
-          lecture={course.lecture}
-          lab={course.lab}
-          tutorial={course.tutorial}
-          handleChange={handleMinimizedChange}
-        />
-      )}
-      <Collapse in={!isMinimized} animateOpacity>
-        <Heading size="lg" as="h2" textAlign="left">
-          {course.subject} {course.code}
-        </Heading>
-        <VStack alignItems="left">
-          {data.lecture && course.lecture && (
-            <RegistrationSection
-              section={course.lecture}
-              seats={data.lecture.seats}
-              crn={data.lecture.crn}
-              selected={!data.lecture.selected}
-              additionalNotes={data.lecture.additionalNotes}
-              handleChange={handleChange}
-            />
-          )}
-          {data.lab && course.lab && (
-            <RegistrationSection
-              section={course.lab}
-              seats={data.lab.seats}
-              crn={data.lab.crn}
-              selected={!data.lab.selected}
-              additionalNotes={data.lab.additionalNotes}
-              handleChange={handleChange}
-            />
-          )}
-          {data.tutorial && course.tutorial && (
-            <RegistrationSection
-              section={course.tutorial}
-              seats={data.tutorial.seats}
-              crn={data.tutorial.crn}
-              selected={!data.tutorial.selected}
-              additionalNotes={data.tutorial.additionalNotes}
-              handleChange={handleChange}
-            />
-          )}
-        </VStack>
-      </Collapse>
-    </Skeleton>
+    <Container alignItems="center" maxW="container.xl">
+      <Skeleton
+        isLoaded={!loading}
+        color="black"
+        mt="4"
+        mb="2"
+        boxShadow="md"
+        px="3"
+        py="1"
+        rounded="lg"
+        textAlign="left"
+      >
+        {isMinimized && (
+          <RegistrationMinimized
+            subject={course.subject}
+            code={course.code}
+            lecture={course.lecture}
+            lab={course.lab}
+            tutorial={course.tutorial}
+            handleChange={handleMinimizedChange}
+          />
+        )}
+        <Collapse in={!isMinimized} animateOpacity>
+          <Heading size="lg" as="h2" textAlign="left">
+            {course.subject} {course.code}
+          </Heading>
+          <VStack alignItems="left">
+            {data.lecture && course.lecture && (
+              <RegistrationSection
+                section={course.lecture}
+                seats={data.lecture.seats}
+                crn={data.lecture.crn}
+                selected={!data.lecture.selected}
+                additionalNotes={data.lecture.additionalNotes}
+                handleChange={handleChange}
+              />
+            )}
+            {data.lab && course.lab && (
+              <RegistrationSection
+                section={course.lab}
+                seats={data.lab.seats}
+                crn={data.lab.crn}
+                selected={!data.lab.selected}
+                additionalNotes={data.lab.additionalNotes}
+                handleChange={handleChange}
+              />
+            )}
+            {data.tutorial && course.tutorial && (
+              <RegistrationSection
+                section={course.tutorial}
+                seats={data.tutorial.seats}
+                crn={data.tutorial.crn}
+                selected={!data.tutorial.selected}
+                additionalNotes={data.tutorial.additionalNotes}
+                handleChange={handleChange}
+              />
+            )}
+          </VStack>
+        </Collapse>
+      </Skeleton>
+    </Container>
   );
 }
