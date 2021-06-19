@@ -49,19 +49,9 @@ export function RegistrationHeading() {
       <Divider my="4" />
       <Flex>
         <Text w="100%" textAlign="left">
-          UVic offers a quick way to register for courses with the{' '}
-          <Text
-            as="span"
-            title="The 5-digit identifier of a section"
-            textDecoration="underline"
-            cursor="help"
-            style={{ textDecorationStyle: 'dotted' }}
-          >
-            CRNs
-          </Text>{' '}
-          of your desired sections. Follow the given steps to register in the sections chosen and saved on the timetable
-          builder:{' '}
-          <OrderedList mt="1" ml="6">
+          UVic offers a quick and easy way to register for a course using the Course Reference Number (CRN). Follow the
+          given steps below to register in your chosen course sections:{' '}
+          <OrderedList mt="1" ml="6" mb="1">
             <ListItem>
               Click the{' '}
               <Text as="span" fontWeight="bold">
@@ -69,7 +59,7 @@ export function RegistrationHeading() {
               </Text>{' '}
               button.
             </ListItem>
-            <ListItem>Sign in to UVic with your netlink ID.</ListItem>
+            <ListItem>Sign in to UVic with your NetLink ID.</ListItem>
             <ListItem>
               Select the appropriate term and hit{' '}
               <Text as="span" fontWeight="bold">
@@ -85,17 +75,11 @@ export function RegistrationHeading() {
                 {' '}
                 Copy <Icon as={IoCopyOutline} />{' '}
               </Text>{' '}
-              and paste the{' '}
-              <Text
-                as="span"
-                title="The 5-digit identifier of a section"
-                textDecoration="underline"
-                cursor="help"
-                style={{ textDecorationStyle: 'dotted' }}
-              >
-                CRNs
+              and paste the CRNs into the{' '}
+              <Text as="span" fontWeight="bold">
+                Add Classes Worksheet
               </Text>{' '}
-              below into the input fields on UVic's page.
+              input fields on the UVic's page.
             </ListItem>
             <ListItem>
               Hit{' '}
@@ -105,6 +89,18 @@ export function RegistrationHeading() {
               , and you’re registered!
             </ListItem>
           </OrderedList>
+          For more information, visit UVic's guide on "
+          <Text as="span" color="blue.500" fontWeight="light">
+            <Text
+              as="a"
+              href="https://www.uvic.ca/students/undergraduate/course-registration/index.php"
+              target="_blank"
+              _hover={{ color: 'blue' }}
+            >
+              Course registration
+            </Text>
+          </Text>
+          ."
         </Text>
       </Flex>
     </Container>
