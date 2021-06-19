@@ -22,8 +22,8 @@ export function RegistrationContainer(): JSX.Element | null {
         <title>{`${getReadableTerm(term)} · Registration`}</title>
       </Helmet>
       <Header />
-      <Flex width="100%" pt="20px" direction="column" alignItems="center" overflowY="auto">
-        <Box maxW={{ md: '65rem', sm: '35rem', base: '20rem' }} textAlign="center">
+      <Flex width="100%" pt="1.25rem" direction="column" alignItems="center" overflowY="auto">
+        <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center">
           <RegistrationHeading />
           {courses.filter((course) => course.term === term).length > 0 ? (
             courses
