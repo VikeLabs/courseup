@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading } from '@chakra-ui/layout';
+import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/layout';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
@@ -22,8 +22,8 @@ export function RegistrationContainer(): JSX.Element | null {
         <title>{`${getReadableTerm(term)} · Registration`}</title>
       </Helmet>
       <Header />
-      <Flex width="100%" pt="20px" direction="column" alignItems="center" overflowY="auto">
-        <Box maxW={{ md: '65rem', sm: '35rem', base: '20rem' }} textAlign="center">
+      <Flex width="100%" pt="1.25rem" direction="column" alignItems="center" overflowY="auto">
+        <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center">
           <RegistrationHeading />
           {courses.filter((course) => course.term === term).length > 0 ? (
             courses
@@ -34,12 +34,14 @@ export function RegistrationContainer(): JSX.Element | null {
           ) : (
             <>
               <Divider my="4" />
-              <Heading size="md" color="gray">
-                Unable to find saved courses for{' '}
-                <Box as="span" color="black">
-                  {getReadableTerm(term)}
-                </Box>
-              </Heading>
+              <Container alignItems="center" maxW="container.xl">
+                <Heading size="md" color="gray">
+                  Unable to find saved courses for{' '}
+                  <Box as="span" color="black">
+                    {getReadableTerm(term)}
+                  </Box>
+                </Heading>
+              </Container>
             </>
           )}
         </Box>

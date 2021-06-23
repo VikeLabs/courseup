@@ -39,11 +39,11 @@ export function RegistrationSection({ section, crn, seats, additionalNotes, sele
         <Heading size="md" as="h3" mt="2">
           {section}
         </Heading>
-        <HStack spacing="3" top="50%" minW="205px">
-          <Checkbox isChecked={selected} onChange={onChange} size="lg" h="32px">
+        <HStack spacing="3" top="50%" minW="12.8125rem">
+          <Checkbox isChecked={selected} onChange={onChange} size="lg" h="2rem">
             Registered
           </Checkbox>
-          <Heading size="md" as="h3" color="gray" h="32px">
+          <Heading size="md" as="h3" color="gray" h="2rem">
             {crn}
             <IconButton
               icon={<IoCopyOutline />}
