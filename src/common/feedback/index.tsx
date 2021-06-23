@@ -60,7 +60,7 @@ export function Feedback(): JSX.Element | null {
         />
       </PopoverTrigger>
       <Portal>
-        <PopoverContent overflowY="auto" minW="300px" boxShadow="md" border="0">
+        <PopoverContent overflowY="auto" minW="300px" boxShadow="md">
           <PopoverHeader bgGradient="linear(to-l, #2e95d1, #7cbce2)" color="white" fontWeight="bold" textAlign="center">
             Feedback
           </PopoverHeader>

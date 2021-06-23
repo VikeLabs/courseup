@@ -31,7 +31,6 @@ function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSub
             <Input
               placeholder="Search for courses..."
               bg="white"
-              border="0"
               borderRadius="md"
               width={['xs', 'sm', 'md']}
               height={8}

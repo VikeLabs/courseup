@@ -1,8 +1,8 @@
 import { extendTheme } from '@chakra-ui/react';
 
-export const overrides = extendTheme({
+export const customTheme = extendTheme({
   styles: {
-    global: (props) => ({
+    global: () => ({
       ':focus:not(:focus-visible)': {
         boxShadow: 'none !important',
       },
