@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 /**
  * Fetches the readable text version of a term.
  * Term provided must be in the form of '202101' for this function to work.
@@ -21,14 +19,14 @@ export function getReadableTerm(term: string): string {
 /**
  * Fetches the current terms of a school year given a date.
  *
- * @param {dayjs.Dayjs} date
+ * @param {Date} date
  * @return {string[]} array of terms ['202009', '202101', '202105']
  */
-export function getCurrentTerms(date: dayjs.Dayjs = dayjs()): string[] {
-  const year = date.year();
-  const prevYear = date.year() - 1;
-  const nextYear = date.year() + 1;
-  const currMonth = date.month();
+export function getCurrentTerms(date: Date = new Date()): string[] {
+  const year = date.getFullYear();
+  const prevYear = date.getFullYear() - 1;
+  const nextYear = date.getFullYear() + 1;
+  const currMonth = date.getMonth();
 
   if (0 <= currMonth && currMonth < 4) {
     return [`${prevYear}09`, `${year}01`, `${year}05`];
@@ -42,12 +40,12 @@ export function getCurrentTerms(date: dayjs.Dayjs = dayjs()): string[] {
 /**
  * Fetches the current term given a date.
  *
- * @param {dayjs.Dayjs} date
+ * @param {Date} date
  * @return {string} current term i.e. '202101'
  */
-export function getCurrentTerm(date: dayjs.Dayjs = dayjs()): string {
-  const year = date.year().toString();
-  const currMonth = date.month();
+export function getCurrentTerm(date: Date = new Date()): string {
+  const year = date.getFullYear().toString();
+  const currMonth = date.getMonth();
   let month = '';
 
   if (0 <= currMonth && currMonth < 4) month = '01';
