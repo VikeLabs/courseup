@@ -142,7 +142,7 @@ jobs:
           name: functions-build
           path: functions/lib
   deploy-staging:
-    name: Deploy to Firebase
+    name: Deploy to Firebase (Staging)
     runs-on: ubuntu-latest
     needs: [ lint, lint-functions, build-staging, build-functions ]
     environment: staging
@@ -189,7 +189,7 @@ jobs:
           sourcemaps: './build/static/js/'
           url_prefix: '~/static/js'
   deploy:
-    name: Deploy to Firebase
+    name: Deploy to Firebase (Production)
     runs-on: ubuntu-latest
     needs: [ build, deploy-staging ]
     environment: production
