@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton } from '@chakra-ui/react';
+import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton, Text } from '@chakra-ui/react';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 
@@ -34,12 +34,28 @@ export function Banner(): JSX.Element | null {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   const [tipIndex, setTipIndex] = useState(0);
 
-  const tips = [
-    '💡 Your courses and sections are saved between sessions, no need to leave the tab open!',
-    "💡 Press the 'Register' button while viewing your timetable to help you quickly register for classes!",
-    "💡 See something you don't like or think might be a bug? Send feedback to the team via the button at the bottom right!",
-    '💡 Courses that appear transparent on your timetable mean that section happens during that time, but not during the week you are viewing.',
-    "⚠️ We're in beta right now so expect things to be a bit rocky. ⚠️",
+  const tips: Array<JSX.Element> = [
+    <Text>💡 Your courses and sections are saved between sessions, no need to leave the tab open!</Text>,
+    <Text>
+      💡 Press the <Text as="strong">Register</Text> button while viewing your timetable to help you quickly register
+      for classes!
+    </Text>,
+    <Text>
+      💡 See something you don't like or think might be a bug? Send feedback to the team via the button at the bottom
+      right!
+    </Text>,
+    <Text>
+      💡 Courses that appear transparent on your timetable mean that section happens during that time, but not during
+      the week you are viewing.
+    </Text>,
+    <Text>⚠️ We're in beta right now so expect things to be a bit rocky.</Text>,
+    <Text>
+      💬 Join in on the discussion or ask questions on the{' '}
+      <Text as="a" href="https://discord.com/invite/ZhpnafrxKQ" fontWeight="bold" textDecoration="underline">
+        VikeLabs Discord channel
+      </Text>
+      !
+    </Text>,
   ];
 
   useEffect(() => {
@@ -52,20 +68,20 @@ export function Banner(): JSX.Element | null {
     };
   }, [tipIndex, tips.length]);
 
-  const back = useCallback(() => {
+  const back = () => {
     tipIndex - 1 < 0 ? setTipIndex(tips.length - 1) : setTipIndex(tipIndex - 1);
-  }, [tipIndex, tips.length]);
+  };
 
-  const forward = useCallback(() => {
+  const forward = () => {
     setTipIndex((tipIndex + 1) % tips.length);
-  }, [tipIndex, tips.length]);
+  };
 
   return (
     <Collapse in={banner} animateOpacity>
       <Alert status="success" alignItems="center" justifyContent="center" variant="solid">
         <TipButton onClick={back} icon={<ChevronLeftIcon />} />
         <Center w="1100px">
-          <AlertDescription>{`${tips[tipIndex]}`}</AlertDescription>
+          <AlertDescription>{tips[tipIndex]}</AlertDescription>
         </Center>
         <TipButton onClick={forward} icon={<ChevronRightIcon />} />
         <CloseButton
