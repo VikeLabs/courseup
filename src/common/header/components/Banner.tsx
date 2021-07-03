@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Alert, AlertDescription, Button, Center, CloseButton, Collapse, IconButton, Text } from '@chakra-ui/react';
-import { Link, useParams } from 'react-router-dom';
+import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton, Text } from '@chakra-ui/react';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
-import { getCurrentTerm } from 'lib/utils';
 
 function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): JSX.Element {
   return (
@@ -30,22 +28,24 @@ function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): 
 export function Banner(): JSX.Element {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   const [tipIndex, setTipIndex] = useState(0);
-  const { term } = useParams();
 
   const tips: Array<JSX.Element> = [
     <Text>💡 Your courses and sections are saved between sessions, no need to leave the tab open!</Text>,
     <Text>
       💡 Press the{' '}
-      <Button
-        size="xs"
+      <Text
+        as="span"
         mx="1"
-        mt="-1"
-        colorScheme="blue"
-        as={Link}
-        to={term ? `/registration/${term}` : `/registration/${getCurrentTerm()}`}
+        mb="-4"
+        bgColor="#3182CE"
+        px="2"
+        borderRadius="5"
+        display="inline-flex"
+        fontSize="11"
+        fontWeight="bold"
       >
         Register
-      </Button>{' '}
+      </Text>{' '}
       button while viewing your timetable to help you quickly register for classes!
     </Text>,
     <Text>
