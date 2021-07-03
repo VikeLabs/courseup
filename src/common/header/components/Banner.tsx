@@ -5,15 +5,10 @@ import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton, Tex
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 
-type Props = {
-  onClick: () => void;
-  icon: JSX.Element;
-};
-
-function TipButton({ onClick, icon }: Props): JSX.Element | null {
+function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): JSX.Element {
   return (
     <IconButton
-      aria-label="change tip"
+      aria-label="cycle tip"
       className="expand-focus"
       icon={icon}
       bgColor="transparent"
@@ -30,7 +25,7 @@ function TipButton({ onClick, icon }: Props): JSX.Element | null {
   );
 }
 
-export function Banner(): JSX.Element | null {
+export function Banner(): JSX.Element {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   const [tipIndex, setTipIndex] = useState(0);
 
@@ -79,11 +74,11 @@ export function Banner(): JSX.Element | null {
   return (
     <Collapse in={banner} animateOpacity>
       <Alert status="success" alignItems="center" justifyContent="center" variant="solid">
-        <TipButton onClick={back} icon={<ChevronLeftIcon />} />
+        <TipNav onClick={back} icon={<ChevronLeftIcon />} />
         <Center w="1100px">
           <AlertDescription>{tips[tipIndex]}</AlertDescription>
         </Center>
-        <TipButton onClick={forward} icon={<ChevronRightIcon />} />
+        <TipNav onClick={forward} icon={<ChevronRightIcon />} />
         <CloseButton
           position="absolute"
           right="8px"
