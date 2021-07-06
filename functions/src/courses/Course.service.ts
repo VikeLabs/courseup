@@ -50,6 +50,21 @@ export class CoursesService {
     }));
   }
 
+  static async getCourseDetails(
+    term: string,
+    subject: string,
+    code: string
+  ): Promise<CourseDetails> {
+    const details = await getCourse(term, subject, code);
+
+    // TODO: make better?
+    if (!details) throw new Error('pid Not Found');
+
+    const { pid } = details;
+
+    return this.getCourseDetailsByPid(term, pid);
+  }
+
   static async getCourseDetailsByPid(
     term: string,
     pid: string
