@@ -40,4 +40,17 @@ export class CoursesController extends Controller {
     );
     return CoursesService.getCourseDetailsByPid(term, pid);
   }
+
+  @Get('{term}/{subject}/{code}')
+  public async getCourseDetails(
+    @Path() term: Term,
+    @Path() subject: string,
+    @Path() code: string
+  ): Promise<CourseDetails> {
+    this.setHeader(
+      'Cache-Control',
+      `public, max-age=${3600}, s-max-age=${3600}, stale-while-revalidate=${30}, stale-if-error=${60}`
+    );
+    return CoursesService.getCourseDetails(term, subject, code);
+  }
 }
