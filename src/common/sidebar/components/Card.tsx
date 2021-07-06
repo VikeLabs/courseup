@@ -4,8 +4,8 @@ import { WarningTwoIcon, ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon }
 import { Box, Text, Flex, VStack, IconButton, Tooltip } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 
+import { KualiSubject } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
-
 export interface CardProps {
   /**
    * The title of course
@@ -41,9 +41,21 @@ export interface CardProps {
    * Boolean to check if in schedule mode
    */
   schedule?: boolean;
+  /**
+   * Boolean to check if a subject is in session or not
+   */
+  inSessionSubject?: boolean;
 }
 
-export function Card({ subject, title, code, selected, schedule, pid }: PropsWithChildren<CardProps>): JSX.Element {
+export function Card({
+  subject,
+  title,
+  code,
+  selected,
+  schedule,
+  pid,
+  inSessionSubject,
+}: PropsWithChildren<CardProps>): JSX.Element {
   let { term } = useParams();
 
   const { addCourse, deleteCourse, contains } = useSavedCourses();
@@ -64,7 +76,7 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
       }
     }
   }, [code, pid, courseIsSaved, addCourse, subject, term, deleteCourse]);
-  const subjectOffered = subject?.includes('Not offered');
+
   const buttons = (code: string | undefined, schedule: boolean | undefined) => {
     if (!code) {
       return (
@@ -72,7 +84,7 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
           <IconButton
             aria-label="Select course"
             icon={
-              !subjectOffered ? (
+              inSessionSubject ? (
                 <ChevronRightIcon />
               ) : (
                 <Tooltip label="No courses are offered in this term for this subject!" aria-label="A tooltip">
@@ -124,9 +136,9 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
           ? undefined
           : selected
           ? undefined
-          : subject.includes('Not offered')
-          ? 'linear(to-l, #a71d31, #3f0d12)'
-          : 'linear(to-l, #39c686, #80dbb1)',
+          : inSessionSubject
+          ? 'linear(to-l, #39c686, #80dbb1)'
+          : 'linear(to-l, #d2ccc4, #2f4353)',
         color: schedule ? undefined : 'white',
       }}
     >

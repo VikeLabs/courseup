@@ -28,7 +28,7 @@ export function SubjectsList({ term, subjects }: SubjectsListProps): JSX.Element
   return (
     <Collapse in style={{ overflowY: 'scroll' }}>
       {subjects.map((subject, index) => {
-        if (!subject.subject.includes('Not offered')) {
+        if (subject.inSession) {
           return (
             <LinkBox
               as={Link}
@@ -38,13 +38,13 @@ export function SubjectsList({ term, subjects }: SubjectsListProps): JSX.Element
               }}
               key={index}
             >
-              <Card subject={subject.subject} title={subject.title} />
+              <Card subject={subject.subject} inSessionSubject={subject.inSession} title={subject.title} />
             </LinkBox>
           );
         } else {
           return (
             <Box key={index}>
-              <Card subject={subject.subject} title={subject.title} />
+              <Card subject={subject.subject} inSessionSubject={subject.inSession} title={subject.title} />
             </Box>
           );
         }

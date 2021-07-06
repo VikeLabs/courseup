@@ -58,19 +58,16 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
   if (filter) {
     sortedSubjects = sortedSubjects?.filter((subject) => {
       if (parsedCourses[subject.subject]) {
+        subject.inSession = true;
         return subject;
       } else {
-        if (!subject.subject.includes('Not offered')) {
-          subject.subject = subject.subject + ' (Not offered)';
-        }
+        subject.inSession = false;
         return subject;
       }
     });
   } else {
     sortedSubjects = sortedSubjects?.filter((subject) => {
-      if (subject.subject.includes('Not offered')) {
-        subject.subject = subject.subject.replace('(Not offered)', '');
-      }
+      subject.inSession = true;
       return subject;
     });
   }

@@ -112,6 +112,7 @@ export interface Seat {
 export interface KualiSubject {
   subject: string;
   title: string;
+  inSession?: boolean;
 }
 
 export type Subject = KualiSubject;
