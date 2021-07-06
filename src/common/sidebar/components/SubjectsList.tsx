@@ -1,4 +1,4 @@
-import { LinkBox } from '@chakra-ui/layout';
+import { LinkBox, Box } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
@@ -27,18 +27,28 @@ export function SubjectsList({ term, subjects }: SubjectsListProps): JSX.Element
 
   return (
     <Collapse in style={{ overflowY: 'scroll' }}>
-      {subjects.map((subject, index) => (
-        <LinkBox
-          as={Link}
-          to={{
-            pathname: `/${route}/${term}/${subject.subject}`,
-            search: pid ? `?pid=${pid}` : undefined,
-          }}
-          key={index}
-        >
-          <Card subject={subject.subject} title={subject.title} />
-        </LinkBox>
-      ))}
+      {subjects.map((subject, index) => {
+        if (!subject.subject.includes('Not offered')) {
+          return (
+            <LinkBox
+              as={Link}
+              to={{
+                pathname: `/${route}/${term}/${subject.subject}`,
+                search: pid ? `?pid=${pid}` : undefined,
+              }}
+              key={index}
+            >
+              <Card subject={subject.subject} title={subject.title} />
+            </LinkBox>
+          );
+        } else {
+          return (
+            <Box key={index}>
+              <Card subject={subject.subject} title={subject.title} />
+            </Box>
+          );
+        }
+      })}
     </Collapse>
   );
 }

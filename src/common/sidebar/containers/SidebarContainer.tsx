@@ -52,9 +52,28 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
   const loading = subjectsLoading || coursesLoading;
 
   // sorts the list of subjects alphabetically
-  const sortedSubjects = useMemo(() => subjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
+  let sortedSubjects = useMemo(() => subjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
-
+  //if filter is set then we want to add (Not offered) to subjects
+  if (filter) {
+    sortedSubjects = sortedSubjects?.filter((subject) => {
+      if (parsedCourses[subject.subject]) {
+        return subject;
+      } else {
+        if (!subject.subject.includes('Not offered')) {
+          subject.subject = subject.subject + ' (Not offered)';
+        }
+        return subject;
+      }
+    });
+  } else {
+    sortedSubjects = sortedSubjects?.filter((subject) => {
+      if (subject.subject.includes('Not offered')) {
+        subject.subject = subject.subject.replace('(Not offered)', '');
+      }
+      return subject;
+    });
+  }
   const handleFilter = (s: boolean) => {
     setFilter(s);
   };

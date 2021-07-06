@@ -1,7 +1,7 @@
-import { PropsWithChildren, useCallback } from 'react';
+import { PropsWithChildren, useCallback, useState } from 'react';
 
-import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-ui/icons';
-import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
+import { WarningTwoIcon, ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-ui/icons';
+import { Box, Text, Flex, VStack, IconButton, Tooltip } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
@@ -64,14 +64,22 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
       }
     }
   }, [code, pid, courseIsSaved, addCourse, subject, term, deleteCourse]);
-
+  const subjectOffered = subject?.includes('Not offered');
   const buttons = (code: string | undefined, schedule: boolean | undefined) => {
     if (!code) {
       return (
         <Box>
           <IconButton
             aria-label="Select course"
-            icon={<ChevronRightIcon />}
+            icon={
+              !subjectOffered ? (
+                <ChevronRightIcon />
+              ) : (
+                <Tooltip label="No courses are offered in this term for this subject!" aria-label="A tooltip">
+                  <WarningTwoIcon color="red" />
+                </Tooltip>
+              )
+            }
             size="md"
             background="null"
             _hover={{ bg: 'none' }}
@@ -112,7 +120,13 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
       my={1}
       cursor={!schedule ? 'pointer' : 'auto'}
       _hover={{
-        bgGradient: schedule ? undefined : selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
+        bgGradient: schedule
+          ? undefined
+          : selected
+          ? undefined
+          : subject.includes('Not offered')
+          ? 'linear(to-l, #a71d31, #3f0d12)'
+          : 'linear(to-l, #39c686, #80dbb1)',
         color: schedule ? undefined : 'white',
       }}
     >
