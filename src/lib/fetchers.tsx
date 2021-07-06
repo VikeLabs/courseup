@@ -112,11 +112,11 @@ export interface Seat {
 export interface KualiSubject {
   subject: string;
   title: string;
+}
+export interface InSessionSubject {
   inSession?: boolean;
 }
-
-export type Subject = KualiSubject;
-
+export type Subject = KualiSubject & InSessionSubject;
 export interface GetCoursesQueryParams {
   in_session?: boolean;
 }

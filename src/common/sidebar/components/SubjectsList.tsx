@@ -2,7 +2,7 @@ import { LinkBox, Box } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-import { KualiSubject } from 'lib/fetchers';
+import { Subject } from 'lib/fetchers';
 
 import { Card } from './Card';
 
@@ -15,7 +15,7 @@ type SubjectsListProps = {
    * Subject to be displayed
    * EX) SENG 265 -> SENG
    */
-  subjects: KualiSubject[];
+  subjects: Subject[];
 };
 
 export function SubjectsList({ term, subjects }: SubjectsListProps): JSX.Element {

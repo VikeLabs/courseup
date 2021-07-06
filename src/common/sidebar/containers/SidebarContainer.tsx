@@ -55,6 +55,7 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
   let sortedSubjects = useMemo(() => subjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
   //if filter is set then we want to add (Not offered) to subjects
+
   if (filter) {
     sortedSubjects = sortedSubjects?.filter((subject) => {
       if (parsedCourses[subject.subject]) {
@@ -71,6 +72,7 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
       return subject;
     });
   }
+
   const handleFilter = (s: boolean) => {
     setFilter(s);
   };
