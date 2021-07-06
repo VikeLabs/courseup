@@ -530,6 +530,50 @@
 				]
 			}
 		},
+		"/courses/{term}/{subject}/{code}": {
+			"get": {
+				"operationId": "GetCourseDetails",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CourseDetails"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					},
+					{
+						"in": "path",
+						"name": "subject",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/sections/{term}": {
 			"get": {
 				"operationId": "Sections",
