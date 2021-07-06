@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin';
+
 admin.initializeApp({
-  projectId: 'staging-clockwork',
+  projectId: 'demo',
 });
 
 import * as express from 'express';
