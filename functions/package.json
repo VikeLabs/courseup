@@ -9,12 +9,13 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "dev": "concurrently \"FIRESTORE_EMULATOR_HOST=localhost:8080 nodemon\" \"nodemon -x tsoa spec-and-routes\" \"npm run firestore:start\"",
+    "dev": "concurrently \"FIRESTORE_EMULATOR_HOST=localhost:8080 nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "build:routes": "tsoa spec-and-routes && tsc",
     "start:server": "node build/src/server.js",
     "db:populate": "ts-node scripts/populate-courses.ts",
     "db:populate:local": "FIRESTORE_EMULATOR_HOST=localhost:8080 npm run db:populate",
-    "firestore:start": "firebase emulators:start --only firestore --project development --import=tmp/firestore --export-on-exit"
+    "db:start": "firebase emulators:start --only firestore --project development --import=tmp/firestore --export-on-exit",
+    "postinstall": "node scripts/setup.js"
   },
   "engines": {
     "node": "12"
