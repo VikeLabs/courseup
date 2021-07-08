@@ -3,7 +3,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 
 // term to populate date for
-const term = '202101';
+const term = '202109';
 
 // command to run to populate data
 const command = `npm run db:populate:local ${term}`;
