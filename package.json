@@ -48,7 +48,6 @@
     "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
     "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
   },
-  "proxy": "https://courseup.vikelabs.dev/",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -144,6 +143,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
+    "http-proxy-middleware": "^2.0.1",
     "jest-axe": "^5.0.1",
     "prettier": "^2.2.1",
     "storybook-addon-designs": "^5.4.5"
