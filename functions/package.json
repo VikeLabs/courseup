@@ -13,7 +13,6 @@
     "build:routes": "tsoa spec-and-routes && tsc",
     "start:server": "node build/src/server.js",
     "db:populate": "ts-node scripts/populate-courses.ts",
-    "db:populate:local": "FIRESTORE_EMULATOR_HOST=localhost:8080 npm run db:populate",
     "db:start": "firebase emulators:start --only firestore --project development --import=tmp/firestore --export-on-exit",
     "postinstall": "node scripts/setup.js"
   },

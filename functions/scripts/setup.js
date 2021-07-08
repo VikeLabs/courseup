@@ -6,7 +6,7 @@ const fs = require('fs');
 const term = '202109';
 
 // command to run to populate data
-const command = `npm run db:populate:local ${term}`;
+const command = `npm run db:populate ${term}`;
 
 // directory to store firestore data
 const dir = 'tmp/firestore';
