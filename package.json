@@ -165,6 +165,9 @@
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupTests.ts"
+    ],
+    "modulePaths": [
+      "<rootDir>/src/"
     ]
   }
 }
