@@ -1,7 +1,21 @@
-import { Center, Grid, GridItem, Flex, Text, LinkBox, Box } from '@chakra-ui/react';
+import {
+  Center,
+  Grid,
+  GridItem,
+  Flex,
+  Text,
+  LinkBox,
+  Box,
+  Collapse,
+  Alert,
+  CloseButton,
+  Link,
+  AlertDescription,
+} from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Banner } from '../components/Banner';
+import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+
 import { NavButtons } from '../components/NavButtons';
 import { Search } from '../components/SearchBar';
 import { TermButtons } from '../components/TermButtons';
@@ -10,14 +24,29 @@ export interface HeaderProps {
   onSearchChange?: (query: string) => void;
   onSearchSubmit?: (query: string) => void;
 }
-
 /**
  * Primary UI component for content
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
+  const [banner, setBanner] = useSessionStorage('user:banner', true);
   return (
     <Box zIndex={1000}>
-      <Banner />
+      <Collapse in={banner} animateOpacity>
+        <Alert status="success" alignItems="center" justifyContent="center" variant="solid">
+          <AlertDescription>
+            ☕ Hey! We're holding <b>office hours</b> and a <b>backend developer workshop</b> for CourseUp on June, 19th
+            at 11 am PDT on the{' '}
+            <Link href="https://discord.gg/ZhpnafrxKQ" fontWeight="bold" textDecoration="underline" isExternal>
+              VikeLabs Discord
+            </Link>
+            {'! '}
+            <Link href="https://github.com/VikeLabs/courseup/discussions/218" textDecoration="underline" isExternal>
+              Click here to learn more!
+            </Link>
+          </AlertDescription>
+          <CloseButton position="absolute" right="8px" top="8px" onClick={() => setBanner(false)} />
+        </Alert>
+      </Collapse>
       <Grid
         templateColumns="repeat(3, 1fr)"
         as="header"
