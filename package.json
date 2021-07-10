@@ -140,7 +140,6 @@
     "@types/react-helmet": "^6.1.1",
     "@types/react-instantsearch-core": "^6.10.1",
     "@types/react-instantsearch-dom": "^6.10.0",
-    "dayjs": "^1.10.4",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
