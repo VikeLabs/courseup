@@ -8,7 +8,6 @@ import { Term } from 'lib/fetchers';
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { getCurrentTerm } from 'lib/utils';
 
-import { Feedback } from 'common/feedback';
 import { Header } from 'common/header';
 
 import { ContentSidebar } from '..';
@@ -56,9 +55,6 @@ export function SidebarTemplate({ children, term, title }: PropsWithChildren<Sid
         <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>
           {children}
         </Flex>
-        <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
-          <Feedback />
-        </Box>
       </Flex>
     </Flex>
   );

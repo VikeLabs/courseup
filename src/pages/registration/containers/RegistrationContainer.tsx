@@ -5,7 +5,6 @@ import { useParams } from 'react-router';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
-import { Feedback } from 'common/feedback';
 import { Header } from 'common/header';
 
 import { RegistrationHeading } from '../components/RegistrationHeading';
@@ -46,9 +45,6 @@ export function RegistrationContainer(): JSX.Element | null {
           )}
         </Box>
       </Flex>
-      <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
-        <Feedback />
-      </Box>
     </Flex>
   );
 }
