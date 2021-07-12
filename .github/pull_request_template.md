@@ -27,7 +27,3 @@ Closes #XX
 ## General Comments
 
 <!-- Optional - Add anything else you would like to add to the Pull Request -->
-
----
-
-@VikeLabs/courseup
