@@ -36,5 +36,5 @@ Steps to reproduce the behaviour/bug/issue:
  - Browser: [e.g. chrome, safari]
  - Version: [e.g. 22]
 
-**Additional cCntext**
+**Additional Context**
 <!--- Add any other context about the bug/issue here. -->
