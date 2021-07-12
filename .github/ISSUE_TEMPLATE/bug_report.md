@@ -1,36 +1,40 @@
 ---
-name: Bug report
-about: File a report on a bug you came across
-title: ''
+name: Bug Report
+about: Report a bug or issue.
+title: 'Bug: '
 labels: bug
 assignees: ''
 
 ---
 
-**Describe the bug**
-<!--- A clear and concise description of what the bug is. -->
+**Describe the Bug/Issue**
+<!-- A clear and concise description of the bug/issue. -->
 
 **To Reproduce**
 <!--- i.e.
 1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+1. Click on '....'
+1. Scroll down to '....'
+1. See bug/issue
 -->
-Steps to reproduce the behavior:
-1. 
-2. 
 
-**Expected behavior**
+Steps to reproduce the behaviour/bug/issue:
+
+1. 
+1. 
+
+**Expected Behaviour**
 <!--- A clear and concise description of what you expected to happen. -->
 
 **Screenshots**
 <!--- If applicable, add screenshots to help explain your problem. -->
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Desktop/Mobile**
+<!-- Please complete the following information. -->
 
-**Additional context**
-<!--- Add any other context about the problem here. -->
+ - OS: [e.g. iOS]
+ - Browser: [e.g. chrome, safari]
+ - Version: [e.g. 22]
+
+**Additional cCntext**
+<!--- Add any other context about the bug/issue here. -->
