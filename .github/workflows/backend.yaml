@@ -1,13 +1,6 @@
 name: Continuous Integration (Backend)
 on:
-  push:
-    paths-ignore:
-      - 'src/**'
-    branches-ignore:
-      - main
   pull_request:
-    paths-ignore:
-      - 'src/**'
     branches-ignore:
       - main
 jobs:
