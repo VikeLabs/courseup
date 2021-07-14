@@ -54,29 +54,23 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
 
   const loading = subjectsLoading || coursesLoading;
 
-  // sorts the list of subjects alphabetically
-  let sortedSubjects = useMemo(() => inSessionSubjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [
-    inSessionSubjects,
-  ]);
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
-  //if filter is set then we want to add (Not offered) to subjects
 
-  if (filter) {
-    sortedSubjects = sortedSubjects?.filter((subject) => {
-      if (parsedCourses[subject.subject]) {
-        subject.inSession = true;
-        return subject;
-      } else {
-        subject.inSession = false;
-        return subject;
-      }
-    });
-  } else {
-    sortedSubjects = sortedSubjects?.filter((subject) => {
-      subject.inSession = true;
-      return subject;
-    });
-  }
+  // sorts the list of subjects alphabetically
+  const sortedSubjects = useMemo(
+    () =>
+      inSessionSubjects
+        ?.sort((a, b) => (a.subject > b.subject ? 1 : -1))
+        .map((subject) => {
+          subject.inSession = true;
+          //checks if subject is not in session
+          if (filter && !parsedCourses[subject.subject]) {
+            subject.inSession = false;
+          }
+          return subject;
+        }),
+    [filter, inSessionSubjects, parsedCourses]
+  );
 
   const handleFilter = (s: boolean) => {
     setFilter(s);
