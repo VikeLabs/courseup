@@ -1,8 +1,6 @@
 name: Continuous Integration (Frontend)
 on:
   pull_request:
-    branches-ignore:
-      - main
 jobs:
   lint:
     name: Lint
