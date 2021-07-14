@@ -1,8 +1,6 @@
 name: Continuous Integration (Frontend)
 on:
   pull_request:
-    paths-ignore:
-      - 'functions/**'
     branches-ignore:
       - main
 jobs:
