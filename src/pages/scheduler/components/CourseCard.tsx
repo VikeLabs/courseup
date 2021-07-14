@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { CloseIcon, InfoOutlineIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, CloseIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -88,9 +88,9 @@ export function CourseCard({
           </Flex>
         </Flex>
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
-          <Flex as="label" grow={1} onClick={onShowSections} cursor="pointer">
+          <Flex grow={1}>
             <VStack alignItems="start" spacing="0" py="2">
-              <Text fontSize="lg" fontWeight="bold">
+              <Text fontSize="lg" fontWeight="bold" as={Link} to={`/calendar/${term}/${subject}?pid=${pid}`}>
                 {subject} {code}
               </Text>
               <Text fontSize="sm" fontWeight="normal">
@@ -108,11 +108,10 @@ export function CourseCard({
             />
             <IconButton
               aria-label="More information"
-              icon={<InfoOutlineIcon color="white" />}
-              size="xs"
+              icon={showSections ? <ChevronDownIcon color="white" /> : <ChevronUpIcon color="white" />}
               bg="blue.400"
-              as={Link}
-              to={`/calendar/${term}/${subject}?pid=${pid}`}
+              size="xs"
+              onClick={onShowSections}
             />
           </VStack>
         </Flex>
