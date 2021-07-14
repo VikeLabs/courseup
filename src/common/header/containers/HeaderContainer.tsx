@@ -32,7 +32,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
           <Flex justifyContent="space-between" alignContent="center" alignItems="flex-start">
             <LinkBox as={RouterLink} to="/" bg="transparent" border="none" ml={5} _hover={{ textDecor: 'none' }}>
               <Text fontSize="xl" fontWeight="bold" color="white">
-                CourseUp
+                CourseUp!
               </Text>
             </LinkBox>
             <NavButtons />
