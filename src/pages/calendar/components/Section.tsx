@@ -80,6 +80,11 @@ export function SectionInfo({
                 Asynchronous
               </Badge>
             )}
+            {!isASYNC && instructionalMethod == 'online' && (
+              <Badge colorScheme="cyan" mx="1">
+                Synchronous
+              </Badge>
+            )}
             {isSENG && (
               <Badge colorScheme="orange" mx="1">
                 SENG ONLY
