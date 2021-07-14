@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes as ReactRouterRoutes, Route } from 'react-router-dom';
 
-import { Calendar } from './pages/calendar';
-import { Home } from './pages/home';
-import { Scheduler } from './pages/scheduler';
+import { Calendar } from 'pages/calendar';
+import { Home } from 'pages/home';
+import { Registration } from 'pages/registration';
+import { Scheduler } from 'pages/scheduler';
 
 // TODO: use nested routes but it doesn't work right now
 
@@ -15,6 +16,7 @@ export function Routes(): JSX.Element {
         <Route path="/calendar/:term/*" element={<Calendar />} />
         <Route path="/scheduler/" element={<Scheduler />} />
         <Route path="/scheduler/:term/*" element={<Scheduler />} />
+        <Route path="/registration/:term" element={<Registration />} />
       </ReactRouterRoutes>
     </BrowserRouter>
   );

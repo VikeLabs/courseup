@@ -1,21 +1,27 @@
+import React from 'react';
+
 import { ChakraProvider } from '@chakra-ui/react';
 import 'firebase/analytics';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import algoliasearch from 'algoliasearch';
 import firebase from 'firebase/app';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
-import { Mobile } from './app/mobile';
+import { Section } from 'lib/fetchers';
+import { SavedSection } from 'lib/hooks/useSavedCourses';
+import { customTheme } from 'lib/theme';
+import { migrateLocalStorage } from 'lib/utils/localStorageMigration';
+
+import { Mobile } from 'common/mobile';
+
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
+
 import './index.css';
-import { Section } from './shared/fetchers';
-import { SavedSection } from './shared/hooks/useSavedCourses';
 
 export type OldCourse = {
   subject: string;
@@ -68,45 +74,16 @@ if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
   firebase.analytics();
 }
 
-// insert cat cry emoji here
-// this migrates the localStorage format to a new one.
-try {
-  const item = window.localStorage.getItem('user:saved_courses');
-  if (item) {
-    const parsedItem = JSON.parse(item) as OldCourse[];
-    if (parsedItem.some((c) => c.sections.length > 0)) {
-      logEvent('local_storage_migration', { coursesLength: parsedItem.length });
-      localStorage.setItem(
-        'user:saved_courses',
-        JSON.stringify(
-          parsedItem.map(({ subject, pid, code, term, selected, lecture, lab, tutorial, color }) => ({
-            subject,
-            pid,
-            code,
-            term,
-            selected,
-            lecture: lecture?.sectionCode,
-            lab: lab?.sectionCode,
-            tutorial: tutorial?.sectionCode,
-            color,
-          }))
-        )
-      );
-    }
-  }
-} catch (error) {
-  console.warn(`Error reading localStorage key “user:saved_courses”:`, error);
-  console.warn('Likely the format is fine.');
-}
-
 const searchClient = algoliasearch('CR92D3S394', '5477854d63b676fe021f8f83f5839a3a');
+
+migrateLocalStorage();
 
 ReactDOM.render(
   <React.StrictMode>
     <Sentry.ErrorBoundary fallback={'An error has occurred'}>
       <RestfulProvider base={'/api'}>
         <InstantSearch searchClient={searchClient} indexName="dev_uvic">
-          <ChakraProvider portalZIndex={999}>
+          <ChakraProvider portalZIndex={999} theme={customTheme}>
             <Helmet titleTemplate="%s · CourseUp" defaultTitle="CourseUp · We make school easier" />
             <Mobile />
             <Routes />
