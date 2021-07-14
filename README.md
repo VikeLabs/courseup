@@ -27,6 +27,11 @@ If you're interested developing this application, follow these steps to get runn
 
 You will now be able to develop the frontend React application. Any changes made to the code will hot-reload upon save.
 
+Failing to compile on a windows environment?
+Run the following commands and then retry step 4:
+`git fetch --all`
+`git reset --hard`
+
 If you get stuck setting up the development environment, try Google **then** if you're still stuck drop a question in our [GitHub Discussions](https://github.com/VikeLabs/courseup/discussions/categories/q-a).
 
 ### Directory Structure
