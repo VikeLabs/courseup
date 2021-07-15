@@ -1,8 +1,6 @@
 name: Continuous Integration (Backend)
 on:
   pull_request:
-    branches: 
-      - '!main'
 jobs:
   lint:
     name: Lint
