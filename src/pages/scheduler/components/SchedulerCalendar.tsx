@@ -169,7 +169,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     if (days.includes('W')) {
       daysRRule.push(RRule.WE);
     }
-    if (days.includes('R')) {
+    if (days.includes('TR')) {
       daysRRule.push(RRule.TH);
     }
     if (days.includes('F')) {
