@@ -7,17 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: 12
-      - name: Cache npm dependencies
-        uses: actions/cache@v1
-        with:
-          key: npm-${{ hashFiles('package-lock.json') }}
-          path: ~/.npm
-          restore-keys: |
-            npm-
+          node-version: '12'
+          cache: 'npm'
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Lint
@@ -27,17 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: 12
-      - name: Cache npm dependencies
-        uses: actions/cache@v1
-        with:
-          key: npm-${{ hashFiles('package-lock.json') }}
-          path: ~/.npm
-          restore-keys: |
-            npm-
+          node-version: '12'
+          cache: 'npm'
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Test
@@ -47,17 +33,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: 12
-      - name: Cache npm dependencies
-        uses: actions/cache@v1
-        with:
-          key: npm-${{ hashFiles('package-lock.json') }}
-          path: ~/.npm
-          restore-keys: |
-            npm-
+          node-version: '12'
+          cache: 'npm'
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Add version
