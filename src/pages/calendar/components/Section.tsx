@@ -59,9 +59,14 @@ export function SectionInfo({
   seat,
   meetingTimes,
 }: SectionInfoProps): JSX.Element {
-  const isASYNC = additionalNotes?.indexOf('asynchronous') !== -1;
+  const isASYNC = additionalNotes?.indexOf('no "real-time" sessions planned or required') !== -1;
+  const isBLENDED = additionalNotes?.indexOf('a mix of “real-time” and asynchronous sessions') !== -1;
   const isSENG = additionalNotes?.indexOf('Reserved for BSENG students') !== -1;
   const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
+  const isENGR = additionalNotes?.indexOf('Restricted to BEng students only') !== -1;
+  const isENGR_CSC = additionalNotes?.indexOf('Restricted to students in the Faculty of Engineering') !== -1;
+  const isSCI = additionalNotes?.indexOf('Restricted to SCIENCE students') !== -1;
+  const isENGR_MULTI = additionalNotes?.indexOf('Reserved for BME, BSEN, CENG, ELEC students') !== -1;
 
   const { term } = useParams();
   const mode = useDarkMode();
@@ -77,24 +82,49 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            {isASYNC && (
+            {isASYNC && !isBLENDED && (
               <Badge colorScheme="cyan" mx="1">
                 Asynchronous
               </Badge>
             )}
-            {!isASYNC && instructionalMethod == 'online' && (
+            {!isASYNC && !isBLENDED && instructionalMethod == 'online' && (
               <Badge colorScheme="cyan" mx="1">
                 Synchronous
               </Badge>
             )}
+            {isBLENDED && (
+              <Badge colorScheme="cyan" mx="1">
+                Synchronous + Asynchronous
+              </Badge>
+            )}
             {isSENG && (
-              <Badge colorScheme="orange" mx="1">
+              <Badge colorScheme="red" mx="1">
                 SENG ONLY
               </Badge>
             )}
             {isCSC && (
-              <Badge colorScheme="yellow" mx="1">
+              <Badge colorScheme="red" mx="1">
                 CSC ONLY
+              </Badge>
+            )}
+            {isENGR && (
+              <Badge colorScheme="red" mx="1">
+                ENGR ONLY
+              </Badge>
+            )}
+            {isENGR_CSC && (
+              <Badge colorScheme="red" mx="1">
+                ENGR/CSC ONLY
+              </Badge>
+            )}
+            {isSCI && (
+              <Badge colorScheme="red" mx="1">
+                SCI ONLY
+              </Badge>
+            )}
+            {isENGR_MULTI && (
+              <Badge colorScheme="red" mx="1">
+                BME/BSENG/CENG/ELEC ONLY
               </Badge>
             )}
           </Box>
