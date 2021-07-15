@@ -1,15 +1,6 @@
 name: Continuous Integration (Frontend)
 on:
-  push:
-    paths-ignore:
-      - 'functions/**'
-    branches-ignore:
-      - main
   pull_request:
-    paths-ignore:
-      - 'functions/**'
-    branches-ignore:
-      - main
 jobs:
   lint:
     name: Lint
