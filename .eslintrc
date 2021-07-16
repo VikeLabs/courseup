@@ -1,0 +1,55 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object"],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "{@testing-library/**,ts-jest/**,jest-axe,jest-when}",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "lib/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "common/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "pages/**",
+            "group": "internal",
+            "position": "before"
+          }
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "import/no-unresolved": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
+  },
+  "ignorePatterns": ["functions/**"]
+}
