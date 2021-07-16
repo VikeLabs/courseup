@@ -1,6 +1,6 @@
 import { useState, useEffect, PropsWithChildren } from 'react';
 
-import { Flex, Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate } from 'react-router';
 
