@@ -89,8 +89,21 @@ export function CourseCard({
         </Flex>
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
           <Flex grow={1}>
-            <VStack alignItems="start" spacing="0" py="2">
-              <Text fontSize="lg" fontWeight="bold" as={Link} to={`/calendar/${term}/${subject}?pid=${pid}`}>
+            <VStack
+              alignItems="start"
+              spacing="0"
+              py="2"
+              tabIndex={0}
+              as={Link}
+              to={`/calendar/${term}/${subject}?pid=${pid}`}
+            >
+              <Text
+                fontSize="lg"
+                fontWeight="bold"
+                _hover={{
+                  textDecoration: 'underline',
+                }}
+              >
                 {subject} {code}
               </Text>
               <Text fontSize="sm" fontWeight="normal">
@@ -108,7 +121,7 @@ export function CourseCard({
             />
             <IconButton
               aria-label="More information"
-              icon={showSections ? <ChevronDownIcon color="white" /> : <ChevronUpIcon color="white" />}
+              icon={showSections ? <ChevronUpIcon color="white" /> : <ChevronDownIcon color="white" />}
               bg="blue.400"
               size="xs"
               onClick={onShowSections}
