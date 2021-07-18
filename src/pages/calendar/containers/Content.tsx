@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
-import { Term, useGetCourse } from 'lib/fetchers';
+import { Course, CourseDetails, Term, useGetCourse, useGetCourses } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { CourseInfo } from '../components/Course';
@@ -23,10 +23,25 @@ export type ContentProps = {
 /**
  * Primary UI component for content
  */
+
+function checkIfCourseOffered(courses: Course[] | null, data: CourseDetails | null): boolean {
+  if (courses && data && courses.find((course) => course.pid === data.pid)) {
+    //found the course, so button should not be disabled
+    return false;
+  } else {
+    return true;
+  }
+}
+
 export function Content({ term }: ContentProps): JSX.Element {
   const [searchParams] = useSearchParams();
   const toast = useToast();
-  const { data, loading, error } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
+  const { data, loading: coursesLoading, error } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
+  const { data: courses, loading: inSessionCoursesLoading } = useGetCourses({
+    term: term as Term,
+    queryParams: { in_session: true },
+  });
+  const loading = inSessionCoursesLoading || coursesLoading;
 
   const { addCourse, deleteCourse, contains } = useSavedCourses();
 
@@ -43,6 +58,8 @@ export function Content({ term }: ContentProps): JSX.Element {
       }
     }
   }, [data, courseIsSaved, addCourse, term, deleteCourse, toast]);
+
+  const courseNotOffered = checkIfCourseOffered(courses, data);
 
   return (
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
@@ -82,7 +99,7 @@ export function Content({ term }: ContentProps): JSX.Element {
               onClick={handleBookmarkClick}
               colorScheme={courseIsSaved ? 'red' : 'green'}
               size="sm"
-              disabled={loading}
+              disabled={loading || courseNotOffered}
             >
               {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
             </Button>
