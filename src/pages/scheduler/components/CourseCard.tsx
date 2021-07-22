@@ -93,17 +93,13 @@ export function CourseCard({
               alignItems="start"
               spacing="0"
               py="2"
-              tabIndex={0}
+              _hover={{
+                textDecoration: 'underline',
+              }}
               as={Link}
               to={`/calendar/${term}/${subject}?pid=${pid}`}
             >
-              <Text
-                fontSize="lg"
-                fontWeight="bold"
-                _hover={{
-                  textDecoration: 'underline',
-                }}
-              >
+              <Text fontSize="lg" fontWeight="bold" tabIndex={0}>
                 {subject} {code}
               </Text>
               <Text fontSize="sm" fontWeight="normal">

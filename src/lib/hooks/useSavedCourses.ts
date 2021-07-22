@@ -175,8 +175,7 @@ export const useSavedCourses = (): SavedCourses => {
       data.map((course) => {
         if (equals(course, existingCourse)) {
           course.selected = selected;
-          if (!selected) course.showSections = false;
-          else course.showSections = true;
+          course.showSections = selected ? true : false;
         }
 
         return course;
