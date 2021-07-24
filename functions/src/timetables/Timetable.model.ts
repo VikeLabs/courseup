@@ -1,9 +1,9 @@
-export type Course = {
-  term: string;
+import { Term } from '../constants';
+
+export type TimetableCourse = {
   subject: string;
   code: string;
   pid: string;
-  selected: boolean;
   lecture?: string;
   lab?: string;
   tutorial?: string;
@@ -11,6 +11,6 @@ export type Course = {
 };
 
 export type Timetable = {
-  slug: string;
-  courses: Course[];
+  term: Term;
+  courses: TimetableCourse[];
 };

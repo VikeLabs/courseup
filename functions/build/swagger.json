@@ -443,41 +443,99 @@
 			"Subject": {
 				"$ref": "#/components/schemas/KualiSubject"
 			},
-			"Timetable": {
+			"TimetableCourse": {
 				"properties": {
-					"courses": {
-						"items": {
-							"$ref": "#/components/schemas/Course"
-						},
-						"type": "array"
+					"color": {
+						"type": "string"
 					},
-					"slug": {
+					"tutorial": {
+						"type": "string"
+					},
+					"lab": {
+						"type": "string"
+					},
+					"lecture": {
+						"type": "string"
+					},
+					"pid": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
+					},
+					"subject": {
 						"type": "string"
 					}
 				},
 				"required": [
-					"courses",
-					"slug"
+					"color",
+					"pid",
+					"code",
+					"subject"
 				],
 				"type": "object"
 			},
-			"Pick_Timetable.courses_": {
+			"Timetable": {
 				"properties": {
 					"courses": {
 						"items": {
-							"$ref": "#/components/schemas/Course"
+							"$ref": "#/components/schemas/TimetableCourse"
 						},
 						"type": "array"
+					},
+					"term": {
+						"$ref": "#/components/schemas/Term"
 					}
 				},
 				"required": [
-					"courses"
+					"courses",
+					"term"
+				],
+				"type": "object"
+			},
+			"ValidateErrorJSON": {
+				"properties": {
+					"message": {
+						"type": "string",
+						"enum": [
+							"Validation failed"
+						],
+						"nullable": false
+					},
+					"details": {
+						"properties": {},
+						"additionalProperties": {},
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"details"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Timetable.courses-or-term_": {
+				"properties": {
+					"courses": {
+						"items": {
+							"$ref": "#/components/schemas/TimetableCourse"
+						},
+						"type": "array"
+					},
+					"term": {
+						"$ref": "#/components/schemas/Term"
+					}
+				},
+				"required": [
+					"courses",
+					"term"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"TimetableParams": {
-				"$ref": "#/components/schemas/Pick_Timetable.courses_"
+				"$ref": "#/components/schemas/Pick_Timetable.courses-or-term_"
 			}
 		},
 		"securitySchemes": {}
@@ -709,7 +767,22 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/Timetable"
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Timetable"
+										},
+										{}
+									]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
 								}
 							}
 						}
@@ -730,10 +803,20 @@
 		},
 		"/timetables": {
 			"post": {
-				"operationId": "CreateUser",
+				"operationId": "CreateTimetable",
 				"responses": {
 					"201": {
 						"description": "Created"
+					},
+					"422": {
+						"description": "Not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
 					}
 				},
 				"security": [],

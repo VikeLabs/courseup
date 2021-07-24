@@ -1,5 +1,6 @@
 import { collection, subcollection, Ref } from 'typesaurus';
-import { Timetable } from '../timetables/Timetable.model';
+import { Term } from '../constants';
+import { TimetableCourse } from '../timetables/Timetable.model';
 
 export type CourseDoc = {
   // human metadata
@@ -27,6 +28,13 @@ export type SectionDoc = {
   instructors?: string[];
 };
 
+export type TimetableDoc = {
+  term: Term;
+  courses: TimetableCourse[];
+  createdAt: Date;
+  updatedAt?: Date;
+};
+
 // highest level collection
 const CoursesCollection = collection<CourseDoc>('courses');
 
@@ -36,6 +44,6 @@ const SectionsSubstore = subcollection<SectionDoc, CourseDoc>(
   CoursesCollection
 );
 
-const TimetablesCollection = collection<Timetable>('timetables');
+const TimetablesCollection = collection<TimetableDoc>('timetables');
 
 export { CoursesCollection, SectionsSubstore, TimetablesCollection };

@@ -1,28 +1,36 @@
-import cryptoRandomString from 'crypto-random-string';
-import { add, query, where } from 'typesaurus';
+import { get, set } from 'typesaurus';
+import { Term } from '../constants';
 import { TimetablesCollection } from '../db/collections';
-import { Course, Timetable } from './Timetable.model';
+import { TimetableCourse, Timetable } from './Timetable.model';
 
-export type TimetableParams = Pick<Timetable, 'courses'>;
+export type TimetableParams = Pick<Timetable, 'courses' | 'term'>;
 
-export async function getTimetable(slug: string): Promise<Timetable> {
-  const results = await query(TimetablesCollection, [
-    where('slug', '==', slug),
-  ]);
+export async function getTimetable(slug: string): Promise<Timetable | null> {
+  const result = await get(TimetablesCollection, slug);
 
+  if (!result) return null;
   return {
-    slug: results[0]?.data.slug ?? '',
-    courses: results[0]?.data.courses ?? [],
+    term: result.data.term,
+    courses: result.data.courses,
   };
 }
 
-export async function addTimetable(courses: Course[]): Promise<Timetable> {
-  const slug = cryptoRandomString({ length: 15, type: 'url-safe' });
+export async function addTimetable(
+  courses: TimetableCourse[],
+  term: Term
+): Promise<Timetable> {
+  //todo: hash courses to use as key
+  const slug = `${courses.length}${term}`;
 
-  add(TimetablesCollection, { slug, courses });
+  await set(TimetablesCollection, slug, {
+    term,
+    courses,
+    createdAt: new Date(Date.now()),
+  });
 
   return {
-    slug,
+    // slug,
+    term,
     courses,
   };
 }

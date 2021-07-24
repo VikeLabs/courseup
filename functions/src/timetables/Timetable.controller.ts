@@ -4,6 +4,7 @@ import {
   Get,
   Path,
   Post,
+  Response,
   Route,
   SuccessResponse,
 } from 'tsoa';
@@ -14,23 +15,38 @@ import {
   TimetableParams,
 } from './Timetable.service';
 
+interface ValidateErrorJSON {
+  message: 'Validation failed';
+  details: { [name: string]: unknown };
+}
+
 @Route('timetables')
 export class TimetablesController extends Controller {
+  @Response<ValidateErrorJSON>(404, 'Not found')
   @Get('{slug}')
-  public async getTimetable(@Path() slug: string): Promise<Timetable> {
+  public async getTimetable(@Path() slug: string): Promise<Timetable | void> {
     // set the Cache-Control for 24h.
     this.setHeader(
       'Cache-Control',
       `public, max-age=${3600}, s-max-age=${3600}, stale-while-revalidate=${30}, stale-if-error=${60}`
     );
-    return getTimetable(slug);
+    const data = await getTimetable(slug);
+    if (!data) {
+      this.setStatus(404);
+      return;
+    }
+    return data;
   }
 
+  @Response<ValidateErrorJSON>(422, 'Not found')
   @SuccessResponse('201', 'Created')
   @Post()
-  public async createUser(@Body() requestBody: TimetableParams): Promise<void> {
+  public async createTimetable(
+    @Body() requestBody: TimetableParams
+  ): Promise<void> {
+    //todo: big data validation
     this.setStatus(201);
-    addTimetable(requestBody.courses);
+    await addTimetable(requestBody.courses, requestBody.term);
     return;
   }
 }

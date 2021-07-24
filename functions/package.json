@@ -38,7 +38,6 @@
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
     "concurrently": "^6.0.0",
-    "crypto-random-string": "^4.0.0",
     "eslint": "^7.21.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^7.2.0",
