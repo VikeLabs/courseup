@@ -442,6 +442,42 @@
 			},
 			"Subject": {
 				"$ref": "#/components/schemas/KualiSubject"
+			},
+			"Timetable": {
+				"properties": {
+					"courses": {
+						"items": {
+							"$ref": "#/components/schemas/Course"
+						},
+						"type": "array"
+					},
+					"slug": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"courses",
+					"slug"
+				],
+				"type": "object"
+			},
+			"Pick_Timetable.courses_": {
+				"properties": {
+					"courses": {
+						"items": {
+							"$ref": "#/components/schemas/Course"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"courses"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"TimetableParams": {
+				"$ref": "#/components/schemas/Pick_Timetable.courses_"
 			}
 		},
 		"securitySchemes": {}
@@ -662,6 +698,56 @@
 						}
 					}
 				]
+			}
+		},
+		"/timetables/{slug}": {
+			"get": {
+				"operationId": "GetTimetable",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Timetable"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "slug",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/timetables": {
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"201": {
+						"description": "Created"
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TimetableParams"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

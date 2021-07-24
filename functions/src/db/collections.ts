@@ -1,4 +1,5 @@
 import { collection, subcollection, Ref } from 'typesaurus';
+import { Timetable } from '../timetables/Timetable.model';
 
 export type CourseDoc = {
   // human metadata
@@ -35,4 +36,6 @@ const SectionsSubstore = subcollection<SectionDoc, CourseDoc>(
   CoursesCollection
 );
 
-export { CoursesCollection, SectionsSubstore };
+const TimetablesCollection = collection<Timetable>('timetables');
+
+export { CoursesCollection, SectionsSubstore, TimetablesCollection };
