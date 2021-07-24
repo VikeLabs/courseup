@@ -8,12 +8,9 @@ admin.initializeApp({
 const term = '202109';
 const dir = 'tmp/firestore';
 
-const main = async () => {
-  console.log('populating database with courses');
-  await CoursesService.populateCourses(term as Term);
-};
-
 import * as express from 'express';
+import { Response as ExResponse, Request as ExRequest } from 'express';
+import * as swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from '../build/routes';
 import * as openapi from '../build/swagger.json';
 import { CoursesService } from './courses/Course.service';
@@ -38,16 +35,34 @@ app.get('/openapi.json', async (req, res) => {
   res.send(openapi);
 });
 
+app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
+  return res.send(swaggerUi.generateHTML(openapi));
+});
+
 RegisterRoutes(app);
 
-if (!fs.existsSync(dir) && !process.env.CI) {
-  fs.mkdirSync(dir, { recursive: true });
+const main = async () => {
+  if (!fs.existsSync(dir)) {
+    console.log(
+      `Unable to find Firestore data in ${dir}. Seeding database for ${term}...`
+    );
+    fs.mkdirSync(dir, { recursive: true });
+    await CoursesService.populateCourses(term as Term);
+  } else {
+    console.log('Found Firestore data. Skipping database seeding.');
+    console.log(
+      `Delete "${dir}" (using "rm -rf tmp/dir") to re-run the database seeding.`
+    );
+    console.log(
+      `or run "FIRESTORE_EMULATOR_HOST=localhost:8080 npm run db:populate <term>"`
+    );
+  }
 
-  main();
-}
+  app.listen(port, () =>
+    console.log(
+      `CourseUp Functions (Express) app listening at http://localhost:${port}`
+    )
+  );
+};
 
-app.listen(port, () =>
-  console.log(
-    `CourseUp Functions (Express) app listening at http://localhost:${port}`
-  )
-);
+main();
