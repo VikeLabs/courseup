@@ -1,15 +1,6 @@
 name: Continuous Integration (Frontend)
 on:
-  push:
-    paths-ignore:
-      - 'functions/**'
-    branches-ignore:
-      - main
   pull_request:
-    paths-ignore:
-      - 'functions/**'
-    branches-ignore:
-      - main
 jobs:
   lint:
     name: Lint
@@ -99,4 +90,3 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
           expires: 7d
           projectId: staging-clockwork
-          channelId: courseup
