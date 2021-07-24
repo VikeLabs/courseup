@@ -1,12 +1,23 @@
 import * as admin from 'firebase-admin';
+import * as fs from 'fs';
 
 admin.initializeApp({
   projectId: 'development',
 });
 
+const term = '202109';
+const dir = 'tmp/firestore';
+
+const main = async () => {
+  console.log('populating database with courses');
+  await CoursesService.populateCourses(term as Term);
+};
+
 import * as express from 'express';
 import { RegisterRoutes } from '../build/routes';
 import * as openapi from '../build/swagger.json';
+import { CoursesService } from './courses/Course.service';
+import { Term } from './constants';
 
 export const app = express();
 
@@ -28,6 +39,12 @@ app.get('/openapi.json', async (req, res) => {
 });
 
 RegisterRoutes(app);
+
+if (!fs.existsSync(dir) && !process.env.CI) {
+  fs.mkdirSync(dir, { recursive: true });
+
+  main();
+}
 
 app.listen(port, () =>
   console.log(
