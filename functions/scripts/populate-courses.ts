@@ -17,7 +17,7 @@ if (!/20\d{2}0[1,5,9]/.test(term.trim()))
   throw Error('Invalid term argument format');
 
 const main = async () => {
-  console.log('populating database with courses');
+  console.log('Populating Firestore with data...');
   await CoursesService.populateCourses(term as Term);
 };
 
