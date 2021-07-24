@@ -7,6 +7,8 @@ if (process.env.FIRESTORE_EMULATOR_HOST) {
   admin.initializeApp({
     projectId: 'development',
   });
+} else {
+  admin.initializeApp({ credential: admin.credential.applicationDefault() });
 }
 
 if (process.argv.length != 3) throw Error('Term argument not found.');
