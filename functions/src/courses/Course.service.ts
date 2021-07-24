@@ -55,7 +55,7 @@ export class CoursesService {
     subject: string,
     code: string
   ): Promise<CourseDetails> {
-    const details = await getCourse(term, subject, code);
+    const details = await getCourse(term, subject.toUpperCase(), code);
 
     // TODO: make better?
     if (!details) throw new Error('pid Not Found');
