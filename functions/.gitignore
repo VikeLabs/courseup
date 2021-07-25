@@ -10,3 +10,6 @@ node_modules/
 
 # Firestore
 tmp/*
+
+# Jest
+coverage/
