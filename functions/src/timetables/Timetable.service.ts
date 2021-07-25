@@ -22,7 +22,7 @@ export async function addTimetable(
   courses: TimetableCourse[],
   term: Term
 ): Promise<TimetableReturn | null> {
-  const slug = hash(courses, { unorderedArrays: true });
+  const slug = hash({ ...courses, term }, { unorderedArrays: true });
 
   const valid = await validTimetable(courses, term);
   if (!valid) return null;
