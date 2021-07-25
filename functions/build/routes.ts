@@ -161,6 +161,11 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"courses":{"dataType":"array","array":{"dataType":"refAlias","ref":"TimetableCourse"},"required":true},"term":{"ref":"Term","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TimetableReturn": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"slug":{"dataType":"string","required":true}}},{"ref":"Timetable"}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ValidateErrorJSON": {
         "dataType": "refObject",
         "properties": {

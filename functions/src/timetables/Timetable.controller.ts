@@ -13,6 +13,7 @@ import {
   addTimetable,
   getTimetable,
   TimetableParams,
+  TimetableReturn,
 } from './Timetable.service';
 
 interface ValidateErrorJSON {
@@ -22,7 +23,7 @@ interface ValidateErrorJSON {
 
 @Route('timetables')
 export class TimetablesController extends Controller {
-  @Response<ValidateErrorJSON>(404, 'Not found')
+  @Response(404, 'Not found')
   @Get('{slug}')
   public async getTimetable(@Path() slug: string): Promise<Timetable | void> {
     // set the Cache-Control for 24h.
@@ -38,15 +39,18 @@ export class TimetablesController extends Controller {
     return data;
   }
 
-  @Response<ValidateErrorJSON>(422, 'Not found')
+  @Response<ValidateErrorJSON>(422, 'Invalid data')
   @SuccessResponse('201', 'Created')
   @Post()
   public async createTimetable(
     @Body() requestBody: TimetableParams
-  ): Promise<void> {
-    //todo: big data validation
+  ): Promise<TimetableReturn | void> {
+    const data = await addTimetable(requestBody.courses, requestBody.term);
+    if (!data) {
+      this.setStatus(422);
+      return;
+    }
     this.setStatus(201);
-    await addTimetable(requestBody.courses, requestBody.term);
-    return;
+    return data;
   }
 }

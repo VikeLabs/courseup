@@ -493,6 +493,24 @@
 				],
 				"type": "object"
 			},
+			"TimetableReturn": {
+				"allOf": [
+					{
+						"properties": {
+							"slug": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"slug"
+						],
+						"type": "object"
+					},
+					{
+						"$ref": "#/components/schemas/Timetable"
+					}
+				]
+			},
 			"ValidateErrorJSON": {
 				"properties": {
 					"message": {
@@ -822,14 +840,7 @@
 						}
 					},
 					"404": {
-						"description": "Not found",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ValidateErrorJSON"
-								}
-							}
-						}
+						"description": "Not found"
 					}
 				},
 				"security": [],
@@ -850,10 +861,22 @@
 				"operationId": "CreateTimetable",
 				"responses": {
 					"201": {
-						"description": "Created"
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/TimetableReturn"
+										},
+										{}
+									]
+								}
+							}
+						}
 					},
 					"422": {
-						"description": "Not found",
+						"description": "Invalid data",
 						"content": {
 							"application/json": {
 								"schema": {

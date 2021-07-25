@@ -16,13 +16,6 @@ import * as openapi from '../build/swagger.json';
 import { CoursesService } from './courses/Course.service';
 import { Term } from './constants';
 
-import {
-  Response as ExResponse,
-  Request as ExRequest,
-  NextFunction,
-} from 'express';
-import { ValidateError } from 'tsoa';
-
 export const app = express();
 
 const port = process.env.PORT || 3001;
