@@ -50,6 +50,21 @@ export class CoursesService {
     }));
   }
 
+  static async getCourseDetails(
+    term: string,
+    subject: string,
+    code: string
+  ): Promise<CourseDetails> {
+    const details = await getCourse(term, subject.toUpperCase(), code);
+
+    // TODO: make better?
+    if (!details) throw new Error('pid Not Found');
+
+    const { pid } = details;
+
+    return this.getCourseDetailsByPid(term, pid);
+  }
+
   static async getCourseDetailsByPid(
     term: string,
     pid: string
@@ -77,10 +92,10 @@ export class CoursesService {
    * @param term
    */
   static async populateCourses(term: Term): Promise<void> {
-    console.log('fetching courses...');
+    console.log('Fetching courses...');
     const courses = await CoursesService.getCourses(term);
     // get all sections for a given term and course
-    console.log('fetching sections...');
+    console.log('Fetching sections...');
 
     const sections = await mapLimit<
       Course,
@@ -101,7 +116,9 @@ export class CoursesService {
       pid,
     }));
 
-    console.log('inserting into db');
+    console.log(
+      `Inserting ${sections.length} records as batch operation into Firestore...`
+    );
 
     let j = 0;
     let { set, commit } = batch();
@@ -141,7 +158,7 @@ export class CoursesService {
       // this code will only fail if the num of sections in a given class is greater than 50.
 
       if (j > 450) {
-        console.log('batch', j);
+        console.log(`Inserted ${j} records...`);
         await commit();
         // FIX: this is a workaround for an "weird" bug.
         // the set/commit need to be re-created from batch() to "flush" the batch writes.
@@ -152,7 +169,7 @@ export class CoursesService {
         j = 0;
       }
     }
-    // flush remaining courses in list.
+    console.log(`Flushing remaining courses...`);
     await commit();
   }
 }

@@ -113,7 +113,7 @@ export function CourseInfo({
         )}
         {credits && (
           <CourseShield bg="purple.200" title="Credits">
-            <Heading as="span" size="sm" title="lecture hours per week">
+            <Heading as="span" size="sm" title="credits given for this course">
               {credits.credits.max === credits.credits.min
                 ? credits.credits.max
                 : `${credits.credits.min} ~ ${credits.credits.max}`}

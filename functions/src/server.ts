@@ -1,12 +1,20 @@
 import * as admin from 'firebase-admin';
+import * as fs from 'fs';
+
 admin.initializeApp({
-  projectId: 'staging-clockwork',
+  projectId: 'development',
 });
 
+const term = '202109';
+const dir = 'tmp/firestore';
+
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
+import { Response as ExResponse, Request as ExRequest } from 'express';
+import * as swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from '../build/routes';
 import * as openapi from '../build/swagger.json';
+import { CoursesService } from './courses/Course.service';
+import { Term } from './constants';
 
 import {
   Response as ExResponse,
@@ -21,11 +29,11 @@ const port = process.env.PORT || 3001;
 
 // Use body parser to read sent json payloads
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
-app.use(bodyParser.json());
+app.use(express.json());
 
 // TODO: can probably accomplish the same thing using hosting.
 // serve the OpenAPI spec.
@@ -34,32 +42,34 @@ app.get('/openapi.json', async (req, res) => {
   res.send(openapi);
 });
 
-RegisterRoutes(app);
-
-app.use(function errorHandler(
-  err: unknown,
-  req: ExRequest,
-  res: ExResponse,
-  next: NextFunction
-): ExResponse | void {
-  if (err instanceof ValidateError) {
-    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
-    return res.status(422).json({
-      message: 'Validation Failed',
-      details: err?.fields,
-    });
-  }
-  if (err instanceof Error) {
-    return res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-
-  next();
+app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
+  return res.send(swaggerUi.generateHTML(openapi));
 });
 
-app.listen(port, () =>
-  console.log(
-    `CourseUp Functions (Express) app listening at http://localhost:${port}`
-  )
-);
+RegisterRoutes(app);
+
+const main = async () => {
+  if (!fs.existsSync(dir)) {
+    console.log(
+      `Unable to find Firestore data in ${dir}. Seeding database for ${term}...`
+    );
+    fs.mkdirSync(dir, { recursive: true });
+    await CoursesService.populateCourses(term as Term);
+  } else {
+    console.log('Found Firestore data. Skipping database seeding.');
+    console.log(
+      `Delete "${dir}" (using "rm -rf tmp/dir") to re-run the database seeding.`
+    );
+    console.log(
+      `or run "FIRESTORE_EMULATOR_HOST=localhost:8080 npm run db:populate <term>"`
+    );
+  }
+
+  app.listen(port, () =>
+    console.log(
+      `CourseUp Functions (Express) app listening at http://localhost:${port}`
+    )
+  );
+};
+
+main();
