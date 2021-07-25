@@ -17,6 +17,8 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from '../shared/types';
 
+let latestHour = 17;
+
 const locales = {
   'en-US': enUS,
 };
@@ -178,6 +180,13 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       try {
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
+        if (calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] == `pm`) {
+          let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
+          if (theTime > latestHour) {
+            latestHour = theTime + 1;
+          }
+        }
+
         const lowerBound = getTermMonthLowerBound();
 
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
@@ -280,7 +289,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       localizer={localizer}
       events={events}
       min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)}
-      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)}
+      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), latestHour)}
       defaultView="work_week"
       views={['work_week']}
       date={selectedDate}
