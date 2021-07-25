@@ -44,6 +44,9 @@ async function validTimetable(
   courses: TimetableCourse[],
   term: Term
 ): Promise<boolean> {
+  // 12 is the max length of courses we will allow for a timetable in the database
+  if (courses.length > 12) return false;
+
   for (const course of courses) {
     // validate lecture, lab, tutorial follow A01 format
     if (course.lecture) {
