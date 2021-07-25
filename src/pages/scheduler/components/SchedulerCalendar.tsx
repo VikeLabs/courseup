@@ -16,7 +16,7 @@ import { RRule } from 'rrule';
 import '../styles/CalendarStyles.scss';
 import { CalendarEvent } from '../shared/types';
 
-let latestHour = 17;
+let latestHour = 20;
 
 const locales = {
   'en-US': enUS,
@@ -188,10 +188,11 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       try {
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
-        if (calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] == `pm`) {
-          let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
-          if (theTime > latestHour) {
-            latestHour = theTime + 1;
+        let courseEndTime = calendarEvent.meetingTime.time.split(`- `)[1];
+        if (courseEndTime.split(` `)[1] == `pm` && parseInt(courseEndTime.split(`:`)[0]) != 12) {
+          let endTime = parseInt(courseEndTime.split(`:`)[0]) + 12;
+          if (endTime > latestHour) {
+            latestHour = endTime + 1;
           }
         }
 
