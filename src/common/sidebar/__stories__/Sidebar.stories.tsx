@@ -1,18 +1,17 @@
-import { Story, Meta } from '@storybook/react/types-6-0';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import { SidebarContainer, SidebarContainerProps } from './containers/SidebarContainer';
-// also exported from '@storybook/react' if you can deal with breaking changes in 6.1
+import { SidebarContainer } from '../containers/SidebarContainer';
 
 export default {
   title: 'Sidebar',
   component: SidebarContainer,
-} as Meta;
+} as ComponentMeta<typeof SidebarContainer>;
 
-const Template: Story<SidebarContainerProps> = (args) => <SidebarContainer {...args} />;
+const Template: ComponentStory<typeof SidebarContainer> = (args) => <SidebarContainer {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {};
 
+Default.args = {};
 Default.parameters = {
   design: {
     type: 'figma',
