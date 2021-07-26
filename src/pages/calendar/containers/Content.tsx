@@ -48,7 +48,7 @@ export function Content({ term }: ContentProps): JSX.Element {
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
 
-      <Box bg="white" p={4} zIndex={60}>
+      <Box p={4} zIndex={60}>
         {error && (
           <Alert status="error" my="5">
             <pre>{error.message}</pre>
@@ -62,13 +62,7 @@ export function Content({ term }: ContentProps): JSX.Element {
           <Skeleton isLoaded={!loading} display="flex" flexDirection="row" alignItems="center">
             {data && (
               <>
-                <Heading
-                  mr="5"
-                  size="2xl"
-                  as="h2"
-                  whiteSpace="pre"
-                  color="black"
-                >{`${data.subject} ${data.code}`}</Heading>
+                <Heading mr="5" size="2xl" as="h2" whiteSpace="pre">{`${data.subject} ${data.code}`}</Heading>
                 <Heading size="lg" as="h3" color="gray">
                   {data.title}
                 </Heading>

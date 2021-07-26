@@ -122,7 +122,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
         <HStack pb="0.2em">
           <Button
             size="sm"
-            bg="gray.200"
+            colorScheme="gray"
             onClick={() => {
               setSelectedDate(new Date());
             }}

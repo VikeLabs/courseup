@@ -89,7 +89,7 @@ export function CourseInfo({
   term,
 }: CourseInfoProps): JSX.Element {
   return (
-    <Box as="section" bg="white" color="black">
+    <Box as="section">
       <Divider my="3" />
       <Flex my="3" flexWrap="wrap">
         {hours && (

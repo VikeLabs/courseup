@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
+import { Radio, RadioGroup, Box, HStack, Text, VStack, useColorMode } from '@chakra-ui/react';
 
 import { ClassScheduleListing, MeetingTimes } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
@@ -27,7 +27,7 @@ export function SectionsCardContainer({
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
-    <Box bg="whiteAlpha.900">
+    <Box className="card">
       {sectionTypes.map((type) => (
         <SectionGroup
           sections={sections}
@@ -119,8 +119,18 @@ export interface OptionsProps {
 }
 
 export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element {
+  const { colorMode } = useColorMode();
+
   return (
-    <HStack as="label" px="3" my="0.5" fontSize="12px" borderTop="#e4e4e4" borderTopWidth="2" borderTopStyle="solid">
+    <HStack
+      as="label"
+      px="3"
+      my="0.5"
+      fontSize="12px"
+      borderTop={colorMode !== 'light' ? '#151922' : '#E4E4E4'}
+      borderTopWidth="2"
+      borderTopStyle="solid"
+    >
       <HStack>
         <Radio
           value={sectionCode}

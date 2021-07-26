@@ -52,8 +52,8 @@ export function CourseCard({
   const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Box boxShadow="md" cursor="pointer" as="label" w="100%">
-      <Flex direction="row" bg="white">
+    <Box boxShadow="md" cursor="pointer" as="label" w="100%" className="card">
+      <Flex direction="row">
         <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
           <Flex>
             <Checkbox
@@ -79,16 +79,16 @@ export function CourseCard({
           <VStack alignContent="right" pr="3" py="5px">
             <IconButton
               aria-label="Remove from Scheduler"
-              icon={<CloseIcon color="white" />}
-              bg="red.400"
+              icon={<CloseIcon />}
+              colorScheme="red"
               size="xs"
               onClick={onDelete}
             />
             <IconButton
               aria-label="More information"
-              icon={<InfoOutlineIcon color="white" />}
+              icon={<InfoOutlineIcon />}
               size="xs"
-              bg="blue.400"
+              colorScheme="blue"
               as={Link}
               to={`/calendar/${term}/${subject}?pid=${pid}`}
             />

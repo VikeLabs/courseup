@@ -84,15 +84,15 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
           <IconButton
             aria-label="Add to Scheduler"
             onClick={handleBookmarkClick}
-            icon={courseIsSaved ? <CloseIcon color="white" /> : <AddIcon color="white" />}
+            icon={courseIsSaved ? <CloseIcon /> : <AddIcon />}
             size="xs"
-            background={courseIsSaved ? 'red.400' : 'green.400'}
+            colorScheme={courseIsSaved ? 'red' : 'green'}
           />
           <IconButton
             aria-label="More information"
-            icon={<InfoOutlineIcon color="white" />}
+            icon={<InfoOutlineIcon />}
             size="xs"
-            background="blue.400"
+            colorScheme="blue"
             as={Link}
             to={`/calendar/${term}/${subject}?pid=${pid}`}
           />
@@ -103,9 +103,8 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
 
   return (
     <Box
-      bgColor={selected ? undefined : 'white'}
+      className="card"
       bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
-      color={selected ? 'white' : 'black'}
       boxShadow="md"
       py={2}
       px={4}

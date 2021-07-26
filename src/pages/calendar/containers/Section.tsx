@@ -37,7 +37,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   if (loading) {
     return (
       <Center width="100%">
-        <Spinner bg="white" colorScheme="black" size="xl" color="gray" />
+        <Spinner colorScheme="black" size="xl" color="gray" />
       </Center>
     );
   }
@@ -47,10 +47,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
     return (
       <Center>
         <Heading size="md" color="gray">
-          Unable to find sections for{' '}
-          <Box as="span" color="black">
-            {getReadableTerm(term)}
-          </Box>
+          Unable to find sections for <Box as="span">{getReadableTerm(term)}</Box>
         </Heading>
       </Center>
     );
@@ -75,7 +72,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
         if (c.sections && c.sections.length > 0) {
           return (
             <Box key={i}>
-              <Heading size="xl" color="black" my="2">
+              <Heading size="xl" my="2">
                 {c.sections.length > 1 ? c.plural : c.singular}
               </Heading>
               <Sections sections={c.sections} seats={seats} />

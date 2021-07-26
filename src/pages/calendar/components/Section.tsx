@@ -65,7 +65,7 @@ export function SectionInfo({
   const { term } = useParams();
 
   return (
-    <Box as="section" bg="white" color="black" my="4" boxShadow="md" p="3" rounded="lg">
+    <Box as="section" my="4" boxShadow="md" p="3" rounded="lg" className="section">
       <Flex my="2" alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <Heading size="lg" as="h2" whiteSpace="pre" id={sectionCode}>

@@ -91,22 +91,13 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
     <Flex
       minW="25%"
       maxW="25%"
-      bg="#E4E4E4"
+      className="background"
       overflowY="auto"
       direction="column"
       boxShadow="md"
       justifyContent="space-between"
     >
-      <Box
-        bg="white"
-        top="0"
-        m="0"
-        boxShadow="md"
-        zIndex={10}
-        borderColor="gray.200"
-        borderBottomWidth="2px"
-        borderBottomStyle="solid"
-      >
+      <Box className="card" top="0" m="0" boxShadow="md" zIndex={10} borderBottomWidth="2px" borderBottomStyle="solid">
         <Flex justifyContent="space-between" alignItems="center" p="3">
           <Text>Saved Courses</Text>
           <Flex>
@@ -158,16 +149,6 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
               </VStack>
             ))}
       </Box>
-      <Box
-        bg="white"
-        top="0"
-        m="0"
-        boxShadow="md"
-        zIndex={10}
-        borderColor="gray.200"
-        borderBottomWidth="2px"
-        borderBottomStyle="solid"
-      />
     </Flex>
   );
 }
