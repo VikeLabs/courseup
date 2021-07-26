@@ -1,6 +1,6 @@
 import { KualiSubject } from './fetchers';
 
-export interface KualiSubjectInSession {
+export interface KualiSubjectInSession extends KualiSubject {
   inSession?: boolean;
 }
-export type InSessionSubject = KualiSubject & KualiSubjectInSession;
+export type kualiInSessionSubject = KualiSubjectInSession;

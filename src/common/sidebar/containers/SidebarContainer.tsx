@@ -4,7 +4,7 @@ import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
 import { Course, Term, useGetCourses, useSubjects } from 'lib/fetchers';
-import { InSessionSubject } from 'lib/types';
+import { kualiInSessionSubject } from 'lib/types';
 
 import { CoursesList } from '../components/CoursesList';
 import { CustomHits } from '../components/SearchResults';
@@ -49,8 +49,6 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
     term: term as Term,
     queryParams: { in_session: filter },
   });
-  // re assign the type of subjects so inSession property is available
-  const inSessionSubjects: InSessionSubject[] | null = subjects;
 
   const loading = subjectsLoading || coursesLoading;
 
@@ -59,9 +57,9 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
   // sorts the list of subjects alphabetically
   const sortedSubjects = useMemo(
     () =>
-      inSessionSubjects
+      subjects
         ?.sort((a, b) => (a.subject > b.subject ? 1 : -1))
-        .map((subject) => {
+        .map((subject: kualiInSessionSubject) => {
           subject.inSession = true;
           //checks if subject is not in session
           if (filter && !parsedCourses[subject.subject]) {
@@ -69,7 +67,7 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
           }
           return subject;
         }),
-    [filter, inSessionSubjects, parsedCourses]
+    [filter, parsedCourses, subjects]
   );
 
   const handleFilter = (s: boolean) => {
