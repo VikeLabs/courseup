@@ -120,70 +120,52 @@ export function Card({
     }
   };
 
-  if (inSessionSubject === undefined) {
-    return (
-      <Box
-        bgColor={selected ? undefined : 'white'}
-        bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
-        color={selected ? 'white' : 'black'}
-        boxShadow="md"
-        py={2}
-        px={4}
-        my={1}
-        cursor={!schedule ? 'pointer' : 'auto'}
-        _hover={{
-          bgGradient: schedule ? undefined : selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
-
-          color: schedule ? undefined : 'white',
-        }}
-      >
-        <Flex direction="row" alignItems="center" justifyContent="space-between">
-          <VStack alignItems="start" spacing="0">
-            <Text fontSize="lg" fontWeight="bold" p={0} m={0}>
-              {subject} {code}
-            </Text>
-            <Text fontSize="sm" fontWeight="normal" p={0} m={0}>
-              {title}
-            </Text>
-          </VStack>
-          {buttons(code, schedule)}
-        </Flex>
-      </Box>
-    );
-  } else {
-    return (
-      <Box
-        bgColor={selected ? (inSessionSubject ? undefined : '#d3d3d3') : inSessionSubject ? 'white' : '#d3d3d3'}
-        bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
-        color={selected ? 'white' : 'black'}
-        boxShadow="md"
-        py={2}
-        px={4}
-        my={1}
-        cursor={!schedule ? (inSessionSubject ? 'pointer' : 'auto') : 'auto'}
-        _hover={{
-          bgGradient: schedule
-            ? undefined
-            : selected
+  return (
+    <Box
+      bgColor={
+        selected
+          ? inSessionSubject === undefined
             ? undefined
             : inSessionSubject
-            ? 'linear(to-l, #39c686, #80dbb1)'
-            : 'linear(to-l, #d3d3d3, #d3d3d3)',
-          color: schedule ? undefined : 'white',
-        }}
-      >
-        <Flex direction="row" alignItems="center" justifyContent="space-between">
-          <VStack alignItems="start" spacing="0">
-            <Text fontSize="lg" fontWeight="bold" p={0} m={0}>
-              {subject} {code}
-            </Text>
-            <Text fontSize="sm" fontWeight="normal" p={0} m={0}>
-              {title}
-            </Text>
-          </VStack>
-          {buttons(code, schedule)}
-        </Flex>
-      </Box>
-    );
-  }
+            ? undefined
+            : '#d3d3d3'
+          : inSessionSubject === undefined
+          ? 'white'
+          : inSessionSubject
+          ? 'white'
+          : '#d3d3d3'
+      }
+      bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
+      color={selected ? 'white' : 'black'}
+      boxShadow="md"
+      py={2}
+      px={4}
+      my={1}
+      cursor={!schedule ? (inSessionSubject === undefined ? 'pointer' : inSessionSubject ? 'pointer' : 'auto') : 'auto'}
+      _hover={{
+        bgGradient: schedule
+          ? undefined
+          : selected
+          ? undefined
+          : inSessionSubject === undefined
+          ? 'linear(to-l, #39c686, #80dbb1)'
+          : inSessionSubject
+          ? 'linear(to-l, #39c686, #80dbb1)'
+          : 'linear(to-l, #d3d3d3, #d3d3d3)',
+        color: schedule ? undefined : 'white',
+      }}
+    >
+      <Flex direction="row" alignItems="center" justifyContent="space-between">
+        <VStack alignItems="start" spacing="0">
+          <Text fontSize="lg" fontWeight="bold" p={0} m={0}>
+            {subject} {code}
+          </Text>
+          <Text fontSize="sm" fontWeight="normal" p={0} m={0}>
+            {title}
+          </Text>
+        </VStack>
+        {buttons(code, schedule)}
+      </Flex>
+    </Box>
+  );
 }
