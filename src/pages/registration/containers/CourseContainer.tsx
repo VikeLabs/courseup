@@ -123,18 +123,8 @@ export function CourseContainer({ course }: Props) {
   if (!course.selected) return null;
 
   return (
-    <Container alignItems="center" maxW="container.xl">
-      <Skeleton
-        isLoaded={!loading}
-        color="black"
-        mt="4"
-        mb="2"
-        boxShadow="md"
-        px="3"
-        py="1"
-        rounded="lg"
-        textAlign="left"
-      >
+    <Container alignItems="center" maxW="container.xl" className="section" rounded="lg" mt="10px">
+      <Skeleton isLoaded={!loading} mt="4" mb="2" boxShadow="md" px="3" py="1" rounded="lg" textAlign="left">
         {isMinimized && (
           <RegistrationMinimized
             subject={course.subject}

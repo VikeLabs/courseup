@@ -35,10 +35,7 @@ export function RegistrationContainer(): JSX.Element | null {
               <Divider my="4" />
               <Container alignItems="center" maxW="container.xl">
                 <Heading size="md" color="gray">
-                  Unable to find saved courses for{' '}
-                  <Box as="span" color="black">
-                    {getReadableTerm(term)}
-                  </Box>
+                  Unable to find saved courses for <Box as="span">{getReadableTerm(term)}</Box>
                 </Heading>
               </Container>
             </>
