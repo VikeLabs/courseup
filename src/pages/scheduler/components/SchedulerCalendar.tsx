@@ -1,7 +1,7 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text, HStack, IconButton, VStack, useColorMode } from '@chakra-ui/react';
 import addWeeks from 'date-fns/addWeeks';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
@@ -28,11 +28,11 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const slotPropGetter = (date: Date, resourceId?: number | string) => {
+const slotPropGetter = (date: Date, colorMode: string) => {
   if (date.getDay() === 2 || date.getDay() === 4)
     return {
       style: {
-        backgroundColor: '#F7F7F7',
+        backgroundColor: colorMode === 'light' ? '#F7F7F7' : 'rgb(76, 79, 82)',
       },
     };
   else return {};
@@ -78,6 +78,7 @@ export interface SchedulerCalendarProps {
 }
 
 export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
+  const { colorMode } = useColorMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { term } = useParams();
@@ -283,7 +284,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       views={['work_week']}
       date={selectedDate}
       eventPropGetter={eventStyleGetter}
-      slotPropGetter={slotPropGetter}
+      slotPropGetter={(date) => slotPropGetter(date, colorMode)}
       components={{
         toolbar: CustomToolBar,
         event: CustomEvent,

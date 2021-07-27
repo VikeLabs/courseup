@@ -47,15 +47,32 @@ export const customTheme = extendTheme({
       '.rbc-time-gutter .rbc-timeslot-group:nth-child(odd)': {
         bgColor: '#4e4e4e',
       },
+
+      '.rbc-time-view, .rbc-time-view *': {
+        border: 'unset',
+      },
+
+      '.rbc-time-header.rbc-overflowing': {
+        borderRight: mode('1px solid #ccc', '1px solid rgb(49, 54, 61)')(props),
+      },
+
+      '.rbc-day-slot .rbc-time-slot': {
+        border: 'unset',
+      },
+      '.rbc-timeslot-group': {
+        bgColor: mode('#fefefe', 'rgb(82, 85, 88)')(props),
+        borderWidth: '0px',
+        margin: 0,
+        padding: 0,
+      },
+
+      '.rbc-time-header-content, .rbc-header, .rbc-events-container': {
+        borderLeft: mode('1px solid #ccc !important', '1px solid rgb(82, 85, 88) !important')(props),
+      },
+
+      '.rbc-timeslot-group:nth-child(2n+1), .rbc-time-header.rbc-overflowing, .rbc-time-content': {
+        borderTop: mode('1px solid #ccc', '1px solid rgb(49, 54, 61)')(props),
+      },
     }),
   },
-
-  // colors: {
-  //   light: {
-  //     background: mode('#e4e4e4', 'blue'),
-  //   },
-  //   dark: {
-  //     background: 'blue',
-  //   },
-  // },
 });
