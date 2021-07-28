@@ -52,7 +52,7 @@ export function CourseCard({
   const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Box boxShadow="md" cursor="pointer" as="label" w="100%" className="card">
+    <Box boxShadow="md" cursor="pointer" as="label" w="100%" className="dark-mode">
       <Flex direction="row">
         <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
           <Flex>

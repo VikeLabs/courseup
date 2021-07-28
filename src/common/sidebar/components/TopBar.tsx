@@ -34,7 +34,15 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
   const pid = searchParams.get('pid');
 
   return (
-    <Box className="card" top="0" m="0" boxShadow="md" zIndex={10} borderBottomWidth="2px" borderBottomStyle="solid">
+    <Box
+      className="dark-mode"
+      top="0"
+      m="0"
+      boxShadow="md"
+      zIndex={10}
+      borderBottomWidth="2px"
+      borderBottomStyle="solid"
+    >
       <Flex justifyContent="space-between" alignItems="center" p="3">
         <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>

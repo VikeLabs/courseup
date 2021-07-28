@@ -33,10 +33,10 @@ export function Landing() {
           </Heading>
           <Text fontSize="1.6em">CourseUp makes it simple to browse and schedule UVic Courses</Text>
           <Flex alignItems="center" mt="1rem" as="a" w="fit-content" target="_blank" href="https://www.vikelabs.ca">
-            <Text color="#4C6EA5" fontSize={{ base: '1em', md: '1.5em' }}>
+            <Text fontSize={{ base: '1em', md: '1.5em' }} className="landing-caption">
               <span>{hands[handIndex]}</span> Built by students @
             </Text>
-            <Text fontWeight="bolder" fontSize="1.75em" color="#222B49" ml="1">
+            <Text fontWeight="bolder" fontSize="1.75em" className="vikelabs" ml="1">
               VIKE LABS
             </Text>
           </Flex>

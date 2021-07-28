@@ -25,7 +25,7 @@ export function RegistrationMinimized({ subject, code, lecture, lab, tutorial, h
         <Heading size="lg" as="h2" textAlign="left" my="2" mr="2">
           {subject} {code}
         </Heading>
-        <Heading size="md" as="h3" color="gray">
+        <Heading size="md" as="h3" className="caption">
           {sections.filter((section) => section !== '').join(', ')}
         </Heading>
       </HStack>

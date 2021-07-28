@@ -27,7 +27,7 @@ export function SectionsCardContainer({
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
-    <Box className="card">
+    <Box className="dark-mode">
       {sectionTypes.map((type) => (
         <SectionGroup
           sections={sections}

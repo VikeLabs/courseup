@@ -45,7 +45,7 @@ export interface CardProps {
 
 export function Card({ subject, title, code, selected, schedule, pid }: PropsWithChildren<CardProps>): JSX.Element {
   let { term } = useParams();
-
+  // const { colorMode } = useColorMode();
   const { addCourse, deleteCourse, contains } = useSavedCourses();
 
   const courseIsSaved = pid && contains(pid, term);
@@ -103,7 +103,7 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
 
   return (
     <Box
-      className="card"
+      className="dark-mode"
       bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
       boxShadow="md"
       py={2}
@@ -112,7 +112,7 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
       cursor={!schedule ? 'pointer' : 'auto'}
       _hover={{
         bgGradient: schedule ? undefined : selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
-        color: schedule ? undefined : 'white',
+        color: schedule ? undefined : 'black',
       }}
     >
       <Flex direction="row" alignItems="center" justifyContent="space-between">

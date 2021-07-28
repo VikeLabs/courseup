@@ -97,7 +97,15 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
       boxShadow="md"
       justifyContent="space-between"
     >
-      <Box className="card" top="0" m="0" boxShadow="md" zIndex={10} borderBottomWidth="2px" borderBottomStyle="solid">
+      <Box
+        className="dark-mode"
+        top="0"
+        m="0"
+        boxShadow="md"
+        zIndex={10}
+        borderBottomWidth="2px"
+        borderBottomStyle="solid"
+      >
         <Flex justifyContent="space-between" alignItems="center" p="3">
           <Text>Saved Courses</Text>
           <Flex>

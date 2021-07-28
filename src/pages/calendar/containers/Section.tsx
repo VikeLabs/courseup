@@ -1,4 +1,4 @@
-import { Box, Center, Divider, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Center, Divider, Heading, Spinner, Text } from '@chakra-ui/react';
 
 import { ClassScheduleListing, Seat, Term, useSeats, useSections } from 'lib/fetchers';
 import { getReadableTerm } from 'lib/utils';
@@ -37,7 +37,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   if (loading) {
     return (
       <Center width="100%">
-        <Spinner colorScheme="black" size="xl" color="gray" />
+        <Spinner colorScheme="black" size="xl" className="caption" />
       </Center>
     );
   }
@@ -46,8 +46,11 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
     return (
       <Center>
-        <Heading size="md" color="gray">
-          Unable to find sections for <Box as="span">{getReadableTerm(term)}</Box>
+        <Heading size="md" className="caption">
+          Unable to find sections for{' '}
+          <Text as="span" className="reverse">
+            {getReadableTerm(term)}
+          </Text>
         </Heading>
       </Center>
     );

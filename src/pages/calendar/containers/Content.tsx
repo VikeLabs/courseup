@@ -63,7 +63,7 @@ export function Content({ term }: ContentProps): JSX.Element {
             {data && (
               <>
                 <Heading mr="5" size="2xl" as="h2" whiteSpace="pre">{`${data.subject} ${data.code}`}</Heading>
-                <Heading size="lg" as="h3" color="gray">
+                <Heading size="lg" as="h3" className="caption">
                   {data.title}
                 </Heading>
               </>

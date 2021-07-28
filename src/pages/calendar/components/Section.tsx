@@ -92,7 +92,7 @@ export function SectionInfo({
             )}
           </Box>
         </Flex>
-        <Heading size="md" as="h3" color="gray">
+        <Heading size="md" as="h3" className="caption">
           {crn}
         </Heading>
       </Flex>
