@@ -45,7 +45,7 @@ export interface CardProps {
 
 export function Card({ subject, title, code, selected, schedule, pid }: PropsWithChildren<CardProps>): JSX.Element {
   let { term } = useParams();
-  // const { colorMode } = useColorMode();
+
   const { addCourse, deleteCourse, contains } = useSavedCourses();
 
   const courseIsSaved = pid && contains(pid, term);
