@@ -15,6 +15,7 @@ import { RegisterRoutes } from '../build/routes';
 import * as openapi from '../build/swagger.json';
 import { CoursesService } from './courses/Course.service';
 import { Term } from './constants';
+import { ValidateError } from 'tsoa';
 
 export const app = express();
 
@@ -40,6 +41,28 @@ app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
 });
 
 RegisterRoutes(app);
+
+app.use(function errorHandler(
+  err: unknown,
+  req: ExRequest,
+  res: ExResponse,
+  next: express.NextFunction
+): ExResponse | void {
+  if (err instanceof ValidateError) {
+    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
+    return res.status(422).json({
+      message: 'Validation Failed',
+      details: err?.fields,
+    });
+  }
+  if (err instanceof Error) {
+    return res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+
+  next();
+});
 
 const main = async () => {
   if (!fs.existsSync(dir)) {

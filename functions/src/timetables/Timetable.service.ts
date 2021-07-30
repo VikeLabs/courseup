@@ -24,7 +24,7 @@ export async function addTimetable(
 ): Promise<TimetableReturn | null> {
   const slug = hash({ ...courses, term }, { unorderedArrays: true });
 
-  const valid = await validTimetable(courses, term);
+  const valid = await hasValidCourses(courses, term);
   if (!valid) return null;
 
   await set(TimetablesCollection, slug, {
@@ -40,7 +40,7 @@ export async function addTimetable(
   };
 }
 
-async function validTimetable(
+async function hasValidCourses(
   courses: TimetableCourse[],
   term: Term
 ): Promise<boolean> {
@@ -48,20 +48,6 @@ async function validTimetable(
   if (courses.length > 12) return false;
 
   for (const course of courses) {
-    // validate lecture, lab, tutorial follow A01 format
-    if (course.lecture) {
-      if (!/^A\d{2}$/.test(course.lecture)) return false;
-    }
-    if (course.lab) {
-      if (!/^B\d{2}$/.test(course.lab)) return false;
-    }
-    if (course.tutorial) {
-      if (!/^T\d{2}$/.test(course.tutorial)) return false;
-    }
-
-    // validate colour code is hex format
-    if (!/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(course.color)) return false;
-
     // validate course is in database
     const doc = await get(
       CoursesCollection,
