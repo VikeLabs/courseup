@@ -1,4 +1,4 @@
-import { useState, useEffect, PropsWithChildren } from 'react';
+import { useEffect, PropsWithChildren } from 'react';
 
 import { Flex } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
@@ -7,8 +7,6 @@ import { useLocation, useNavigate } from 'react-router';
 import { Term } from 'lib/fetchers';
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { getCurrentTerm } from 'lib/utils';
-
-import { Header } from 'common/header';
 
 import { ContentSidebar } from '..';
 
@@ -22,19 +20,20 @@ export interface SidebarTemplateProps {
    * Determines what term the subjects and courses are from
    */
   term: Term;
+  query: string;
 }
 
-export function SidebarTemplate({ children, term, title }: PropsWithChildren<SidebarTemplateProps>): JSX.Element {
-  const [query, setQuery] = useState('');
+export function SidebarTemplate({
+  children,
+  term,
+  title,
+  query,
+}: PropsWithChildren<SidebarTemplateProps>): JSX.Element {
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
   const location = useLocation();
 
   const route = location.pathname.split('/')[1];
-
-  const handleSearchChange = (q: string) => {
-    setQuery(q);
-  };
 
   useEffect(() => {
     if (term) {
@@ -49,7 +48,6 @@ export function SidebarTemplate({ children, term, title }: PropsWithChildren<Sid
       <Helmet>
         <title>{title}</title>
       </Helmet>
-      <Header onSearchChange={handleSearchChange} />
       <Flex grow={1} overflow="hidden">
         <ContentSidebar term={term} searchQuery={query} />
         <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>

@@ -5,8 +5,6 @@ import { useParams } from 'react-router';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
-import { Header } from 'common/header';
-
 import { RegistrationHeading } from '../components/RegistrationHeading';
 
 import { CourseContainer } from './CourseContainer';
@@ -20,7 +18,6 @@ export function RegistrationContainer(): JSX.Element | null {
       <Helmet>
         <title>{`${getReadableTerm(term)} · Registration`}</title>
       </Helmet>
-      <Header />
       <Flex width="100%" pt="1.25rem" direction="column" alignItems="center" overflowY="auto">
         <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center">
           <RegistrationHeading />
