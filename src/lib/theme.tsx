@@ -15,34 +15,6 @@ export const customTheme = extendTheme({
         boxShadow: 'none !important',
       },
 
-      '.background': {
-        bgColor: mode('#E4E4E4', '#151922')(props),
-      },
-
-      '.dark-mode': {
-        bgColor: mode('white', '#1a202c')(props),
-      },
-
-      '.section': {
-        bgColor: mode('white', '#151922')(props),
-      },
-
-      '.caption': {
-        color: mode('gray', '#988F81')(props),
-      },
-
-      '.reverse': {
-        color: mode('black', 'white')(props),
-      },
-
-      '.landing-caption': {
-        color: mode('#4C6EA5', '#799EC1')(props),
-      },
-
-      '.vikelabs': {
-        color: mode('#222B49', '#B0C3DA')(props),
-      },
-
       // timetable styles
       '.rbc-header': {
         bgColor: mode('#eff6ff', '#31363D')(props),

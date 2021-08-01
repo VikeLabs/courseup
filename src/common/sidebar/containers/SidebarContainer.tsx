@@ -4,6 +4,7 @@ import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
 import { Course, Term, useGetCourses, useSubjects } from 'lib/fetchers';
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
 
 import { CoursesList } from '../components/CoursesList';
 import { CustomHits } from '../components/SearchResults';
@@ -42,6 +43,7 @@ export interface SidebarContainerProps {
 
 export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): JSX.Element | null {
   const [filter, setFilter] = useState(false);
+  const isDarkMode = useIsDarkMode();
 
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
@@ -61,7 +63,7 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
 
   if (searchQuery.length !== 0) {
     return (
-      <Flex className="background" justifyContent="center" alignItems="center" minW="20%">
+      <Flex bgColor={isDarkMode ? '#151922' : '#E4E4E4'} justifyContent="center" alignItems="center" minW="20%">
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
           <Box>
             <HStack bg="white" py="2" px="4" top="0" m="0" boxShadow="md" zIndex={500}>
@@ -79,7 +81,7 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
   }
 
   return (
-    <Flex className="background" minW="20%" flexDirection="column">
+    <Flex bgColor={isDarkMode ? '#151922' : '#E4E4E4'} minW="20%" flexDirection="column">
       <TopBar onFilter={handleFilter} />
       {!loading && sortedSubjects && courses ? (
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">

@@ -1,7 +1,7 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, Text, HStack, IconButton, VStack, useColorMode } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
 import addWeeks from 'date-fns/addWeeks';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
@@ -12,6 +12,8 @@ import 'react-big-calendar/lib/sass/styles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { useParams } from 'react-router';
 import { RRule } from 'rrule';
+
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
 
 import { CalendarEvent } from '../shared/types';
 
@@ -27,11 +29,11 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const slotPropGetter = (date: Date, colorMode: string) => {
+const slotPropGetter = (date: Date, isDarkMode: boolean) => {
   if (date.getDay() === 2 || date.getDay() === 4)
     return {
       style: {
-        backgroundColor: colorMode === 'light' ? '#F7F7F7' : 'rgb(76, 79, 82)',
+        backgroundColor: isDarkMode ? 'rgb(76, 79, 82)' : '#F7F7F7',
       },
     };
   else return {};
@@ -77,7 +79,7 @@ export interface SchedulerCalendarProps {
 }
 
 export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
-  const { colorMode } = useColorMode();
+  const isDarkMode = useIsDarkMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { term } = useParams();
@@ -283,7 +285,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       views={['work_week']}
       date={selectedDate}
       eventPropGetter={eventStyleGetter}
-      slotPropGetter={(date) => slotPropGetter(date, colorMode)}
+      slotPropGetter={(date) => slotPropGetter(date, isDarkMode)}
       components={{
         toolbar: CustomToolBar,
         event: CustomEvent,

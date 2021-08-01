@@ -2,6 +2,8 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, useColorMode, IconButton } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
+
 import { Banner } from '../components/Banner';
 import { NavButtons } from '../components/NavButtons';
 import { Search } from '../components/SearchBar';
@@ -16,7 +18,8 @@ export interface HeaderProps {
  * Primary UI component for content
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { toggleColorMode } = useColorMode();
+  const isDarkMode = useIsDarkMode();
 
   return (
     <Box zIndex={1000}>
@@ -44,10 +47,10 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
           <IconButton
             aria-label="toggle"
             isRound
-            icon={colorMode !== 'light' ? <SunIcon fontSize="1.3em" /> : <MoonIcon fontSize="1.3em" />}
+            icon={isDarkMode ? <SunIcon fontSize="1.3em" /> : <MoonIcon fontSize="1.3em" />}
             size="sm"
             onClick={toggleColorMode}
-            colorScheme={colorMode !== 'light' ? 'orange' : 'purple'}
+            colorScheme={isDarkMode ? 'orange' : 'purple'}
           />
         </GridItem>
       </Grid>

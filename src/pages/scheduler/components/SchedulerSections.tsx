@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { Radio, RadioGroup, Box, HStack, Text, VStack, useColorMode } from '@chakra-ui/react';
+import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
 
 import { ClassScheduleListing, MeetingTimes } from 'lib/fetchers';
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
 export function SectionsCardContainer({
@@ -24,10 +25,11 @@ export function SectionsCardContainer({
     term: string
   ) => void;
 }): JSX.Element {
+  const isDarkMode = useIsDarkMode();
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
-    <Box className="dark-mode">
+    <Box bgColor={isDarkMode ? '#1A202C' : 'white'}>
       {sectionTypes.map((type) => (
         <SectionGroup
           sections={sections}
@@ -119,7 +121,7 @@ export interface OptionsProps {
 }
 
 export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element {
-  const { colorMode } = useColorMode();
+  const isDarkMode = useIsDarkMode();
 
   return (
     <HStack
@@ -127,7 +129,7 @@ export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element
       px="3"
       my="0.5"
       fontSize="12px"
-      borderTop={colorMode !== 'light' ? '#151922' : '#E4E4E4'}
+      borderTop={isDarkMode ? '#151922' : '#E4E4E4'}
       borderTopWidth="2"
       borderTopStyle="solid"
     >

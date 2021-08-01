@@ -6,6 +6,7 @@ import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from 'lib/fetchers';
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { CourseInfo } from '../components/Course';
@@ -29,6 +30,7 @@ export function Content({ term }: ContentProps): JSX.Element {
   const { data, loading, error } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
   const { addCourse, deleteCourse, contains } = useSavedCourses();
+  const isDarkMode = useIsDarkMode();
 
   const courseIsSaved = contains(data?.pid!, term);
 
@@ -63,7 +65,7 @@ export function Content({ term }: ContentProps): JSX.Element {
             {data && (
               <>
                 <Heading mr="5" size="2xl" as="h2" whiteSpace="pre">{`${data.subject} ${data.code}`}</Heading>
-                <Heading size="lg" as="h3" className="caption">
+                <Heading size="lg" as="h3" color={isDarkMode ? '#988F81' : 'gray'}>
                   {data.title}
                 </Heading>
               </>

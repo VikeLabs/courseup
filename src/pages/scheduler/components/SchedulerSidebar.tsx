@@ -6,6 +6,7 @@ import { Collapse } from '@chakra-ui/transition';
 import { Link } from 'react-router-dom';
 
 import { MeetingTimes } from 'lib/fetchers';
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { useCalendarEvents } from '../hooks/useCalendarEvents';
@@ -23,6 +24,7 @@ interface SchedulerSidebarProps {
 export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   const { deleteCourse, setSection, courses, setSelected, clearCourses } = useSavedCourses();
   const coursesResult = useCalendarEvents(term, courses);
+  const isDarkMode = useIsDarkMode();
 
   const handleCourseSectionChange = useCallback(
     (
@@ -91,14 +93,14 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
     <Flex
       minW="25%"
       maxW="25%"
-      className="background"
+      bgColor={isDarkMode ? '#151922' : '#E4E4E4'}
       overflowY="auto"
       direction="column"
       boxShadow="md"
       justifyContent="space-between"
     >
       <Box
-        className="dark-mode"
+        bgColor={isDarkMode ? '#1A202C' : 'white'}
         top="0"
         m="0"
         boxShadow="md"

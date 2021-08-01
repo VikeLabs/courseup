@@ -4,6 +4,7 @@ import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-u
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 export interface CardProps {
@@ -45,6 +46,7 @@ export interface CardProps {
 
 export function Card({ subject, title, code, selected, schedule, pid }: PropsWithChildren<CardProps>): JSX.Element {
   let { term } = useParams();
+  const isDarkMode = useIsDarkMode();
 
   const { addCourse, deleteCourse, contains } = useSavedCourses();
 
@@ -100,10 +102,9 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
       );
     }
   };
-
   return (
     <Box
-      className="dark-mode"
+      bgColor={isDarkMode ? '#1A202C' : 'white'}
       bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
       boxShadow="md"
       py={2}

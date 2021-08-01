@@ -1,6 +1,7 @@
 import { Box, Center, Divider, Heading, Spinner, Text } from '@chakra-ui/react';
 
 import { ClassScheduleListing, Seat, Term, useSeats, useSections } from 'lib/fetchers';
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
 import { getReadableTerm } from 'lib/utils';
 
 import { SectionInfo } from '../components/Section';
@@ -33,11 +34,12 @@ export interface SectionsContainerProps {
 export function SectionsContainer({ term, subject, code }: SectionsContainerProps): JSX.Element {
   const { data: sections, loading, error: sectionsError } = useSections({ term, queryParams: { subject, code } });
   const { data: seats, error: seatsError } = useSeats({ term, queryParams: { subject, code } });
+  const isDarkMode = useIsDarkMode();
 
   if (loading) {
     return (
       <Center width="100%">
-        <Spinner colorScheme="black" size="xl" className="caption" />
+        <Spinner colorScheme="black" size="xl" color={isDarkMode ? '#988F81' : 'gray'} />
       </Center>
     );
   }
@@ -46,9 +48,9 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
     return (
       <Center>
-        <Heading size="md" className="caption">
+        <Heading size="md" color={isDarkMode ? '#988F81' : 'gray'}>
           Unable to find sections for{' '}
-          <Text as="span" className="reverse">
+          <Text as="span" color={isDarkMode ? 'white' : 'black'}>
             {getReadableTerm(term)}
           </Text>
         </Heading>

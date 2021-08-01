@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
+
 export interface TopBarProps {
   /**
    * Back button click handler
@@ -27,6 +29,7 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
   const { term } = useParams();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const isDarkMode = useIsDarkMode();
 
   const subject = location.pathname.split('/')[3];
   const route = location.pathname.split('/')[1];
@@ -35,7 +38,7 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
 
   return (
     <Box
-      className="dark-mode"
+      bgColor={isDarkMode ? '#1A202C' : 'white'}
       top="0"
       m="0"
       boxShadow="md"

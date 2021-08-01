@@ -11,6 +11,7 @@ import {
 import { useParams } from 'react-router';
 
 import { MeetingTimes, Seat } from 'lib/fetchers';
+import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
 
 import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';
@@ -63,9 +64,10 @@ export function SectionInfo({
   const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
 
   const { term } = useParams();
+  const isDarkMode = useIsDarkMode();
 
   return (
-    <Box as="section" my="4" boxShadow="md" p="3" rounded="lg" className="section">
+    <Box as="section" my="4" boxShadow="md" p="3" rounded="lg" bgColor={isDarkMode ? '#151922' : 'white'}>
       <Flex my="2" alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <Heading size="lg" as="h2" whiteSpace="pre" id={sectionCode}>
@@ -92,7 +94,7 @@ export function SectionInfo({
             )}
           </Box>
         </Flex>
-        <Heading size="md" as="h3" className="caption">
+        <Heading size="md" as="h3" color={isDarkMode ? '#988F81' : 'gray'}>
           {crn}
         </Heading>
       </Flex>
