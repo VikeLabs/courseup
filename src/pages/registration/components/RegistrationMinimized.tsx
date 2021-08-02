@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { Checkbox } from '@chakra-ui/checkbox';
 import { Heading, HStack } from '@chakra-ui/layout';
 
-import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 type Props = {
   subject: string;
@@ -16,7 +16,7 @@ type Props = {
 
 export function RegistrationMinimized({ subject, code, lecture, lab, tutorial, handleChange }: Props) {
   const sections = [lecture ?? '', lab ?? '', tutorial ?? ''];
-  const isDarkMode = useIsDarkMode();
+  const mode = useDarkMode();
 
   const onChange = useCallback(() => {
     handleChange();
@@ -28,7 +28,7 @@ export function RegistrationMinimized({ subject, code, lecture, lab, tutorial, h
         <Heading size="lg" as="h2" textAlign="left" my="2" mr="2">
           {subject} {code}
         </Heading>
-        <Heading size="md" as="h3" color={isDarkMode ? 'dark.header' : 'gray'}>
+        <Heading size="md" as="h3" color={mode('gray', 'dark.header')}>
           {sections.filter((section) => section !== '').join(', ')}
         </Heading>
       </HStack>

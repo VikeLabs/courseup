@@ -3,7 +3,7 @@ import { Text } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
-import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
@@ -16,7 +16,7 @@ import { CourseContainer } from './CourseContainer';
 export function RegistrationContainer(): JSX.Element | null {
   const { term } = useParams();
   const { courses } = useSavedCourses();
-  const isDarkMode = useIsDarkMode();
+  const mode = useDarkMode();
 
   return (
     <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
@@ -37,9 +37,9 @@ export function RegistrationContainer(): JSX.Element | null {
             <>
               <Divider my="4" />
               <Container alignItems="center" maxW="container.xl">
-                <Heading size="md" color={isDarkMode ? 'dark.header' : 'gray'}>
+                <Heading size="md" color={mode('gray', 'dark.header')}>
                   Unable to find saved courses for{' '}
-                  <Text as="span" color={isDarkMode ? 'white' : 'black'}>
+                  <Text as="span" color={mode('black', 'white')}>
                     {getReadableTerm(term)}
                   </Text>
                 </Heading>

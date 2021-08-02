@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
 
 import { ClassScheduleListing, MeetingTimes } from 'lib/fetchers';
-import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
 export function SectionsCardContainer({
@@ -25,11 +25,11 @@ export function SectionsCardContainer({
     term: string
   ) => void;
 }): JSX.Element {
-  const isDarkMode = useIsDarkMode();
+  const mode = useDarkMode();
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
-    <Box bgColor={isDarkMode ? 'dark.main' : 'white'}>
+    <Box bgColor={mode('white', 'dark.main')}>
       {sectionTypes.map((type) => (
         <SectionGroup
           sections={sections}
@@ -121,7 +121,7 @@ export interface OptionsProps {
 }
 
 export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element {
-  const isDarkMode = useIsDarkMode();
+  const mode = useDarkMode();
 
   return (
     <HStack
@@ -129,7 +129,7 @@ export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element
       px="3"
       my="0.5"
       fontSize="12px"
-      borderTop={isDarkMode ? 'dark.background' : 'light.background'}
+      borderTop={mode('light.background', 'dark.background')}
       borderTopWidth="2"
       borderTopStyle="solid"
     >

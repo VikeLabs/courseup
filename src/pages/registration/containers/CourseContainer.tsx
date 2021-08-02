@@ -6,7 +6,7 @@ import { Collapse } from '@chakra-ui/transition';
 import { useParams } from 'react-router';
 
 import { useSeats, useSections, Term, Seat } from 'lib/fetchers';
-import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
 import { RegistrationMinimized } from '../components/RegistrationMinimized';
@@ -27,7 +27,7 @@ export function CourseContainer({ course }: Props) {
   const { term } = useParams();
   const [data, setData] = useState<{ lab?: Data; lecture?: Data; tutorial?: Data }>({});
   const termType = term as Term;
-  const isDarkMode = useIsDarkMode();
+  const mode = useDarkMode();
 
   const { data: sections, loading } = useSections({
     term: termType,
@@ -128,7 +128,7 @@ export function CourseContainer({ course }: Props) {
     <Container
       alignItems="center"
       maxW="container.xl"
-      bgColor={isDarkMode ? 'dark.background' : 'white'}
+      bgColor={mode('white', 'dark.background')}
       rounded="lg"
       mt="10px"
     >

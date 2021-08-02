@@ -5,7 +5,7 @@ import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleto
 import { Link } from 'react-router-dom';
 
 import { Term, useGetCourse } from 'lib/fetchers';
-import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 export type CourseCardProps = {
   term: string;
@@ -40,7 +40,7 @@ export function CourseCard({
   handleSelection,
   handleDelete,
 }: CourseCardProps): JSX.Element {
-  const isDarkMode = useIsDarkMode();
+  const mode = useDarkMode();
   const onChange = useCallback(() => {
     handleSelection({ term, code, subject, pid, selected });
   }, [code, handleSelection, pid, selected, subject, term]);
@@ -54,7 +54,7 @@ export function CourseCard({
   const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Box boxShadow="md" cursor="pointer" as="label" w="100%" bgColor={isDarkMode ? 'dark.main' : 'white'}>
+    <Box boxShadow="md" cursor="pointer" as="label" w="100%" bgColor={mode('white', 'dark.main')}>
       <Flex direction="row">
         <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
           <Flex>

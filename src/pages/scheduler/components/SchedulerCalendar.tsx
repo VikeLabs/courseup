@@ -13,7 +13,7 @@ import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'rea
 import { useParams } from 'react-router';
 import { RRule } from 'rrule';
 
-import { useIsDarkMode } from 'lib/hooks/useIsDarkMode';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from '../shared/types';
 
@@ -69,7 +69,7 @@ export interface SchedulerCalendarProps {
 }
 
 export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
-  const isDarkMode = useIsDarkMode();
+  const mode = useDarkMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { term } = useParams();
@@ -269,7 +269,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     if (date.getDay() === 2 || date.getDay() === 4)
       return {
         style: {
-          backgroundColor: isDarkMode ? 'rgb(76, 79, 82)' : '#F7F7F7',
+          backgroundColor: mode('#F7F7F7', 'rgb(76, 79, 82)'),
         },
       };
     else return {};
