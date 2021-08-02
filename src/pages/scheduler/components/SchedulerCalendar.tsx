@@ -29,16 +29,6 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const slotPropGetter = (date: Date, isDarkMode: boolean) => {
-  if (date.getDay() === 2 || date.getDay() === 4)
-    return {
-      style: {
-        backgroundColor: isDarkMode ? 'rgb(76, 79, 82)' : '#F7F7F7',
-      },
-    };
-  else return {};
-};
-
 const eventStyleGetter = ({ resource }: Event) => ({
   style: {
     backgroundColor: resource && resource.color,
@@ -275,6 +265,16 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
 
   const today = new Date();
 
+  const handleSlotPropGetter = (date: Date) => {
+    if (date.getDay() === 2 || date.getDay() === 4)
+      return {
+        style: {
+          backgroundColor: isDarkMode ? 'rgb(76, 79, 82)' : '#F7F7F7',
+        },
+      };
+    else return {};
+  };
+
   return (
     <Calendar
       localizer={localizer}
@@ -285,7 +285,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       views={['work_week']}
       date={selectedDate}
       eventPropGetter={eventStyleGetter}
-      slotPropGetter={(date) => slotPropGetter(date, isDarkMode)}
+      slotPropGetter={handleSlotPropGetter}
       components={{
         toolbar: CustomToolBar,
         event: CustomEvent,
