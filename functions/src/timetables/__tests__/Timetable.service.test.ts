@@ -1,5 +1,7 @@
 import { mockFirebase } from 'firestore-jest-mock';
-import * as admin from 'firebase-admin';
+import { TimetableDoc } from '../../db/collections';
+
+type MockTimetableDoc = TimetableDoc & { id: string };
 
 mockFirebase({
   database: {
@@ -7,7 +9,6 @@ mockFirebase({
       {
         term: '202109',
         id: '1',
-        slug: '1',
         courses: [
           {
             subject: 'CSC',
@@ -21,7 +22,6 @@ mockFirebase({
       {
         term: '202109',
         id: '2',
-        slug: '2',
         courses: [
           {
             subject: 'ADMN',
@@ -33,21 +33,19 @@ mockFirebase({
           },
         ],
       },
-    ],
+    ] as MockTimetableDoc[],
   },
 });
 
-describe('Timetable service', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-    admin.initializeApp({
-      projectId: 'test',
-    });
-  });
+import { getTimetable } from '../Timetable.service';
 
+describe('Timetable service', () => {
   describe('getTimetable', () => {
-    describe('on success', () => {
-      it.todo('should have a 200 status');
+    describe('when the timetable exists', () => {
+      it('should return the timetable from Firestore', async () => {
+        const timetable = await getTimetable('1');
+        expect(timetable).not.toBeNull();
+      });
       it.todo('should return the timetable with the given slug');
     });
 
