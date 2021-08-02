@@ -104,7 +104,7 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
   };
   return (
     <Box
-      bgColor={isDarkMode ? '#1A202C' : 'white'}
+      bgColor={isDarkMode ? 'dark.main' : 'white'}
       bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
       boxShadow="md"
       py={2}

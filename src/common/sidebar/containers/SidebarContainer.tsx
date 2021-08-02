@@ -63,7 +63,12 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
 
   if (searchQuery.length !== 0) {
     return (
-      <Flex bgColor={isDarkMode ? '#151922' : '#E4E4E4'} justifyContent="center" alignItems="center" minW="20%">
+      <Flex
+        bgColor={isDarkMode ? 'dark.background' : 'light.background'}
+        justifyContent="center"
+        alignItems="center"
+        minW="20%"
+      >
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
           <Box>
             <HStack bg="white" py="2" px="4" top="0" m="0" boxShadow="md" zIndex={500}>
@@ -81,7 +86,7 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
   }
 
   return (
-    <Flex bgColor={isDarkMode ? '#151922' : '#E4E4E4'} minW="20%" flexDirection="column">
+    <Flex bgColor={isDarkMode ? 'dark.background' : 'light.background'} minW="20%" flexDirection="column">
       <TopBar onFilter={handleFilter} />
       {!loading && sortedSubjects && courses ? (
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">

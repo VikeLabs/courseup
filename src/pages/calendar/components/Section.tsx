@@ -67,7 +67,7 @@ export function SectionInfo({
   const isDarkMode = useIsDarkMode();
 
   return (
-    <Box as="section" my="4" boxShadow="md" p="3" rounded="lg" bgColor={isDarkMode ? '#151922' : 'white'}>
+    <Box as="section" my="4" boxShadow="md" p="3" rounded="lg" bgColor={isDarkMode ? 'dark.background' : 'white'}>
       <Flex my="2" alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <Heading size="lg" as="h2" whiteSpace="pre" id={sectionCode}>
@@ -94,7 +94,7 @@ export function SectionInfo({
             )}
           </Box>
         </Flex>
-        <Heading size="md" as="h3" color={isDarkMode ? '#988F81' : 'gray'}>
+        <Heading size="md" as="h3" color={isDarkMode ? 'dark.header' : 'gray'}>
           {crn}
         </Heading>
       </Flex>

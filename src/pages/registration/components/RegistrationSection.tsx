@@ -54,7 +54,7 @@ export function RegistrationSection({ section, crn, seats, additionalNotes, sele
               size="sm"
               fontSize="lg"
               _active={{
-                color: '#e4e4e4',
+                color: 'light.background',
               }}
             />
           </Heading>

@@ -38,7 +38,7 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
 
   return (
     <Box
-      bgColor={isDarkMode ? '#1A202C' : 'white'}
+      bgColor={isDarkMode ? 'dark.main' : 'white'}
       top="0"
       m="0"
       boxShadow="md"

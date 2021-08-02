@@ -37,7 +37,7 @@ export function RegistrationContainer(): JSX.Element | null {
             <>
               <Divider my="4" />
               <Container alignItems="center" maxW="container.xl">
-                <Heading size="md" color={isDarkMode ? '#988F81' : 'gray'}>
+                <Heading size="md" color={isDarkMode ? 'dark.header' : 'gray'}>
                   Unable to find saved courses for{' '}
                   <Text as="span" color={isDarkMode ? 'white' : 'black'}>
                     {getReadableTerm(term)}

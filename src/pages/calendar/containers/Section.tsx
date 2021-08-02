@@ -39,7 +39,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   if (loading) {
     return (
       <Center width="100%">
-        <Spinner colorScheme="black" size="xl" color={isDarkMode ? '#988F81' : 'gray'} />
+        <Spinner colorScheme="black" size="xl" color={isDarkMode ? 'dark.header' : 'gray'} />
       </Center>
     );
   }
@@ -48,7 +48,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
     return (
       <Center>
-        <Heading size="md" color={isDarkMode ? '#988F81' : 'gray'}>
+        <Heading size="md" color={isDarkMode ? 'dark.header' : 'gray'}>
           Unable to find sections for{' '}
           <Text as="span" color={isDarkMode ? 'white' : 'black'}>
             {getReadableTerm(term)}

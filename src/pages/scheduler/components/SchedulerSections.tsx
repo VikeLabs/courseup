@@ -29,7 +29,7 @@ export function SectionsCardContainer({
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
-    <Box bgColor={isDarkMode ? '#1A202C' : 'white'}>
+    <Box bgColor={isDarkMode ? 'dark.main' : 'white'}>
       {sectionTypes.map((type) => (
         <SectionGroup
           sections={sections}
@@ -129,7 +129,7 @@ export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element
       px="3"
       my="0.5"
       fontSize="12px"
-      borderTop={isDarkMode ? '#151922' : '#E4E4E4'}
+      borderTop={isDarkMode ? 'dark.background' : 'light.background'}
       borderTopWidth="2"
       borderTopStyle="solid"
     >

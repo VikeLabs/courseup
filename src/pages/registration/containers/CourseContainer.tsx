@@ -128,7 +128,7 @@ export function CourseContainer({ course }: Props) {
     <Container
       alignItems="center"
       maxW="container.xl"
-      bgColor={isDarkMode ? '#151922' : 'white'}
+      bgColor={isDarkMode ? 'dark.background' : 'white'}
       rounded="lg"
       mt="10px"
     >

@@ -93,14 +93,14 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
     <Flex
       minW="25%"
       maxW="25%"
-      bgColor={isDarkMode ? '#151922' : '#E4E4E4'}
+      bgColor={isDarkMode ? 'dark.background' : 'light.background'}
       overflowY="auto"
       direction="column"
       boxShadow="md"
       justifyContent="space-between"
     >
       <Box
-        bgColor={isDarkMode ? '#1A202C' : 'white'}
+        bgColor={isDarkMode ? 'dark.main' : 'white'}
         top="0"
         m="0"
         boxShadow="md"
