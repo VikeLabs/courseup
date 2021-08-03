@@ -8,7 +8,7 @@ import { SECTION_TYPES, getFirstSectionType, hasSectionType } from 'lib/utils';
 
 import useLocalStorage from './storage/useLocalStorage';
 
-const OMITTED_FIELDS = ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected'];
+const OMITTED_FIELDS = ['lecture', 'lab', 'tutorial', 'color', 'sections', 'selected', 'showSections'];
 
 export const COLORS = [
   '#F56565', // red
@@ -32,6 +32,7 @@ export type SavedCourse = {
    * Whether the course is selected which typically implies displayed or not.
    */
   selected?: boolean;
+  showSections?: boolean;
 
   lecture?: string;
   lab?: string;
@@ -63,6 +64,7 @@ type SavedCourses = {
   contains: (pid: string, term: string) => boolean;
   sectionIsSaved: (pid: string, term: string, sectionCode: string) => boolean;
   setSelected: (selected: boolean, existingCourse: SavedCourse) => void;
+  setShowSections: (showSections: boolean, existingCourse: SavedCourse) => void;
 };
 
 export const useSavedCourses = (): SavedCourses => {
@@ -117,7 +119,7 @@ export const useSavedCourses = (): SavedCourses => {
       // avoid adding a course if it is saved already.
       if (contains(pid, term)) return;
 
-      const course: SavedCourse = { term, subject, code, pid, selected: true };
+      const course: SavedCourse = { term, subject, code, pid, selected: true, showSections: true };
       // we need to load in the course sections given we have no idea which default sections to select
       getSections({ term, subject, code }).then((sections) => {
         SECTION_TYPES.forEach(({ sectionName, sectionType }) => {
@@ -173,6 +175,19 @@ export const useSavedCourses = (): SavedCourses => {
       data.map((course) => {
         if (equals(course, existingCourse)) {
           course.selected = selected;
+          course.showSections = selected ? true : false;
+        }
+
+        return course;
+      })
+    );
+  };
+
+  const setShowSections = (showSections: boolean, existingCourse: SavedCourse) => {
+    setData(
+      data.map((course) => {
+        if (equals(course, existingCourse)) {
+          course.showSections = showSections;
         }
 
         return course;
@@ -189,5 +204,6 @@ export const useSavedCourses = (): SavedCourses => {
     contains,
     sectionIsSaved,
     setSelected,
+    setShowSections,
   };
 };
