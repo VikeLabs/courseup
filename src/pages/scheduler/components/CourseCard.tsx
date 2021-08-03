@@ -117,7 +117,13 @@ export function CourseCard({
             />
             <IconButton
               aria-label="More information"
-              icon={showSections ? <ChevronUpIcon color="white" /> : <ChevronDownIcon color="white" />}
+              icon={
+                showSections ? (
+                  <ChevronUpIcon color="white" boxSize="1.5em" />
+                ) : (
+                  <ChevronDownIcon color="white" boxSize="1.5em" />
+                )
+              }
               bg="blue.400"
               size="xs"
               onClick={onShowSections}
