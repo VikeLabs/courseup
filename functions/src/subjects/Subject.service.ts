@@ -3,7 +3,7 @@ import { Term } from '../constants';
 import { Subject } from './Subject.model';
 
 export class SubjectsService {
-  public async getSubjects(term: Term): Promise<Subject[]> {
+  public static async getSubjects(term: Term): Promise<Subject[]> {
     const subjects = await UVicCourseScraper.getSubjects(term);
     return subjects.map(({ subject, title }) => ({
       subject,

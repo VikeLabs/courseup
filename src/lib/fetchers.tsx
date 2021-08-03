@@ -176,6 +176,35 @@ export const useGetCourse = ({ term, pid, ...props }: UseGetCourseProps) =>
     { pathParams: { term, pid }, ...props }
   );
 
+export interface GetCourseDetailsPathParams {
+  term: Term;
+  subject: string;
+  code: string;
+}
+
+export type GetCourseDetailsProps = Omit<GetProps<CourseDetails, unknown, void, GetCourseDetailsPathParams>, 'path'> &
+  GetCourseDetailsPathParams;
+
+export const GetCourseDetails = ({ term, subject, code, ...props }: GetCourseDetailsProps) => (
+  <Get<CourseDetails, unknown, void, GetCourseDetailsPathParams>
+    path={`/courses/${term}/${subject}/${code}`}
+    {...props}
+  />
+);
+
+export type UseGetCourseDetailsProps = Omit<
+  UseGetProps<CourseDetails, unknown, void, GetCourseDetailsPathParams>,
+  'path'
+> &
+  GetCourseDetailsPathParams;
+
+export const useGetCourseDetails = ({ term, subject, code, ...props }: UseGetCourseDetailsProps) =>
+  useGet<CourseDetails, unknown, void, GetCourseDetailsPathParams>(
+    (paramsInPath: GetCourseDetailsPathParams) =>
+      `/courses/${paramsInPath.term}/${paramsInPath.subject}/${paramsInPath.code}`,
+    { pathParams: { term, subject, code }, ...props }
+  );
+
 export interface SectionsQueryParams {
   subject: string;
   code: string;

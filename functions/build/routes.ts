@@ -205,6 +205,30 @@ export function RegisterRoutes(app: express.Router) {
             promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/courses/:term/:subject/:code',
+            function CoursesController_getCourseDetails(request: any, response: any, next: any) {
+            const args = {
+                    term: {"in":"path","name":"term","required":true,"ref":"Term"},
+                    subject: {"in":"path","name":"subject","required":true,"dataType":"string"},
+                    code: {"in":"path","name":"code","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new CoursesController();
+
+
+            const promise = controller.getCourseDetails.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, undefined, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/sections/:term',
             function SectionsController_sections(request: any, response: any, next: any) {
             const args = {
