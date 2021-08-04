@@ -37,6 +37,7 @@ export const CalendarTheme = (colorMode: 'light' | 'dark'): CSSProperties => {
     '.rbc-day-slot .rbc-time-slot': {
       border: 'unset',
     },
+
     '.rbc-timeslot-group': {
       bgColor: mode('#fefefe', '#525558')(props),
       borderWidth: '0px',

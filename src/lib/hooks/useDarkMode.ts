@@ -1,12 +1,10 @@
 import { useColorMode } from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
 
 export const useDarkMode = (): (<T>(light: T, dark: T) => T) => {
   const { colorMode } = useColorMode();
-  const isDarkMode = colorMode !== 'light';
 
-  function mode<T>(light: T, dark: T): T {
-    return isDarkMode ? dark : light;
-  }
+  const customMode = <T>(light: T, dark: T) => mode(light, dark)({ colorMode });
 
-  return mode;
+  return customMode;
 };
