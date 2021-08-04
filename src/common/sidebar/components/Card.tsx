@@ -1,7 +1,7 @@
 import { PropsWithChildren, useCallback } from 'react';
 
 import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon, NotAllowedIcon } from '@chakra-ui/icons';
-import { Box, Text, Flex, VStack, IconButton, Tooltip } from '@chakra-ui/react';
+import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
