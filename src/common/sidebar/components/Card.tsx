@@ -1,6 +1,6 @@
 import { PropsWithChildren, useCallback } from 'react';
 
-import { WarningTwoIcon, ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-ui/icons';
+import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon, NotAllowedIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, IconButton, Tooltip } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -60,7 +60,8 @@ export function Card({
   const { addCourse, deleteCourse, contains } = useSavedCourses();
 
   const courseIsSaved = pid && contains(pid, term);
-
+  const isSessionSubjectSet = inSessionSubject !== undefined;
+  // const isInSessionSubjectSet = inSessionSubject === undefined;
   const handleBookmarkClick = useCallback(() => {
     if (code && pid) {
       if (!courseIsSaved) {
@@ -82,15 +83,7 @@ export function Card({
         <Box>
           <IconButton
             aria-label="Select course"
-            icon={
-              inSessionSubject ? (
-                <ChevronRightIcon />
-              ) : (
-                <Tooltip label="No courses are offered in this term for this subject!" aria-label="A tooltip">
-                  <WarningTwoIcon color="red" />
-                </Tooltip>
-              )
-            }
+            icon={inSessionSubject ? <ChevronRightIcon /> : <NotAllowedIcon />}
             size="md"
             background="null"
             _hover={{ bg: 'none' }}
@@ -122,36 +115,24 @@ export function Card({
 
   return (
     <Box
-      bgColor={
-        selected
-          ? inSessionSubject === undefined
-            ? undefined
-            : inSessionSubject
-            ? undefined
-            : '#d3d3d3'
-          : inSessionSubject === undefined
-          ? 'white'
-          : inSessionSubject
-          ? 'white'
-          : '#d3d3d3'
-      }
+      bgColor={isSessionSubjectSet ? (inSessionSubject ? 'white' : '#e4e4e4') : 'white'}
       bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
       color={selected ? 'white' : 'black'}
       boxShadow="md"
       py={2}
       px={4}
       my={1}
-      cursor={!schedule ? (inSessionSubject === undefined ? 'pointer' : inSessionSubject ? 'pointer' : 'auto') : 'auto'}
+      cursor={!schedule ? (!isSessionSubjectSet ? 'pointer' : inSessionSubject ? 'pointer' : 'auto') : 'auto'}
       _hover={{
         bgGradient: schedule
           ? undefined
           : selected
           ? undefined
-          : inSessionSubject === undefined
-          ? 'linear(to-l, #39c686, #80dbb1)'
-          : inSessionSubject
-          ? 'linear(to-l, #39c686, #80dbb1)'
-          : 'linear(to-l, #d3d3d3, #d3d3d3)',
+          : isSessionSubjectSet
+          ? inSessionSubject
+            ? 'linear(to-l, #39c686, #80dbb1)'
+            : 'linear(to-l, #e4e4e4, #e4e4e4)'
+          : 'linear(to-l, #39c686, #80dbb1)',
         color: schedule ? undefined : 'white',
       }}
     >
