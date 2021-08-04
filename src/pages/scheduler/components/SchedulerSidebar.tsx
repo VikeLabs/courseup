@@ -174,6 +174,7 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
                   handleShowSections={handleShowSections}
                 />
                 <Collapse
+                  // hacky way of addressing the fact that `showSections` was added as an attribute after users have already added courses to the timetable
                   in={course.showSections !== undefined ? course.showSections : true}
                   animateOpacity
                   style={{ width: '100%' }}
