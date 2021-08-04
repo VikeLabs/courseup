@@ -2,6 +2,7 @@ import { Center, Grid, GridItem, Flex, Text, LinkBox, Box } from '@chakra-ui/rea
 import { Link as RouterLink } from 'react-router-dom';
 
 import { Banner } from '../components/Banner';
+import { GitHubButton } from '../components/GitHubButton';
 import { NavButtons } from '../components/NavButtons';
 import { Search } from '../components/SearchBar';
 import { TermButtons } from '../components/TermButtons';
@@ -45,6 +46,9 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
         </GridItem>
         <GridItem colStart={3}>
           <TermButtons />
+        </GridItem>
+        <GridItem colStart={4}>
+          <GitHubButton />
         </GridItem>
       </Grid>
     </Box>
