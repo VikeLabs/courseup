@@ -173,7 +173,11 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
                   handleDelete={handleCourseDelete}
                   handleShowSections={handleShowSections}
                 />
-                <Collapse in={course.showSections} animateOpacity style={{ width: '100%' }}>
+                <Collapse
+                  in={course.showSections !== undefined ? course.showSections : true}
+                  animateOpacity
+                  style={{ width: '100%' }}
+                >
                   <SectionsCardContainer
                     course={course}
                     courses={courses}
