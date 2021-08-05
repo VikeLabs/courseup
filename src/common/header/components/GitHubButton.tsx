@@ -13,7 +13,7 @@ export function GitHubButton(): JSX.Element {
       isRound
       aria-label="Open GitHub Repo"
       _hover={{
-        color: '#D3D3D3',
+        color: 'gray.500',
       }}
       icon={<AiFillGithub />}
     />
