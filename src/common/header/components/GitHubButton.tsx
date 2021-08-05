@@ -11,7 +11,7 @@ export function GitHubButton(): JSX.Element {
       colorScheme="none"
       fontSize="35px"
       isRound
-      aria-label="Go to GitHub Repo"
+      aria-label="Open GitHub Repo"
       _hover={{
         color: '#D3D3D3',
       }}
