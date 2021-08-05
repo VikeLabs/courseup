@@ -168,12 +168,17 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
                   color={course.color}
                   pid={course.pid}
                   selected={course.selected}
-                  showSections={course.showSections}
+                  showSections={course.showSections !== undefined ? course.showSections : true}
                   handleSelection={handleCourseToggle}
                   handleDelete={handleCourseDelete}
                   handleShowSections={handleShowSections}
                 />
-                <Collapse in={course.showSections} animateOpacity style={{ width: '100%' }}>
+                <Collapse
+                  // hacky way of addressing the fact that `showSections` was added as an attribute after users have already added courses to the timetable
+                  in={course.showSections !== undefined ? course.showSections : true}
+                  animateOpacity
+                  style={{ width: '100%' }}
+                >
                   <SectionsCardContainer
                     course={course}
                     courses={courses}
