@@ -12,6 +12,9 @@ export function GitHubButton(): JSX.Element {
       fontSize="35px"
       isRound
       aria-label="Go to GitHub Repo"
+      _hover={{
+        color: '#D3D3D3',
+      }}
       icon={<AiFillGithub />}
     />
   );
