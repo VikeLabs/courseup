@@ -168,7 +168,7 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
                   color={course.color}
                   pid={course.pid}
                   selected={course.selected}
-                  showSections={course.showSections}
+                  showSections={course.showSections !== undefined ? course.showSections : true}
                   handleSelection={handleCourseToggle}
                   handleDelete={handleCourseDelete}
                   handleShowSections={handleShowSections}
