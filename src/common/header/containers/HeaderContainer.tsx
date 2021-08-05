@@ -1,6 +1,6 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, useColorMode, IconButton } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Center, Grid, GridItem, Flex, Box, useColorMode, IconButton, Image, LinkBox } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
@@ -27,11 +27,21 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
       <Grid templateColumns="repeat(3, 1fr)" as="header" py="1.5" px="8" boxShadow="md" zIndex={100} maxH="56px">
         <GridItem colSpan={1}>
           <Flex justifyContent="space-between" alignContent="center" alignItems="flex-start">
-            <LinkBox as={RouterLink} to="/" bg="transparent" border="none" ml={5} _hover={{ textDecor: 'none' }}>
-              <Text fontSize="xl" fontWeight="bold">
-                CourseUp
-              </Text>
-            </LinkBox>
+            <Center flexGrow={1}>
+              <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
+                <Image
+                  srcSet={
+                    process.env.PUBLIC_URL +
+                    '/assets/logo/svg/CourseUp-Logo-With-Wordmark.svg 3000w, ' +
+                    process.env.PUBLIC_URL +
+                    '/assets/logo/svg/CourseUp-Logo-Blue.svg 2500w'
+                  }
+                  alt="CourseUp"
+                  h="2em"
+                  minW="4em"
+                />
+              </LinkBox>
+            </Center>
             <NavButtons />
           </Flex>
         </GridItem>
