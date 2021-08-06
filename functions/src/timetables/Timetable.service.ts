@@ -53,10 +53,7 @@ async function hasValidCourses(
       CoursesCollection,
       constructSectionKey(term, course.subject, course.code)
     );
-    if (!doc || doc.data.pid !== course.pid) {
-      console.log(course.subject, course.code, term);
-      return false;
-    }
+    if (!doc || doc.data.pid !== course.pid) return false;
   }
 
   return true;
