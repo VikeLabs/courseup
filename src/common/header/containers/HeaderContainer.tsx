@@ -1,11 +1,9 @@
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, useColorMode, IconButton } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, HStack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
-
-import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { Banner } from '../components/Banner';
 import { NavButtons } from '../components/NavButtons';
+import { RightSideButtons } from '../components/RightSideButtons';
 import { Search } from '../components/SearchBar';
 import { TermButtons } from '../components/TermButtons';
 
@@ -18,9 +16,6 @@ export interface HeaderProps {
  * Primary UI component for content
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
-  const { toggleColorMode } = useColorMode();
-  const mode = useDarkMode();
-
   return (
     <Box zIndex={1000}>
       <Banner />
@@ -41,17 +36,10 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
           </Center>
         </GridItem>
         <GridItem colStart={3}>
-          <TermButtons />
-        </GridItem>
-        <GridItem colStart={4}>
-          <IconButton
-            aria-label="toggle"
-            isRound
-            icon={mode(<MoonIcon fontSize="1.3em" />, <SunIcon fontSize="1.3em" />)}
-            size="sm"
-            onClick={toggleColorMode}
-            colorScheme={mode('purple', 'orange')}
-          />
+          <HStack justifyContent="space-between">
+            <TermButtons />
+            <RightSideButtons />
+          </HStack>
         </GridItem>
       </Grid>
     </Box>

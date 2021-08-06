@@ -31,29 +31,32 @@ export function useCalendarEvents(term: string, courses: SavedCourse[]) {
     (async () => {
       try {
         const coursesSections = await Promise.all(
-          termCourses.map(async ({ term, subject, code, pid, lecture, lab, tutorial, selected, color }) => {
-            const key = `${term}_${subject}_${code}`;
-            const cachedSections = SECTIONS_CACHE[key];
+          termCourses.map(
+            async ({ term, subject, code, pid, lecture, lab, tutorial, selected, showSections, color }) => {
+              const key = `${term}_${subject}_${code}`;
+              const cachedSections = SECTIONS_CACHE[key];
 
-            if (!cachedSections) {
-              const sections = await getSections({ term, subject, code });
-              SECTIONS_CACHE[key] = sections;
+              if (!cachedSections) {
+                const sections = await getSections({ term, subject, code });
+                SECTIONS_CACHE[key] = sections;
+              }
+              // TODO: transform into calendar events :wink:
+
+              return {
+                sections: SECTIONS_CACHE[key],
+                term,
+                subject,
+                code,
+                pid,
+                lecture,
+                lab,
+                tutorial,
+                selected,
+                showSections,
+                color,
+              };
             }
-            // TODO: transform into calendar events :wink:
-
-            return {
-              sections: SECTIONS_CACHE[key],
-              term,
-              subject,
-              code,
-              pid,
-              lecture,
-              lab,
-              tutorial,
-              selected,
-              color,
-            };
-          })
+          )
         );
 
         setResult({ status: 'loaded', data: coursesSections });
