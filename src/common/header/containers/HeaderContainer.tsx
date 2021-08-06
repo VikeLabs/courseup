@@ -1,5 +1,16 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { Center, Grid, GridItem, Flex, Box, useColorMode, IconButton, Image, LinkBox } from '@chakra-ui/react';
+import {
+  Center,
+  Grid,
+  GridItem,
+  Flex,
+  Box,
+  useColorMode,
+  IconButton,
+  Image,
+  LinkBox,
+  useMediaQuery,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -19,6 +30,8 @@ export interface HeaderProps {
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const { toggleColorMode } = useColorMode();
+  const [isLargerThan1185] = useMediaQuery('(min-width: 1185px)');
+
   const mode = useDarkMode();
 
   return (
@@ -29,17 +42,23 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
           <Flex justifyContent="space-between" alignContent="center" alignItems="flex-start">
             <Center flexGrow={1}>
               <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
-                <Image
-                  srcSet={
-                    process.env.PUBLIC_URL +
-                    '/assets/logo/svg/CourseUp-Logo-With-Wordmark.svg 3000w, ' +
-                    process.env.PUBLIC_URL +
-                    '/assets/logo/svg/CourseUp-Logo-Blue.svg 2500w'
-                  }
-                  alt="CourseUp"
-                  h="2em"
-                  minW="4em"
-                />
+                {isLargerThan1185 ? (
+                  <Image
+                    src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Logo-With-Wordmark.svg'}
+                    alt="CourseUp"
+                    h="2em"
+                    minW="4em"
+                    color="transparent"
+                  />
+                ) : (
+                  <Image
+                    src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Logo-Blue.svg'}
+                    h="2em"
+                    minW="4em"
+                    alt="CourseUp"
+                    color="transparent"
+                  />
+                )}
               </LinkBox>
             </Center>
             <NavButtons />
