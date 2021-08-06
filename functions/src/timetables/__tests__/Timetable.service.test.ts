@@ -9,7 +9,6 @@ mockGoogleCloudFirestore({
       {
         term: '202109',
         id: '1',
-        slug: '1',
         courses: [
           {
             subject: 'CSC',
@@ -23,7 +22,6 @@ mockGoogleCloudFirestore({
       {
         term: '202109',
         id: '2',
-        slug: '2',
         courses: [
           {
             subject: 'ADMN',
@@ -57,6 +55,7 @@ describe('Timetable service', () => {
     jest.resetAllMocks();
   });
 
+describe('Timetable service', () => {
   describe('getTimetable', () => {
     describe('on success', () => {
       it('should return the correct timetable data', async () => {
