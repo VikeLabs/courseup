@@ -30,7 +30,7 @@ export interface HeaderProps {
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const { toggleColorMode } = useColorMode();
-  const [isLargerThan1185] = useMediaQuery('(min-width: 1185px)');
+  const [isLargerThan1250] = useMediaQuery('(min-width: 1250px)');
 
   const mode = useDarkMode();
 
@@ -40,9 +40,9 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
       <Grid templateColumns="repeat(3, 1fr)" as="header" py="1.5" px="8" boxShadow="md" zIndex={100} maxH="56px">
         <GridItem colSpan={1}>
           <Flex justifyContent="space-between" alignContent="center" alignItems="flex-start">
-            <Center flexGrow={1}>
+            <Center flexGrow={1} pr="8">
               <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
-                {isLargerThan1185 ? (
+                {isLargerThan1250 ? (
                   <Image
                     src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Logo-With-Wordmark.svg'}
                     alt="CourseUp"
