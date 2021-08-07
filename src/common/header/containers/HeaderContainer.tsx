@@ -2,6 +2,7 @@ import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, HStack } from '@chakr
 import { Link as RouterLink } from 'react-router-dom';
 
 import { Banner } from '../components/Banner';
+import { GitHubButton } from '../components/GitHubButton';
 import { NavButtons } from '../components/NavButtons';
 import { RightSideButtons } from '../components/RightSideButtons';
 import { Search } from '../components/SearchBar';
