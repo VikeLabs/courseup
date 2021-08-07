@@ -1,7 +1,7 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, Text, HStack, IconButton, VStack, Icon } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
 import addWeeks from 'date-fns/addWeeks';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
@@ -10,12 +10,13 @@ import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import 'react-big-calendar/lib/sass/styles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
-import { IoShareOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
 import { RRule } from 'rrule';
 
 import '../styles/CalendarStyles.scss';
 import { CalendarEvent } from '../shared/types';
+
+import ShareTimetableButton from './ShareTimetableButton';
 
 const locales = {
   'en-US': enUS,
@@ -152,9 +153,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
           />
         </HStack>
         <Text fontSize="xl">{label}</Text>
-        <Button size="sm" bg="blue.400" color="white" leftIcon={<Icon as={IoShareOutline} />}>
-          Share
-        </Button>
+        <ShareTimetableButton />
       </Flex>
     );
   };
