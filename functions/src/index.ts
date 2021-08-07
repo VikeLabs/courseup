@@ -6,7 +6,6 @@ import * as express from 'express';
 // there's probably a better way to fix this issue.
 admin.initializeApp();
 
-import * as bodyParser from 'body-parser';
 import { RegisterRoutes } from '../build/routes';
 
 import * as openapi from '../build/swagger.json';
@@ -35,11 +34,11 @@ app.use((req, res, next) => {
 
 // Use body parser to read sent json payloads
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
-app.use(bodyParser.json());
+app.use(express.json());
 
 // TODO: can probably accomplish the same thing using hosting.
 // serve the OpenAPI spec.

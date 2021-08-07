@@ -1,6 +1,5 @@
-import { Box, Flex } from '@chakra-ui/layout';
+import { Flex } from '@chakra-ui/layout';
 
-import { Feedback } from 'common/feedback';
 import { Header } from 'common/header';
 
 import { Landing } from './containers/Landing';
@@ -10,9 +9,6 @@ export function Home(): JSX.Element {
     <Flex h="100vh" direction="column">
       <Header />
       <Landing />
-      <Box pos="absolute" bottom="0" right="0" zIndex={999} p={25}>
-        <Feedback />
-      </Box>
     </Flex>
   );
 }
