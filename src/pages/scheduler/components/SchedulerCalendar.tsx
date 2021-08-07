@@ -1,25 +1,45 @@
-import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
+import {
+  MutableRefObject,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
-import addWeeks from 'date-fns/addWeeks';
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-import * as enUS from 'date-fns/locale';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import 'react-big-calendar/lib/sass/styles.scss';
-import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
-import { useParams } from 'react-router';
-import { RRule } from 'rrule';
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import {
+  Button,
+  Flex,
+  Heading,
+  Text,
+  HStack,
+  IconButton,
+  VStack,
+} from "@chakra-ui/react";
+import addWeeks from "date-fns/addWeeks";
+import format from "date-fns/format";
+import getDay from "date-fns/getDay";
+import * as enUS from "date-fns/locale";
+import parse from "date-fns/parse";
+import startOfWeek from "date-fns/startOfWeek";
+import "react-big-calendar/lib/sass/styles.scss";
+import {
+  Calendar,
+  dateFnsLocalizer,
+  Event,
+  EventProps,
+  ToolbarProps,
+} from "react-big-calendar";
+import { useParams } from "react-router";
+import { RRule } from "rrule";
 
-import '../styles/CalendarStyles.scss';
-import { CalendarEvent } from '../shared/types';
+import "../styles/CalendarStyles.scss";
+import { CalendarEvent } from "../shared/types";
 
-let latestHour = 20;
+let latestHour = 12;
 
 const locales = {
-  'en-US': enUS,
+  "en-US": enUS,
 };
 
 const localizer = dateFnsLocalizer({
@@ -34,7 +54,7 @@ const slotPropGetter = (date: Date, resourceId?: number | string) => {
   if (date.getDay() === 2 || date.getDay() === 4)
     return {
       style: {
-        backgroundColor: '#F7F7F7',
+        backgroundColor: "#F7F7F7",
       },
     };
   else return {};
@@ -44,10 +64,10 @@ const eventStyleGetter = ({ resource }: Event) => ({
   style: {
     backgroundColor: resource && resource.color,
     opacity: resource.opacity ? 0.5 : 1,
-    color: 'black',
+    color: "black",
     borderRadius: 0,
-    border: 'none',
-    cursor: 'default',
+    border: "none",
+    cursor: "default",
   },
 });
 
@@ -56,11 +76,13 @@ const CustomEvent = ({ title, event }: EventProps) => {
     <Flex height="100%" direction="column">
       <HStack w="100%" bg="#EDF2F7" justifyContent="space-between" p="0.2em">
         <Heading size="xs">{title}</Heading>
-        <Heading size="xs">{event.resource && event.resource.sectionCode}</Heading>
+        <Heading size="xs">
+          {event.resource && event.resource.sectionCode}
+        </Heading>
       </HStack>
       <VStack flex={1} justifyContent="center">
         <Heading
-          color={event.resource.textColor ? event.resource.textColor : 'black'}
+          color={event.resource.textColor ? event.resource.textColor : "black"}
           justifyContent="center"
           size="sm"
         >
@@ -79,7 +101,9 @@ export interface SchedulerCalendarProps {
   calendarEvents?: CalendarEvent[];
 }
 
-export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
+export function SchedulerCalendar({
+  calendarEvents,
+}: SchedulerCalendarProps): JSX.Element {
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { term } = useParams();
@@ -102,7 +126,8 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     ) {
       return today;
     } else {
-      if (year && month) return new Date(Number(year[1]), Number(month[1]) - 1, 12);
+      if (year && month)
+        return new Date(Number(year[1]), Number(month[1]) - 1, 12);
     }
     return today;
   }, [term]);
@@ -111,7 +136,16 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     const month = /\d{4}(\d{2})/.exec(term);
     const year = /(\d{4})\d{2}/.exec(term);
 
-    const lowerBound = new Date(Date.UTC(year ? parseInt(year[1]) : 2021, month ? parseInt(month[1]) : 1, 0, 0, 0, 0));
+    const lowerBound = new Date(
+      Date.UTC(
+        year ? parseInt(year[1]) : 2021,
+        month ? parseInt(month[1]) : 1,
+        0,
+        0,
+        0,
+        0
+      )
+    );
 
     return lowerBound;
   }, [term]);
@@ -162,22 +196,24 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     const days = calendarEvent.meetingTime.days;
     const daysRRule = [];
 
-    if (days.includes('M')) {
+    if (days.includes("M")) {
       daysRRule.push(RRule.MO);
     }
-    if (days.includes('T')) {
+    if (days.includes("T")) {
       daysRRule.push(RRule.TU);
     }
-    if (days.includes('W')) {
+    if (days.includes("W")) {
       daysRRule.push(RRule.WE);
     }
-    if (days.includes('R')) {
+    if (days.includes("R")) {
       daysRRule.push(RRule.TH);
     }
-    if (days.includes('F')) {
+    if (days.includes("F")) {
       daysRRule.push(RRule.FR);
     }
-
+    if (days.includes("S")) {
+      daysRRule.push(RRule.SA);
+    }
     return daysRRule;
   };
 
@@ -186,10 +222,13 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     const events: Event[] = [];
     calendarEvents?.forEach((calendarEvent) => {
       try {
-        if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
+        if (calendarEvent.meetingTime.time.indexOf("TBA") !== -1) return;
 
         let courseEndTime = calendarEvent.meetingTime.time.split(`- `)[1];
-        if (courseEndTime.split(` `)[1] == `pm` && parseInt(courseEndTime.split(`:`)[0]) != 12) {
+        if (
+          courseEndTime.split(` `)[1] == `pm` &&
+          parseInt(courseEndTime.split(`:`)[0]) != 12
+        ) {
           let endTime = parseInt(courseEndTime.split(`:`)[0]) + 12;
           if (endTime > latestHour) {
             latestHour = endTime + 1;
@@ -198,24 +237,30 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
 
         const lowerBound = getTermMonthLowerBound();
 
-        const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
-        const startEndHours = calendarEvent.meetingTime.time.split('-');
+        const startEndDates = calendarEvent.meetingTime.dateRange.split("-");
+        const startEndHours = calendarEvent.meetingTime.time.split("-");
 
-        const courseStartDate = new Date(startEndDates[0].replace(',', '') + ' 00:00:00 GMT');
+        const courseStartDate = new Date(
+          startEndDates[0].replace(",", "") + " 00:00:00 GMT"
+        );
 
-        const startDateString = `${lowerBound.getMonth() + 1}, 1, ${lowerBound.getUTCFullYear()}`;
+        const startDateString = `${
+          lowerBound.getMonth() + 1
+        }, 1, ${lowerBound.getUTCFullYear()}`;
         const startUpperDateRRule = parse(
           `${startDateString} ${startEndHours[0].trim()} +00:00`,
-          'MM, d, yyyy h:mm a XXX',
+          "MM, d, yyyy h:mm a XXX",
           new Date()
         );
         const startLowerDateRRule = parse(
           `${startDateString} ${startEndHours[1].trim()} +00:00`,
-          'MM, d, yyyy h:mm a XXX',
+          "MM, d, yyyy h:mm a XXX",
           new Date()
         );
 
-        const endDateRRule = new Date(startEndDates[1].replace(',', '') + ' 00:00:00 GMT');
+        const endDateRRule = new Date(
+          startEndDates[1].replace(",", "") + " 00:00:00 GMT"
+        );
 
         const days = computeMeetingTimeDays(calendarEvent);
 
@@ -240,9 +285,13 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
         const ruleLowerAll = ruleLower.all();
 
         ruleUpper.all().forEach((dateUpper, i) => {
-          const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
+          const startDate = new Date(
+            dateUpper.toUTCString().replace("GMT", "")
+          );
           const title = `${calendarEvent.subject} ${calendarEvent.code}`;
-          const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
+          const endDate = new Date(
+            ruleLowerAll[i].toUTCString().replace("GMT", "")
+          );
           const duplicateEvent = events.find((event) => {
             return (
               event.title === title &&
@@ -282,15 +331,21 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
   }, [calendarEvents, getSelectedDate, getTermMonthLowerBound]);
 
   const today = new Date();
-  console.log(`Latest hour is ` + latestHour);
   return (
     <Calendar
       localizer={localizer}
       events={events}
       min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)}
-      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), latestHour)}
+      max={
+        new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate(),
+          latestHour
+        )
+      }
       defaultView="work_week"
-      views={['work_week']}
+      views={["work_week"]}
       date={selectedDate}
       eventPropGetter={eventStyleGetter}
       slotPropGetter={slotPropGetter}
