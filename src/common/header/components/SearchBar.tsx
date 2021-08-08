@@ -3,6 +3,9 @@ import React, { ChangeEvent } from 'react';
 import { FormControl, FormLabel, Input, InputGroup } from '@chakra-ui/react';
 import { SearchBoxProvided } from 'react-instantsearch-core';
 import { connectSearchBox } from 'react-instantsearch-dom';
+import { useMatch, useNavigate } from 'react-router';
+
+import { getCurrentTerm } from 'lib/utils';
 
 type SearchBoxProps = {
   currentRefinement: string;
@@ -13,7 +16,13 @@ type SearchBoxProps = {
 };
 
 function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSubmit }: SearchBoxProps) {
+  const calendarMatch = useMatch('/calendar/*');
+  const scheduleMatch = useMatch('/schedule/*');
+  const registrationMatch = useMatch('/registration/*');
+  const navigate = useNavigate();
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!calendarMatch && !scheduleMatch && !registrationMatch) navigate(`/calendar/${getCurrentTerm()}`);
     refine(e.currentTarget.value);
     onChange && onChange(e.currentTarget.value);
   };

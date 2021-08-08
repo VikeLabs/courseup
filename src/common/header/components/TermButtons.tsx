@@ -28,6 +28,7 @@ export function TermButtons(): JSX.Element {
     initStatus[idx] = true;
     setStatus(initStatus);
   }, [term]);
+
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
     let idx = -1;
