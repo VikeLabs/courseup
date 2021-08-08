@@ -1,5 +1,5 @@
 import { CopyIcon } from '@chakra-ui/icons';
-import { Heading, HStack, VStack, Text } from '@chakra-ui/layout';
+import { Heading, HStack, VStack, Text, WrapItem, Wrap, Center } from '@chakra-ui/layout';
 import {
   Alert,
   AlertIcon,
@@ -13,7 +13,6 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  Table,
 } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoShareOutline } from 'react-icons/io5';
@@ -34,9 +33,16 @@ const InformationText = (props: { term: string }) => {
 
 const ShareCourseCard = (props: { course: SavedCourse }) => {
   return (
-    <Text>
-      {props.course.subject} {props.course.code}: {props.course.lecture} {props.course.lab} {props.course.tutorial}
-    </Text>
+    <Center borderWidth="1px" borderColor="gray.300" padding="10px" shadow="0px 0px 3px #ccc">
+      <VStack>
+        <Heading size="sm">
+          {props.course.subject} {props.course.code}
+        </Heading>
+        <>
+          {props.course.lecture} {props.course.lab} {props.course.tutorial}
+        </>
+      </VStack>
+    </Center>
   );
 };
 
@@ -44,19 +50,23 @@ const SelectedCoursesTable = (props: { term: string }) => {
   const { courses } = useSavedCourses();
 
   return (
-    <Table variant="striped">
+    <Wrap variant="striped">
       {courses.filter((course) => course.term === props.term).length > 0 ? (
         courses
           .filter((course) => course.term === props.term)
           .map((course) => {
-            return <ShareCourseCard course={course} />;
+            return (
+              <WrapItem>
+                <ShareCourseCard course={course} />
+              </WrapItem>
+            );
           })
       ) : (
         <Text>
           It looks like you don't have any courses selected. Add some courses to your timetable before sharing.
         </Text>
       )}
-    </Table>
+    </Wrap>
   );
 };
 
