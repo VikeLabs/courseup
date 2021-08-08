@@ -4,6 +4,7 @@ import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-u
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
 import { Link, useParams } from 'react-router-dom';
 
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 export interface CardProps {
@@ -45,6 +46,7 @@ export interface CardProps {
 
 export function Card({ subject, title, code, selected, schedule, pid }: PropsWithChildren<CardProps>): JSX.Element {
   let { term } = useParams();
+  const mode = useDarkMode();
 
   const { addCourse, deleteCourse, contains } = useSavedCourses();
 
@@ -84,15 +86,15 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
           <IconButton
             aria-label="Add to Scheduler"
             onClick={handleBookmarkClick}
-            icon={courseIsSaved ? <CloseIcon color="white" /> : <AddIcon color="white" />}
+            icon={courseIsSaved ? <CloseIcon /> : <AddIcon />}
             size="xs"
-            background={courseIsSaved ? 'red.400' : 'green.400'}
+            colorScheme={courseIsSaved ? 'red' : 'green'}
           />
           <IconButton
             aria-label="More information"
-            icon={<InfoOutlineIcon color="white" />}
+            icon={<InfoOutlineIcon />}
             size="xs"
-            background="blue.400"
+            colorScheme="blue"
             as={Link}
             to={`/calendar/${term}/${subject}?pid=${pid}`}
           />
@@ -100,12 +102,10 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
       );
     }
   };
-
   return (
     <Box
-      bgColor={selected ? undefined : 'white'}
+      bgColor={mode('white', 'dark.main')}
       bgGradient={selected ? 'linear(to-l, #2e95d1, #7cbce2)' : undefined}
-      color={selected ? 'white' : 'black'}
       boxShadow="md"
       py={2}
       px={4}
@@ -113,7 +113,7 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
       cursor={!schedule ? 'pointer' : 'auto'}
       _hover={{
         bgGradient: schedule ? undefined : selected ? undefined : 'linear(to-l, #39c686, #80dbb1)',
-        color: schedule ? undefined : 'white',
+        color: schedule ? undefined : 'black',
       }}
     >
       <Flex direction="row" alignItems="center" justifyContent="space-between">

@@ -5,6 +5,7 @@ import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleto
 import { Link } from 'react-router-dom';
 
 import { Term, useGetCourse } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 export type CourseCardProps = {
   term: string;
@@ -55,6 +56,7 @@ export function CourseCard({
   handleShowSections,
   handleDelete,
 }: CourseCardProps): JSX.Element {
+  const mode = useDarkMode();
   const onChange = useCallback(() => {
     handleSelection({ term, code, subject, pid, selected });
   }, [code, handleSelection, pid, selected, subject, term]);
@@ -72,9 +74,9 @@ export function CourseCard({
   const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Box boxShadow="md" w="100%">
-      <Flex direction="row" bg="white">
-        <Flex as="label" cursor="pointer" background={color} alignItems="center" justifyContent="center" mr="10px">
+    <Box boxShadow="md" cursor="pointer" as="label" w="100%" bgColor={mode('white', 'dark.main')}>
+      <Flex direction="row">
+        <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
           <Flex>
             <Checkbox
               backgroundColor="whiteAlpha.600"
@@ -110,8 +112,8 @@ export function CourseCard({
           <VStack alignContent="right" pr="3" py="5px">
             <IconButton
               aria-label="Remove from Scheduler"
-              icon={<CloseIcon color="white" />}
-              bg="red.400"
+              icon={<CloseIcon />}
+              colorScheme="red"
               size="xs"
               onClick={onDelete}
             />
@@ -124,7 +126,7 @@ export function CourseCard({
                   <ChevronDownIcon color="white" boxSize="1.5em" />
                 )
               }
-              bg="blue.400"
+              colorScheme="blue"
               size="xs"
               onClick={onShowSections}
             />

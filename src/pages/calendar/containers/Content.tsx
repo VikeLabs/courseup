@@ -6,6 +6,7 @@ import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { CourseInfo } from '../components/Course';
@@ -29,6 +30,7 @@ export function Content({ term }: ContentProps): JSX.Element {
   const { data, loading, error } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
 
   const { addCourse, deleteCourse, contains } = useSavedCourses();
+  const mode = useDarkMode();
 
   const courseIsSaved = contains(data?.pid!, term);
 
@@ -48,7 +50,7 @@ export function Content({ term }: ContentProps): JSX.Element {
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
 
-      <Box bg="white" p={4} zIndex={60}>
+      <Box p={4} zIndex={60}>
         {error && (
           <Alert status="error" my="5">
             <pre>{error.message}</pre>
@@ -62,14 +64,8 @@ export function Content({ term }: ContentProps): JSX.Element {
           <Skeleton isLoaded={!loading} display="flex" flexDirection="row" alignItems="center">
             {data && (
               <>
-                <Heading
-                  mr="5"
-                  size="2xl"
-                  as="h2"
-                  whiteSpace="pre"
-                  color="black"
-                >{`${data.subject} ${data.code}`}</Heading>
-                <Heading size="lg" as="h3" color="gray">
+                <Heading mr="5" size="2xl" as="h2" whiteSpace="pre">{`${data.subject} ${data.code}`}</Heading>
+                <Heading size="lg" as="h3" color={mode('gray', 'dark.header')}>
                   {data.title}
                 </Heading>
               </>
