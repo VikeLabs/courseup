@@ -29,6 +29,7 @@
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "4.0.2",
+    "react-share": "^4.4.0",
     "restful-react": "^15.6.0",
     "rrule": "^2.6.8",
     "sass": "^1.32.8",
@@ -91,7 +92,10 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testPathIgnorePatterns": ["/node_modules", "functions"],
+    "testPathIgnorePatterns": [
+      "/node_modules",
+      "functions"
+    ],
     "testRegex": "src/.*(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",

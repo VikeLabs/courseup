@@ -17,6 +17,18 @@ import {
 import { HiLink } from 'react-icons/hi';
 import { IoShareOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
+import {
+  EmailIcon,
+  EmailShareButton,
+  FacebookIcon,
+  FacebookShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+} from 'react-share';
 
 import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
@@ -70,17 +82,24 @@ const SelectedCoursesTable = (props: { term: string }) => {
   );
 };
 
-const CopyLinkUrl = () => {
+const SocialMediaButtons = (props: { slug: string }) => {
+  return (
+    <HStack justify="center">
+      <EmailShareButton children={<EmailIcon round={true} />} url={props.slug} />
+      <FacebookShareButton children={<FacebookIcon round={true} />} url={props.slug} />
+      <TelegramShareButton children={<TelegramIcon round={true} />} url={props.slug} />
+      <WhatsappShareButton children={<WhatsappIcon round={true} />} url={props.slug} />
+      <TwitterShareButton children={<TwitterIcon round={true} />} url={props.slug} />
+    </HStack>
+  );
+};
+
+const CopyLinkUrl = (props: { slug: string }) => {
   return (
     <HStack justify="space-between" padding="5px" borderWidth="1px" borderColor="gray.300">
       <HStack justify="center" flexGrow={4}>
         <Icon boxSize="1.25em" as={HiLink} />
-        <Input
-          id="timetable_slug"
-          value="https://courseup.ca/s/9w845yetg9d8gh938wrhsde9"
-          variant="filled"
-          isReadOnly={true}
-        />
+        <Input id="timetable_slug" value={props.slug} variant="filled" isReadOnly={true} />
       </HStack>
       <Button
         size="sm"
@@ -100,13 +119,17 @@ const CopyLinkUrl = () => {
 };
 
 const ShareTimetableContent = (props: { term: string }) => {
+  const slug = 'https://courseup.ca/s/9w845yetg9d8gh938wrhsde9';
+
   return (
     <VStack align="left" spacing="15px">
       <InformationText term={props.term} />
       <Heading size="sm"> What you are sharing </Heading>
       <SelectedCoursesTable term={props.term} />
-      <Heading size="sm"> Copy link </Heading>
-      <CopyLinkUrl />
+      <Heading size="sm"> Share this link via </Heading>
+      <SocialMediaButtons slug={slug} />
+      <Heading size="sm"> Or copy link </Heading>
+      <CopyLinkUrl slug={slug} />
     </VStack>
   );
 };
