@@ -1,6 +1,8 @@
 import { Button, ButtonGroup } from '@chakra-ui/react';
 import { useMatch, useNavigate, useParams } from 'react-router';
 
+import { getCurrentTerm } from 'lib/utils';
+
 export function NavButtons(): JSX.Element {
   const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/schedule/*');
@@ -12,9 +14,9 @@ export function NavButtons(): JSX.Element {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
     if (!scheduleMatch && name !== 'calendar') {
-      navigate(`/scheduler/${term || ''}`);
+      navigate(`/scheduler/${term || getCurrentTerm()}`);
     } else if (!calendarMatch && name !== 'scheduler') {
-      navigate(`/calendar/${term || ''}`);
+      navigate(`/calendar/${term || getCurrentTerm()}`);
     }
   };
 
