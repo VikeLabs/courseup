@@ -26,7 +26,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
         px="8"
         boxShadow="md"
         bg="#82cbee"
-        zIndex={100}
+        zIndex={12}
         maxH="56px"
       >
         <GridItem colSpan={1}>

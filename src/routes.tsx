@@ -9,12 +9,41 @@ import { getCurrentTerm } from 'lib/utils';
 import { Header } from 'common/header';
 import { SidebarTemplate } from 'common/sidebar';
 
+import { Term } from 'lib/fetchers';
+
+import { Header } from 'common/header';
+import { SidebarTemplate } from 'common/sidebar';
+
 import { Calendar } from 'pages/calendar';
 import { Home } from 'pages/home';
 import { Registration } from 'pages/registration';
 import { Scheduler } from 'pages/scheduler';
 
 // TODO: use nested routes but it doesn't work right now
+type Props = {
+  search?: boolean;
+  title: string;
+};
+
+function RouteContainer({ children, search, title }: PropsWithChildren<Props>): JSX.Element {
+  const { term } = useParams();
+  const [query, setQuery] = useState('');
+
+  const handleSearchChange = (q: string) => {
+    setQuery(q);
+  };
+
+  return (
+    <Box h="100vh">
+      <Header onSearchChange={search ? handleSearchChange : undefined} />
+      {search ? (
+        <SidebarTemplate children={children} term={term as Term} title={title} query={query} />
+      ) : (
+        <>{children}</>
+      )}
+    </Box>
+  );
+}
 
 export function Routes(): JSX.Element {
   const [query, setQuery] = useState('');
