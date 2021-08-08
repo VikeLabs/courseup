@@ -1,5 +1,5 @@
 import { CopyIcon } from '@chakra-ui/icons';
-import { Heading, HStack, VStack } from '@chakra-ui/layout';
+import { Heading, HStack, VStack, Text } from '@chakra-ui/layout';
 import {
   Alert,
   AlertIcon,
@@ -13,22 +13,50 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  Table,
 } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoShareOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
 
+import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
-const InformationText = () => {
-  const { term } = useParams();
-
+const InformationText = (props: { term: string }) => {
   return (
     <Alert status="info" borderRadius="10px">
       <AlertIcon />
       We've generated a link that you can share to allow people to view, compare, and import the courses and sections
-      you currently have selected for the {getReadableTerm(term)} term.
+      you currently have selected for the {getReadableTerm(props.term)} term.
     </Alert>
+  );
+};
+
+const ShareCourseCard = (props: { course: SavedCourse }) => {
+  return (
+    <Text>
+      {props.course.subject} {props.course.code}: {props.course.lecture} {props.course.lab} {props.course.tutorial}
+    </Text>
+  );
+};
+
+const SelectedCoursesTable = (props: { term: string }) => {
+  const { courses } = useSavedCourses();
+
+  return (
+    <Table variant="striped">
+      {courses.filter((course) => course.term === props.term).length > 0 ? (
+        courses
+          .filter((course) => course.term === props.term)
+          .map((course) => {
+            return <ShareCourseCard course={course} />;
+          })
+      ) : (
+        <Text>
+          It looks like you don't have any courses selected. Add some courses to your timetable before sharing.
+        </Text>
+      )}
+    </Table>
   );
 };
 
@@ -61,13 +89,13 @@ const CopyLinkUrl = () => {
   );
 };
 
-const ShareTimetableContent = () => {
+const ShareTimetableContent = (props: { term: string }) => {
   return (
     <VStack align="left" spacing="15px">
-      <InformationText />
+      <InformationText term={props.term} />
       <Heading size="sm"> What you are sharing </Heading>
-      <Heading size="sm"> Share this link via </Heading>
-      <Heading size="sm"> Or copy link </Heading>
+      <SelectedCoursesTable term={props.term} />
+      <Heading size="sm"> Copy link </Heading>
       <CopyLinkUrl />
     </VStack>
   );
@@ -89,7 +117,7 @@ export default function ShareTimetableButton() {
           <ModalHeader>Share your {getReadableTerm(term)} timeline</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <ShareTimetableContent />
+            <ShareTimetableContent term={term} />
           </ModalBody>
         </ModalContent>
       </Modal>
