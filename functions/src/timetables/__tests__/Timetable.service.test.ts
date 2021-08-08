@@ -152,14 +152,34 @@ describe('Timetable service', () => {
   });
 
   describe('hasValidCourses', () => {
-    describe('when the no courses', () => {
-      it('works right', async () => {
+    describe('when there are no courses', () => {
+      it('should work right', async () => {
         expect(await hasValidCourses([], '202109')).toBeFalsy();
       });
     });
 
+    describe('when the PID does not match', () => {
+      it('should return false', async () => {
+        expect(
+          await hasValidCourses(
+            [
+              {
+                subject: 'MATH',
+                code: '100',
+                pid: 'wrong',
+                lecture: 'A02',
+                lab: 'B03',
+                color: '#12345',
+              },
+            ],
+            '202109'
+          )
+        ).toBeFalsy();
+      });
+    });
+
     describe('when the courses are valid', () => {
-      it('returns true', async () => {
+      it('should return true', async () => {
         expect(
           await hasValidCourses(
             [
