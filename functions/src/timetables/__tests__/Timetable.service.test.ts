@@ -1,9 +1,9 @@
 import { mockFirebase } from 'firestore-jest-mock';
-import * as admin from 'firebase-admin';
 
 type MockTimetableDoc = TimetableDoc & { id: string };
 type MockCourseDoc = CourseDoc & { id: string };
 
+// need to mock before importing the functions that call Firestore
 mockFirebase({
   database: {
     timetables: [
@@ -41,18 +41,18 @@ mockFirebase({
         code: '100',
         pid: '1234abcd',
         term: '202109',
-        id: '1',
+        id: '202109MATH100',
       },
     ] as MockCourseDoc[],
   },
 });
 
-import { addTimetable, getTimetable } from '../Timetable.service';
+import {
+  addTimetable,
+  getTimetable,
+  hasValidCourses,
+} from '../Timetable.service';
 import { CourseDoc, TimetableDoc } from '../../db/collections';
-
-admin.initializeApp({
-  projectId: 'test',
-});
 
 describe('Timetable service', () => {
   describe('getTimetable', () => {
@@ -100,7 +100,7 @@ describe('Timetable service', () => {
           '202109'
         );
         expect(data).toStrictEqual({
-          slug: 'yo',
+          slug: 'fa4117101d45378bd9d68fe1e7ee7af14616bac9',
           term: '202109',
           courses: [
             {
@@ -147,6 +147,34 @@ describe('Timetable service', () => {
 
           expect(data).toBeNull();
         });
+      });
+    });
+  });
+
+  describe('hasValidCourses', () => {
+    describe('when the no courses', () => {
+      it('works right', async () => {
+        expect(await hasValidCourses([], '202109')).toBeFalsy();
+      });
+    });
+
+    describe('when the courses are valid', () => {
+      it('returns true', async () => {
+        expect(
+          await hasValidCourses(
+            [
+              {
+                subject: 'MATH',
+                code: '100',
+                pid: '1234abcd',
+                lecture: 'A02',
+                lab: 'B03',
+                color: '#12345',
+              },
+            ],
+            '202109'
+          )
+        ).toBeTruthy();
       });
     });
   });

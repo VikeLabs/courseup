@@ -2,7 +2,7 @@ import { get, set } from 'typesaurus';
 import { Term } from '../constants';
 import { CoursesCollection, TimetablesCollection } from '../db/collections';
 import { TimetableCourse, Timetable } from './Timetable.model';
-import hash = require('object-hash');
+import * as hash from 'object-hash';
 import { constructSectionKey } from '../courses/Course.service';
 
 export type TimetableParams = Pick<Timetable, 'courses' | 'term'>;
@@ -40,12 +40,12 @@ export async function addTimetable(
   };
 }
 
-async function hasValidCourses(
+export async function hasValidCourses(
   courses: TimetableCourse[],
   term: Term
 ): Promise<boolean> {
   // 12 is the max length of courses we will allow for a timetable in the database
-  if (courses.length > 12) return false;
+  if (courses.length > 12 || courses.length === 0) return false;
 
   for (const course of courses) {
     // validate course is in database
