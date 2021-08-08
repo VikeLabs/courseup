@@ -18,11 +18,10 @@ type SearchBoxProps = {
 function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSubmit }: SearchBoxProps) {
   const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/schedule/*');
-  const registrationMatch = useMatch('/registration/*');
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!calendarMatch && !scheduleMatch && !registrationMatch) navigate(`/calendar/${getCurrentTerm()}`);
+    if (!calendarMatch && !scheduleMatch) navigate(`/calendar/${getCurrentTerm()}`);
     refine(e.currentTarget.value);
     onChange && onChange(e.currentTarget.value);
   };
