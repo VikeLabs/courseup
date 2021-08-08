@@ -89,11 +89,11 @@ const SelectedCoursesTable = (props: { term: string }) => {
 const SocialMediaButtons = (props: { slug: string }) => {
   return (
     <HStack justify="center">
-      <EmailShareButton children={<EmailIcon round={true} />} url={props.slug} />
-      <FacebookShareButton children={<FacebookIcon round={true} />} url={props.slug} />
-      <TelegramShareButton children={<TelegramIcon round={true} />} url={props.slug} />
-      <WhatsappShareButton children={<WhatsappIcon round={true} />} url={props.slug} />
-      <TwitterShareButton children={<TwitterIcon round={true} />} url={props.slug} />
+      <EmailShareButton children={<EmailIcon size={50} round={true} />} url={props.slug} />
+      <FacebookShareButton children={<FacebookIcon size={50} round={true} />} url={props.slug} />
+      <TelegramShareButton children={<TelegramIcon size={50} round={true} />} url={props.slug} />
+      <WhatsappShareButton children={<WhatsappIcon size={50} round={true} />} url={props.slug} />
+      <TwitterShareButton children={<TwitterIcon size={50} round={true} />} url={props.slug} />
     </HStack>
   );
 };
