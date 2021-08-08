@@ -1,9 +1,10 @@
 import { CopyIcon } from '@chakra-ui/icons';
-import { Heading, HStack, VStack, Text, WrapItem, Wrap, Center } from '@chakra-ui/layout';
+import { Heading, HStack, VStack, Text, WrapItem, Wrap } from '@chakra-ui/layout';
 import {
   Alert,
   AlertIcon,
   Button,
+  Flex,
   Icon,
   Input,
   Modal,
@@ -45,16 +46,18 @@ const InformationText = (props: { term: string }) => {
 
 const ShareCourseCard = (props: { course: SavedCourse }) => {
   return (
-    <Center borderWidth="1px" borderColor="gray.300" padding="10px" shadow="0px 0px 3px #ccc">
-      <VStack>
-        <Heading size="sm">
+    <Flex height="100%" direction="column">
+      <HStack w="100%" bg="#EDF2F7" justifyContent="center" p="0.2em" borderTopRadius="4px" padding="4px">
+        <Heading size="xs">
           {props.course.subject} {props.course.code}
         </Heading>
-        <>
+      </HStack>
+      <VStack bg={props.course.color} flex={1} justifyContent="center" borderBottomRadius="4px" padding="4px">
+        <Heading justifyContent="center" size="sm">
           {props.course.lecture} {props.course.lab} {props.course.tutorial}
-        </>
+        </Heading>
       </VStack>
-    </Center>
+    </Flex>
   );
 };
 
