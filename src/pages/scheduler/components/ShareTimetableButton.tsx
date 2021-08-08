@@ -14,6 +14,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoShareOutline } from 'react-icons/io5';
@@ -98,6 +99,7 @@ const SocialMediaButtons = (props: { slug: string }) => {
 };
 
 const CopyLinkUrl = (props: { slug: string }) => {
+  const toast = useToast();
   return (
     <HStack justify="space-between" padding="5px" borderWidth="1px" borderColor="gray.300">
       <HStack justify="center" flexGrow={4}>
@@ -113,6 +115,11 @@ const CopyLinkUrl = (props: { slug: string }) => {
           el.focus();
           el.select();
           document.execCommand('copy');
+          toast({
+            title: 'Copied.',
+            status: 'success',
+            duration: 3000,
+          });
         }}
       >
         Copy
