@@ -95,7 +95,7 @@ export function SectionInfo({
             )}
             {isBLENDED && (
               <Badge colorScheme="cyan" mx="1">
-                Synchronous + Asynchronous
+                Blended
               </Badge>
             )}
             {isSENG && (
