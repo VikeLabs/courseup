@@ -66,6 +66,7 @@ export function SectionInfo({
   const isENGR = additionalNotes?.indexOf('Restricted to BEng students only') !== -1;
   const isENGR_CSC = additionalNotes?.indexOf('Restricted to students in the Faculty of Engineering') !== -1;
   const isSCI = additionalNotes?.indexOf('Restricted to SCIENCE students') !== -1;
+  const isBEng_BSeng = additionalNotes?.indexOf('Restricted to BEng and BSEng students') !== -1;
   const isENGR_MULTI = additionalNotes?.indexOf('Reserved for BME, BSEN, CENG, ELEC students') !== -1;
 
   const { term } = useParams();
@@ -124,7 +125,12 @@ export function SectionInfo({
             )}
             {isENGR_MULTI && (
               <Badge colorScheme="red" mx="1">
-                BME/BSENG/CENG/ELEC ONLY
+                BME/SENG/CENG/ELEC ONLY
+              </Badge>
+            )}
+            {isBEng_BSeng && (
+              <Badge colorScheme="red" mx="1">
+                BENG/BSENG ONLY
               </Badge>
             )}
           </Box>
