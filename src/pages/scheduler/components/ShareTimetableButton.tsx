@@ -157,10 +157,10 @@ export default function ShareTimetableButton() {
       <Modal size="2xl" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Share your {getReadableTerm(term)} timeline</ModalHeader>
+          <ModalHeader>Share your {getReadableTerm(term || '')} timeline</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <ShareTimetableContent term={term} />
+            <ShareTimetableContent term={term || ''} />
           </ModalBody>
         </ModalContent>
       </Modal>
