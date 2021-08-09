@@ -15,7 +15,6 @@ import { Registration } from 'pages/registration';
 import { Scheduler } from 'pages/scheduler';
 
 // TODO: use nested routes but it doesn't work right now
-
 export function Routes(): JSX.Element {
   const [query, setQuery] = useState('');
   const { term } = useParams();

@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
+import { TermButtons } from 'common/header/components/TermButtons';
+
 export interface TopBarProps {
   /**
    * Back button click handler
@@ -44,28 +46,31 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
       borderBottomWidth="2px"
       borderBottomStyle="solid"
     >
-      <Flex justifyContent="space-between" alignItems="center" p="3">
-        <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
-          <BreadcrumbItem>
-            <BreadcrumbLink
-              as={Link}
-              to={{ pathname: `/${route}/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
-              color="black"
-            >
-              Subjects
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          {subject && (
-            <BreadcrumbItem color="black">
-              <Text fontWeight="semibold">{subject}</Text>
+      <Flex direction="column">
+        <TermButtons />
+        <Flex justifyContent="space-between" alignItems="center" p="3">
+          <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                as={Link}
+                to={{ pathname: `/${route}/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
+                color="black"
+              >
+                Subjects
+              </BreadcrumbLink>
             </BreadcrumbItem>
-          )}
-        </Breadcrumb>
-        <Box>
-          <Button onClick={onToggle} size="xs" color="black">
-            Filters
-          </Button>
-        </Box>
+            {subject && (
+              <BreadcrumbItem color="black">
+                <Text fontWeight="semibold">{subject}</Text>
+              </BreadcrumbItem>
+            )}
+          </Breadcrumb>
+          <Box>
+            <Button onClick={onToggle} size="xs" color="black">
+              Filters
+            </Button>
+          </Box>
+        </Flex>
       </Flex>
       <Collapse in={isOpen} animateOpacity>
         <Box p="3" color="white" shadow="md" borderColor="gray.200" borderTopWidth="2px" borderTopStyle="solid">

@@ -1,11 +1,10 @@
-import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, HStack } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, Spacer, HStack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { Banner } from '../components/Banner';
 import { GitHubButton } from '../components/GitHubButton';
 import { NavButtons } from '../components/NavButtons';
 import { Search } from '../components/SearchBar';
-import { TermButtons } from '../components/TermButtons';
 
 export interface HeaderProps {
   onSearchChange?: (query: string) => void;
@@ -44,9 +43,9 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
             <Search onChange={onSearchChange} />
           </Center>
         </GridItem>
-        <GridItem colStart={3}>
-          <HStack justifyContent="space-between">
-            <TermButtons />
+        <GridItem colStart={3} alignContent="right">
+          <HStack>
+            <Spacer />
             <GitHubButton />
           </HStack>
         </GridItem>
