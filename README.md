@@ -27,7 +27,7 @@ If you're interested developing this application, follow these steps to get runn
 
 You will now be able to develop the frontend React application. Any changes made to the code will hot-reload upon save.
 
-Note: If the above is failing to compile on a Windows machine, you will first need to run `git fetch --all` and then `git reset --hard`. After successfully running these two commands, you can then retry step 4 (`npm start`).
+Note: If the above is failing to compile on a Windows machine, you will first need to run `git config --global core.autocrlf false`, then `git fetch --all` and then `git reset --hard`. After successfully running these two commands, you can then retry step 4 (`npm start`).
 
 If you get stuck setting up the development environment, try Google **then** if you're still stuck drop a question in our [GitHub Discussions](https://github.com/VikeLabs/courseup/discussions/categories/q-a).
 
