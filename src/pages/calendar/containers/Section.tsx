@@ -1,6 +1,7 @@
-import { Box, Center, Divider, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Center, Divider, Heading, Spinner, Text } from '@chakra-ui/react';
 
 import { ClassScheduleListing, Seat, Term, useSeats, useSections } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getReadableTerm } from 'lib/utils';
 
 import { SectionInfo } from '../components/Section';
@@ -33,11 +34,12 @@ export interface SectionsContainerProps {
 export function SectionsContainer({ term, subject, code }: SectionsContainerProps): JSX.Element {
   const { data: sections, loading, error: sectionsError } = useSections({ term, queryParams: { subject, code } });
   const { data: seats, error: seatsError } = useSeats({ term, queryParams: { subject, code } });
+  const mode = useDarkMode();
 
   if (loading) {
     return (
       <Center width="100%">
-        <Spinner bg="white" colorScheme="black" size="xl" color="gray" />
+        <Spinner colorScheme="black" size="xl" color={mode('gray', 'dark.header')} />
       </Center>
     );
   }
@@ -46,11 +48,11 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
     return (
       <Center>
-        <Heading size="md" color="gray">
+        <Heading size="md" color={mode('gray', 'dark.header')}>
           Unable to find sections for{' '}
-          <Box as="span" color="black">
+          <Text as="span" color={mode('black', 'white')}>
             {getReadableTerm(term)}
-          </Box>
+          </Text>
         </Heading>
       </Center>
     );
@@ -75,7 +77,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
         if (c.sections && c.sections.length > 0) {
           return (
             <Box key={i}>
-              <Heading size="xl" color="black" my="2">
+              <Heading size="xl" my="2">
                 {c.sections.length > 1 ? c.plural : c.singular}
               </Heading>
               <Sections sections={c.sections} seats={seats} />

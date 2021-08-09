@@ -22,7 +22,7 @@ export function CourseShield({ title, children, bg }: PropsWithChildren<CourseSh
           {title}
         </Heading>
       </Box>
-      <Flex bg={bg} p="1" px="2" borderBottomRightRadius="md" borderTopRightRadius="md">
+      <Flex bg={bg} p="1" px="2" borderBottomRightRadius="md" borderTopRightRadius="md" color="black">
         {children}
       </Flex>
     </Flex>
@@ -89,7 +89,7 @@ export function CourseInfo({
   term,
 }: CourseInfoProps): JSX.Element {
   return (
-    <Box as="section" bg="white" color="black">
+    <Box as="section">
       <Divider my="3" />
       <Flex my="3" flexWrap="wrap">
         {hours && (

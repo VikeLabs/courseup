@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
 
 import { ClassScheduleListing, MeetingTimes } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
 export function SectionsCardContainer({
@@ -24,10 +25,11 @@ export function SectionsCardContainer({
     term: string
   ) => void;
 }): JSX.Element {
+  const mode = useDarkMode();
   const sectionTypes = useMemo(() => Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   return (
-    <Box bg="whiteAlpha.900">
+    <Box bgColor={mode('white', 'dark.main')}>
       {sectionTypes.map((type) => (
         <SectionGroup
           sections={sections}
@@ -119,8 +121,18 @@ export interface OptionsProps {
 }
 
 export function Option({ meetingTimes, sectionCode }: OptionsProps): JSX.Element {
+  const mode = useDarkMode();
+
   return (
-    <HStack as="label" px="3" my="0.5" fontSize="12px" borderTop="#e4e4e4" borderTopWidth="2" borderTopStyle="solid">
+    <HStack
+      as="label"
+      px="3"
+      my="0.5"
+      fontSize="12px"
+      borderTop={mode('light.background', 'dark.background')}
+      borderTopWidth="2"
+      borderTopStyle="solid"
+    >
       <HStack>
         <Radio
           value={sectionCode}

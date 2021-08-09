@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
+import { useDarkMode } from 'lib/hooks/useDarkMode';
+
 import { TermButtons } from 'common/header/components/TermButtons';
 
 export interface TopBarProps {
@@ -29,6 +31,7 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
   const { term } = useParams();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const mode = useDarkMode();
 
   const subject = location.pathname.split('/')[3];
   const route = location.pathname.split('/')[1];
@@ -37,12 +40,11 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
 
   return (
     <Box
-      bg="white"
+      bgColor={mode('white', 'dark.main')}
       top="0"
       m="0"
       boxShadow="md"
       zIndex={10}
-      borderColor="gray.200"
       borderBottomWidth="2px"
       borderBottomStyle="solid"
     >
@@ -54,29 +56,28 @@ export function TopBar({ onFilter }: TopBarProps): JSX.Element {
               <BreadcrumbLink
                 as={Link}
                 to={{ pathname: `/${route}/${term}/`, search: pid ? `?pid=${pid}` : undefined }}
-                color="black"
               >
                 Subjects
               </BreadcrumbLink>
             </BreadcrumbItem>
             {subject && (
-              <BreadcrumbItem color="black">
+              <BreadcrumbItem>
                 <Text fontWeight="semibold">{subject}</Text>
               </BreadcrumbItem>
             )}
           </Breadcrumb>
           <Box>
-            <Button onClick={onToggle} size="xs" color="black">
+            <Button onClick={onToggle} size="xs">
               Filters
             </Button>
           </Box>
         </Flex>
       </Flex>
       <Collapse in={isOpen} animateOpacity>
-        <Box p="3" color="white" shadow="md" borderColor="gray.200" borderTopWidth="2px" borderTopStyle="solid">
+        <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
           <FormControl>
             <Flex justifyContent="space-between" w="100%">
-              <FormLabel color="black" htmlFor="email-alerts" mb="0" fontSize="sm">
+              <FormLabel htmlFor="email-alerts" mb="0" fontSize="sm">
                 Only Show Courses in Session
               </FormLabel>
               <Switch id="email-alerts" onChange={(e) => onFilter && onFilter(e.currentTarget.checked)} />

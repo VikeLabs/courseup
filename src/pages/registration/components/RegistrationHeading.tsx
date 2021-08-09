@@ -15,20 +15,9 @@ export function RegistrationHeading() {
     <Container alignItems="center" maxW="container.xl">
       <Flex direction={{ md: 'row', base: 'column' }} justifyContent="space-between">
         <HStack>
-          <Heading
-            fontSize={{ base: '1.5rem', md: '2.15rem' }}
-            as="h1"
-            color="black"
-            marginBottom={{ base: '1rem', md: '0' }}
-          >
+          <Heading fontSize={{ base: '1.5rem', md: '2.15rem' }} as="h1" marginBottom={{ base: '1rem', md: '0' }}>
             <Links as={Link} to={`/scheduler/${term}`} display="flex" alignItems="center">
-              <ChevronLeftIcon
-                fontSize="2.1875rem"
-                colorScheme="white"
-                color="black"
-                verticalAlign="bottom"
-                aria-label="back"
-              />
+              <ChevronLeftIcon fontSize="2.1875rem" colorScheme="white" verticalAlign="bottom" aria-label="back" />
               Registration for {`${getReadableTerm(term)}`}
             </Links>
           </Heading>
