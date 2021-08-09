@@ -1,22 +1,9 @@
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import {
-  Center,
-  Grid,
-  GridItem,
-  Flex,
-  Box,
-  useColorMode,
-  IconButton,
-  Image,
-  LinkBox,
-  useMediaQuery,
-} from '@chakra-ui/react';
+import { Center, Grid, GridItem, Flex, Box, Image, LinkBox, useMediaQuery, HStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-
-import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { Banner } from '../components/Banner';
 import { NavButtons } from '../components/NavButtons';
+import { RightSideButtons } from '../components/RightSideButtons';
 import { Search } from '../components/SearchBar';
 import { TermButtons } from '../components/TermButtons';
 
@@ -29,10 +16,7 @@ export interface HeaderProps {
  * Primary UI component for content
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
-  const { toggleColorMode } = useColorMode();
-  const [isLargerThan1250] = useMediaQuery('(min-width: 1250px)');
-
-  const mode = useDarkMode();
+  const [isLargerThan1270] = useMediaQuery('(min-width: 1270px)');
 
   return (
     <Box zIndex={1000}>
@@ -42,7 +26,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
           <Flex justifyContent="space-between" alignContent="center" alignItems="flex-start">
             <Center flexGrow={1} pr="8">
               <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
-                {isLargerThan1250 ? (
+                {isLargerThan1270 ? (
                   <Image
                     src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Logo-With-Wordmark.svg'}
                     alt="CourseUp"
@@ -70,17 +54,10 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
           </Center>
         </GridItem>
         <GridItem colStart={3}>
-          <TermButtons />
-        </GridItem>
-        <GridItem colStart={4}>
-          <IconButton
-            aria-label="toggle"
-            isRound
-            icon={mode(<MoonIcon fontSize="1.3em" />, <SunIcon fontSize="1.3em" />)}
-            size="sm"
-            onClick={toggleColorMode}
-            colorScheme={mode('purple', 'orange')}
-          />
+          <HStack justifyContent="space-between">
+            <TermButtons />
+            <RightSideButtons />
+          </HStack>
         </GridItem>
       </Grid>
     </Box>

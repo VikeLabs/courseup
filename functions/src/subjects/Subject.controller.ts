@@ -12,6 +12,6 @@ export class SubjectsController extends Controller {
       'Cache-Control',
       `public, max-age=${3600}, s-max-age=${1800}`
     );
-    return await new SubjectsService().getSubjects(term);
+    return await SubjectsService.getSubjects(term);
   }
 }
