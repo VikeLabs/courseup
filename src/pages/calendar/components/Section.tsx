@@ -59,7 +59,7 @@ export function SectionInfo({
   seat,
   meetingTimes,
 }: SectionInfoProps): JSX.Element {
-  const isASYNC = additionalNotes?.indexOf('no "real-time" sessions planned or required') !== -1;
+  const isASYNC = additionalNotes?.indexOf('This course will be offered fully online and asynchronous') !== -1;
   const isBLENDED = additionalNotes?.indexOf('a mix of “real-time” and asynchronous sessions') !== -1;
   const isSENG = additionalNotes?.indexOf('Reserved for BSENG students') !== -1;
   const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
@@ -83,7 +83,7 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            {isASYNC && !isBLENDED && (
+            {isASYNC && (
               <Badge colorScheme="cyan" mx="1">
                 Asynchronous
               </Badge>
