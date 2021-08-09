@@ -17,7 +17,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from '../shared/types';
 
-let latestHour = 17;
+let latestHour = 20;
 
 const locales = {
   'en-US': enUS,
@@ -180,9 +180,13 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       try {
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
-        if (calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] == `pm`) {
+        // Looking for courses between 1pm - 11pm
+        if (
+          calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] == `pm` &&
+          parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(':')[0]) != 12
+        ) {
           let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
-          if (theTime > latestHour) {
+          if (theTime > latestHour && theTime < 24) {
             latestHour = theTime + 1;
           }
         }
