@@ -65,21 +65,27 @@ const ShareCourseCard = (props: { course: SavedCourse }) => {
 const SelectedCoursesTable = (props: { term: string }) => {
   const { courses } = useSavedCourses();
 
+  const inSession_savedCourses = courses
+    .filter((course) => course.term === props.term)
+    .filter((course) => course.lecture != null || course.lab != null || course.tutorial != null);
+
   return (
     <Wrap variant="striped">
-      {courses.filter((course) => course.term === props.term).length > 0 ? (
-        courses
-          .filter((course) => course.term === props.term)
-          .map((course) => {
+      {inSession_savedCourses.length > 0 ? (
+        inSession_savedCourses.map((course) => {
+          if (course.lecture != null || course.lab != null || course.tutorial != null) {
             return (
               <WrapItem>
                 <ShareCourseCard course={course} />
               </WrapItem>
             );
-          })
+          }
+          return null;
+        })
       ) : (
         <Text>
-          It looks like you don't have any courses selected. Add some courses to your timetable before sharing.
+          It looks like you don't have any courses selected that are happening in {getReadableTerm(props.term || '')}.
+          Add some courses to your timetable before sharing.
         </Text>
       )}
     </Wrap>
