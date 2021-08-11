@@ -1,3 +1,5 @@
+// import { useMemo } from 'react';
+
 import { Center, Grid, GridItem, Flex, Box, Image, LinkBox, useMediaQuery, HStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -17,7 +19,6 @@ export interface HeaderProps {
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const [isLargerThan1270] = useMediaQuery('(min-width: 1270px)');
-
   return (
     <Box zIndex={1000}>
       <Banner />
@@ -33,6 +34,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
                     h="2em"
                     minW="4em"
                     color="transparent"
+                    loading="lazy"
                   />
                 ) : (
                   <Image
@@ -41,6 +43,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
                     minW="4em"
                     alt="CourseUp"
                     color="transparent"
+                    loading="lazy"
                   />
                 )}
               </LinkBox>
