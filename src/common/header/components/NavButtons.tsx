@@ -22,10 +22,10 @@ export function NavButtons(): JSX.Element {
 
   return (
     <ButtonGroup isAttached colorScheme="whiteAlpha" size="sm">
-      <Button isActive={!!calendarMatch} colorScheme="purple" onClick={onClick} name="calendar">
+      <Button isActive={!!calendarMatch} colorScheme="gray" onClick={onClick} name="calendar" borderRadius="0">
         Courses
       </Button>
-      <Button isActive={!!scheduleMatch} colorScheme="purple" onClick={onClick} name="scheduler">
+      <Button isActive={!!scheduleMatch} colorScheme="gray" onClick={onClick} name="scheduler" borderRadius="0">
         Timetable
       </Button>
     </ButtonGroup>
