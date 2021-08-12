@@ -48,6 +48,14 @@ export async function hasValidCourses(
   if (courses.length > 12 || courses.length === 0) return false;
 
   for (const course of courses) {
+    // we currently only support the selection of 1 section, lab and tutorial each
+    if (
+      (course.lab && course.lab.length > 1) ||
+      (course.lecture && course.lecture.length > 1) ||
+      (course.tutorial && course.tutorial.length > 1)
+    )
+      return false;
+
     // validate course is in database
     const doc = await get(
       CoursesCollection,

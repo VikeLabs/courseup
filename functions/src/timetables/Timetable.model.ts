@@ -21,19 +21,19 @@ export type TimetableCourse = {
    * @example "A02"
    * @pattern ^A\d{2}$
    */
-  lecture?: string;
+  lecture?: string[];
   /**
    * The selected lab section of the course.
    * @example "B01"
    * @pattern ^B\d{2}$
    */
-  lab?: string;
+  lab?: string[];
   /**
    * The selected tutorial section of the course.
    * @example "T03"
    * @pattern ^T\d{2}$
    */
-  tutorial?: string;
+  tutorial?: string[];
   /**
    * The colour code displayed on the timetable
    * @example "#12345"

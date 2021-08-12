@@ -153,7 +153,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TimetableCourse": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"color":{"dataType":"string","required":true,"validators":{"pattern":{"value":"^#(?:[0-9a-fA-F]{3}){1,2}$"}}},"tutorial":{"dataType":"string","validators":{"pattern":{"value":"^T\\d{2}$"}}},"lab":{"dataType":"string","validators":{"pattern":{"value":"^B\\d{2}$"}}},"lecture":{"dataType":"string","validators":{"pattern":{"value":"^A\\d{2}$"}}},"pid":{"dataType":"string","required":true},"code":{"dataType":"string","required":true},"subject":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"color":{"dataType":"string","required":true,"validators":{"pattern":{"value":"^#(?:[0-9a-fA-F]{3}){1,2}$"}}},"tutorial":{"dataType":"array","array":{"dataType":"string"},"validators":{"pattern":{"value":"^T\\d{2}$"}}},"lab":{"dataType":"array","array":{"dataType":"string"},"validators":{"pattern":{"value":"^B\\d{2}$"}}},"lecture":{"dataType":"array","array":{"dataType":"string"},"validators":{"pattern":{"value":"^A\\d{2}$"}}},"pid":{"dataType":"string","required":true},"code":{"dataType":"string","required":true},"subject":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Timetable": {
