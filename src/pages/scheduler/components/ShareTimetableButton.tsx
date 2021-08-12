@@ -3,6 +3,7 @@ import { Heading, HStack, VStack, Text, WrapItem, Wrap } from '@chakra-ui/layout
 import {
   Alert,
   AlertIcon,
+  Box,
   Button,
   Flex,
   Icon,
@@ -14,6 +15,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useMediaQuery,
   useToast,
 } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
@@ -35,10 +37,10 @@ import {
 import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
-const InformationText = (props: { term: string }) => {
+const InformationText = (props: { isSmallScreen: boolean; term: string }) => {
   return (
     <Alert status="info" borderRadius="10px">
-      <AlertIcon />
+      {props.isSmallScreen ? <AlertIcon /> : null}
       We've generated a link that you can share to allow people to view, compare, and import the courses and sections
       you currently have selected for the {getReadableTerm(props.term)} term.
     </Alert>
@@ -67,13 +69,13 @@ const SelectedCoursesTable = (props: { term: string }) => {
 
   const inSession_savedCourses = courses
     .filter((course) => course.term === props.term)
-    .filter((course) => course.lecture != null || course.lab != null || course.tutorial != null);
+    .filter((course) => course.lecture || course.lab || course.tutorial);
 
   return (
     <Wrap variant="striped">
       {inSession_savedCourses.length > 0 ? (
         inSession_savedCourses.map((course) => {
-          if (course.lecture != null || course.lab != null || course.tutorial != null) {
+          if (course.lecture || course.lab || course.tutorial) {
             return (
               <WrapItem>
                 <ShareCourseCard course={course} />
@@ -84,8 +86,7 @@ const SelectedCoursesTable = (props: { term: string }) => {
         })
       ) : (
         <Text>
-          It looks like you don't have any courses selected that are happening in {getReadableTerm(props.term || '')}.
-          Add some courses to your timetable before sharing.
+          Unable to find saved courses for <Box as="strong"> {getReadableTerm(props.term || '')} </Box>
         </Text>
       )}
     </Wrap>
@@ -104,16 +105,16 @@ const SocialMediaButtons = (props: { slug: string }) => {
   );
 };
 
-const CopyLinkUrl = (props: { slug: string }) => {
+const CopyLinkUrl = (props: { isSmallScreen: boolean; slug: string }) => {
   const toast = useToast();
   return (
     <HStack justify="space-between" padding="5px" borderWidth="1px" borderColor="gray.300">
       <HStack justify="center" flexGrow={4}>
-        <Icon boxSize="1.25em" as={HiLink} />
+        {props.isSmallScreen ? <Icon boxSize="1.25em" as={HiLink} /> : undefined}
         <Input id="timetable_slug" value={props.slug} variant="filled" isReadOnly={true} />
       </HStack>
       <Button
-        size="sm"
+        size={props.isSmallScreen ? 'sm' : 'md'}
         colorScheme="blue"
         leftIcon={<CopyIcon />}
         onClick={() => {
@@ -134,18 +135,18 @@ const CopyLinkUrl = (props: { slug: string }) => {
   );
 };
 
-const ShareTimetableContent = (props: { term: string }) => {
+const ShareTimetableContent = (props: { isSmallScreen: boolean; term: string }) => {
   const slug = 'https://courseup.ca/s/9w845yetg9d8gh938wrhsde9';
 
   return (
     <VStack align="left" spacing="15px">
-      <InformationText term={props.term} />
+      <InformationText isSmallScreen={props.isSmallScreen} term={props.term} />
       <Heading size="sm"> What you are sharing </Heading>
       <SelectedCoursesTable term={props.term} />
       <Heading size="sm"> Share this link via </Heading>
       <SocialMediaButtons slug={slug} />
       <Heading size="sm"> Or copy link </Heading>
-      <CopyLinkUrl slug={slug} />
+      <CopyLinkUrl isSmallScreen={props.isSmallScreen} slug={slug} />
     </VStack>
   );
 };
@@ -154,19 +155,21 @@ export default function ShareTimetableButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { term } = useParams();
 
+  const [isSmallScreen] = useMediaQuery('(min-width:680px)');
+
   return (
     <>
       <Button size="sm" bg="blue.400" color="white" leftIcon={<Icon as={IoShareOutline} />} onClick={onOpen}>
         Share
       </Button>
 
-      <Modal size="2xl" onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal size={isSmallScreen ? '2xl' : 'full'} onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent alignItems="center">
           <ModalHeader>Share your {getReadableTerm(term || '')} timeline</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <ShareTimetableContent term={term || ''} />
+            <ShareTimetableContent isSmallScreen={isSmallScreen} term={term || ''} />
           </ModalBody>
         </ModalContent>
       </Modal>
