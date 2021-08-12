@@ -71,8 +71,8 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
       >
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
           <Box>
-            <HStack bg="white" py="2" px="4" top="0" m="0" boxShadow="md" zIndex={500}>
-              <Heading pt="0.25em" color="black" size="sm">
+            <HStack py="2" px="4" top="0" m="0" boxShadow="md" zIndex={500}>
+              <Heading pt="0.25em" size="sm">
                 Search Results
               </Heading>
             </HStack>
