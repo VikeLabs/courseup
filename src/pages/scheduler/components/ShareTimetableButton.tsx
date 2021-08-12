@@ -64,17 +64,11 @@ const ShareCourseCard = (props: { course: SavedCourse }) => {
   );
 };
 
-const SelectedCoursesTable = (props: { term: string }) => {
-  const { courses } = useSavedCourses();
-
-  const inSession_savedCourses = courses
-    .filter((course) => course.term === props.term)
-    .filter((course) => course.lecture || course.lab || course.tutorial);
-
+const SelectedCoursesTable = (props: { courses: Array<SavedCourse>; term: string }) => {
   return (
     <Wrap variant="striped">
-      {inSession_savedCourses.length > 0 ? (
-        inSession_savedCourses.map((course) => {
+      {props.courses.length > 0 ? (
+        props.courses.map((course) => {
           if (course.lecture || course.lab || course.tutorial) {
             return (
               <WrapItem>
@@ -135,14 +129,14 @@ const CopyLinkUrl = (props: { isSmallScreen: boolean; slug: string }) => {
   );
 };
 
-const ShareTimetableContent = (props: { isSmallScreen: boolean; term: string }) => {
+const ShareTimetableContent = (props: { courses: Array<SavedCourse>; isSmallScreen: boolean; term: string }) => {
   const slug = 'https://courseup.ca/s/9w845yetg9d8gh938wrhsde9';
 
   return (
     <VStack align="left" spacing="15px">
       <InformationText isSmallScreen={props.isSmallScreen} term={props.term} />
       <Heading size="sm"> What you are sharing </Heading>
-      <SelectedCoursesTable term={props.term} />
+      <SelectedCoursesTable courses={props.courses} term={props.term} />
       <Heading size="sm"> Share this link via </Heading>
       <SocialMediaButtons slug={slug} />
       <Heading size="sm"> Or copy link </Heading>
@@ -157,9 +151,22 @@ export default function ShareTimetableButton() {
 
   const [isSmallScreen] = useMediaQuery('(min-width:680px)');
 
+  const { courses } = useSavedCourses();
+
+  const inSession_savedCourses = courses
+    .filter((course) => course.term === term)
+    .filter((course) => course.lecture || course.lab || course.tutorial);
+
   return (
     <>
-      <Button size="sm" bg="blue.400" color="white" leftIcon={<Icon as={IoShareOutline} />} onClick={onOpen}>
+      <Button
+        isDisabled={inSession_savedCourses.length > 0 ? false : true}
+        size="sm"
+        bg="blue.400"
+        color="white"
+        leftIcon={<Icon as={IoShareOutline} />}
+        onClick={onOpen}
+      >
         Share
       </Button>
 
@@ -169,7 +176,7 @@ export default function ShareTimetableButton() {
           <ModalHeader>Share your {getReadableTerm(term || '')} timeline</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <ShareTimetableContent isSmallScreen={isSmallScreen} term={term || ''} />
+            <ShareTimetableContent courses={inSession_savedCourses} isSmallScreen={isSmallScreen} term={term || ''} />
           </ModalBody>
         </ModalContent>
       </Modal>
