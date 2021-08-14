@@ -20,7 +20,7 @@
     "framer-motion": "^4.1.17",
     "history": "^5.0.0",
     "react": "^17.0.1",
-    "react-big-calendar": "^0.33.6",
+    "react-big-calendar": "^0.35.0",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.2.0",
