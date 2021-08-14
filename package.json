@@ -29,7 +29,7 @@
     "restful-react": "^15.8.0",
     "rrule": "^2.6.8",
     "sass": "^1.37.5",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
