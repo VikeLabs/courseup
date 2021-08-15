@@ -31,7 +31,7 @@ export default function ShareTimetableModal({ onClose, isOpen, inSession_savedCo
         <ModalContent alignItems="center">
           <ModalHeader>Share your {getReadableTerm(term || '')} timeline</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody pb="20px">
             <ShareModalContent courses={inSession_savedCourses} isSmallScreen={isSmallScreen} term={term || ''} />
           </ModalBody>
         </ModalContent>
