@@ -1,7 +1,7 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, Text, HStack, IconButton, VStack } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text, HStack, IconButton, VStack, useDisclosure, Icon } from '@chakra-ui/react';
 import addWeeks from 'date-fns/addWeeks';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
@@ -10,13 +10,16 @@ import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import 'react-big-calendar/lib/sass/styles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
+import { IoShareOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
 import { RRule } from 'rrule';
+
+import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import '../styles/CalendarStyles.scss';
 import { CalendarEvent } from '../shared/types';
 
-import ShareTimetableButton from './ShareTimetableButton';
+import ShareTimetableModal from './ShareTimetableModal';
 
 const locales = {
   'en-US': enUS,
@@ -116,6 +119,15 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
     return lowerBound;
   }, [term]);
 
+  // chakra hook for making buttons opening modals easier
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // gets saved courses in session to enable/disable share button accordingly
+  const { courses } = useSavedCourses();
+  const inSession_savedCourses = courses
+    .filter((course) => course.term === term)
+    .filter((course) => course.lecture || course.lab || course.tutorial);
+
   const CustomToolBar = ({ label, date }: ToolbarProps) => {
     return (
       <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
@@ -153,7 +165,17 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
           />
         </HStack>
         <Text fontSize="xl">{label}</Text>
-        <ShareTimetableButton />
+        <Button
+          isDisabled={inSession_savedCourses.length > 0 ? false : true}
+          size="sm"
+          bg="blue.400"
+          color="white"
+          leftIcon={<Icon as={IoShareOutline} />}
+          onClick={onOpen}
+        >
+          Share
+        </Button>
+        <ShareTimetableModal onClose={onClose} isOpen={isOpen} inSession_savedCourses={inSession_savedCourses} />
       </Flex>
     );
   };

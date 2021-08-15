@@ -14,12 +14,10 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
   useMediaQuery,
   useToast,
 } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
-import { IoShareOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
 import {
   EmailIcon,
@@ -34,7 +32,7 @@ import {
   WhatsappShareButton,
 } from 'react-share';
 
-import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { SavedCourse } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
 const InformationText = (props: { isSmallScreen: boolean; term: string }) => {
@@ -145,31 +143,18 @@ const ShareTimetableContent = (props: { courses: Array<SavedCourse>; isSmallScre
   );
 };
 
-export default function ShareTimetableButton() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+type Props = {
+  onClose: () => void;
+  isOpen: boolean;
+  inSession_savedCourses: SavedCourse[];
+};
+
+export default function ShareTimetableModal({ onClose, isOpen, inSession_savedCourses }: Props) {
   const { term } = useParams();
-
   const [isSmallScreen] = useMediaQuery('(min-width:680px)');
-
-  const { courses } = useSavedCourses();
-
-  const inSession_savedCourses = courses
-    .filter((course) => course.term === term)
-    .filter((course) => course.lecture || course.lab || course.tutorial);
 
   return (
     <>
-      <Button
-        isDisabled={inSession_savedCourses.length > 0 ? false : true}
-        size="sm"
-        bg="blue.400"
-        color="white"
-        leftIcon={<Icon as={IoShareOutline} />}
-        onClick={onOpen}
-      >
-        Share
-      </Button>
-
       <Modal size={isSmallScreen ? '2xl' : 'full'} onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent alignItems="center">
