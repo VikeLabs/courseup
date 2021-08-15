@@ -1,22 +1,17 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-
 import { Button, Flex, Heading, Text, HStack, IconButton, VStack, useDisclosure, Icon } from '@chakra-ui/react';
 import { addWeeks, format, getDay, parse, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
-        
 import 'react-big-calendar/lib/sass/styles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { IoShareOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
 import { RRule } from 'rrule';
 
-import { useSavedCourses } from 'lib/hooks/useSavedCourses';
-
-import '../styles/CalendarStyles.scss';
-
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { CalendarEvent } from '../shared/types';
 
