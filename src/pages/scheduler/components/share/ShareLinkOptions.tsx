@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
+
 import { CopyIcon } from '@chakra-ui/icons';
-import { Button, Heading, HStack, Icon, Input, useToast } from '@chakra-ui/react';
+import { Button, Heading, HStack, Icon, Input, useClipboard, useToast } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import {
   EmailShareButton,
@@ -36,29 +38,20 @@ type CopyLinkUrl = {
 };
 
 const CopyLinkUrl = ({ isSmallScreen, slug }: CopyLinkUrl) => {
+  const { hasCopied, onCopy } = useClipboard(slug);
   const toast = useToast();
+
+  useEffect(() => {
+    hasCopied && toast({ status: 'success', title: `Copied the link to clipboard!`, duration: 3000 });
+  }, [slug, hasCopied, toast]);
+
   return (
-    <HStack justify="space-between" padding="5px" borderWidth="1px" borderColor="gray.300">
+    <HStack justify="space-between" p="5px" borderWidth="1px" borderColor="gray.300">
       <HStack justify="center" flexGrow={4}>
         {isSmallScreen ? <Icon boxSize="1.25em" as={HiLink} /> : undefined}
         <Input id="timetable_slug" value={slug} variant="filled" isReadOnly={true} />
       </HStack>
-      <Button
-        size={isSmallScreen ? 'sm' : 'md'}
-        colorScheme="blue"
-        leftIcon={<CopyIcon />}
-        onClick={() => {
-          var el = document.getElementById('timetable_slug') as HTMLInputElement;
-          el.focus();
-          el.select();
-          document.execCommand('copy');
-          toast({
-            title: 'Copied.',
-            status: 'success',
-            duration: 3000,
-          });
-        }}
-      >
+      <Button size={isSmallScreen ? 'sm' : 'md'} colorScheme="blue" leftIcon={<CopyIcon />} onClick={onCopy}>
         Copy
       </Button>
     </HStack>
