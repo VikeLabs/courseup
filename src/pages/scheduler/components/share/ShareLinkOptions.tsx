@@ -16,6 +16,8 @@ import {
   TwitterIcon,
 } from 'react-share';
 
+import { useDarkMode } from 'lib/hooks/useDarkMode';
+
 type SocialMediaButtons_Props = {
   slug: string;
 };
@@ -40,13 +42,14 @@ type CopyLinkUrl = {
 const CopyLinkUrl = ({ isSmallScreen, slug }: CopyLinkUrl) => {
   const { hasCopied, onCopy } = useClipboard(slug);
   const toast = useToast();
+  const mode = useDarkMode();
 
   useEffect(() => {
     hasCopied && toast({ status: 'success', title: `Copied the link to clipboard!`, duration: 3000 });
   }, [slug, hasCopied, toast]);
 
   return (
-    <HStack justify="space-between" p="5px" borderWidth="1px" borderColor="gray.300">
+    <HStack justify="space-between" p="5px" borderWidth="1px" borderColor={mode('gray.300', 'gray.600')}>
       <HStack justify="center" flexGrow={4}>
         {isSmallScreen ? <Icon boxSize="1.25em" as={HiLink} /> : undefined}
         <Input id="timetable_slug" value={slug} variant="filled" isReadOnly />

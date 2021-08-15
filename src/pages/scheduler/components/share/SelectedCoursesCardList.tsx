@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, HStack, VStack, Wrap, WrapItem, Text } from '@chakra-ui/react';
 
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
@@ -8,9 +9,11 @@ type ShareCourseCard_Props = {
 };
 
 const ShareCourseCard = ({ course }: ShareCourseCard_Props) => {
+  const mode = useDarkMode();
+
   return (
     <Flex height="100%" direction="column">
-      <HStack w="100%" bg="gray.100" justifyContent="center" p="0.3em" borderTopRadius="4px">
+      <HStack w="100%" bg={mode('gray.100', 'gray.600')} justifyContent="center" p="0.3em" borderTopRadius="4px">
         <Heading size="xs">
           {course.subject} {course.code}
         </Heading>
