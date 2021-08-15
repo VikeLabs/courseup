@@ -168,8 +168,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
         <Button
           isDisabled={inSession_savedCourses.length > 0 ? false : true}
           size="sm"
-          bg="blue.400"
-          color="white"
+          colorScheme="blue"
           leftIcon={<Icon as={IoShareOutline} />}
           onClick={onOpen}
         >

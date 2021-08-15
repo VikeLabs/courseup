@@ -49,7 +49,7 @@ const CopyLinkUrl = ({ isSmallScreen, slug }: CopyLinkUrl) => {
     <HStack justify="space-between" p="5px" borderWidth="1px" borderColor="gray.300">
       <HStack justify="center" flexGrow={4}>
         {isSmallScreen ? <Icon boxSize="1.25em" as={HiLink} /> : undefined}
-        <Input id="timetable_slug" value={slug} variant="filled" isReadOnly={true} />
+        <Input id="timetable_slug" value={slug} variant="filled" isReadOnly />
       </HStack>
       <Button size={isSmallScreen ? 'sm' : 'md'} colorScheme="blue" leftIcon={<CopyIcon />} onClick={onCopy}>
         Copy
