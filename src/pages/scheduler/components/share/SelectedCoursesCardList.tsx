@@ -10,12 +10,12 @@ type ShareCourseCard_Props = {
 const ShareCourseCard = ({ course }: ShareCourseCard_Props) => {
   return (
     <Flex height="100%" direction="column">
-      <HStack w="100%" bg="#EDF2F7" justifyContent="center" p="0.2em" borderTopRadius="4px" padding="4px">
+      <HStack w="100%" bg="gray.100" justifyContent="center" p="0.3em" borderTopRadius="4px">
         <Heading size="xs">
           {course.subject} {course.code}
         </Heading>
       </HStack>
-      <VStack bg={course.color} flex={1} justifyContent="center" borderBottomRadius="4px" padding="4px">
+      <VStack bg={course.color} flex={1} justifyContent="center" borderBottomRadius="4px" p="0.3em">
         <Heading justifyContent="center" size="sm">
           {course.lecture} {course.lab} {course.tutorial}
         </Heading>
