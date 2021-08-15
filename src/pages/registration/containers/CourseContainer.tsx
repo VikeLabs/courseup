@@ -6,6 +6,7 @@ import { Collapse } from '@chakra-ui/transition';
 import { useParams } from 'react-router';
 
 import { useSeats, useSections, Term, Seat } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
 import { RegistrationMinimized } from '../components/RegistrationMinimized';
@@ -26,6 +27,7 @@ export function CourseContainer({ course }: Props) {
   const { term } = useParams();
   const [data, setData] = useState<{ lab?: Data; lecture?: Data; tutorial?: Data }>({});
   const termType = term as Term;
+  const mode = useDarkMode();
 
   const { data: sections, loading } = useSections({
     term: termType,
@@ -123,18 +125,14 @@ export function CourseContainer({ course }: Props) {
   if (!course.selected) return null;
 
   return (
-    <Container alignItems="center" maxW="container.xl">
-      <Skeleton
-        isLoaded={!loading}
-        color="black"
-        mt="4"
-        mb="2"
-        boxShadow="md"
-        px="3"
-        py="1"
-        rounded="lg"
-        textAlign="left"
-      >
+    <Container
+      alignItems="center"
+      maxW="container.xl"
+      bgColor={mode('white', 'dark.background')}
+      rounded="lg"
+      mt="10px"
+    >
+      <Skeleton isLoaded={!loading} mt="4" mb="2" boxShadow="md" px="3" py="1" rounded="lg" textAlign="left">
         {isMinimized && (
           <RegistrationMinimized
             subject={course.subject}

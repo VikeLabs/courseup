@@ -1,13 +1,11 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+
 import { Button, Flex, Heading, Text, HStack, IconButton, VStack, useDisclosure, Icon } from '@chakra-ui/react';
-import addWeeks from 'date-fns/addWeeks';
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-import * as enUS from 'date-fns/locale';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
+import { addWeeks, format, getDay, parse, startOfWeek } from 'date-fns';
+import { enUS } from 'date-fns/locale';
+        
 import 'react-big-calendar/lib/sass/styles.scss';
 import { Calendar, dateFnsLocalizer, Event, EventProps, ToolbarProps } from 'react-big-calendar';
 import { IoShareOutline } from 'react-icons/io5';
@@ -17,6 +15,9 @@ import { RRule } from 'rrule';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import '../styles/CalendarStyles.scss';
+
+import { useDarkMode } from 'lib/hooks/useDarkMode';
+
 import { CalendarEvent } from '../shared/types';
 
 import ShareTimetableModal from './share/ShareTimetableModal';
@@ -32,16 +33,6 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
-
-const slotPropGetter = (date: Date, resourceId?: number | string) => {
-  if (date.getDay() === 2 || date.getDay() === 4)
-    return {
-      style: {
-        backgroundColor: '#F7F7F7',
-      },
-    };
-  else return {};
-};
 
 const eventStyleGetter = ({ resource }: Event) => ({
   style: {
@@ -83,6 +74,7 @@ export interface SchedulerCalendarProps {
 }
 
 export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): JSX.Element {
+  const mode = useDarkMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const { term } = useParams();
@@ -134,7 +126,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
         <HStack pb="0.2em">
           <Button
             size="sm"
-            bg="gray.200"
+            colorScheme="gray"
             onClick={() => {
               setSelectedDate(new Date());
             }}
@@ -296,6 +288,16 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
 
   const today = new Date();
 
+  const handleSlotPropGetter = (date: Date) => {
+    if (date.getDay() === 2 || date.getDay() === 4)
+      return {
+        style: {
+          backgroundColor: mode('#F7F7F7', 'rgb(76, 79, 82)'),
+        },
+      };
+    else return {};
+  };
+
   return (
     <Calendar
       localizer={localizer}
@@ -306,7 +308,7 @@ export function SchedulerCalendar({ calendarEvents }: SchedulerCalendarProps): J
       views={['work_week']}
       date={selectedDate}
       eventPropGetter={eventStyleGetter}
-      slotPropGetter={slotPropGetter}
+      slotPropGetter={handleSlotPropGetter}
       components={{
         toolbar: CustomToolBar,
         event: CustomEvent,

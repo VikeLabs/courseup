@@ -46,7 +46,8 @@
     "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/lib/fetchers.tsx",
     "lint": "eslint \"src/**/*.{t,j}s{x,}\"",
     "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
-    "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
+    "format": "prettier --write \"src/**/*.{t,j}s{x,}\"",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "proxy": "https://courseup.vikelabs.dev/",
   "browserslist": {
@@ -83,6 +84,7 @@
     "http-proxy-middleware": "^2.0.1",
     "jest-axe": "^5.0.1",
     "prettier": "^2.2.1",
+    "source-map-explorer": "^2.5.2",
     "storybook-addon-designs": "^5.4.6",
     "ts-jest": "^26.5.4"
   },
