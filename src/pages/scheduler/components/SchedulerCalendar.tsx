@@ -19,7 +19,7 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import '../styles/CalendarStyles.scss';
 import { CalendarEvent } from '../shared/types';
 
-import ShareTimetableModal from './ShareTimetableModal';
+import ShareTimetableModal from './share/ShareTimetableModal';
 
 const locales = {
   'en-US': enUS,
