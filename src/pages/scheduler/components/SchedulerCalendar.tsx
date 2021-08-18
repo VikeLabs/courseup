@@ -139,6 +139,8 @@ export const SchedulerCalendar = ({ calendarEvents = [] }: SchedulerCalendarProp
   const today = useMemo(() => new Date(), []);
 
   const computedSelectedDate = useMemo(() => {
+    if (term === undefined) return today;
+
     // eg. 202105 => 2021, 05
     const month = parseInt(term.substring(4, 6));
     const year = parseInt(term.substring(0, 4));
