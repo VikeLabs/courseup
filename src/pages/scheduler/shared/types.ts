@@ -1,10 +1,17 @@
-import { MeetingTimes } from 'lib/fetchers';
+import { MeetingTimes, ClassScheduleListing } from 'lib/fetchers';
+import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
-export interface CalendarEvent {
-  subject: String;
-  code: String;
+export type CourseCalendarEvent = {
+  subject: string;
+  code: string;
   meetingTime: MeetingTimes;
-  sectionCode: String;
-  color?: String;
-  textColor?: String;
-}
+  sectionCode: string;
+  color?: string;
+  textColor?: string;
+  term: string;
+};
+
+export type SavedCourseWithSections = SavedCourse & {
+  sections: ClassScheduleListing[];
+  events?: CourseCalendarEvent[];
+};

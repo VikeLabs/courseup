@@ -2,18 +2,19 @@ import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
-import { addWeeks, format, getDay, parse, startOfWeek } from 'date-fns';
+import { addWeeks, format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer, Event } from 'react-big-calendar';
-import { useParams } from 'react-router';
 import { RRule, Weekday } from 'rrule';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CustomEvent } from 'pages/scheduler/components/Event';
 import { CustomToolBar } from 'pages/scheduler/components/Toolbar';
+import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
+import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
 
-import { CalendarEvent } from '../shared/types';
+import { CourseCalendarEvent } from '../shared/types';
 
 const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
 
@@ -25,7 +26,7 @@ const localizer = dateFnsLocalizer({
   locales: { 'en-US': enUS },
 });
 
-const parseMeetingTimeDays = (calendarEvent: CalendarEvent) => {
+const parseMeetingTimeDays = (calendarEvent: CourseCalendarEvent) => {
   const days = calendarEvent.meetingTime.days;
   const daysRRule: Weekday[] = [];
 
@@ -48,26 +49,6 @@ const parseMeetingTimeDays = (calendarEvent: CalendarEvent) => {
   return daysRRule;
 };
 
-const eventPropGetter = ({ resource }: Event) => ({
-  style: {
-    backgroundColor: resource && resource.color,
-    opacity: resource.opacity ? 0.5 : 1,
-    color: 'black',
-    borderRadius: 0,
-    border: 'none',
-    cursor: 'default',
-  },
-});
-
-const slotPropGetter = (mode: <T>(light: T, dark: T) => T) => (date: Date) =>
-  date.getDay() === 2 || date.getDay() === 4
-    ? {
-        style: {
-          backgroundColor: mode('#F7F7F7', 'rgb(76, 79, 82)'),
-        },
-      }
-    : {};
-
 const parseFormat = 'MM, d, yyyy h:mm a XXX';
 
 type ParseMeetingTimesResult = {
@@ -78,8 +59,8 @@ type ParseMeetingTimesResult = {
 };
 
 // TODO: try to move this into the backend as much as possible
-const parseMeetingTimes = (term: string, event: CalendarEvent): ParseMeetingTimesResult => {
-  const lowerBound = parse(term, 'yyyyMM', new Date());
+const parseMeetingTimes = (event: CourseCalendarEvent): ParseMeetingTimesResult => {
+  const lowerBound = parse(event.term, 'yyyyMM', new Date());
 
   const startEndDates = event.meetingTime.dateRange.split('-').map((d) => d.replace(',', ''));
   const startEndTimes = event.meetingTime.time.split('-').map((d) => d.trim());
@@ -127,18 +108,18 @@ export interface SchedulerCalendarProps {
    * CalendarEvents
    * Parses events that can go into the calendar from this
    */
-  calendarEvents?: CalendarEvent[];
+  courseCalendarEvents?: CourseCalendarEvent[];
+  term?: string;
 }
 
-export const SchedulerCalendar = ({ calendarEvents = [] }: SchedulerCalendarProps): JSX.Element => {
+export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: SchedulerCalendarProps): JSX.Element => {
   const mode = useDarkMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const { term } = useParams();
 
   const today = useMemo(() => new Date(), []);
 
-  const computedSelectedDate = useMemo(() => {
+  const computedSelectedDate = useMemo<Date>(() => {
     if (term === undefined) return today;
 
     // eg. 202105 => 2021, 05
@@ -159,9 +140,9 @@ export const SchedulerCalendar = ({ calendarEvents = [] }: SchedulerCalendarProp
   const events = useMemo(() => {
     minEventDate.current = undefined;
     const events: Event[] = [];
-    calendarEvents.forEach((calendarEvent) => {
+    courseCalendarEvents.forEach((calendarEvent) => {
       // for caching purposes
-      const key = `${term}_${calendarEvent.subject}_${calendarEvent.code}_${calendarEvent.sectionCode}`;
+      const key = `${calendarEvent.term}_${calendarEvent.subject}_${calendarEvent.code}_${calendarEvent.sectionCode}`;
 
       try {
         // if event does not have a scheduled time, move on.
@@ -169,7 +150,7 @@ export const SchedulerCalendar = ({ calendarEvents = [] }: SchedulerCalendarProp
 
         // check cache, if it exists, use it otherwise parse and set value in cache
         if (!EVENTS_CACHE[key]) {
-          EVENTS_CACHE[key] = parseMeetingTimes(term, calendarEvent);
+          EVENTS_CACHE[key] = parseMeetingTimes(calendarEvent);
         }
 
         const { lower: ruleLower, upper: ruleUpper, startDate: courseStartDate } = EVENTS_CACHE[key];
@@ -217,14 +198,14 @@ export const SchedulerCalendar = ({ calendarEvents = [] }: SchedulerCalendarProp
     });
     setSelectedDate(computedSelectedDate);
     return events;
-  }, [calendarEvents, computedSelectedDate, term]);
+  }, [courseCalendarEvents, computedSelectedDate]);
 
   return (
     <Calendar
       localizer={localizer}
       events={events}
-      min={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8)}
-      max={new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)}
+      min={set(today, { hours: 8, minutes: 0 })}
+      max={set(today, { hours: 20, minutes: 0 })}
       defaultView="work_week"
       views={['work_week']}
       date={selectedDate}
