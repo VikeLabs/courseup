@@ -7,9 +7,9 @@ import { Landing } from './containers/Landing';
 
 export function Home(): JSX.Element {
   return (
-    <Flex h="100vh" direction="column">
+    <Flex h="100vh" direction="column" overflow="hidden">
       <Header />
-      <Center h="100%">
+      <Center h="100%" overflow="auto">
         <Landing />
       </Center>
     </Flex>
