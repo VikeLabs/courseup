@@ -4,23 +4,19 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
-type ShareCourseCard_Props = {
-  course: SavedCourse;
-};
-
-const ShareCourseCard = ({ course }: ShareCourseCard_Props) => {
+const ShareCourseCard = ({ subject, code, color, lecture, lab, tutorial }: SavedCourse) => {
   const mode = useDarkMode();
 
   return (
     <Flex height="100%" direction="column">
       <HStack w="100%" bg={mode('gray.100', 'gray.600')} justifyContent="center" p="0.3em" borderTopRadius="4px">
         <Heading size="xs">
-          {course.subject} {course.code}
+          {subject} {code}
         </Heading>
       </HStack>
-      <VStack bg={course.color} flex={1} justifyContent="center" borderBottomRadius="4px" p="0.3em">
+      <VStack bg={color} flex={1} justifyContent="center" borderBottomRadius="4px" p="0.3em">
         <Heading justifyContent="center" size="sm">
-          {course.lecture} {course.lab} {course.tutorial}
+          {lecture} {lab} {tutorial}
         </Heading>
       </VStack>
     </Flex>
@@ -40,7 +36,7 @@ export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableP
           if (course.lecture || course.lab || course.tutorial) {
             return (
               <WrapItem>
-                <ShareCourseCard course={course} />
+                <ShareCourseCard {...course} />
               </WrapItem>
             );
           }
