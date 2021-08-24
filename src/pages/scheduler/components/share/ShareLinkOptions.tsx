@@ -25,21 +25,21 @@ type SocialMediaButtons_Props = {
 const SocialMediaButtons = ({ slug }: SocialMediaButtons_Props) => {
   return (
     <HStack justify="center">
-      <EmailShareButton children={<EmailIcon size={50} round={true} />} url={slug} />
-      <FacebookShareButton children={<FacebookIcon size={50} round={true} />} url={slug} />
-      <TelegramShareButton children={<TelegramIcon size={50} round={true} />} url={slug} />
-      <WhatsappShareButton children={<WhatsappIcon size={50} round={true} />} url={slug} />
-      <TwitterShareButton children={<TwitterIcon size={50} round={true} />} url={slug} />
+      <EmailShareButton children={<EmailIcon size={50} round />} url={slug} />
+      <FacebookShareButton children={<FacebookIcon size={50} round />} url={slug} />
+      <TelegramShareButton children={<TelegramIcon size={50} round />} url={slug} />
+      <WhatsappShareButton children={<WhatsappIcon size={50} round />} url={slug} />
+      <TwitterShareButton children={<TwitterIcon size={50} round />} url={slug} />
     </HStack>
   );
 };
 
-type CopyLinkUrl = {
+type CopyLinkUrlProps = {
   isSmallScreen: boolean;
   slug: string;
 };
 
-const CopyLinkUrl = ({ isSmallScreen, slug }: CopyLinkUrl) => {
+const CopyLinkUrl = ({ isSmallScreen, slug }: CopyLinkUrlProps) => {
   const { hasCopied, onCopy } = useClipboard(slug);
   const toast = useToast();
   const mode = useDarkMode();

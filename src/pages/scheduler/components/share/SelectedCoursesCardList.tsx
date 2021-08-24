@@ -27,12 +27,12 @@ const ShareCourseCard = ({ course }: ShareCourseCard_Props) => {
   );
 };
 
-type SelectedCoursesTable_Props = {
+type SelectedCoursesTableProps = {
   courses: SavedCourse[];
   term: string;
 };
 
-export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTable_Props): JSX.Element {
+export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableProps): JSX.Element {
   return (
     <Wrap variant="striped">
       {courses.length > 0 ? (
