@@ -8,11 +8,7 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "ES2019"
   },
-  "include": [
-    "scripts",
-    "src",
-    ".eslintrc.js"
-  ]
+  "include": ["scripts", "src", ".eslintrc.js"]
 }

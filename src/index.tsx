@@ -81,7 +81,7 @@ migrateLocalStorage();
 
 ReactDOM.render(
   <React.StrictMode>
-    <Sentry.ErrorBoundary fallback={'An error has occurred'}>
+    <Sentry.ErrorBoundary fallback={<>'An error has occurred'</>}>
       <RestfulProvider base={'/api'}>
         <InstantSearch searchClient={searchClient} indexName="dev_uvic">
           <ChakraProvider portalZIndex={999} theme={customTheme}>

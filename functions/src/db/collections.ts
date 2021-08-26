@@ -1,3 +1,4 @@
+import { CourseTextbooks } from '@vikelabs/uvic-course-scraper/dist';
 import { collection, subcollection, Ref } from 'typesaurus';
 
 export type CourseDoc = {
@@ -26,8 +27,16 @@ export type SectionDoc = {
   instructors?: string[];
 };
 
+export type CourseTextbookDoc = {
+  subject: string;
+  code: string;
+  term: string;
+  sections: Omit<CourseTextbooks, 'subject' | 'code'>[];
+};
+
 // highest level collection
 const CoursesCollection = collection<CourseDoc>('courses');
+const TextbooksCollection = collection<CourseTextbookDoc>('textbooks');
 
 // subcollection of Course
 const SectionsSubstore = subcollection<SectionDoc, CourseDoc>(
@@ -35,4 +44,4 @@ const SectionsSubstore = subcollection<SectionDoc, CourseDoc>(
   CoursesCollection
 );
 
-export { CoursesCollection, SectionsSubstore };
+export { CoursesCollection, TextbooksCollection, SectionsSubstore };
