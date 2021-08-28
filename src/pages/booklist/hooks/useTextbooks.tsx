@@ -21,11 +21,8 @@ export const useTextbooks = (): TextbookResult => {
         termCourses
           .map(async ({ subject, code, lab, lecture, tutorial }) => {
             const courseTextbooks: TextbookInfo | null = await getCourseTextbooks(subject, code);
-            // console.log(courseTextbooks);
-
             // remove any sections that aren't saved
             if (courseTextbooks) {
-              console.log(courseTextbooks);
               courseTextbooks.sections = courseTextbooks.sections.filter(
                 ({ section }) => section === lab || section === tutorial || section === lecture
               );
