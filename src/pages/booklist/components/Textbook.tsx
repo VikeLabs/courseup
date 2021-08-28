@@ -1,5 +1,20 @@
 import { LinkIcon } from '@chakra-ui/icons';
-import { Badge, Button, Center, Flex, Heading, HStack, Spacer, Table, Td, Text, Tr, VStack } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  Spacer,
+  Table,
+  Td,
+  Text,
+  Tooltip,
+  Tr,
+  VStack,
+} from '@chakra-ui/react';
 import { IoBook, IoLogoAmazon } from 'react-icons/io5';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -105,9 +120,14 @@ export function Textbook({
         >
           UVic Bookstore
         </Button>
-        <Button colorScheme="orange" rightIcon={<IoLogoAmazon />} disabled>
-          Get it on Amazon
-        </Button>
+        <Tooltip label="Coming soon...">
+          {/** hacky work around to add the tooltip to a disabled button */}
+          <Box>
+            <Button colorScheme="orange" rightIcon={<IoLogoAmazon />} disabled>
+              Get it on Amazon
+            </Button>
+          </Box>
+        </Tooltip>
       </VStack>
     </Flex>
   );
