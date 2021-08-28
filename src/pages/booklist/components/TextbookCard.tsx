@@ -1,0 +1,74 @@
+import { Container, Heading } from '@chakra-ui/layout';
+import { Flex, HStack, VStack } from '@chakra-ui/react';
+
+import { useDarkMode } from 'lib/hooks/useDarkMode';
+
+import { TextbookInfo } from '../api/getCourseTextbooks';
+
+import { Textbook } from './Textbook';
+
+export type TextbookType = {
+  bookstoreUrl?: string;
+  imageUrl?: string;
+  title: string;
+  authors?: string[];
+  required: boolean;
+  price: {
+    newCad?: string;
+    usedCad?: string;
+    digitalAccessCad?: string;
+    newAndDigitalAccessCad?: string;
+  };
+  isbn?: string;
+  instructor?: string;
+};
+
+type Props = Omit<TextbookInfo, 'term'>;
+
+export type CourseTextbooks = {
+  subject: string;
+  code: string;
+  section: string;
+  additionalInfo?: string[];
+  instructor?: string;
+  textbooks: TextbookType[];
+};
+
+export function TextbookCard({ subject, code, sections }: Props) {
+  const mode = useDarkMode();
+
+  return (
+    <Container
+      alignItems="center"
+      maxW="container.xl"
+      bgColor={mode('white', 'dark.background')}
+      rounded="lg"
+      mt="10px"
+      mb="2"
+      boxShadow="md"
+      p="4"
+      textAlign="left"
+    >
+      <Heading size="lg">
+        {subject} {code}
+      </Heading>
+      {sections.map(({ section, instructor, textbooks }) => (
+        <>
+          <HStack justifyContent="space-between">
+            <Heading size="md">{section}</Heading>
+            <Heading size="md" color={mode('gray', 'dark.header')}>
+              {instructor}
+            </Heading>
+          </HStack>
+          <Flex alignItems="center" direction={{ base: 'column', md: 'row' }} mt="1">
+            <VStack w="100%" alignItems="left" spacing="1em">
+              {textbooks.map(({ title, authors, price, isbn, bookstoreUrl }) => (
+                <Textbook title={title} authors={authors} price={price} isbn={isbn} bookstoreUrl={bookstoreUrl} />
+              ))}
+            </VStack>
+          </Flex>
+        </>
+      ))}
+    </Container>
+  );
+}
