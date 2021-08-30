@@ -18,7 +18,7 @@ interface TextbookInfo {
 export class TextbooksController extends Controller {
   @Response(404, 'Textbooks Not Found')
   @Get('{term}/{subject}/{code}')
-  public async seats(
+  public async getTextbooks(
     @Path() term: Term,
     @Path() subject: string,
     @Path() code: string
