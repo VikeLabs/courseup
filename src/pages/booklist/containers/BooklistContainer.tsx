@@ -42,7 +42,7 @@ export function BooklistContainer(): JSX.Element | null {
               <Divider my="4" />
               <Container alignItems="center" maxW="container.xl">
                 <Heading size="md" color={mode('gray', 'dark.header')}>
-                  Unable to find saved courses for{' '}
+                  Unable to find saved courses or textbooks for{' '}
                   <Text as="span" color={mode('black', 'white')}>
                     {getReadableTerm(term)}
                   </Text>

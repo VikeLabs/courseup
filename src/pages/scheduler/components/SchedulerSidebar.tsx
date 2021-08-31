@@ -139,7 +139,7 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
               size="xs"
               mr="1"
               colorScheme="orange"
-              disabled={courses.filter((course) => course.term === term).length === 0}
+              disabled={courses.filter((course) => course.term === term).length === 0 || term !== '202109'}
               as={Link}
               to={`/booklist/${term}`}
             >

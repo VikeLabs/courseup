@@ -4,24 +4,9 @@ import { Flex, HStack, VStack } from '@chakra-ui/react';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { TextbookInfo } from '../api/getCourseTextbooks';
+import { Textbook as TextbookType } from '../shared/types';
 
 import { Textbook } from './Textbook';
-
-export type TextbookType = {
-  bookstoreUrl?: string;
-  imageUrl?: string;
-  title: string;
-  authors?: string[];
-  required: boolean;
-  price: {
-    newCad?: string;
-    usedCad?: string;
-    digitalAccessCad?: string;
-    newAndDigitalAccessCad?: string;
-  };
-  isbn?: string;
-  instructor?: string;
-};
 
 type Props = Omit<TextbookInfo, 'term'>;
 
