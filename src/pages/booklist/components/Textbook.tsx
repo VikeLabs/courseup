@@ -30,6 +30,7 @@ type Props = {
   };
   isbn?: string;
   bookstoreUrl?: string;
+  required: boolean;
 };
 
 export function Textbook({
@@ -38,6 +39,7 @@ export function Textbook({
   price: { newCad, usedCad, newAndDigitalAccessCad, digitalAccessCad },
   isbn,
   bookstoreUrl,
+  required,
 }: Props) {
   const mode = useDarkMode();
 
@@ -57,7 +59,7 @@ export function Textbook({
       <VStack ml="1" h="100%" alignItems={{ base: 'center', md: 'start' }}>
         <HStack>
           <Heading size="sm">{title}</Heading>
-          <Badge colorScheme="orange">required</Badge>
+          <Badge colorScheme={required ? 'orange' : 'green'}>{required ? 'required' : 'optional'}</Badge>
         </HStack>
         <Text>{authors?.join(', ')}</Text>
         <Table w="fit-content" size="sm" variant="unstyled">
