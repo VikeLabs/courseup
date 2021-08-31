@@ -1,4 +1,5 @@
-import { Container, Heading } from '@chakra-ui/layout';
+import { InfoIcon } from '@chakra-ui/icons';
+import { Container, Heading, Text } from '@chakra-ui/layout';
 import { Flex, HStack, VStack } from '@chakra-ui/react';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -37,7 +38,7 @@ export function TextbookCard({ subject, code, sections }: Props) {
       <Heading size="lg">
         {subject} {code}
       </Heading>
-      {sections.map(({ section, instructor, textbooks }) => (
+      {sections.map(({ section, instructor, textbooks, additionalInfo }) => (
         <>
           <HStack justifyContent="space-between">
             <Heading size="md">{section}</Heading>
@@ -45,6 +46,12 @@ export function TextbookCard({ subject, code, sections }: Props) {
               {instructor}
             </Heading>
           </HStack>
+          {additionalInfo?.map((info) => (
+            <HStack bgColor={mode('blue.200', 'blue.800')} py="2" pl="2" my="1" borderRadius="md">
+              <InfoIcon mx="1" />
+              <Text px="1">{info}</Text>
+            </HStack>
+          ))}
           <Flex alignItems="center" direction={{ base: 'column', md: 'row' }} mt="1">
             <VStack w="100%" alignItems="left" spacing="1em">
               {textbooks.map(({ title, authors, price, isbn, bookstoreUrl }) => (
