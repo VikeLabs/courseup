@@ -1,17 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { useParams } from 'react-router';
-
+import { Term } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { getCourseTextbooks, TextbookInfo } from '../api/getCourseTextbooks';
 
 type TextbookResult = { status: 'loaded'; textbookInfo: TextbookInfo[] } | { status: 'loading' };
 
-export const useTextbooks = (): TextbookResult => {
+export const useTextbooks = (term: Term): TextbookResult => {
   const [result, setResult] = useState<TextbookResult>({ status: 'loading' });
   const { courses } = useSavedCourses();
-  const { term } = useParams();
 
   const termCourses = useMemo(() => courses.filter((c) => c.term === term), [term, courses]);
 
@@ -20,7 +18,7 @@ export const useTextbooks = (): TextbookResult => {
       const textbookInfo = await Promise.all(
         termCourses
           .map(async ({ subject, code, lab, lecture, tutorial }) => {
-            const courseTextbooks: TextbookInfo | null = await getCourseTextbooks(subject, code);
+            const courseTextbooks: TextbookInfo | null = await getCourseTextbooks(subject, code, term);
             // remove any sections that aren't saved
             if (courseTextbooks) {
               courseTextbooks.sections = courseTextbooks.sections.filter(
@@ -35,7 +33,7 @@ export const useTextbooks = (): TextbookResult => {
 
       setResult({ status: 'loaded', textbookInfo });
     })();
-  }, [termCourses]);
+  }, [term, termCourses]);
 
   return result;
 };

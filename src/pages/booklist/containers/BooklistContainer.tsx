@@ -3,6 +3,7 @@ import { Center, Spinner, Text } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
+import { Term } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getReadableTerm } from 'lib/utils';
 
@@ -16,7 +17,7 @@ export function BooklistContainer(): JSX.Element | null {
   const { term } = useParams();
   const mode = useDarkMode();
 
-  const textbooks = useTextbooks();
+  const textbooks = useTextbooks(term as Term);
 
   return (
     <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
