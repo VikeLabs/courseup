@@ -2,7 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
 import { ToolbarProps } from 'react-big-calendar';
 
-export const CustomToolBar =
+export const CalendarToolBar =
   (onSelectedDateChange: (date: Date) => void) =>
   ({ label, date }: ToolbarProps) => {
     const handleClick = (offset?: number) => () => {
