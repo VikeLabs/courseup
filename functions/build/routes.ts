@@ -151,14 +151,25 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"KualiSubject","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Textbook": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"instructor":{"dataType":"string"},"isbn":{"dataType":"string"},"price":{"dataType":"nestedObjectLiteral","nestedProperties":{"newAndDigitalAccessCad":{"dataType":"string"},"digitalAccessCad":{"dataType":"string"},"usedCad":{"dataType":"string"},"newCad":{"dataType":"string"}},"required":true},"required":{"dataType":"boolean","required":true},"authors":{"dataType":"array","array":{"dataType":"string"}},"title":{"dataType":"string","required":true},"imageUrl":{"dataType":"string"},"bookstoreUrl":{"dataType":"string"}},"validators":{}},
+    "ExtendedTextbook": {
+        "dataType": "refObject",
+        "properties": {
+            "instructor": {"dataType":"string"},
+            "isbn": {"dataType":"string"},
+            "price": {"dataType":"nestedObjectLiteral","nestedProperties":{"newAndDigitalAccessCad":{"dataType":"string"},"digitalAccessCad":{"dataType":"string"},"usedCad":{"dataType":"string"},"newCad":{"dataType":"string"}},"required":true},
+            "required": {"dataType":"boolean","required":true},
+            "authors": {"dataType":"array","array":{"dataType":"string"}},
+            "title": {"dataType":"string","required":true},
+            "imageUrl": {"dataType":"string"},
+            "bookstoreUrl": {"dataType":"string"},
+            "amazonUrl": {"dataType":"string"},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "CourseTextbooks": {
+    "CourseTextbook": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"textbooks":{"dataType":"array","array":{"dataType":"refAlias","ref":"Textbook"},"required":true},"instructor":{"dataType":"string"},"additionalInfo":{"dataType":"array","array":{"dataType":"string"}},"section":{"dataType":"string"},"code":{"dataType":"string","required":true},"subject":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"textbooks":{"dataType":"array","array":{"dataType":"refObject","ref":"ExtendedTextbook"},"required":true},"instructor":{"dataType":"string"},"additionalInfo":{"dataType":"array","array":{"dataType":"string"}},"section":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TextbookInfo": {
@@ -167,7 +178,7 @@ const models: TsoaRoute.Models = {
             "subject": {"dataType":"string","required":true},
             "code": {"dataType":"string","required":true},
             "term": {"dataType":"string","required":true},
-            "sections": {"dataType":"array","array":{"dataType":"refAlias","ref":"CourseTextbooks"},"required":true},
+            "sections": {"dataType":"array","array":{"dataType":"refAlias","ref":"CourseTextbook"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -330,7 +341,7 @@ export function RegisterRoutes(app: express.Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/textbooks/:term/:subject/:code',
 
-            function TextbooksController_seats(request: any, response: any, next: any) {
+            function TextbooksController_getTextbooks(request: any, response: any, next: any) {
             const args = {
                     term: {"in":"path","name":"term","required":true,"ref":"Term"},
                     subject: {"in":"path","name":"subject","required":true,"dataType":"string"},
@@ -349,7 +360,7 @@ export function RegisterRoutes(app: express.Router) {
             const controller = new TextbooksController();
 
 
-            const promise = controller.seats.apply(controller, validatedArgs as any);
+            const promise = controller.getTextbooks.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
