@@ -1,10 +1,25 @@
-import { MeetingTimes } from 'lib/fetchers';
+import { Event } from 'react-big-calendar';
 
-export interface CalendarEvent {
-  subject: String;
-  code: String;
-  meetingTime: MeetingTimes;
-  sectionCode: String;
-  color?: String;
-  textColor?: String;
+import { MeetingTimes, ClassScheduleListing } from 'lib/fetchers';
+import { SavedCourse } from 'lib/hooks/useSavedCourses';
+
+export interface CustomEvent extends Event {
+  resource: Omit<CourseCalendarEvent, 'meetingTime' | 'term'>;
 }
+
+export type CourseCalendarEvent = {
+  subject: string;
+  code: string;
+  meetingTime: MeetingTimes;
+  sectionCode: string;
+  color?: string;
+  textColor?: string;
+  term: string;
+  location?: string;
+  opacity?: boolean;
+};
+
+export type SavedCourseWithSections = SavedCourse & {
+  sections: ClassScheduleListing[];
+  events?: CourseCalendarEvent[];
+};
