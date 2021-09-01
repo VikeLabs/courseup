@@ -446,7 +446,7 @@
 			"Subject": {
 				"$ref": "#/components/schemas/KualiSubject"
 			},
-			"Textbook": {
+			"ExtendedTextbook": {
 				"properties": {
 					"instructor": {
 						"type": "string"
@@ -488,6 +488,9 @@
 					},
 					"bookstoreUrl": {
 						"type": "string"
+					},
+					"amazonUrl": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -495,13 +498,14 @@
 					"required",
 					"title"
 				],
-				"type": "object"
+				"type": "object",
+				"additionalProperties": false
 			},
-			"CourseTextbooks": {
+			"CourseTextbook": {
 				"properties": {
 					"textbooks": {
 						"items": {
-							"$ref": "#/components/schemas/Textbook"
+							"$ref": "#/components/schemas/ExtendedTextbook"
 						},
 						"type": "array"
 					},
@@ -516,18 +520,10 @@
 					},
 					"section": {
 						"type": "string"
-					},
-					"code": {
-						"type": "string"
-					},
-					"subject": {
-						"type": "string"
 					}
 				},
 				"required": [
-					"textbooks",
-					"code",
-					"subject"
+					"textbooks"
 				],
 				"type": "object"
 			},
@@ -544,7 +540,7 @@
 					},
 					"sections": {
 						"items": {
-							"$ref": "#/components/schemas/CourseTextbooks"
+							"$ref": "#/components/schemas/CourseTextbook"
 						},
 						"type": "array"
 					}
@@ -825,7 +821,7 @@
 		},
 		"/textbooks/{term}/{subject}/{code}": {
 			"get": {
-				"operationId": "Seats",
+				"operationId": "GetTextbooks",
 				"responses": {
 					"200": {
 						"description": "Ok",
