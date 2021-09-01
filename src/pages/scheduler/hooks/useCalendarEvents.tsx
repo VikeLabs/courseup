@@ -28,7 +28,6 @@ export function useGetCourseSections(term: string, courses: SavedCourse[]) {
   useEffect(() => {
     (async () => {
       try {
-        // setResult({ status: 'loading' });
         const coursesSections = await Promise.all(
           termCourses.map(
             async ({ term, subject, code, pid, lecture, lab, tutorial, selected, showSections, color }) => {
