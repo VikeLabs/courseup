@@ -1,4 +1,7 @@
-import { CourseTextbooks } from '@vikelabs/uvic-course-scraper/dist';
+import {
+  CourseTextbooks as BaseCourseTextbooks,
+  Textbook,
+} from '@vikelabs/uvic-course-scraper/dist';
 import { collection, subcollection, Ref } from 'typesaurus';
 
 export type CourseDoc = {
@@ -27,11 +30,22 @@ export type SectionDoc = {
   instructors?: string[];
 };
 
+export interface ExtendedTextbook extends Textbook {
+  amazonUrl?: string;
+}
+
+type CourseTextbooks = Omit<
+  BaseCourseTextbooks,
+  'subject' | 'code' | 'textbooks'
+> & {
+  textbooks: ExtendedTextbook[];
+};
+
 export type CourseTextbookDoc = {
   subject: string;
   code: string;
   term: string;
-  sections: Omit<CourseTextbooks, 'subject' | 'code'>[];
+  sections: CourseTextbooks[];
 };
 
 // highest level collection
