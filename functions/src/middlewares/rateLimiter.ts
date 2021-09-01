@@ -20,8 +20,7 @@ export const rateLimiterMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): any => {
+): void => {
   rateLimiter
     .consume(req.ip)
     .then(() => {
