@@ -70,7 +70,7 @@ const parseMeetingTimes = (event: CourseCalendarEvent): ParseMeetingTimesResult 
   const courseStartDate = new Date(startEndDates[0] + ' 00:00:00 GMT');
   const courseEndDate = new Date(startEndDates[1] + ' 00:00:00 GMT');
 
-  // TODO: why is it adding +1 to the month?
+  // getMonth returns 0-11, so we need to add 1 to get the correct month
   const startDateString = `${lowerBound.getMonth() + 1}, 1, ${lowerBound.getUTCFullYear()}`;
 
   const startUpperDateRRule = parse(`${startDateString} ${startEndTimes[0]} +00:00`, parseFormat, new Date());
