@@ -107,23 +107,26 @@
 						"type": "string"
 					},
 					"hoursCatalog": {
-						"properties": {
-							"lab": {
-								"type": "string"
+						"items": {
+							"properties": {
+								"lab": {
+									"type": "string"
+								},
+								"tutorial": {
+									"type": "string"
+								},
+								"lecture": {
+									"type": "string"
+								}
 							},
-							"tutorial": {
-								"type": "string"
-							},
-							"lecture": {
-								"type": "string"
-							}
+							"required": [
+								"lab",
+								"tutorial",
+								"lecture"
+							],
+							"type": "object"
 						},
-						"required": [
-							"lab",
-							"tutorial",
-							"lecture"
-						],
-						"type": "object"
+						"type": "array"
 					},
 					"subject": {
 						"type": "string",
@@ -442,6 +445,114 @@
 			},
 			"Subject": {
 				"$ref": "#/components/schemas/KualiSubject"
+			},
+			"ExtendedTextbook": {
+				"properties": {
+					"instructor": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"price": {
+						"properties": {
+							"newAndDigitalAccessCad": {
+								"type": "string"
+							},
+							"digitalAccessCad": {
+								"type": "string"
+							},
+							"usedCad": {
+								"type": "string"
+							},
+							"newCad": {
+								"type": "string"
+							}
+						},
+						"type": "object"
+					},
+					"required": {
+						"type": "boolean"
+					},
+					"authors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"title": {
+						"type": "string"
+					},
+					"imageUrl": {
+						"type": "string"
+					},
+					"bookstoreUrl": {
+						"type": "string"
+					},
+					"amazonUrl": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"price",
+					"required",
+					"title"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CourseTextbook": {
+				"properties": {
+					"textbooks": {
+						"items": {
+							"$ref": "#/components/schemas/ExtendedTextbook"
+						},
+						"type": "array"
+					},
+					"instructor": {
+						"type": "string"
+					},
+					"additionalInfo": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"section": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"textbooks"
+				],
+				"type": "object"
+			},
+			"TextbookInfo": {
+				"properties": {
+					"subject": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
+					},
+					"term": {
+						"type": "string"
+					},
+					"sections": {
+						"items": {
+							"$ref": "#/components/schemas/CourseTextbook"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"subject",
+					"code",
+					"term",
+					"sections"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -703,6 +814,58 @@
 						"required": true,
 						"schema": {
 							"$ref": "#/components/schemas/Term"
+						}
+					}
+				]
+			}
+		},
+		"/textbooks/{term}/{subject}/{code}": {
+			"get": {
+				"operationId": "GetTextbooks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/TextbookInfo"
+										},
+										{}
+									]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Textbooks Not Found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					},
+					{
+						"in": "path",
+						"name": "subject",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					}
 				]
