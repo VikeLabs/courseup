@@ -5,13 +5,13 @@ import {
   RateLimiterRedis,
 } from 'rate-limiter-flexible';
 
-const redis = new Redis(); // uses defaults unless given configuration object
+const redis = new Redis(process.env.REDIS_URI); // uses defaults unless given configuration object
 
 const options: IRateLimiterStoreOptions = {
   storeClient: redis,
-  keyPrefix: 'middleware',
-  points: 10, // 10 requests
-  duration: 60, // per 1 second by IP
+  keyPrefix: `middleware-${process.env.ENV ?? 'default'}`,
+  points: parseInt(process.env.RATE_LIMIT_POINTS ?? '10'), // 10 requests
+  duration: 1, // per 1 second by IP
 };
 
 const rateLimiter = new RateLimiterRedis(options);

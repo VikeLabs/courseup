@@ -15,7 +15,6 @@ import { RegisterRoutes } from '../build/routes';
 import * as openapi from '../build/swagger.json';
 import { CoursesService } from './courses/Course.service';
 import { Term } from './constants';
-import { rateLimiterMiddleware } from './middlewares/rateLimiter';
 
 export const app = express();
 
@@ -29,7 +28,6 @@ app.use(
 );
 app.use(express.json());
 // TODO: only use if testing this middleware otherwise we don't want to rate limit during development.
-app.use(rateLimiterMiddleware);
 
 // TODO: can probably accomplish the same thing using hosting.
 // serve the OpenAPI spec.

@@ -9,6 +9,7 @@ admin.initializeApp();
 import { RegisterRoutes } from '../build/routes';
 
 import * as openapi from '../build/swagger.json';
+import { rateLimiterMiddleware } from './middlewares/rateLimiter';
 
 // THIS FILE SHOULDN'T RUN WITHOUT FIREBASE EMULATOR!
 // nor is it meant to be. use server.ts!
@@ -26,6 +27,11 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// API Rate Limiting - Enable or Disable as needed.
+if (process.env.RATE_LIMIT_ENABLED === 'true' && process.env.REDIS_URI) {
+  app.use(rateLimiterMiddleware);
+}
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
