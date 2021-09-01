@@ -24,15 +24,15 @@ export const CalendarToolBar =
           </Button>
           <IconButton
             aria-label="Previous Week"
-            bg="gray"
-            icon={<ChevronLeftIcon color="white" />}
+            colorScheme="gray"
+            icon={<ChevronLeftIcon />}
             size="sm"
             onClick={handleClick(-7)}
           />
           <IconButton
             aria-label="Next Week"
-            bg="gray"
-            icon={<ChevronRightIcon color="white" />}
+            colorScheme="gray"
+            icon={<ChevronRightIcon />}
             size="sm"
             onClick={handleClick(7)}
           />
