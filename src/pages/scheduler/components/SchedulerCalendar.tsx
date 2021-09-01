@@ -9,7 +9,7 @@ import { RRule, Weekday } from 'rrule';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
-import { CustomEvent } from 'pages/scheduler/components/Event';
+import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CustomToolBar } from 'pages/scheduler/components/Toolbar';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
@@ -213,7 +213,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       slotPropGetter={slotPropGetter(mode)}
       components={{
         toolbar: CustomToolBar(setSelectedDate),
-        event: CustomEvent,
+        event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"
     />
