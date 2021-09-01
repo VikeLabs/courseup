@@ -4,13 +4,14 @@ import 'react-big-calendar/lib/sass/styles.scss';
 
 import { addWeeks, format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
-import { Calendar, dateFnsLocalizer, Event } from 'react-big-calendar';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { RRule, Weekday } from 'rrule';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CustomToolBar } from 'pages/scheduler/components/Toolbar';
+import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
 
@@ -139,7 +140,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
 
   const events = useMemo(() => {
     minEventDate.current = undefined;
-    const events: Event[] = [];
+    const events: CustomEvent[] = [];
     courseCalendarEvents.forEach((calendarEvent) => {
       // for caching purposes
       const key = `${calendarEvent.term}_${calendarEvent.subject}_${calendarEvent.code}_${calendarEvent.sectionCode}`;
@@ -178,6 +179,8 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
               end: endDate,
               resource: {
                 color: calendarEvent.color,
+                subject: calendarEvent.subject,
+                code: calendarEvent.code,
                 textColor: calendarEvent.textColor,
                 sectionCode: calendarEvent.sectionCode,
                 location: calendarEvent.meetingTime.where,
@@ -201,7 +204,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   }, [courseCalendarEvents, computedSelectedDate]);
 
   return (
-    <Calendar
+    <Calendar<CustomEvent>
       localizer={localizer}
       events={events}
       min={set(today, { hours: 8, minutes: 0 })}
