@@ -12,4 +12,5 @@ export type Textbook = {
   };
   isbn?: string;
   instructor?: string;
+  amazonUrl?: string;
 };

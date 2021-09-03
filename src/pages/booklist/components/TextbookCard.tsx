@@ -54,7 +54,7 @@ export function TextbookCard({ subject, code, sections }: Props) {
           ))}
           <Flex alignItems="center" direction={{ base: 'column', md: 'row' }} mt="1">
             <VStack w="100%" alignItems="left" spacing="1em">
-              {textbooks.map(({ title, authors, price, isbn, bookstoreUrl, required }) => (
+              {textbooks.map(({ title, authors, price, isbn, bookstoreUrl, required, amazonUrl }) => (
                 <Textbook
                   title={title}
                   authors={authors}
@@ -62,6 +62,7 @@ export function TextbookCard({ subject, code, sections }: Props) {
                   isbn={isbn}
                   bookstoreUrl={bookstoreUrl}
                   required={required}
+                  amazonUrl={amazonUrl}
                 />
               ))}
             </VStack>

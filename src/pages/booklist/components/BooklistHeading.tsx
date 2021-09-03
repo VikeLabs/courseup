@@ -1,6 +1,5 @@
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { Container, Divider, Flex, Heading, Text } from '@chakra-ui/layout';
-import { Center, HStack, Link as Links } from '@chakra-ui/react';
+import { Container, Divider, Flex, Heading, Text, Center, HStack, Link as Links } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -22,12 +21,13 @@ export function BooklistHeading() {
         </Center>
       </HStack>
       <Divider my="4" />
-      <Flex>
+      <Flex direction="column">
         <Text w="100%" textAlign="left">
           The following is a booklist for the <Text as="strong">Fall 2021 </Text>term compiled from the saved courses on
           your timetable. Please note that this feature is still in <Text as="strong">beta</Text>. Please feel free to
           provide any feedback or report bugs via the <Text as="strong">Feedback Button</Text> at the bottom right of
-          your screen!
+          your screen! Purchases made through store links may provide compensation to CourseUp and VikeLabs. This helps
+          keep the platform free of ads and supports development.
         </Text>
       </Flex>
     </Container>

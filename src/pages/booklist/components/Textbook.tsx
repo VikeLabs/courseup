@@ -1,21 +1,7 @@
 import { LinkIcon } from '@chakra-ui/icons';
-import {
-  Badge,
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Spacer,
-  Table,
-  Td,
-  Text,
-  Tooltip,
-  Tr,
-  VStack,
-} from '@chakra-ui/react';
-import { IoBook, IoLogoAmazon } from 'react-icons/io5';
+import { Badge, Button, Center, Flex, Heading, HStack, Spacer, Table, Td, Text, Tr, VStack } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
+import { IoBook } from 'react-icons/io5';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
@@ -31,6 +17,7 @@ type Props = {
   isbn?: string;
   bookstoreUrl?: string;
   required: boolean;
+  amazonUrl?: string;
 };
 
 export function Textbook({
@@ -40,6 +27,7 @@ export function Textbook({
   isbn,
   bookstoreUrl,
   required,
+  amazonUrl,
 }: Props) {
   const mode = useDarkMode();
 
@@ -110,11 +98,11 @@ export function Textbook({
         </Table>
       </VStack>
       <Spacer />
-      <VStack>
+      <VStack ml="3" w="10em">
         <Button
+          w="100%"
           colorScheme="blue"
           rightIcon={<LinkIcon />}
-          w="100%"
           disabled={bookstoreUrl === undefined}
           as="a"
           href={bookstoreUrl}
@@ -122,14 +110,18 @@ export function Textbook({
         >
           UVic Bookstore
         </Button>
-        <Tooltip label="Coming soon...">
-          {/** hacky work around to add the tooltip to a disabled button */}
-          <Box>
-            <Button colorScheme="orange" rightIcon={<IoLogoAmazon />} disabled>
-              Get it on Amazon
-            </Button>
-          </Box>
-        </Tooltip>
+        {amazonUrl && (
+          <Button tabIndex={0} size="fit-content" as="a" href={amazonUrl} target="_blank">
+            <Image
+              loading="lazy"
+              boxShadow="md"
+              borderRadius="md"
+              src={process.env.PUBLIC_URL + `/assets/brands/${mode('amazon_light.png', 'amazon_dark.png')}`}
+              h="2.4em"
+              p="2"
+            />
+          </Button>
+        )}
       </VStack>
     </Flex>
   );
