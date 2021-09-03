@@ -1,6 +1,19 @@
 import { LinkIcon } from '@chakra-ui/icons';
-import { Badge, Button, Center, Flex, Heading, HStack, Spacer, Table, Td, Text, Tr, VStack } from '@chakra-ui/react';
-import { Image } from '@chakra-ui/react';
+import {
+  Badge,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  Spacer,
+  Table,
+  Td,
+  Text,
+  Tr,
+  VStack,
+  Image,
+} from '@chakra-ui/react';
 import { IoBook } from 'react-icons/io5';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
