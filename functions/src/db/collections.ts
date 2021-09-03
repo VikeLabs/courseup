@@ -31,6 +31,7 @@ export type SectionDoc = {
 export type TimetableDoc = {
   term: Term;
   courses: TimetableCourse[];
+  hash: string;
   createdAt: Date;
   updatedAt?: Date;
 };

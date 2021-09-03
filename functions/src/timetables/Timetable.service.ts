@@ -31,6 +31,7 @@ export async function addTimetable(
     term,
     courses,
     createdAt: new Date(Date.now()),
+    hash: 'test',
   });
 
   return {

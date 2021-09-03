@@ -1,7 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as express from 'express';
-import { Response as ExResponse, Request as ExRequest } from 'express';
 
 // FIX: need to initialize Firebase prior to import of app.
 // there's probably a better way to fix this issue.
@@ -10,7 +9,6 @@ admin.initializeApp();
 import { RegisterRoutes } from '../build/routes';
 
 import * as openapi from '../build/swagger.json';
-import { ValidateError } from 'tsoa';
 
 // THIS FILE SHOULDN'T RUN WITHOUT FIREBASE EMULATOR!
 // nor is it meant to be. use server.ts!
@@ -50,28 +48,6 @@ app.get('/openapi.json', async (req, res) => {
 });
 
 RegisterRoutes(app);
-
-app.use(function errorHandler(
-  err: unknown,
-  req: ExRequest,
-  res: ExResponse,
-  next: express.NextFunction
-): ExResponse | void {
-  if (err instanceof ValidateError) {
-    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
-    return res.status(422).json({
-      message: 'Validation Failed',
-      details: err?.fields,
-    });
-  }
-  if (err instanceof Error) {
-    return res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-
-  next();
-});
 
 // By default, /api/* will be routed to this Express app.
 export const api = functions.https.onRequest(app);
