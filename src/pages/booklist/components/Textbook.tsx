@@ -110,18 +110,24 @@ export function Textbook({
         >
           UVic Bookstore
         </Button>
-        {amazonUrl && (
-          <Button tabIndex={0} size="fit-content" as="a" href={amazonUrl} target="_blank">
-            <Image
-              loading="lazy"
-              boxShadow="md"
-              borderRadius="md"
-              src={process.env.PUBLIC_URL + `/assets/brands/${mode('amazon_light.png', 'amazon_dark.png')}`}
-              h="2.4em"
-              p="2"
-            />
-          </Button>
-        )}
+
+        <Button
+          tabIndex={0}
+          size="fit-content"
+          as="a"
+          href={amazonUrl}
+          target="_blank"
+          disabled={amazonUrl === undefined}
+        >
+          <Image
+            loading="lazy"
+            boxShadow="md"
+            borderRadius="md"
+            src={process.env.PUBLIC_URL + `/assets/brands/${mode('amazon_light.png', 'amazon_dark.png')}`}
+            h="2.4em"
+            p="2"
+          />
+        </Button>
       </VStack>
     </Flex>
   );
