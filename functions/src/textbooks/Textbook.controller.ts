@@ -1,24 +1,21 @@
-import { CourseTextbooks } from '@vikelabs/uvic-course-scraper/dist';
 import { Get, Controller, Route, Response, Path } from 'tsoa';
 import { get } from 'typesaurus';
 import { Term } from '../constants';
 import { TextbooksCollection } from '../db/collections';
+import { CourseTextbook } from './Textbook.model';
 
-/**
- * @tsoaModel
- */
 interface TextbookInfo {
   subject: string;
   code: string;
   term: string;
-  sections: Omit<CourseTextbooks, 'subject' | 'code'>[];
+  sections: CourseTextbook[];
 }
 
 @Route('textbooks')
 export class TextbooksController extends Controller {
   @Response(404, 'Textbooks Not Found')
   @Get('{term}/{subject}/{code}')
-  public async seats(
+  public async getTextbooks(
     @Path() term: Term,
     @Path() subject: string,
     @Path() code: string
