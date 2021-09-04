@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes as ReactRouterRoutes, Route } from 'react-router-dom';
 
+import { Booklist } from 'pages/booklist';
 import { Calendar } from 'pages/calendar';
 import { Home } from 'pages/home';
 import { Registration } from 'pages/registration';
@@ -17,6 +18,7 @@ export function Routes(): JSX.Element {
         <Route path="/scheduler/" element={<Scheduler />} />
         <Route path="/scheduler/:term/*" element={<Scheduler />} />
         <Route path="/registration/:term" element={<Registration />} />
+        <Route path="/booklist/:term" element={<Booklist />} />
       </ReactRouterRoutes>
     </BrowserRouter>
   );
