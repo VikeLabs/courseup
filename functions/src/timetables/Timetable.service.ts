@@ -32,7 +32,6 @@ export async function addTimetable(
   const result = await query(TimetablesCollection, [
     where('hash', '==', timetableHash),
   ]);
-  console.log(JSON.stringify(result), timetableHash);
 
   if (result.length > 0)
     return {
@@ -42,7 +41,6 @@ export async function addTimetable(
     };
 
   const slug = generate(12);
-  console.log(slug);
 
   await set(TimetablesCollection, slug, {
     term,
