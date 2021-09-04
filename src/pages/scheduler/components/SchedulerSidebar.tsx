@@ -6,9 +6,10 @@ import { Collapse } from '@chakra-ui/transition';
 import { Link } from 'react-router-dom';
 
 import { MeetingTimes } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
-import { useCalendarEvents } from '../hooks/useCalendarEvents';
+import { useGetCourseSections } from '../hooks/useCalendarEvents';
 
 import { CourseCard } from './CourseCard';
 import { SectionsCardContainer } from './SchedulerSections';
@@ -21,8 +22,9 @@ interface SchedulerSidebarProps {
 }
 
 export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
-  const { deleteCourse, setSection, courses, setSelected, clearCourses } = useSavedCourses();
-  const coursesResult = useCalendarEvents(term, courses);
+  const { deleteCourse, setSection, setShowSections, courses, setSelected, clearCourses } = useSavedCourses();
+  const coursesResult = useGetCourseSections(term, courses);
+  const mode = useDarkMode();
 
   const handleCourseSectionChange = useCallback(
     (
@@ -87,29 +89,62 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
     [setSelected]
   );
 
+  const handleShowSections = useCallback(
+    ({
+      code,
+      pid,
+      subject,
+      term,
+      showSections,
+    }: {
+      code: string;
+      pid: string;
+      subject: string;
+      term: string;
+      showSections?: boolean;
+    }) => {
+      setShowSections(!showSections, {
+        code,
+        pid,
+        subject,
+        term,
+      });
+    },
+    [setShowSections]
+  );
+
   return (
     <Flex
       minW="25%"
       maxW="25%"
-      bg="#E4E4E4"
+      bgColor={mode('light.background', 'dark.background')}
       overflowY="auto"
       direction="column"
       boxShadow="md"
       justifyContent="space-between"
     >
       <Box
-        bg="white"
+        bgColor={mode('white', 'dark.main')}
         top="0"
         m="0"
         boxShadow="md"
         zIndex={10}
-        borderColor="gray.200"
         borderBottomWidth="2px"
         borderBottomStyle="solid"
       >
         <Flex justifyContent="space-between" alignItems="center" p="3">
           <Text>Saved Courses</Text>
           <Flex>
+            <Button
+              size="xs"
+              mr="1"
+              colorScheme="orange"
+              disabled={courses.filter((course) => course.term === term).length === 0 || term !== '202109'}
+              as={Link}
+              to={`/booklist/${term}`}
+            >
+              Booklist
+            </Button>
             <Button
               size="xs"
               mr="1"
@@ -144,10 +179,17 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
                   color={course.color}
                   pid={course.pid}
                   selected={course.selected}
+                  showSections={course.showSections !== undefined ? course.showSections : true}
                   handleSelection={handleCourseToggle}
                   handleDelete={handleCourseDelete}
+                  handleShowSections={handleShowSections}
                 />
-                <Collapse in={course.selected} animateOpacity style={{ width: '100%' }}>
+                <Collapse
+                  // hacky way of addressing the fact that `showSections` was added as an attribute after users have already added courses to the timetable
+                  in={course.showSections !== undefined ? course.showSections : true}
+                  animateOpacity
+                  style={{ width: '100%' }}
+                >
                   <SectionsCardContainer
                     course={course}
                     courses={courses}
@@ -158,16 +200,6 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
               </VStack>
             ))}
       </Box>
-      <Box
-        bg="white"
-        top="0"
-        m="0"
-        boxShadow="md"
-        zIndex={10}
-        borderColor="gray.200"
-        borderBottomWidth="2px"
-        borderBottomStyle="solid"
-      />
     </Flex>
   );
 }

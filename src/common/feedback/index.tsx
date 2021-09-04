@@ -63,7 +63,7 @@ export function Feedback(): JSX.Element | null {
             >
               <p>Feedback</p>
             </PopoverHeader>
-            <PopoverBody color="gray.600">
+            <PopoverBody>
               <p>Want to help us improve CourseUp?</p>
               <p>
                 <Text as="strong">Send us your feedback via Google Forms or GitHub Discussions.</Text>

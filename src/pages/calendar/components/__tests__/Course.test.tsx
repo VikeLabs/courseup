@@ -13,7 +13,7 @@ describe('Course', () => {
   it('should render the hours correctly', () => {
     render(
       <CourseInfo
-        hours={{ lecture: '100', tutorial: '0', lab: '9' }}
+        hours={[{ lecture: '100', tutorial: '0', lab: '9' }]}
         subject={subject}
         code={code}
         title={title}

@@ -43,19 +43,18 @@ export function RegistrationSection({ section, crn, seats, additionalNotes, sele
           <Checkbox isChecked={selected} onChange={onChange} size="lg" h="2rem">
             Registered
           </Checkbox>
-          <Heading size="md" as="h3" color="gray" h="2rem">
+          <Heading size="md" as="h3" h="2rem">
             {crn}
             <IconButton
               icon={<IoCopyOutline />}
               onClick={onCopy}
               aria-label="copy"
-              colorScheme="white"
-              color="black"
               mb="1"
+              ml="1"
               size="sm"
               fontSize="lg"
               _active={{
-                color: '#e4e4e4',
+                color: 'light.background',
               }}
             />
           </Heading>

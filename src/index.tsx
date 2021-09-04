@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import 'firebase/analytics';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
@@ -81,10 +81,11 @@ migrateLocalStorage();
 
 ReactDOM.render(
   <React.StrictMode>
-    <Sentry.ErrorBoundary fallback={'An error has occurred'}>
+    <Sentry.ErrorBoundary fallback={<>'An error has occurred'</>}>
       <RestfulProvider base={'/api'}>
         <InstantSearch searchClient={searchClient} indexName="dev_uvic">
           <ChakraProvider portalZIndex={999} theme={customTheme}>
+            <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
             <Helmet titleTemplate="%s · CourseUp" defaultTitle="CourseUp · We make school easier" />
             <Mobile />
             <Routes />
