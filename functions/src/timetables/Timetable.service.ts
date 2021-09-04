@@ -1,9 +1,10 @@
-import { get, set } from 'typesaurus';
+import { get, query, set, where } from 'typesaurus';
 import { Term } from '../constants';
 import { CoursesCollection, TimetablesCollection } from '../db/collections';
 import { TimetableCourse, Timetable } from './Timetable.model';
 import * as hash from 'object-hash';
 import { constructSectionKey } from '../courses/Course.service';
+import { generate } from 'randomstring';
 
 export type TimetableParams = Pick<Timetable, 'courses' | 'term'>;
 export type TimetableReturn = { slug: string } & Timetable;
@@ -22,16 +23,33 @@ export async function addTimetable(
   courses: TimetableCourse[],
   term: Term
 ): Promise<TimetableReturn | null> {
-  const slug = hash({ ...courses, term }, { unorderedArrays: true });
+  const timetableHash = hash({ ...courses, term }, { unorderedArrays: true });
 
   const valid = await hasValidCourses(courses, term);
   if (!valid) return null;
+
+  // Check to see if the timetable already exists in the DB
+  const result = await query(TimetablesCollection, [
+    where('hash', '==', timetableHash),
+  ]);
+  console.log(JSON.stringify(result), timetableHash);
+
+  if (result.length > 0)
+    return {
+      term: result[0].data.term,
+      courses: result[0].data.courses,
+      slug: result[0].data.slug,
+    };
+
+  const slug = generate(12);
+  console.log(slug);
 
   await set(TimetablesCollection, slug, {
     term,
     courses,
     createdAt: new Date(Date.now()),
-    hash: 'test',
+    hash: timetableHash,
+    slug,
   });
 
   return {

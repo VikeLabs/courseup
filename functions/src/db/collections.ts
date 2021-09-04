@@ -32,6 +32,7 @@ export type TimetableDoc = {
   term: Term;
   courses: TimetableCourse[];
   hash: string;
+  slug: string;
   createdAt: Date;
   updatedAt?: Date;
 };

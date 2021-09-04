@@ -1,3 +1,5 @@
+jest.mock('randomstring');
+
 import { mockFirebase } from 'firestore-jest-mock';
 
 type MockTimetableDoc = TimetableDoc & { id: string };
@@ -10,6 +12,7 @@ mockFirebase({
       {
         term: '202109',
         id: '1',
+        hash: '1234556562345235134124124',
         courses: [
           {
             subject: 'CSC',
@@ -23,6 +26,7 @@ mockFirebase({
       {
         term: '202109',
         id: '2',
+        hash: 'dbvsfvdsvadvfasd',
         courses: [
           {
             subject: 'ADMN',
@@ -53,6 +57,10 @@ import {
   hasValidCourses,
 } from '../Timetable.service';
 import { CourseDoc, TimetableDoc } from '../../db/collections';
+import { generate } from 'randomstring';
+import { mocked } from 'ts-jest/utils';
+
+const mockGenerateSlug = mocked(generate);
 
 describe('Timetable service', () => {
   describe('getTimetable', () => {
@@ -84,6 +92,10 @@ describe('Timetable service', () => {
   });
 
   describe('addTimetable', () => {
+    beforeEach(() => {
+      mockGenerateSlug.mockReturnValue('new-slug');
+    });
+
     describe('when validation succeeds', () => {
       it('should return the correct data', async () => {
         const data = await addTimetable(
@@ -94,13 +106,15 @@ describe('Timetable service', () => {
               pid: '1234abcd',
               lecture: ['A02'],
               lab: ['B03'],
+              tutorial: ['T02'],
               color: '#12345',
             },
           ],
           '202109'
         );
+
         expect(data).toStrictEqual({
-          slug: '49d4f28452efd26e89788ea709e2fb1e13decde7',
+          slug: 'new-slug',
           term: '202109',
           courses: [
             {
@@ -109,6 +123,7 @@ describe('Timetable service', () => {
               pid: '1234abcd',
               lecture: ['A02'],
               lab: ['B03'],
+              tutorial: ['T02'],
               color: '#12345',
             },
           ],
