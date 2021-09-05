@@ -2,22 +2,22 @@ import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
-import { addWeeks, format, getDay, parse, set, startOfWeek } from 'date-fns';
+import { addWeeks, format, getDay, parse, set, startOfWeek, addMinutes } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import { RRule, Weekday } from 'rrule';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
+import { parseMeetingTimes } from 'pages/scheduler/shared/parsers';
 import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
 
 import { CourseCalendarEvent } from '../shared/types';
 
-const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
+// const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
 
 const localizer = dateFnsLocalizer({
   format,
@@ -26,83 +26,6 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales: { 'en-US': enUS },
 });
-
-const parseMeetingTimeDays = (calendarEvent: CourseCalendarEvent) => {
-  const days = calendarEvent.meetingTime.days;
-  const daysRRule: Weekday[] = [];
-
-  if (days.includes('M')) {
-    daysRRule.push(RRule.MO);
-  }
-  if (days.includes('T')) {
-    daysRRule.push(RRule.TU);
-  }
-  if (days.includes('W')) {
-    daysRRule.push(RRule.WE);
-  }
-  if (days.includes('R')) {
-    daysRRule.push(RRule.TH);
-  }
-  if (days.includes('F')) {
-    daysRRule.push(RRule.FR);
-  }
-
-  return daysRRule;
-};
-
-const parseFormat = 'MM, d, yyyy h:mm a XXX';
-
-type ParseMeetingTimesResult = {
-  lower: RRule;
-  upper: RRule;
-  startDate: Date;
-  endDate: Date;
-};
-
-// TODO: try to move this into the backend as much as possible
-const parseMeetingTimes = (event: CourseCalendarEvent): ParseMeetingTimesResult => {
-  const lowerBound = parse(event.term, 'yyyyMM', new Date());
-
-  const startEndDates = event.meetingTime.dateRange.split('-').map((d) => d.replace(',', ''));
-  const startEndTimes = event.meetingTime.time.split('-').map((d) => d.trim());
-
-  // TODO: find better means of handling timezones
-  const courseStartDate = new Date(startEndDates[0] + ' 00:00:00 GMT');
-  const courseEndDate = new Date(startEndDates[1] + ' 00:00:00 GMT');
-
-  // getMonth returns 0-11, so we need to add 1 to get the correct month
-  const startDateString = `${lowerBound.getMonth() + 1}, 1, ${lowerBound.getUTCFullYear()}`;
-
-  const startUpperDateRRule = parse(`${startDateString} ${startEndTimes[0]} +00:00`, parseFormat, new Date());
-  const startLowerDateRRule = parse(`${startDateString} ${startEndTimes[1]} +00:00`, parseFormat, new Date());
-
-  const days = parseMeetingTimeDays(event);
-
-  // HACK: something doesn't like when start & end dates are the same
-  // adding 1 day to the end date makes everything happy :-)
-  courseEndDate.setDate(courseEndDate.getDate() + 1);
-
-  const ruleUpper = new RRule({
-    freq: RRule.WEEKLY,
-    byweekday: days,
-    dtstart: startUpperDateRRule,
-    until: courseEndDate,
-  });
-
-  const ruleLower = new RRule({
-    freq: RRule.WEEKLY,
-    byweekday: days,
-    dtstart: startLowerDateRRule,
-    until: courseEndDate,
-  });
-
-  return {
-    startDate: courseStartDate,
-    endDate: courseEndDate,
-    lower: ruleLower,
-    upper: ruleUpper,
-  };
-};
 
 export interface SchedulerCalendarProps {
   /**
@@ -144,41 +67,43 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
     const events: CustomEvent[] = [];
     courseCalendarEvents.forEach((calendarEvent) => {
       // for caching purposes
-      const key = `${calendarEvent.term}_${calendarEvent.subject}_${calendarEvent.code}_${calendarEvent.sectionCode}`;
-
+      // const key = `${calendarEvent.term}_${calendarEvent.subject}_${calendarEvent.code}_${calendarEvent.sectionCode}`;
       try {
         // if event does not have a scheduled time, move on.
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
         // check cache, if it exists, use it otherwise parse and set value in cache
-        if (!EVENTS_CACHE[key]) {
-          EVENTS_CACHE[key] = parseMeetingTimes(calendarEvent);
-        }
+        // if (!EVENTS_CACHE[key]) {
+        //   EVENTS_CACHE[key] =
+        // }
 
-        const { lower: ruleLower, upper: ruleUpper, startDate: courseStartDate } = EVENTS_CACHE[key];
+        const {
+          upper: ruleLower,
+          startDate: courseStartDate,
+          endDate: courseEndDate,
+          durationMinutes,
+        } = parseMeetingTimes(calendarEvent);
 
-        const ruleLowerAll = ruleLower.all();
+        const title = `${calendarEvent.subject} ${calendarEvent.code}`;
 
-        // TODO: move as much as possible into the backend
-        ruleUpper.all().forEach((dateUpper, i) => {
-          const title = `${calendarEvent.subject} ${calendarEvent.code}`;
-          // TODO: find better means of handling timezones
-          const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
-          const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
+        if (ruleLower) {
+          // TODO: move as much as possible into the backend
+          ruleLower.all().forEach((startDate) => {
+            const endDate = addMinutes(startDate, durationMinutes);
 
-          const endHour = endDate.getHours();
-          if (endHour > maxHour) {
-            setMaxHour(endHour + 1);
-          }
+            const endHour = endDate.getHours();
+            if (endHour > maxHour) {
+              setMaxHour(endHour + 1);
+            }
 
-          const duplicateEvent = events.find(
-            (event) =>
-              event.title === title &&
-              event.start?.getTime() === startDate.getTime() &&
-              event.end?.getTime() === endDate.getTime()
-          );
+            events.find(
+              (event) =>
+                event.title === title &&
+                event.start?.getTime() === startDate.getTime() &&
+                event.end?.getTime() === endDate.getTime()
+            );
+            console.log(startDate, endDate);
 
-          if (!duplicateEvent) {
             events.push({
               title: title,
               start: startDate,
@@ -193,14 +118,29 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
                 opacity: startDate < courseStartDate,
               },
             });
-          }
 
-          if (minEventDate.current === undefined) {
-            minEventDate.current = addWeeks(startDate, 1);
-          } else if (startDate < minEventDate.current) {
-            minEventDate.current = addWeeks(startDate, 1);
-          }
-        });
+            if (minEventDate.current === undefined) {
+              minEventDate.current = addWeeks(startDate, 1);
+            } else if (startDate < minEventDate.current) {
+              minEventDate.current = addWeeks(startDate, 1);
+            }
+          });
+        } else {
+          events.push({
+            title: title,
+            start: courseStartDate,
+            end: courseEndDate,
+            resource: {
+              color: calendarEvent.color,
+              subject: calendarEvent.subject,
+              code: calendarEvent.code,
+              textColor: calendarEvent.textColor,
+              sectionCode: calendarEvent.sectionCode,
+              location: calendarEvent.meetingTime.where,
+              opacity: false,
+            },
+          });
+        }
       } catch (error) {
         console.error(error);
       }
