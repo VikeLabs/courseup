@@ -62,6 +62,7 @@ import {
 import { CourseDoc, TimetableDoc } from '../../db/collections';
 import { generate } from 'randomstring';
 import { mocked } from 'ts-jest/utils';
+import { mockWhere } from 'firestore-jest-mock/mocks/firestore';
 
 const mockGenerateSlug = mocked(generate);
 
@@ -114,6 +115,12 @@ describe('Timetable service', () => {
             },
           ],
           '202109'
+        );
+
+        expect(mockWhere).toHaveBeenCalledWith(
+          'hash',
+          '==',
+          '6c9328fddec9f18578435706e2f653f2d39cb28e'
         );
 
         expect(data).toStrictEqual({
