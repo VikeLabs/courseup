@@ -6,50 +6,53 @@ type MockTimetableDoc = TimetableDoc & { id: string };
 type MockCourseDoc = CourseDoc & { id: string };
 
 // need to mock before importing the functions that call Firestore
-mockFirebase({
-  database: {
-    timetables: [
-      {
-        term: '202109',
-        id: '1',
-        hash: '1234556562345235134124124',
-        courses: [
-          {
-            subject: 'CSC',
-            code: '111',
-            pid: 'abc123',
-            lecture: ['A01'],
-            color: '#12345',
-          },
-        ],
-      },
-      {
-        term: '202109',
-        id: '2',
-        hash: 'dbvsfvdsvadvfasd',
-        courses: [
-          {
-            subject: 'ADMN',
-            code: '200',
-            pid: '123abc',
-            lecture: ['A02'],
-            lab: ['B03'],
-            color: '#12345',
-          },
-        ],
-      },
-    ] as MockTimetableDoc[],
-    courses: [
-      {
-        subject: 'MATH',
-        code: '100',
-        pid: '1234abcd',
-        term: '202109',
-        id: '202109MATH100',
-      },
-    ] as MockCourseDoc[],
+mockFirebase(
+  {
+    database: {
+      timetables: [
+        {
+          term: '202109',
+          id: '1',
+          hash: '1234556562345235134124124',
+          courses: [
+            {
+              subject: 'CSC',
+              code: '111',
+              pid: 'abc123',
+              lecture: ['A01'],
+              color: '#12345',
+            },
+          ],
+        },
+        {
+          term: '202109',
+          id: '2',
+          hash: 'dbvsfvdsvadvfasd',
+          courses: [
+            {
+              subject: 'ADMN',
+              code: '200',
+              pid: '123abc',
+              lecture: ['A02'],
+              lab: ['B03'],
+              color: '#12345',
+            },
+          ],
+        },
+      ] as MockTimetableDoc[],
+      courses: [
+        {
+          subject: 'MATH',
+          code: '100',
+          pid: '1234abcd',
+          term: '202109',
+          id: '202109MATH100',
+        },
+      ] as MockCourseDoc[],
+    },
   },
-});
+  { simulateQueryFilters: true }
+);
 
 import {
   addTimetable,
