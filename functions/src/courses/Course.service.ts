@@ -82,6 +82,8 @@ export class CoursesService {
       description: course.description,
       credits: course.credits,
       hoursCatalog: course.hoursCatalog,
+      preAndCorequisites: course.preAndCorequisites,
+      preOrCorequisites: course.preOrCorequisites,
     };
   }
 
