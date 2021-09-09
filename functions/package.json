@@ -30,7 +30,8 @@
     "got": "^11.8.2",
     "tough-cookie": "^4.0.0",
     "tsoa": "^3.9.0",
-    "typesaurus": "^7.2.0"
+    "typesaurus": "^7.2.0",
+    "cross-env": "^7.0.3"
   },
   "devDependencies": {
     "@firebase/testing": "^0.20.11",
@@ -40,7 +41,6 @@
     "@types/jest": "^26.0.24",
     "@types/object-hash": "^2.1.1",
     "@types/randomstring": "^1.1.7",
-    "cross-env": "^7.0.3",
     "@types/node": "^10.17.60",
     "@types/supertest": "^2.0.11",
     "@types/swagger-ui-express": "^4.1.3",
