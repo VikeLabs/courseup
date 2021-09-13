@@ -22,7 +22,7 @@ const SearchResults = ({ hits }: Props) => {
 
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     const pid = e.currentTarget.getAttribute('data-pid');
-    if (pid) {
+    if (pid && scheduleMatch === null) {
       setSearchParams({ pid });
     }
   };
