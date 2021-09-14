@@ -83,7 +83,7 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            {isASYNC && (
+            {isASYNC && !isBLENDED && (
               <Badge colorScheme="cyan" mx="1">
                 Asynchronous
               </Badge>
