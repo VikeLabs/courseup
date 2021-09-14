@@ -64,10 +64,10 @@ export function SectionInfo({
   const isSENG = additionalNotes?.indexOf('Reserved for BSENG students') !== -1;
   const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
   const isENGR = additionalNotes?.indexOf('Restricted to BEng students only') !== -1;
-  const isENGR_CSC = additionalNotes?.indexOf('Restricted to students in the Faculty of Engineering') !== -1;
+  const isENGRorCSC = additionalNotes?.indexOf('Restricted to students in the Faculty of Engineering') !== -1;
   const isSCI = additionalNotes?.indexOf('Restricted to SCIENCE students') !== -1;
-  const isBEng_BSeng = additionalNotes?.indexOf('Restricted to BEng and BSEng students') !== -1;
-  const isENGR_MULTI = additionalNotes?.indexOf('Reserved for BME, BSEN, CENG, ELEC students') !== -1;
+  const isBENGorBSENG = additionalNotes?.indexOf('Restricted to BEng and BSEng students') !== -1;
+  const isENGRmulti = additionalNotes?.indexOf('Reserved for BME, BSEN, CENG, ELEC students') !== -1;
 
   const { term } = useParams();
   const mode = useDarkMode();
@@ -88,7 +88,7 @@ export function SectionInfo({
                 Asynchronous
               </Badge>
             )}
-            {!isASYNC && !isBLENDED && instructionalMethod == 'online' && (
+            {!isASYNC && !isBLENDED && instructionalMethod === 'online' && (
               <Badge colorScheme="cyan" mx="1">
                 Synchronous
               </Badge>
@@ -113,7 +113,7 @@ export function SectionInfo({
                 ENGR ONLY
               </Badge>
             )}
-            {isENGR_CSC && (
+            {isENGRorCSC && (
               <Badge colorScheme="red" mx="1">
                 ENGR/CSC ONLY
               </Badge>
@@ -123,12 +123,12 @@ export function SectionInfo({
                 SCI ONLY
               </Badge>
             )}
-            {isENGR_MULTI && (
+            {isENGRmulti && (
               <Badge colorScheme="red" mx="1">
                 BME/SENG/CENG/ELEC ONLY
               </Badge>
             )}
-            {isBEng_BSeng && (
+            {isBENGorBSENG && (
               <Badge colorScheme="red" mx="1">
                 BENG/BSENG ONLY
               </Badge>
