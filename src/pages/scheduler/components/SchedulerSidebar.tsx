@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Text, VStack } from '@chakra-ui/layout';
-import { Collapse } from '@chakra-ui/transition';
 import { Link } from 'react-router-dom';
 
 import { MeetingTimes } from 'lib/fetchers';
@@ -12,7 +11,6 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { useGetCourseSections } from '../hooks/useCalendarEvents';
 
 import { CourseCard } from './CourseCard';
-import { SectionsCardContainer } from './SchedulerSections';
 
 // GREEN, RED, YELLOW, BLUE, PURPLE, ORANGE
 export const COLORS = ['#32a852', '#b33127', '#e8e523', '#247fe0', '#971dcc', '#cc7d1d'];
@@ -22,7 +20,7 @@ interface SchedulerSidebarProps {
 }
 
 export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
-  const { deleteCourse, setSection, setShowSections, courses, setSelected, clearCourses } = useSavedCourses();
+  const { deleteCourse, setSection, courses, setSelected, clearCourses } = useSavedCourses();
   const coursesResult = useGetCourseSections(term, courses);
   const mode = useDarkMode();
 
@@ -89,30 +87,6 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
     [setSelected]
   );
 
-  const handleShowSections = useCallback(
-    ({
-      code,
-      pid,
-      subject,
-      term,
-      showSections,
-    }: {
-      code: string;
-      pid: string;
-      subject: string;
-      term: string;
-      showSections?: boolean;
-    }) => {
-      setShowSections(!showSections, {
-        code,
-        pid,
-        subject,
-        term,
-      });
-    },
-    [setShowSections]
-  );
-
   return (
     <Flex
       minW="25%"
@@ -173,30 +147,19 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
             .map((course, key) => (
               <VStack key={key} mt="1" spacing="0">
                 <CourseCard
+                  key={key}
                   term={course.term}
                   subject={course.subject}
                   code={course.code}
                   color={course.color}
+                  course={course}
+                  courses={courses}
                   pid={course.pid}
                   selected={course.selected}
-                  showSections={course.showSections !== undefined ? course.showSections : true}
                   handleSelection={handleCourseToggle}
                   handleDelete={handleCourseDelete}
-                  handleShowSections={handleShowSections}
+                  handleCourseSectionChange={handleCourseSectionChange}
                 />
-                <Collapse
-                  // hacky way of addressing the fact that `showSections` was added as an attribute after users have already added courses to the timetable
-                  in={course.showSections !== undefined ? course.showSections : true}
-                  animateOpacity
-                  style={{ width: '100%' }}
-                >
-                  <SectionsCardContainer
-                    course={course}
-                    courses={courses}
-                    sections={course.sections}
-                    handleChange={handleCourseSectionChange}
-                  />
-                </Collapse>
               </VStack>
             ))}
       </Box>
