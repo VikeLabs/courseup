@@ -150,6 +150,16 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
         // if event does not have a scheduled time, move on.
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
+        if (
+          calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] === `pm` &&
+          parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(':')[0]) !== 12
+        ) {
+          let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
+          if (theTime > latestHour && theTime < 24) {
+            setLatestHour(theTime + 1);
+          }
+        }
+
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
 
         const courseStartDate = new Date(startEndDates[0].replace(',', '') + ' 00:00:00 GMT');
@@ -200,18 +210,17 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
             minEventDate.current = addWeeks(startDate, 1);
           }
         });
-        // Looking for courses between 1pm - 11pm
-        if (
-          calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] === `pm` &&
-          parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(':')[0]) !== 12
-        ) {
-          let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
-          if (theTime > latestHour && theTime < 24) {
-            setLatestHour(theTime + 1);
-          }
-        }
       } catch (error) {
         console.error(error);
+      }
+      if (
+        calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] === `pm` &&
+        parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(':')[0]) !== 12
+      ) {
+        let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
+        if (theTime > latestHour && theTime < 24) {
+          setLatestHour(theTime + 1);
+        }
       }
     });
     setSelectedDate(computedSelectedDate);
