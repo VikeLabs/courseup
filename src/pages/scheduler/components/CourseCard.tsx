@@ -87,7 +87,7 @@ export function CourseCard({
 
   return (
     <VStack key={key} mt="1" spacing="0" w="100%">
-      <Box boxShadow="md" cursor="pointer" as="label" w="100%" bgColor={mode('white', 'dark.main')}>
+      <Box boxShadow="md" w="100%" bgColor={mode('white', 'dark.main')}>
         <Flex direction="row">
           <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
             <Flex>
