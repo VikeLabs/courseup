@@ -17,8 +17,6 @@ import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
 
 import { CourseCalendarEvent } from '../shared/types';
 
-let latestHour = 20;
-
 const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
 
 const localizer = dateFnsLocalizer({
@@ -119,6 +117,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const mode = useDarkMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [latestHour, setLatestHour] = useState(20);
 
   const today = useMemo(() => new Date(), []);
 
@@ -150,17 +149,6 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       try {
         // if event does not have a scheduled time, move on.
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
-
-        // Looking for courses between 1pm - 11pm
-        if (
-          calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] == `pm` &&
-          parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(':')[0]) != 12
-        ) {
-          let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
-          if (theTime > latestHour && theTime < 24) {
-            latestHour = theTime + 1;
-          }
-        }
 
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
 
@@ -212,6 +200,16 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
             minEventDate.current = addWeeks(startDate, 1);
           }
         });
+        // Looking for courses between 1pm - 11pm
+        if (
+          calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] === `pm` &&
+          parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(':')[0]) !== 12
+        ) {
+          let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
+          if (theTime > latestHour && theTime < 24) {
+            setLatestHour(theTime + 1);
+          }
+        }
       } catch (error) {
         console.error(error);
       }
