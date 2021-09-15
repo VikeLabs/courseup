@@ -1,3 +1,5 @@
+import { PropsWithChildren } from 'react';
+
 import { Box, Heading, Text } from '@chakra-ui/layout';
 import {
   Accordion,
@@ -15,6 +17,23 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';
+
+type BadgeProps = {
+  condition: boolean;
+  color: string;
+};
+
+export function CourseBadge({ condition, color, children }: PropsWithChildren<BadgeProps>): JSX.Element {
+  return (
+    <>
+      {condition && (
+        <Badge colorScheme={color} mx="1">
+          {children}
+        </Badge>
+      )}
+    </>
+  );
+}
 
 export interface SectionInfoProps {
   /**
@@ -83,56 +102,36 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            {isASYNC && !isBLENDED && (
-              <Badge colorScheme="cyan" mx="1">
-                Asynchronous
-              </Badge>
-            )}
-            {!isASYNC && !isBLENDED && instructionalMethod === 'online' && (
-              <Badge colorScheme="cyan" mx="1">
-                Synchronous
-              </Badge>
-            )}
-            {isBLENDED && (
-              <Badge colorScheme="cyan" mx="1">
-                Blended
-              </Badge>
-            )}
-            {isSENG && (
-              <Badge colorScheme="red" mx="1">
-                SENG ONLY
-              </Badge>
-            )}
-            {isCSC && (
-              <Badge colorScheme="red" mx="1">
-                CSC ONLY
-              </Badge>
-            )}
-            {isENGR && (
-              <Badge colorScheme="red" mx="1">
-                ENGR ONLY
-              </Badge>
-            )}
-            {isENGRorCSC && (
-              <Badge colorScheme="red" mx="1">
-                ENGR/CSC ONLY
-              </Badge>
-            )}
-            {isSCI && (
-              <Badge colorScheme="red" mx="1">
-                SCI ONLY
-              </Badge>
-            )}
-            {isENGRmulti && (
-              <Badge colorScheme="red" mx="1">
-                BME/SENG/CENG/ELEC ONLY
-              </Badge>
-            )}
-            {isBENGorBSENG && (
-              <Badge colorScheme="red" mx="1">
-                BENG/BSENG ONLY
-              </Badge>
-            )}
+            <CourseBadge condition={isASYNC && !isBLENDED} color="cyan">
+              Asynchronous
+            </CourseBadge>
+            <CourseBadge condition={!isASYNC && !isBLENDED && instructionalMethod === 'online'} color="cyan">
+              Synchronous
+            </CourseBadge>
+            <CourseBadge condition={isBLENDED} color="cyan">
+              Blended
+            </CourseBadge>
+            <CourseBadge condition={isSENG} color="red">
+              SENG ONLY
+            </CourseBadge>
+            <CourseBadge condition={isCSC} color="red">
+              CSC ONLY
+            </CourseBadge>
+            <CourseBadge condition={isENGR} color="red">
+              ENGR ONLY
+            </CourseBadge>
+            <CourseBadge condition={isENGRorCSC} color="red">
+              ENGR/CSC ONLY
+            </CourseBadge>
+            <CourseBadge condition={isSCI} color="red">
+              SCI ONLY
+            </CourseBadge>
+            <CourseBadge condition={isENGRmulti} color="red">
+              BME/SENG/CENG/ELEC ONLY
+            </CourseBadge>
+            <CourseBadge condition={isBENGorBSENG} color="red">
+              BENG/BSENG ONLY
+            </CourseBadge>
           </Box>
         </Flex>
         <Heading size="md" as="h3" color={mode('gray', 'dark.header')}>
