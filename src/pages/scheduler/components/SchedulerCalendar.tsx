@@ -14,6 +14,7 @@ import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
 import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
+
 import { CourseCalendarEvent } from '../shared/types';
 
 let latestHour = 20;
@@ -161,35 +162,16 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
           }
         }
 
-        const lowerBound = getTermMonthLowerBound();
-
         const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
-        const startEndHours = calendarEvent.meetingTime.time.split('-');
 
         const courseStartDate = new Date(startEndDates[0].replace(',', '') + ' 00:00:00 GMT');
-
-        const startDateString = `${lowerBound.getMonth() + 1}, 1, ${lowerBound.getUTCFullYear()}`;
-        const startUpperDateRRule = parse(
-          `${startDateString} ${startEndHours[0].trim()} +00:00`,
-          'MM, d, yyyy h:mm a XXX',
-          new Date()
-        );
-        const startLowerDateRRule = parse(
-          `${startDateString} ${startEndHours[1].trim()} +00:00`,
-          'MM, d, yyyy h:mm a XXX',
-          new Date()
-        );
-
-        const endDateRRule = new Date(startEndDates[1].replace(',', '') + ' 00:00:00 GMT');
-
-        const days = computeMeetingTimeDays(calendarEvent);
 
         // check cache, if it exists, use it otherwise parse and set value in cache
         if (!EVENTS_CACHE[key]) {
           EVENTS_CACHE[key] = parseMeetingTimes(calendarEvent);
         }
 
-        const { lower: ruleLower, upper: ruleUpper, startDate: courseStartDate } = EVENTS_CACHE[key];
+        const { lower: ruleLower, upper: ruleUpper } = EVENTS_CACHE[key];
 
         const ruleLowerAll = ruleLower.all();
 
