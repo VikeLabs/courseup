@@ -1,14 +1,14 @@
 import { differenceInMinutes, parse } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { RRule, Weekday } from 'rrule';
 
 import { MeetingTimes } from 'lib/fetchers';
 
 import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
 
-const parseFormat = 'MMM dd yyyy h:mm a X';
+const parseFormat = 'MMM dd yyyy h:mm a';
 
-export const parseMeetingTimeDays = ({ meetingTime }: CourseCalendarEvent) => {
-  const days = meetingTime.days;
+export const parseDays = (days: string) => {
   const daysRRule: Weekday[] = [];
 
   if (days.includes('M')) {
@@ -30,9 +30,11 @@ export const parseMeetingTimeDays = ({ meetingTime }: CourseCalendarEvent) => {
   return daysRRule;
 };
 
-const parseDatetimeRange = (
+const tz = 'America/Vancouver';
+
+export const parseDateTimeRange = (
   meetingTime: MeetingTimes
-): { start: Date; end: Date; durationMinutes: number; isSameDay: boolean } => {
+): { startDatetime: Date; endDatetime: Date; durationMinutes: number; isSameDay: boolean } => {
   const ref = new Date();
 
   // ie. "May 05, 2021 - Jul 30, 2021"
@@ -41,17 +43,16 @@ const parseDatetimeRange = (
   const startEndTimes = meetingTime.time.split('-').map((d) => d.trim());
   // ie. Sep 08 2021 1:00 pm
 
-  // -07 GMT for Victoria, B.C.
-  const startDatetime = parse(`${startEndDates[0]} ${startEndTimes[0]} -07`, parseFormat, ref);
-  const diffDatetime = parse(`${startEndDates[0]} ${startEndTimes[1]} -07`, parseFormat, ref);
+  const startDatetime = zonedTimeToUtc(parse(`${startEndDates[0]} ${startEndTimes[0]}`, parseFormat, ref), tz);
+  const diffDatetime = zonedTimeToUtc(parse(`${startEndDates[0]} ${startEndTimes[1]}`, parseFormat, ref), tz);
 
-  const endDatetime = parse(`${startEndDates[1]} ${startEndTimes[1]} -07`, parseFormat, ref);
+  const endDatetime = zonedTimeToUtc(parse(`${startEndDates[1]} ${startEndTimes[1]}`, parseFormat, ref), tz);
 
   const durationMinutes = differenceInMinutes(diffDatetime, startDatetime);
 
   return {
-    start: startDatetime,
-    end: endDatetime,
+    startDatetime,
+    endDatetime,
     durationMinutes,
     // can't rely on meetingTime.type because even if it's only a single event, it will still say "Every Week"
     isSameDay: startEndDates[0] === startEndDates[1],
@@ -61,20 +62,20 @@ const parseDatetimeRange = (
 export type ParseMeetingTimesResult = {
   lower?: RRule;
   upper?: RRule;
-  startDate: Date;
-  endDate: Date;
+  startDatetime: Date;
+  endDatetime: Date;
   durationMinutes: number;
 };
 
 // TODO: try to move this into the backend as much as possible
 export const parseMeetingTimes = (event: CourseCalendarEvent): ParseMeetingTimesResult => {
-  const { start: startDatetime, end: endDatetime, durationMinutes, isSameDay } = parseDatetimeRange(event.meetingTime);
+  const { startDatetime, endDatetime, durationMinutes, isSameDay } = parseDateTimeRange(event.meetingTime);
 
-  const days = parseMeetingTimeDays(event);
+  const days = parseDays(event.meetingTime.days);
 
   return {
-    startDate: startDatetime,
-    endDate: endDatetime,
+    startDatetime,
+    endDatetime,
     upper: isSameDay
       ? undefined
       : new RRule({
@@ -83,7 +84,7 @@ export const parseMeetingTimes = (event: CourseCalendarEvent): ParseMeetingTimes
           byweekday: days,
           dtstart: startDatetime,
           until: endDatetime,
-          tzid: 'America/Vancouver',
+          tzid: tz,
         }),
     durationMinutes,
   };
