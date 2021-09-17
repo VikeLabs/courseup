@@ -10,6 +10,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
+import { createVEVENT } from 'pages/scheduler/shared/ical';
 import { parseMeetingTimes } from 'pages/scheduler/shared/parsers';
 import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
@@ -25,6 +26,26 @@ const localizer = dateFnsLocalizer({
   startOfWeek,
   getDay,
   locales: { 'en-US': enUS },
+});
+
+const createEvent = (
+  { subject, code, color, textColor, sectionCode, meetingTime: { where } }: CourseCalendarEvent,
+  startDate: Date,
+  endDate: Date,
+  opacity: boolean
+): CustomEvent => ({
+  title: `${subject} ${code}`,
+  start: startDate,
+  end: endDate,
+  resource: {
+    color,
+    subject,
+    code,
+    textColor,
+    sectionCode,
+    location: where,
+    opacity,
+  },
 });
 
 export interface SchedulerCalendarProps {
@@ -65,6 +86,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const events = useMemo(() => {
     minEventDate.current = undefined;
     const events: CustomEvent[] = [];
+    const iCalEvents: string[] = [];
     courseCalendarEvents.forEach((calendarEvent) => {
       // for caching purposes
       // const key = `${calendarEvent.term}_${calendarEvent.subject}_${calendarEvent.code}_${calendarEvent.sectionCode}`;
@@ -79,73 +101,55 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
 
         const {
           upper: ruleLower,
-          startDate: courseStartDate,
-          endDate: courseEndDate,
+          startDatetime: courseStartDate,
+          endDatetime: courseEndDate,
           durationMinutes,
         } = parseMeetingTimes(calendarEvent);
 
-        const title = `${calendarEvent.subject} ${calendarEvent.code}`;
-
         if (ruleLower) {
           // TODO: move as much as possible into the backend
-          ruleLower.all().forEach((startDate) => {
-            const endDate = addMinutes(startDate, durationMinutes);
+          iCalEvents.push(
+            createVEVENT(calendarEvent, courseStartDate, courseEndDate, durationMinutes, ruleLower.toString())
+          );
 
-            const endHour = endDate.getHours();
-            if (endHour > maxHour) {
-              setMaxHour(endHour + 1);
+          ruleLower.all().forEach((startDate) => {
+            // HACK: rrule is broken so we have to do this
+            const fixedStartDate = startDate.getTimezoneOffset() === 480 ? addMinutes(startDate, 60) : startDate;
+            const endDate = addMinutes(fixedStartDate, durationMinutes);
+            if (endDate.getHours() > maxHour) {
+              setMaxHour(endDate.getHours() + 1);
             }
 
-            events.find(
-              (event) =>
-                event.title === title &&
-                event.start?.getTime() === startDate.getTime() &&
-                event.end?.getTime() === endDate.getTime()
-            );
-            console.log(startDate, endDate);
-
-            events.push({
-              title: title,
-              start: startDate,
-              end: endDate,
-              resource: {
-                color: calendarEvent.color,
-                subject: calendarEvent.subject,
-                code: calendarEvent.code,
-                textColor: calendarEvent.textColor,
-                sectionCode: calendarEvent.sectionCode,
-                location: calendarEvent.meetingTime.where,
-                opacity: startDate < courseStartDate,
-              },
-            });
+            events.push(createEvent(calendarEvent, fixedStartDate, endDate, ruleLower.options.count === 1));
 
             if (minEventDate.current === undefined) {
-              minEventDate.current = addWeeks(startDate, 1);
-            } else if (startDate < minEventDate.current) {
-              minEventDate.current = addWeeks(startDate, 1);
+              minEventDate.current = addWeeks(fixedStartDate, 1);
+            } else if (fixedStartDate < minEventDate.current) {
+              minEventDate.current = addWeeks(fixedStartDate, 1);
             }
           });
         } else {
-          events.push({
-            title: title,
-            start: courseStartDate,
-            end: courseEndDate,
-            resource: {
-              color: calendarEvent.color,
-              subject: calendarEvent.subject,
-              code: calendarEvent.code,
-              textColor: calendarEvent.textColor,
-              sectionCode: calendarEvent.sectionCode,
-              location: calendarEvent.meetingTime.where,
-              opacity: false,
-            },
-          });
+          iCalEvents.push(createVEVENT(calendarEvent, courseStartDate, courseEndDate, durationMinutes));
+          events.push(createEvent(calendarEvent, courseStartDate, courseEndDate, true));
         }
       } catch (error) {
         console.error(error);
       }
     });
     setSelectedDate(computedSelectedDate);
+
+    console.log(
+      `
+      BEGIN:VCALENDAR
+      VERSION:2.0
+      ${iCalEvents.join('\n')}
+      END:VCALENDAR
+      `
+        .split('\n')
+        .map((l) => l.trim())
+        .join('\n')
+    );
+
     return events;
   }, [courseCalendarEvents, computedSelectedDate, maxHour]);
 
