@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
+import { Button, Flex, HStack, IconButton, Text } from '@chakra-ui/react';
 import { ToolbarProps } from 'react-big-calendar';
 
 export const CalendarToolBar =
@@ -16,7 +16,6 @@ export const CalendarToolBar =
     };
     return (
       <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
-        <Heading size="md">Scheduler</Heading>
         <Text fontSize="xl">{label}</Text>
         <HStack pb="0.2em">
           <Button size="sm" colorScheme="gray" onClick={handleClick()}>

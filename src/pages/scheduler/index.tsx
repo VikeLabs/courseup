@@ -5,7 +5,7 @@ import { Term } from 'lib/fetchers';
 
 import { SidebarTemplate } from 'common/sidebar/';
 
-import { SchedulerSidebar } from './components/SchedulerSidebar';
+// import { SchedulerSidebar } from './components/SchedulerSidebar';
 import { SchedulerContainer } from './containers/SchedulerContainer';
 
 export function Scheduler(): JSX.Element {
@@ -15,7 +15,7 @@ export function Scheduler(): JSX.Element {
     <SidebarTemplate title="Scheduler" term={term as Term}>
       <Flex flexGrow={1}>
         <SchedulerContainer />
-        <SchedulerSidebar term={term} />
+        {/* <SchedulerSidebar term={term} /> */}
       </Flex>
     </SidebarTemplate>
   );

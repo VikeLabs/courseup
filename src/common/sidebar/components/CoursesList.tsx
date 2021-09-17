@@ -1,8 +1,12 @@
+import { useContext } from 'react';
+
 import { LinkBox } from '@chakra-ui/layout';
 import { SlideFade } from '@chakra-ui/transition';
 import { Link, useMatch, useParams } from 'react-router-dom';
 
 import { Course } from 'lib/fetchers';
+
+import { SidebarContext } from '../../../lib/context/sidebarContext';
 
 import { Card } from './Card';
 
@@ -17,6 +21,7 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
   const { subject } = useParams();
   const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/scheduler/*');
+  const { setIsOpen } = useContext(SidebarContext);
 
   if (!courses || !courses[subject]) {
     return null;
@@ -25,7 +30,13 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
   const createCard = (pid: string, code: string, subject: string, title: string) => {
     if (calendarMatch)
       return (
-        <LinkBox key={pid} as={Link} to={`/calendar/${term}/${subject}?pid=${pid}`} data-title={title}>
+        <LinkBox
+          key={pid}
+          as={Link}
+          to={`/calendar/${term}/${subject}?pid=${pid}`}
+          data-title={title}
+          onClick={() => setIsOpen(false)}
+        >
           <Card title={title} pid={pid} subject={subject} code={code} />
         </LinkBox>
       );

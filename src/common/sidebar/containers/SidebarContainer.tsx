@@ -1,11 +1,23 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useContext } from 'react';
 
-import { Center, Box, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
+import {
+  Center,
+  Box,
+  Flex,
+  Heading,
+  HStack,
+  Spinner,
+  useMediaQuery,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+} from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
 import { Course, Term, useGetCourses, useSubjects } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
+import { SidebarContext } from '../../../lib/context/sidebarContext';
 import { CoursesList } from '../components/CoursesList';
 import { CustomHits } from '../components/SearchResults';
 import { SubjectsList } from '../components/SubjectsList';
@@ -44,6 +56,10 @@ export interface SidebarContainerProps {
 export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): JSX.Element | null {
   const [filter, setFilter] = useState(false);
   const mode = useDarkMode();
+  const { isOpen, setIsOpen } = useContext(SidebarContext);
+  const [isMobile] = useMediaQuery('(max-width: 1030px)');
+
+  console.log(isOpen);
 
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
@@ -79,26 +95,57 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
   }
 
   return (
-    <Flex bgColor={mode('light.background', 'dark.background')} minW="20%" flexDirection="column">
-      <TopBar onFilter={handleFilter} />
-      {!loading && sortedSubjects && courses ? (
-        <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
-          <Flex direction="column" overflowY="auto">
-            <Routes>
-              <Route path="/">
-                <SubjectsList term={term} subjects={sortedSubjects} />
-              </Route>
-              <Route path=":subject">
-                <CoursesList term={term} courses={parsedCourses} />
-              </Route>
-            </Routes>
-          </Flex>
-        </Flex>
+    <>
+      {isMobile ? (
+        <Drawer isOpen={isOpen} placement="left" onClose={() => setIsOpen(false)} size="xs" preserveScrollBarGap>
+          <DrawerOverlay />
+          <DrawerContent overflowY="scroll">
+            <Flex bgColor={mode('light.background', 'dark.background')} flexDirection="column">
+              <TopBar onFilter={handleFilter} />
+              {!loading && sortedSubjects && courses ? (
+                <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
+                  <Flex direction="column" overflowY="auto">
+                    <Routes>
+                      <Route path="/">
+                        <SubjectsList term={term} subjects={sortedSubjects} />
+                      </Route>
+                      <Route path=":subject">
+                        <CoursesList term={term} courses={parsedCourses} />
+                      </Route>
+                    </Routes>
+                  </Flex>
+                </Flex>
+              ) : (
+                <Center height="100%">
+                  <Spinner size="xl" />
+                </Center>
+              )}
+            </Flex>
+          </DrawerContent>
+        </Drawer>
       ) : (
-        <Center height="100%">
-          <Spinner size="xl" />
-        </Center>
+        <Flex bgColor={mode('light.background', 'dark.background')} minW="20%" flexDirection="column">
+          <TopBar onFilter={handleFilter} />
+          {!loading && sortedSubjects && courses ? (
+            <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
+              <Flex direction="column" overflowY="auto">
+                <Routes>
+                  <Route path="/">
+                    <SubjectsList term={term} subjects={sortedSubjects} />
+                  </Route>
+                  <Route path=":subject">
+                    <CoursesList term={term} courses={parsedCourses} />
+                  </Route>
+                </Routes>
+              </Flex>
+            </Flex>
+          ) : (
+            <Center height="100%">
+              <Spinner size="xl" />
+            </Center>
+          )}
+        </Flex>
       )}
-    </Flex>
+    </>
   );
 }

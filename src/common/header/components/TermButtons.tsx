@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button, ButtonGroup } from '@chakra-ui/react';
+import { Button, ButtonGroup, Select, useMediaQuery } from '@chakra-ui/react';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
@@ -20,6 +20,8 @@ export function TermButtons(): JSX.Element {
   const registrationMatch = useMatch('/registration/*');
   const booklistMatch = useMatch('/booklist/*');
 
+  const [isMobile] = useMediaQuery('(max-width: 1030px)');
+
   const navigate = useNavigate();
 
   // initally the current term button needs to be set active to reflect the default term of the context
@@ -30,7 +32,7 @@ export function TermButtons(): JSX.Element {
     setStatus(initStatus);
   }, [term]);
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    const name = event.currentTarget.getAttribute('name');
+    const name = event.currentTarget.getAttribute('name') || event.currentTarget.getAttribute('class');
     let idx = -1;
     if (name) {
       idx = terms.indexOf(name);
@@ -52,14 +54,36 @@ export function TermButtons(): JSX.Element {
   };
 
   return (
-    <ButtonGroup isAttached>
-      {terms.map((term, i) => {
-        return (
-          <Button colorScheme="green" key={i} name={term} isActive={status[i]} onClick={onClick} size="sm">
-            {getReadableTerm(term)}
-          </Button>
-        );
-      })}
-    </ButtonGroup>
+    <>
+      {!isMobile ? (
+        <ButtonGroup isAttached>
+          {terms.map((term, i) => {
+            return (
+              <Button colorScheme="green" key={i} name={term} isActive={status[i]} onClick={onClick} size="sm">
+                {getReadableTerm(term)}
+              </Button>
+            );
+          })}
+        </ButtonGroup>
+      ) : (
+        <Select
+          bg="green"
+          color="white"
+          size="sm"
+          placeholer="Select a term"
+          w="fit-content"
+          borderRadius=".5em"
+          border="none"
+        >
+          {terms.map((term, i) => {
+            return (
+              <option key={i} className={term} onClick={onClick} style={{ backgroundColor: 'green' }}>
+                {getReadableTerm(term)}
+              </option>
+            );
+          })}
+        </Select>
+      )}
+    </>
   );
 }
