@@ -1,11 +1,11 @@
 import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, HStack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
+import { Banner } from 'common/header/components/Banner';
 import { NavButtons } from 'common/header/components/NavButtons';
 import { RightSideButtons } from 'common/header/components/RightSideButtons';
 import { Search } from 'common/header/components/SearchBar';
 import { TermButtons } from 'common/header/components/TermButtons';
-import { Banner } from 'common/header/components/Banner';
 
 export interface HeaderProps {
   onSearchChange?: (query: string) => void;
