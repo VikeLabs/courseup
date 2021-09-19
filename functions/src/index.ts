@@ -33,18 +33,22 @@ app.use((req, res, next) => {
 });
 
 if (functions.config().ENABLE_RATE_LIMIT && functions.config().REDIS_URI) {
-  const config = functions.config().REDIS_URI;
-  const redis = new Redis(config); // uses defaults unless given configuration object
+  try {
+    const config = functions.config().REDIS_URI;
+    const redis = new Redis(config); // uses defaults unless given configuration object
 
-  const options: IRateLimiterStoreOptions = {
-    storeClient: redis,
-    keyPrefix: `middleware-${process.env.ENV ?? 'default'}`,
-    points: 10,
-    duration: 1, // per 1 second by IP
-  };
+    const options: IRateLimiterStoreOptions = {
+      storeClient: redis,
+      keyPrefix: `middleware:rate-limit`,
+      points: 10,
+      duration: 1, // per 1 second by IP
+    };
 
-  const rateLimiter = new RateLimiterRedis(options);
-  app.use(rateLimiterMiddleware(rateLimiter));
+    const rateLimiter = new RateLimiterRedis(options);
+    app.use(rateLimiterMiddleware(rateLimiter));
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 // Start writing Firebase Functions
