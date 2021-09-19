@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as express from 'express';
-
+import * as Redis from 'ioredis';
 // FIX: need to initialize Firebase prior to import of app.
 // there's probably a better way to fix this issue.
 admin.initializeApp();
@@ -9,7 +9,11 @@ admin.initializeApp();
 import { RegisterRoutes } from '../build/routes';
 
 import * as openapi from '../build/swagger.json';
-import { rateLimiterMiddleware } from './middlewares/rateLimiter';
+import { rateLimiterMiddleware } from './middlewares/rateLimiter/rateLimiter';
+import {
+  IRateLimiterStoreOptions,
+  RateLimiterRedis,
+} from 'rate-limiter-flexible';
 
 // THIS FILE SHOULDN'T RUN WITHOUT FIREBASE EMULATOR!
 // nor is it meant to be. use server.ts!
@@ -28,9 +32,19 @@ app.use((req, res, next) => {
   next();
 });
 
-// API Rate Limiting - Enable or Disable as needed.
-if (process.env.RATE_LIMIT_ENABLED === 'true' && process.env.REDIS_URI) {
-  app.use(rateLimiterMiddleware);
+if (functions.config().ENABLE_RATE_LIMIT && functions.config().REDIS_URI) {
+  const config = functions.config().REDIS_URI;
+  const redis = new Redis(config); // uses defaults unless given configuration object
+
+  const options: IRateLimiterStoreOptions = {
+    storeClient: redis,
+    keyPrefix: `middleware-${process.env.ENV ?? 'default'}`,
+    points: 10,
+    duration: 1, // per 1 second by IP
+  };
+
+  const rateLimiter = new RateLimiterRedis(options);
+  app.use(rateLimiterMiddleware(rateLimiter));
 }
 
 // Start writing Firebase Functions
@@ -57,8 +71,3 @@ RegisterRoutes(app);
 
 // By default, /api/* will be routed to this Express app.
 export const api = functions.https.onRequest(app);
-
-// TODO: import in from SectionsService
-// export const updateCRNMap = functions.pubsub
-//   .schedule('every monday 00:00')
-//   .onRun(async (context) => {});

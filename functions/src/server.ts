@@ -15,6 +15,8 @@ import { RegisterRoutes } from '../build/routes';
 import * as openapi from '../build/swagger.json';
 import { CoursesService } from './courses/Course.service';
 import { Term } from './constants';
+import { rateLimiterMiddleware } from './middlewares/rateLimiter/rateLimiter';
+import { IRateLimiterOptions, RateLimiterMemory } from 'rate-limiter-flexible';
 
 export const app = express();
 
@@ -39,6 +41,15 @@ app.get('/openapi.json', async (_req, res) => {
 app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
   return res.send(swaggerUi.generateHTML(openapi));
 });
+
+if (process.env.ENABLE_RATE_LIMITER) {
+  const options: IRateLimiterOptions = {
+    points: 10,
+    duration: 1, // per 1 second by IP
+  };
+  const rateLimiter = new RateLimiterMemory(options);
+  app.use(rateLimiterMiddleware(rateLimiter));
+}
 
 RegisterRoutes(app);
 
