@@ -32,9 +32,9 @@ app.use((req, res, next) => {
   next();
 });
 
-if (functions.config().ENABLE_RATE_LIMIT && functions.config().REDIS_URI) {
+if (functions.config().rateLimit && functions.config().redis.uri) {
   try {
-    const config = functions.config().REDIS_URI;
+    const config = functions.config().redis.uri;
     const redis = new Redis(config); // uses defaults unless given configuration object
 
     const options: IRateLimiterStoreOptions = {
