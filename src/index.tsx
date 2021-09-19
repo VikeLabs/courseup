@@ -24,8 +24,6 @@ import { Routes } from './routes';
 
 import './index.css';
 
-//test
-
 export type OldCourse = {
   subject: string;
   pid: string;
