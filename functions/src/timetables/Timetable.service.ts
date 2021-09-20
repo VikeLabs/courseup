@@ -64,8 +64,8 @@ export async function hasValidCourses(
   // 12 is the max length of courses we will allow for a timetable in the database
   if (courses.length > 12 || courses.length === 0) return false;
 
-  const validations = await Promise.all([
-    ...courses.map(async (course) => {
+  const validations = await Promise.all(
+    courses.map(async (course) => {
       if (
         (course.lab && course.lab.length > 1) ||
         (course.lecture && course.lecture.length > 1) ||
@@ -81,8 +81,8 @@ export async function hasValidCourses(
 
       if (!doc || doc.data.pid !== course.pid) return false;
       return true;
-    }),
-  ]);
+    })
+  );
 
   if (validations.some((c) => !c)) return false;
 

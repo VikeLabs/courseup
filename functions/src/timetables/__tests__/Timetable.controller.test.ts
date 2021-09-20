@@ -13,7 +13,7 @@ const mockAddTimetable = mocked(addTimetable);
 const app = express();
 RegisterRoutes(app);
 
-const { get, post } = request(app);
+const { get, put } = request(app);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const timetable: any = {
@@ -66,19 +66,19 @@ describe('Timetable controller', () => {
     });
   });
 
-  describe('POST /timetables', () => {
+  describe('PUT /timetables', () => {
     describe('on failure', () => {
       beforeEach(() => {
         mockAddTimetable.mockResolvedValue(null);
       });
 
-      it('should return a 400 status', async () => {
-        const response = await post('/timetables').send(timetable);
-        expect(response.statusCode).toBe(400);
+      it('should return a 404 status', async () => {
+        const response = await put('/timetables').send(timetable);
+        expect(response.statusCode).toBe(404);
       });
 
       it('should return void', async () => {
-        const response = await post('/timetables');
+        const response = await put('/timetables');
         expect(response.body).toStrictEqual({});
       });
     });
