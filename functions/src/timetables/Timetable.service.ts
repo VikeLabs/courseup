@@ -9,6 +9,10 @@ import { generate } from 'randomstring';
 export type TimetableParams = Pick<Timetable, 'courses' | 'term'>;
 export type TimetableReturn = { slug: string } & Timetable;
 
+const lectureRegex = /^A\d{2}$/;
+const labRegex = /^B\d{2}$/;
+const tutorialRegex = /^T\d{2}$/;
+
 export async function getTimetable(slug: string): Promise<Timetable | null> {
   const result = await get(TimetablesCollection, slug);
 
@@ -67,9 +71,14 @@ export async function hasValidCourses(
   const validations = await Promise.all(
     courses.map(async (course) => {
       if (
-        (course.lab && course.lab.length > 1) ||
-        (course.lecture && course.lecture.length > 1) ||
-        (course.tutorial && course.tutorial.length > 1)
+        (course.lab &&
+          (course.lab.length > 1 || !labRegex.test(course.lab?.[0]))) ||
+        (course.lecture &&
+          (course.lecture.length > 1 ||
+            !lectureRegex.test(course.lecture?.[0]))) ||
+        (course.tutorial &&
+          (course.tutorial.length > 1 ||
+            !tutorialRegex.test(course.tutorial?.[0])))
       )
         return false;
 

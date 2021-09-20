@@ -559,7 +559,7 @@
 					"color": {
 						"type": "string",
 						"description": "The colour code displayed on the timetable",
-						"example": "#12345",
+						"example": "#123456",
 						"pattern": "^#(?:[0-9a-fA-F]{3}){1,2}$"
 					},
 					"tutorial": {
@@ -1047,7 +1047,7 @@
 			}
 		},
 		"/timetables": {
-			"post": {
+			"put": {
 				"operationId": "CreateTimetable",
 				"responses": {
 					"201": {
