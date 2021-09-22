@@ -2,13 +2,16 @@ import { mocked } from 'ts-jest/utils';
 import {
   addTimetable,
   getTimetable,
+  TimetableParams,
   TimetableReturn,
 } from '../Timetable.service';
 
 import * as request from 'supertest';
 import * as express from 'express';
+import { Response as ExResponse, Request as ExRequest } from 'express';
 import { RegisterRoutes } from '../../../build/routes';
-import { Timetable } from '../Timetable.model';
+import { ValidateError } from '@tsoa/runtime';
+import * as bodyParser from 'body-parser';
 
 jest.mock('../Timetable.service.ts');
 
@@ -16,11 +19,36 @@ const mockGetTimetable = mocked(getTimetable);
 const mockAddTimetable = mocked(addTimetable);
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 RegisterRoutes(app);
+
+// Need this to test the validation checks
+app.use(function errorHandler(
+  err: unknown,
+  req: ExRequest,
+  res: ExResponse,
+  next: express.NextFunction
+): ExResponse | void {
+  if (err instanceof ValidateError) {
+    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
+    return res.status(422).json({
+      message: 'Validation Failed',
+      details: err?.fields,
+    });
+  }
+  if (err instanceof Error) {
+    return res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+
+  next();
+});
 
 const { get, put } = request(app);
 
-const timetable: Timetable = {
+const timetable: TimetableParams = {
   term: '202109',
   courses: [
     {
@@ -49,7 +77,7 @@ const timetableWithSlug: TimetableReturn = {
   ],
 };
 
-const invalidTimetable: Timetable = {
+const invalidTimetable: TimetableParams = {
   term: '202109',
   courses: [
     {
@@ -119,6 +147,16 @@ describe('Timetable controller', () => {
         mockAddTimetable.mockResolvedValue(null);
       });
 
+      it('should return a 422 status', async () => {
+        const response = await put('/timetables').send(timetable);
+        expect(response.statusCode).toBe(422);
+      });
+
+      it('should return void', async () => {
+        const response = await put('/timetables').send(timetable);
+        expect(response.body).toStrictEqual({});
+      });
+
       describe('when validation fails', () => {
         beforeEach(() => {
           mockAddTimetable.mockResolvedValue(invalidTimetableWithSlug);
@@ -129,20 +167,10 @@ describe('Timetable controller', () => {
           expect(response.statusCode).toBe(422);
         });
 
-        it('should return void', async () => {
-          const response = await put('/timetables');
-          expect(response.body).toStrictEqual({});
+        it('should return va.idation error message', async () => {
+          const response = await put('/timetables').send(invalidTimetable);
+          expect(response.body.message).toStrictEqual('Validation Failed');
         });
-      });
-
-      it('should return a 422 status', async () => {
-        const response = await put('/timetables').send(timetable);
-        expect(response.statusCode).toBe(422);
-      });
-
-      it('should return void', async () => {
-        const response = await put('/timetables');
-        expect(response.body).toStrictEqual({});
       });
     });
 
