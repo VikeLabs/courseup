@@ -3,7 +3,6 @@ import {
   addTimetable,
   getTimetable,
   TimetableParams,
-  TimetableReturn,
 } from '../Timetable.service';
 
 import * as request from 'supertest';
@@ -142,7 +141,7 @@ describe('Timetable controller', () => {
           expect(response.statusCode).toBe(422);
         });
 
-        it('should return va.idation error message', async () => {
+        it('should return validation error message', async () => {
           const response = await put('/timetables').send(invalidTimetable);
           expect(response.body.message).toStrictEqual('Validation Failed');
         });
@@ -157,6 +156,24 @@ describe('Timetable controller', () => {
       it('should return a 201 status', async () => {
         const response = await put('/timetables').send(timetable);
         expect(response.statusCode).toBe(201);
+      });
+
+      it('should return the data', async () => {
+        const response = await put('/timetables').send(timetable);
+        expect(response.body).toStrictEqual({
+          courses: [
+            {
+              code: '225',
+              color: '#48BB78',
+              lab: ['B02'],
+              lecture: ['A02'],
+              pid: 'ByS23Pp7E',
+              subject: 'ACAN',
+            },
+          ],
+          slug: 'abc123',
+          term: '202109',
+        });
       });
     });
   });
