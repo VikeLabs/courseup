@@ -11,7 +11,6 @@ import * as express from 'express';
 import { Response as ExResponse, Request as ExRequest } from 'express';
 import { RegisterRoutes } from '../../../build/routes';
 import { ValidateError } from '@tsoa/runtime';
-import * as bodyParser from 'body-parser';
 
 jest.mock('../Timetable.service.ts');
 
@@ -19,8 +18,8 @@ const mockGetTimetable = mocked(getTimetable);
 const mockAddTimetable = mocked(addTimetable);
 
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 RegisterRoutes(app);
 
 // Need this to test the validation checks

@@ -46,7 +46,6 @@ export class TimetablesController extends Controller {
     @Body() requestBody: TimetableParams
   ): Promise<TimetableReturn | void> {
     const data = await addTimetable(requestBody.courses, requestBody.term);
-    console.log('yo', data);
     if (!data) {
       this.setStatus(422);
       return;
