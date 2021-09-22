@@ -18,8 +18,11 @@ const mockGetTimetable = mocked(getTimetable);
 const mockAddTimetable = mocked(addTimetable);
 
 const app = express();
+
+// Use body parser to read sent json payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 RegisterRoutes(app);
 
 // Need this to test the validation checks
@@ -61,37 +64,7 @@ const timetable: TimetableParams = {
   ],
 };
 
-const timetableWithSlug: TimetableReturn = {
-  slug: 'abc123',
-  term: '202109',
-  courses: [
-    {
-      subject: 'ACAN',
-      code: '225',
-      pid: 'ByS23Pp7E',
-      lecture: ['A02'],
-      lab: ['B02'],
-      color: '#48BB78',
-    },
-  ],
-};
-
 const invalidTimetable: TimetableParams = {
-  term: '202109',
-  courses: [
-    {
-      subject: 'ACAN',
-      code: '225',
-      pid: 'ByS23Pp7E',
-      lecture: ['B0213412'],
-      lab: ['T02'],
-      color: '#1',
-    },
-  ],
-};
-
-const invalidTimetableWithSlug: TimetableReturn = {
-  slug: 'abc123',
   term: '202109',
   courses: [
     {
@@ -158,7 +131,10 @@ describe('Timetable controller', () => {
 
       describe('when validation fails', () => {
         beforeEach(() => {
-          mockAddTimetable.mockResolvedValue(invalidTimetableWithSlug);
+          mockAddTimetable.mockResolvedValue({
+            ...invalidTimetable,
+            slug: 'abc123',
+          });
         });
 
         it('should return a 422 status', async () => {
@@ -175,7 +151,7 @@ describe('Timetable controller', () => {
 
     describe('on success', () => {
       beforeEach(() => {
-        mockAddTimetable.mockResolvedValue(timetableWithSlug);
+        mockAddTimetable.mockResolvedValue({ ...timetable, slug: 'abc123' });
       });
 
       it('should return a 201 status', async () => {
