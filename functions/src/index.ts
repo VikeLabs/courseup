@@ -40,7 +40,7 @@ if (functions.config().ratelimit.enabled && functions.config().redis.uri) {
     const options: IRateLimiterStoreOptions = {
       storeClient: redis,
       keyPrefix: `middleware:rate-limit`,
-      points: 10,
+      points: 20,
       duration: 1, // per 1 second by IP
     };
 
