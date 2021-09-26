@@ -63,18 +63,11 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
 
   if (searchQuery.length !== 0) {
     return (
-      <Flex
-        bgColor={mode('light.background', 'dark.background')}
-        justifyContent="center"
-        alignItems="center"
-        minW="20%"
-      >
+      <Flex justifyContent="center" alignItems="center" minW="20%">
         <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
           <Box>
-            <HStack bg="white" py="2" px="4" top="0" m="0" boxShadow="md" zIndex={500}>
-              <Heading pt="0.25em" color="black" size="sm">
-                Search Results
-              </Heading>
+            <HStack py="4" px="4" top="0" boxShadow="md" zIndex={500}>
+              <Heading size="sm">Search Results</Heading>
             </HStack>
           </Box>
           <Flex id="sideBarScroller" direction="column" overflowY="auto">

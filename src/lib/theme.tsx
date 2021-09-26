@@ -1,6 +1,6 @@
 import { extendTheme, ThemeConfig } from '@chakra-ui/react';
 
-import { CalendarTheme } from 'pages/calendar/styles/calendar';
+import { CalendarTheme } from 'pages/scheduler/styles/calendar';
 
 const config: ThemeConfig = {
   initialColorMode: 'light',

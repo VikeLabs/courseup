@@ -1,7 +1,10 @@
-import { PropsWithChildren } from 'react';
-
 import { Box, Heading, Text } from '@chakra-ui/layout';
 import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
+
+import { HoursShield } from 'pages/calendar/components/Hours';
+import { CourseHours } from 'pages/calendar/shared/types';
+
+import { Shield } from './Shield';
 
 export interface CourseShieldProps {
   /**
@@ -12,21 +15,6 @@ export interface CourseShieldProps {
    * bg Chakra-UI prop
    */
   bg?: BackgroundProps['bg'];
-}
-
-export function CourseShield({ title, children, bg }: PropsWithChildren<CourseShieldProps>): JSX.Element {
-  return (
-    <Flex mx="2">
-      <Box bg="gray.100" p="1" borderTopLeftRadius="md" borderBottomLeftRadius="md">
-        <Heading size="sm" color="gray.600" px="2">
-          {title}
-        </Heading>
-      </Box>
-      <Flex bg={bg} p="1" px="2" borderBottomRightRadius="md" borderTopRightRadius="md" color="black">
-        {children}
-      </Flex>
-    </Flex>
-  );
 }
 
 export interface CourseInfoProps {
@@ -52,7 +40,7 @@ export interface CourseInfoProps {
   /**
    * course weekly hour distribution
    */
-  hours?: { lecture: string; tutorial: string; lab: string };
+  hours?: CourseHours[];
   /**
    * course credits (units)
    * example: 1.5
@@ -76,56 +64,27 @@ export interface CourseInfoProps {
   term: string;
 }
 
-export function CourseInfo({
-  subject,
-  code,
-  title,
-  description,
-  hours,
-  addtionalNotes,
-  credits,
-  units,
-  pid,
-  term,
-}: CourseInfoProps): JSX.Element {
+export function CourseInfo({ description, hours, addtionalNotes, credits, units }: CourseInfoProps): JSX.Element {
   return (
     <Box as="section">
       <Divider my="3" />
       <Flex my="3" flexWrap="wrap">
-        {hours && (
-          <CourseShield bg="green.200" title="Hours">
-            <Heading as={'span'} size="sm" title="lecture hours per week">
-              {hours.lecture}
-            </Heading>
-            <Heading as={'span'} size="sm">
-              {'-'}
-            </Heading>
-            <Heading as={'span'} size="sm" title="lab hours per week">
-              {hours.lab}
-            </Heading>
-            <Heading as={'span'} size="sm">
-              {'-'}
-            </Heading>
-            <Heading as={'span'} size="sm" title="tutorial hours per week">
-              {hours.tutorial}
-            </Heading>
-          </CourseShield>
-        )}
+        {hours && <HoursShield hours={hours} />}
         {credits && (
-          <CourseShield bg="purple.200" title="Credits">
+          <Shield bg="purple.200" title="Credits">
             <Heading as="span" size="sm" title="credits given for this course">
               {credits.credits.max === credits.credits.min
                 ? credits.credits.max
                 : `${credits.credits.min} ~ ${credits.credits.max}`}
             </Heading>
-          </CourseShield>
+          </Shield>
         )}
         {units && (
-          <CourseShield bg="blue.200" title="Units">
+          <Shield bg="blue.200" title="Units">
             <Heading size="md" title="units given for this course">
               {units}
             </Heading>
-          </CourseShield>
+          </Shield>
         )}
       </Flex>
       <Text as="article">{description}</Text>

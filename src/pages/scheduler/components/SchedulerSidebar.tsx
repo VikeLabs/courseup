@@ -9,7 +9,7 @@ import { MeetingTimes } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
-import { useCalendarEvents } from '../hooks/useCalendarEvents';
+import { useGetCourseSections } from '../hooks/useCalendarEvents';
 
 import { CourseCard } from './CourseCard';
 import { SectionsCardContainer } from './SchedulerSections';
@@ -23,7 +23,7 @@ interface SchedulerSidebarProps {
 
 export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   const { deleteCourse, setSection, setShowSections, courses, setSelected, clearCourses } = useSavedCourses();
-  const coursesResult = useCalendarEvents(term, courses);
+  const coursesResult = useGetCourseSections(term, courses);
   const mode = useDarkMode();
 
   const handleCourseSectionChange = useCallback(
@@ -135,6 +135,16 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
         <Flex justifyContent="space-between" alignItems="center" p="3">
           <Text>Saved Courses</Text>
           <Flex>
+            <Button
+              size="xs"
+              mr="1"
+              colorScheme="orange"
+              disabled={courses.filter((course) => course.term === term).length === 0 || term !== '202109'}
+              as={Link}
+              to={`/booklist/${term}`}
+            >
+              Booklist
+            </Button>
             <Button
               size="xs"
               mr="1"

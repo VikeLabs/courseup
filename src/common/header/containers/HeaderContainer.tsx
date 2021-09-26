@@ -20,7 +20,7 @@ export interface HeaderProps {
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const [isLargerThan1270] = useMediaQuery('(min-width: 1270px)');
   return (
-    <Box zIndex={1000}>
+    <Box zIndex="overlay" position="sticky" top={0}>
       <Banner />
       <Grid templateColumns="repeat(3, 1fr)" as="header" py="1.5" px="8" boxShadow="md" zIndex={100} maxH="56px">
         <GridItem colSpan={1}>
