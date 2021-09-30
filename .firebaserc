@@ -1,6 +1,9 @@
 {
   "projects": {
     "default": "staging-clockwork",
-    "production": "courseup-vikelabs"
-  }
+    "production": "courseup-vikelabs",
+    "staging": "courseup-staging-vikelabs",
+    "demo": "courseup-demo-vikelabs"
+  },
+  "targets": {}
 }
