@@ -1,4 +1,4 @@
-jest.mock('randomstring');
+jest.mock('../../utils.ts');
 
 import { mockFirebase } from 'firestore-jest-mock';
 
@@ -60,11 +60,11 @@ import {
   hasValidCourses,
 } from '../Timetable.service';
 import { CourseDoc, TimetableDoc } from '../../db/collections';
-import { generate } from 'randomstring';
 import { mocked } from 'ts-jest/utils';
 import { mockWhere } from 'firestore-jest-mock/mocks/firestore';
+import { randomString } from '../../utils';
 
-const mockGenerateSlug = mocked(generate);
+const mockGenerateSlug = mocked(randomString);
 
 describe('Timetable service', () => {
   describe('getTimetable', () => {

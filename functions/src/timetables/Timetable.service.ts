@@ -4,7 +4,7 @@ import { CoursesCollection, TimetablesCollection } from '../db/collections';
 import { TimetableCourse, Timetable } from './Timetable.model';
 import * as hash from 'object-hash';
 import { constructSectionKey } from '../courses/Course.service';
-import { generate } from 'randomstring';
+import { randomString } from '../utils';
 
 export type TimetableParams = Pick<Timetable, 'courses' | 'term'>;
 export type TimetableReturn = { slug: string } & Timetable;
@@ -29,9 +29,6 @@ export async function addTimetable(
 ): Promise<TimetableReturn | null> {
   const timetableHash = hash({ ...courses, term }, { unorderedArrays: true });
 
-  const valid = await hasValidCourses(courses, term);
-  if (!valid) return null;
-
   // Check to see if the timetable already exists in the DB
   const result = await query(TimetablesCollection, [
     where('hash', '==', timetableHash),
@@ -44,7 +41,10 @@ export async function addTimetable(
       slug: result[0].data.slug,
     };
 
-  const slug = generate(12);
+  const valid = await hasValidCourses(courses, term);
+  if (!valid) return null;
+
+  const slug = randomString(12);
 
   await set(TimetablesCollection, slug, {
     term,

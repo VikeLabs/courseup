@@ -32,8 +32,7 @@
     "rate-limiter-flexible": "^2.2.4",
     "tough-cookie": "^4.0.0",
     "tsoa": "^3.9.0",
-    "typesaurus": "^7.2.0",
-    "cross-env": "^7.0.3"
+    "object-hash": "^2.2.0"
   },
   "devDependencies": {
     "@firebase/testing": "^0.20.11",
@@ -61,14 +60,14 @@
     "firestore-jest-mock": "^0.15.0",
     "jest": "^27.0.6",
     "nodemon": "^2.0.12",
-    "object-hash": "^2.2.0",
-    "randomstring": "^1.2.1",
     "prettier": "^2.3.2",
     "supertest": "^6.1.6",
     "swagger-ui-express": "^4.1.6",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "typesaurus": "^7.2.0",
+    "cross-env": "^7.0.3"
   },
   "private": true
 }
