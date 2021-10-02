@@ -180,6 +180,11 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
           const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
           const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
 
+          const hours = endDate.getHours();
+          if (hours > latestHour) {
+            setLatestHour(hours + 1);
+          }
+
           const duplicateEvent = events.find(
             (event) =>
               event.title === title &&
@@ -213,19 +218,10 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       } catch (error) {
         console.error(error);
       }
-      if (
-        calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] === `pm` &&
-        parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(':')[0]) !== 12
-      ) {
-        let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
-        if (theTime > latestHour && theTime < 24) {
-          setLatestHour(theTime + 1);
-        }
-      }
     });
     setSelectedDate(computedSelectedDate);
     return events;
-  }, [courseCalendarEvents, computedSelectedDate]);
+  }, [courseCalendarEvents, computedSelectedDate, latestHour]);
 
   return (
     <Calendar<CustomEvent>
