@@ -92,11 +92,10 @@ export function CourseContainer({ course }: Props) {
     [data]
   );
 
-  const isMinimized = useMemo(() => !data.lab?.selected && !data.lecture?.selected && !data.tutorial?.selected, [
-    data.lab?.selected,
-    data.lecture?.selected,
-    data.tutorial?.selected,
-  ]);
+  const isMinimized = useMemo(
+    () => !data.lab?.selected && !data.lecture?.selected && !data.tutorial?.selected,
+    [data.lab?.selected, data.lecture?.selected, data.tutorial?.selected]
+  );
 
   const handleMinimizedChange = useCallback(() => {
     setData({
