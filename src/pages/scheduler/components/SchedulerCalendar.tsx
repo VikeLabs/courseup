@@ -117,7 +117,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const mode = useDarkMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [latestHour, setLatestHour] = useState(20);
+  const [maxHour, setMaxHour] = useState(20);
 
   const today = useMemo(() => new Date(), []);
 
@@ -150,26 +150,12 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
         // if event does not have a scheduled time, move on.
         if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
 
-        if (
-          calendarEvent.meetingTime.time.split(`- `)[1].split(` `)[1] === `pm` &&
-          parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(':')[0]) !== 12
-        ) {
-          let theTime = parseInt(calendarEvent.meetingTime.time.split(`- `)[1].split(`:`)[0]) + 12;
-          if (theTime > latestHour && theTime < 24) {
-            setLatestHour(theTime + 1);
-          }
-        }
-
-        const startEndDates = calendarEvent.meetingTime.dateRange.split('-');
-
-        const courseStartDate = new Date(startEndDates[0].replace(',', '') + ' 00:00:00 GMT');
-
         // check cache, if it exists, use it otherwise parse and set value in cache
         if (!EVENTS_CACHE[key]) {
           EVENTS_CACHE[key] = parseMeetingTimes(calendarEvent);
         }
 
-        const { lower: ruleLower, upper: ruleUpper } = EVENTS_CACHE[key];
+        const { lower: ruleLower, upper: ruleUpper, startDate: courseStartDate } = EVENTS_CACHE[key];
 
         const ruleLowerAll = ruleLower.all();
 
@@ -180,9 +166,9 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
           const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
           const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
 
-          const hours = endDate.getHours();
-          if (hours > latestHour) {
-            setLatestHour(hours + 1);
+          const endHour = endDate.getHours();
+          if (endHour > maxHour) {
+            setMaxHour(endHour + 1);
           }
 
           const duplicateEvent = events.find(
@@ -221,14 +207,14 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
     });
     setSelectedDate(computedSelectedDate);
     return events;
-  }, [courseCalendarEvents, computedSelectedDate, latestHour]);
+  }, [courseCalendarEvents, computedSelectedDate, maxHour]);
 
   return (
     <Calendar<CustomEvent>
       localizer={localizer}
       events={events}
       min={set(today, { hours: 8, minutes: 0 })}
-      max={set(today, { hours: latestHour, minutes: 0 })}
+      max={set(today, { hours: maxHour, minutes: 0 })}
       defaultView="work_week"
       views={['work_week']}
       date={selectedDate}
