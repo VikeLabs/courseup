@@ -117,6 +117,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const mode = useDarkMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [maxHour, setMaxHour] = useState(20);
 
   const today = useMemo(() => new Date(), []);
 
@@ -165,6 +166,11 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
           const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
           const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
 
+          const endHour = endDate.getHours();
+          if (endHour > maxHour) {
+            setMaxHour(endHour + 1);
+          }
+
           const duplicateEvent = events.find(
             (event) =>
               event.title === title &&
@@ -201,14 +207,14 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
     });
     setSelectedDate(computedSelectedDate);
     return events;
-  }, [courseCalendarEvents, computedSelectedDate]);
+  }, [courseCalendarEvents, computedSelectedDate, maxHour]);
 
   return (
     <Calendar<CustomEvent>
       localizer={localizer}
       events={events}
       min={set(today, { hours: 8, minutes: 0 })}
-      max={set(today, { hours: 20, minutes: 0 })}
+      max={set(today, { hours: maxHour, minutes: 0 })}
       defaultView="work_week"
       views={['work_week']}
       date={selectedDate}
