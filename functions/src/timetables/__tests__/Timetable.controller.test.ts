@@ -7,9 +7,8 @@ import {
 
 import * as request from 'supertest';
 import * as express from 'express';
-import { Response as ExResponse, Request as ExRequest } from 'express';
 import { RegisterRoutes } from '../../../build/routes';
-import { ValidateError } from '@tsoa/runtime';
+import { validationErrorHandler } from '../../middlewares/dataValidation';
 
 jest.mock('../Timetable.service.ts');
 
@@ -25,27 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 RegisterRoutes(app);
 
 // Need this to test the validation checks
-app.use(function errorHandler(
-  err: unknown,
-  req: ExRequest,
-  res: ExResponse,
-  next: express.NextFunction
-): ExResponse | void {
-  if (err instanceof ValidateError) {
-    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
-    return res.status(422).json({
-      message: 'Validation Failed',
-      details: err?.fields,
-    });
-  }
-  if (err instanceof Error) {
-    return res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-
-  next();
-});
+app.use(validationErrorHandler);
 
 const { get, put } = request(app);
 
