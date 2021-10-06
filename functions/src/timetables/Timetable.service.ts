@@ -70,17 +70,15 @@ export async function hasValidCourses(
 
   const validations = await Promise.all(
     courses.map(async (course) => {
-      if (
-        (course.lab &&
-          (course.lab.length > 1 || !labRegex.test(course.lab?.[0]))) ||
-        (course.lecture &&
-          (course.lecture.length > 1 ||
-            !lectureRegex.test(course.lecture?.[0]))) ||
-        (course.tutorial &&
-          (course.tutorial.length > 1 ||
-            !tutorialRegex.test(course.tutorial?.[0])))
-      )
-        return false;
+      for (const { section, regex } of [
+        { section: course.lab, regex: labRegex },
+        { section: course.lecture, regex: lectureRegex },
+        { section: course.tutorial, regex: tutorialRegex },
+      ]) {
+        if (section && (section.length > 1 || !regex.test(section?.[0]))) {
+          return false;
+        }
+      }
 
       // validate course is in database
       const doc = await get(
