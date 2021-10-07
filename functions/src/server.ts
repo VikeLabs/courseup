@@ -15,13 +15,9 @@ import { RegisterRoutes } from '../build/routes';
 import * as openapi from '../build/swagger.json';
 import { CoursesService } from './courses/Course.service';
 import { Term } from './constants';
-<<<<<<< HEAD
-import { ValidateError } from 'tsoa';
-=======
 import { rateLimiterMiddleware } from './middlewares/rateLimiter/rateLimiter';
 import { IRateLimiterOptions, RateLimiterMemory } from 'rate-limiter-flexible';
 import { validationErrorHandler } from './middlewares/dataValidation';
->>>>>>> dd5b9d9d12d7f69c4460e64549aceba2f88d2da2
 
 export const app = express();
 
@@ -58,31 +54,7 @@ if (process.env.ENABLE_RATE_LIMITER) {
 
 RegisterRoutes(app);
 
-<<<<<<< HEAD
-app.use(function errorHandler(
-  err: unknown,
-  req: ExRequest,
-  res: ExResponse,
-  next: express.NextFunction
-): ExResponse | void {
-  if (err instanceof ValidateError) {
-    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
-    return res.status(422).json({
-      message: 'Validation Failed',
-      details: err?.fields,
-    });
-  }
-  if (err instanceof Error) {
-    return res.status(500).json({
-      message: 'Internal Server Error',
-    });
-  }
-
-  next();
-});
-=======
 app.use(validationErrorHandler);
->>>>>>> dd5b9d9d12d7f69c4460e64549aceba2f88d2da2
 
 const main = async () => {
   if (!fs.existsSync(dir)) {
