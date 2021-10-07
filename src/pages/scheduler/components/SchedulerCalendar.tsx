@@ -167,7 +167,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
           const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
 
           const endHour = endDate.getHours();
-          if (endHour > maxHour) {
+          if (endHour >= maxHour) {
             setMaxHour(endHour + 1);
           }
 
