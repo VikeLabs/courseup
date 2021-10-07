@@ -3,7 +3,11 @@ import {
   Controller,
   Get,
   Path,
+<<<<<<< HEAD
   Post,
+=======
+  Put,
+>>>>>>> dd5b9d9d12d7f69c4460e64549aceba2f88d2da2
   Response,
   Route,
   SuccessResponse,
@@ -41,7 +45,11 @@ export class TimetablesController extends Controller {
 
   @Response<ValidateErrorJSON>(422, 'Invalid data')
   @SuccessResponse('201', 'Created')
+<<<<<<< HEAD
   @Post()
+=======
+  @Put()
+>>>>>>> dd5b9d9d12d7f69c4460e64549aceba2f88d2da2
   public async createTimetable(
     @Body() requestBody: TimetableParams
   ): Promise<TimetableReturn | void> {

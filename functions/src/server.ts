@@ -15,7 +15,13 @@ import { RegisterRoutes } from '../build/routes';
 import * as openapi from '../build/swagger.json';
 import { CoursesService } from './courses/Course.service';
 import { Term } from './constants';
+<<<<<<< HEAD
 import { ValidateError } from 'tsoa';
+=======
+import { rateLimiterMiddleware } from './middlewares/rateLimiter/rateLimiter';
+import { IRateLimiterOptions, RateLimiterMemory } from 'rate-limiter-flexible';
+import { validationErrorHandler } from './middlewares/dataValidation';
+>>>>>>> dd5b9d9d12d7f69c4460e64549aceba2f88d2da2
 
 export const app = express();
 
@@ -28,10 +34,11 @@ app.use(
   })
 );
 app.use(express.json());
+// TODO: only use if testing this middleware otherwise we don't want to rate limit during development.
 
 // TODO: can probably accomplish the same thing using hosting.
 // serve the OpenAPI spec.
-app.get('/openapi.json', async (req, res) => {
+app.get('/openapi.json', async (_req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(openapi);
 });
@@ -40,8 +47,18 @@ app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
   return res.send(swaggerUi.generateHTML(openapi));
 });
 
+if (process.env.ENABLE_RATE_LIMITER) {
+  const options: IRateLimiterOptions = {
+    points: 10,
+    duration: 1, // per 1 second by IP
+  };
+  const rateLimiter = new RateLimiterMemory(options);
+  app.use(rateLimiterMiddleware(rateLimiter));
+}
+
 RegisterRoutes(app);
 
+<<<<<<< HEAD
 app.use(function errorHandler(
   err: unknown,
   req: ExRequest,
@@ -63,6 +80,9 @@ app.use(function errorHandler(
 
   next();
 });
+=======
+app.use(validationErrorHandler);
+>>>>>>> dd5b9d9d12d7f69c4460e64549aceba2f88d2da2
 
 const main = async () => {
   if (!fs.existsSync(dir)) {

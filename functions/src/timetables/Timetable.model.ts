@@ -36,7 +36,11 @@ export type TimetableCourse = {
   tutorial?: string[];
   /**
    * The colour code displayed on the timetable
+<<<<<<< HEAD
    * @example "#12345"
+=======
+   * @example "#123456"
+>>>>>>> dd5b9d9d12d7f69c4460e64549aceba2f88d2da2
    * @pattern ^#(?:[0-9a-fA-F]{3}){1,2}$
    */
   color: string;
