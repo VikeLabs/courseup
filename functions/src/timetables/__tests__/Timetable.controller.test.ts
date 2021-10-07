@@ -8,6 +8,16 @@ import {
 import * as request from 'supertest';
 import * as express from 'express';
 import { RegisterRoutes } from '../../../build/routes';
+import { validationErrorHandler } from '../../middlewares/dataValidation';
+
+jest.mock('../Timetable.service.ts');
+
+const mockGetTimetable = mocked(getTimetable);
+const mockAddTimetable = mocked(addTimetable);
+
+const app = express();
+
+// Use body parser to read sent json payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -19,7 +29,6 @@ app.use(validationErrorHandler);
 const { get, put } = request(app);
 
 const timetable: TimetableParams = {
->>>>>>> dd5b9d9d12d7f69c4460e64549aceba2f88d2da2
   term: '202109',
   courses: [
     {
