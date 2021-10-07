@@ -1,1017 +1,1099 @@
 {
-  "components": {
-    "examples": {},
-    "headers": {},
-    "parameters": {},
-    "requestBodies": {},
-    "responses": {},
-    "schemas": {
-      "Course": {
-        "properties": {
-          "pid": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "subject": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
-        },
-        "required": ["pid", "title", "subject", "code"],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Term": {
-        "type": "string",
-        "enum": [
-          "202001",
-          "202005",
-          "202009",
-          "202101",
-          "202105",
-          "202109",
-          "202201"
-        ]
-      },
-      "CourseDetails": {
-        "properties": {
-          "pid": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "credits": {
-            "properties": {
-              "chosen": {
-                "type": "string"
-              },
-              "value": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "properties": {
-                      "max": {
-                        "type": "string"
-                      },
-                      "min": {
-                        "type": "string"
-                      }
-                    },
-                    "required": ["max", "min"],
-                    "type": "object"
-                  }
-                ]
-              },
-              "credits": {
-                "properties": {
-                  "max": {
-                    "type": "string"
-                  },
-                  "min": {
-                    "type": "string"
-                  }
-                },
-                "required": ["max", "min"],
-                "type": "object"
-              }
-            },
-            "required": ["chosen", "value", "credits"],
-            "type": "object"
-          },
-          "dateStart": {
-            "type": "string"
-          },
-          "hoursCatalog": {
-            "items": {
-              "properties": {
-                "lab": {
-                  "type": "string"
-                },
-                "tutorial": {
-                  "type": "string"
-                },
-                "lecture": {
-                  "type": "string"
-                }
-              },
-              "required": ["lab", "tutorial", "lecture"],
-              "type": "object"
-            },
-            "type": "array"
-          },
-          "subject": {
-            "type": "string",
-            "description": "Abbriviation of the subject of the course.",
-            "example": "ECE"
-          },
-          "code": {
-            "type": "string",
-            "description": "The code portion of the course.",
-            "example": "260"
-          },
-          "formally": {
-            "type": "string",
-            "description": "If a course was named something else previously.",
-            "example": "ELEC260"
-          }
-        },
-        "required": [
-          "pid",
-          "title",
-          "description",
-          "credits",
-          "dateStart",
-          "subject",
-          "code"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "levelType": {
-        "type": "string",
-        "enum": ["law", "undergraduate", "graduate"]
-      },
-      "sectionType": {
-        "type": "string",
-        "enum": ["lecture", "lab", "tutorial", "gradable lab", "lecture topic"]
-      },
-      "MeetingTimes": {
-        "properties": {
-          "type": {
-            "type": "string"
-          },
-          "time": {
-            "type": "string"
-          },
-          "days": {
-            "type": "string"
-          },
-          "where": {
-            "type": "string"
-          },
-          "dateRange": {
-            "type": "string"
-          },
-          "scheduleType": {
-            "type": "string"
-          },
-          "instructors": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "type",
-          "time",
-          "days",
-          "where",
-          "dateRange",
-          "scheduleType",
-          "instructors"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "ClassScheduleListing": {
-        "properties": {
-          "crn": {
-            "type": "string"
-          },
-          "sectionCode": {
-            "type": "string"
-          },
-          "additionalNotes": {
-            "type": "string"
-          },
-          "associatedTerm": {
-            "properties": {
-              "end": {
-                "type": "string"
-              },
-              "start": {
-                "type": "string"
-              }
-            },
-            "required": ["end", "start"],
-            "type": "object"
-          },
-          "registrationDates": {
-            "properties": {
-              "end": {
-                "type": "string"
-              },
-              "start": {
-                "type": "string"
-              }
-            },
-            "required": ["end", "start"],
-            "type": "object"
-          },
-          "levels": {
-            "items": {
-              "$ref": "#/components/schemas/levelType"
-            },
-            "type": "array"
-          },
-          "campus": {
-            "type": "string",
-            "enum": ["online", "in-person"]
-          },
-          "sectionType": {
-            "$ref": "#/components/schemas/sectionType"
-          },
-          "instructionalMethod": {
-            "type": "string"
-          },
-          "credits": {
-            "type": "string"
-          },
-          "meetingTimes": {
-            "items": {
-              "$ref": "#/components/schemas/MeetingTimes"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "crn",
-          "sectionCode",
-          "associatedTerm",
-          "registrationDates",
-          "levels",
-          "campus",
-          "sectionType",
-          "instructionalMethod",
-          "credits",
-          "meetingTimes"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Section": {
-        "$ref": "#/components/schemas/ClassScheduleListing"
-      },
-      "Seating": {
-        "properties": {
-          "capacity": {
-            "type": "number",
-            "format": "double"
-          },
-          "actual": {
-            "type": "number",
-            "format": "double"
-          },
-          "remaining": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "required": ["capacity", "actual", "remaining"],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "classification": {
-        "type": "string",
-        "enum": [
-          "YEAR_1",
-          "YEAR_2",
-          "YEAR_3",
-          "YEAR_4",
-          "YEAR_5",
-          "unclassified"
-        ]
-      },
-      "Requirements": {
-        "properties": {
-          "level": {
-            "items": {
-              "$ref": "#/components/schemas/levelType"
-            },
-            "type": "array"
-          },
-          "fieldOfStudy": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "classification": {
-            "items": {
-              "$ref": "#/components/schemas/classification"
-            },
-            "type": "array"
-          },
-          "negClassification": {
-            "items": {
-              "$ref": "#/components/schemas/classification"
-            },
-            "type": "array"
-          },
-          "degree": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "program": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "negProgram": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "college": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "negCollege": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "major": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          }
-        },
-        "required": ["level"],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Seat": {
-        "properties": {
-          "seats": {
-            "$ref": "#/components/schemas/Seating"
-          },
-          "waitListSeats": {
-            "$ref": "#/components/schemas/Seating"
-          },
-          "requirements": {
-            "$ref": "#/components/schemas/Requirements"
-          },
-          "crn": {
-            "type": "string"
-          }
-        },
-        "required": ["seats", "waitListSeats", "crn"],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "KualiSubject": {
-        "properties": {
-          "subject": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          }
-        },
-        "required": ["subject", "title"],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Subject": {
-        "$ref": "#/components/schemas/KualiSubject"
-      },
-      "ExtendedTextbook": {
-        "properties": {
-          "instructor": {
-            "type": "string"
-          },
-          "isbn": {
-            "type": "string"
-          },
-          "price": {
-            "properties": {
-              "newAndDigitalAccessCad": {
-                "type": "string"
-              },
-              "digitalAccessCad": {
-                "type": "string"
-              },
-              "usedCad": {
-                "type": "string"
-              },
-              "newCad": {
-                "type": "string"
-              }
-            },
-            "type": "object"
-          },
-          "required": {
-            "type": "boolean"
-          },
-          "authors": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "title": {
-            "type": "string"
-          },
-          "imageUrl": {
-            "type": "string"
-          },
-          "bookstoreUrl": {
-            "type": "string"
-          },
-          "amazonUrl": {
-            "type": "string"
-          }
-        },
-        "required": ["price", "required", "title"],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "CourseTextbook": {
-        "properties": {
-          "textbooks": {
-            "items": {
-              "$ref": "#/components/schemas/ExtendedTextbook"
-            },
-            "type": "array"
-          },
-          "instructor": {
-            "type": "string"
-          },
-          "additionalInfo": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "section": {
-            "type": "string"
-          }
-        },
-        "required": ["textbooks"],
-        "type": "object"
-      },
-      "TextbookInfo": {
-        "properties": {
-          "subject": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          },
-          "term": {
-            "type": "string"
-          },
-          "sections": {
-            "items": {
-              "$ref": "#/components/schemas/CourseTextbook"
-            },
-            "type": "array"
-          }
-        },
-        "required": ["subject", "code", "term", "sections"],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "TimetableCourse": {
-        "properties": {
-          "color": {
-            "type": "string",
-            "description": "The colour code displayed on the timetable",
-            "example": "#123456",
-            "pattern": "^#(?:[0-9a-fA-F]{3}){1,2}$"
-          },
-          "tutorial": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "description": "The selected tutorial section of the course.",
-            "example": "T03",
-            "pattern": "^T\\d{2}$"
-          },
-          "lab": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "description": "The selected lab section of the course.",
-            "example": "B01",
-            "pattern": "^B\\d{2}$"
-          },
-          "lecture": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "description": "The selected lecture section of the course.",
-            "example": "A02",
-            "pattern": "^A\\d{2}$"
-          },
-          "pid": {
-            "type": "string",
-            "description": "The PID of the course.",
-            "example": "ByS23Pp7E"
-          },
-          "code": {
-            "type": "string",
-            "description": "The code portion of the course.",
-            "example": "260"
-          },
-          "subject": {
-            "type": "string",
-            "description": "Abbreviation of the subject of the course.",
-            "example": "ECE"
-          }
-        },
-        "required": ["color", "pid", "code", "subject"],
-        "type": "object"
-      },
-      "Timetable": {
-        "properties": {
-          "courses": {
-            "items": {
-              "$ref": "#/components/schemas/TimetableCourse"
-            },
-            "type": "array"
-          },
-          "term": {
-            "$ref": "#/components/schemas/Term"
-          }
-        },
-        "required": ["courses", "term"],
-        "type": "object"
-      },
-      "TimetableReturn": {
-        "allOf": [
-          {
-            "properties": {
-              "slug": {
-                "type": "string"
-              }
-            },
-            "required": ["slug"],
-            "type": "object"
-          },
-          {
-            "$ref": "#/components/schemas/Timetable"
-          }
-        ]
-      },
-      "ValidateErrorJSON": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "enum": ["Validation failed"],
-            "nullable": false
-          },
-          "details": {
-            "properties": {},
-            "additionalProperties": {},
-            "type": "object"
-          }
-        },
-        "required": ["message", "details"],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Pick_Timetable.courses-or-term_": {
-        "properties": {
-          "courses": {
-            "items": {
-              "$ref": "#/components/schemas/TimetableCourse"
-            },
-            "type": "array"
-          },
-          "term": {
-            "$ref": "#/components/schemas/Term"
-          }
-        },
-        "required": ["courses", "term"],
-        "type": "object",
-        "description": "From T, pick a set of properties whose keys are in the union K"
-      },
-      "TimetableParams": {
-        "$ref": "#/components/schemas/Pick_Timetable.courses-or-term_"
-      }
-    },
-    "securitySchemes": {}
-  },
-  "info": {
-    "title": "functions",
-    "contact": {}
-  },
-  "openapi": "3.0.0",
-  "paths": {
-    "/courses/{term}": {
-      "get": {
-        "operationId": "GetCourses",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Course"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Retrieves all the courses available. If query params are passed in, they will be used to filter results.",
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "term",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Term"
-            }
-          },
-          {
-            "in": "query",
-            "name": "in_session",
-            "required": false,
-            "schema": {
-              "default": false,
-              "type": "boolean"
-            }
-          }
-        ]
-      }
-    },
-    "/courses/{term}/{pid}": {
-      "get": {
-        "operationId": "GetCourse",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CourseDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "Retrieves course details given the term and pid.",
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pid",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "term",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Term"
-            }
-          }
-        ]
-      }
-    },
-    "/courses/{term}/{subject}/{code}": {
-      "get": {
-        "operationId": "GetCourseDetails",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CourseDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "term",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Term"
-            }
-          },
-          {
-            "in": "path",
-            "name": "subject",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/sections/{term}": {
-      "get": {
-        "operationId": "Sections",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Section"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Section Not Found"
-          }
-        },
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "term",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Term"
-            }
-          },
-          {
-            "in": "query",
-            "name": "subject",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/sections/{term}/seats": {
-      "get": {
-        "operationId": "Seats",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Seat"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Section Seats Not Found"
-          }
-        },
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "term",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Term"
-            }
-          },
-          {
-            "in": "query",
-            "name": "subject",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/subjects/{term}": {
-      "get": {
-        "operationId": "Subjects",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Subject"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "tags": ["Subjects"],
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "term",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Term"
-            }
-          }
-        ]
-      }
-    },
-    "/textbooks/{term}/{subject}/{code}": {
-      "get": {
-        "operationId": "GetTextbooks",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/TextbookInfo"
-                    },
-                    {}
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Textbooks Not Found"
-          }
-        },
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "term",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Term"
-            }
-          },
-          {
-            "in": "path",
-            "name": "subject",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/timetables/{slug}": {
-      "get": {
-        "operationId": "GetTimetable",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/Timetable"
-                    },
-                    {}
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found"
-          }
-        },
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "slug",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/timetables": {
-      "put": {
-        "operationId": "CreateTimetable",
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/TimetableReturn"
-                    },
-                    {}
-                  ]
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Invalid data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ValidateErrorJSON"
-                }
-              }
-            }
-          }
-        },
-        "security": [],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TimetableParams"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "servers": [
-    {
-      "url": "/"
-    }
-  ]
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Course": {
+				"properties": {
+					"pid": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"pid",
+					"title",
+					"subject",
+					"code"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Term": {
+				"type": "string",
+				"enum": [
+					"202001",
+					"202005",
+					"202009",
+					"202101",
+					"202105",
+					"202109",
+					"202201"
+				]
+			},
+			"CourseDetails": {
+				"properties": {
+					"pid": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"credits": {
+						"properties": {
+							"chosen": {
+								"type": "string"
+							},
+							"value": {
+								"anyOf": [
+									{
+										"type": "string"
+									},
+									{
+										"properties": {
+											"max": {
+												"type": "string"
+											},
+											"min": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"max",
+											"min"
+										],
+										"type": "object"
+									}
+								]
+							},
+							"credits": {
+								"properties": {
+									"max": {
+										"type": "string"
+									},
+									"min": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"max",
+									"min"
+								],
+								"type": "object"
+							}
+						},
+						"required": [
+							"chosen",
+							"value",
+							"credits"
+						],
+						"type": "object"
+					},
+					"dateStart": {
+						"type": "string"
+					},
+					"hoursCatalog": {
+						"items": {
+							"properties": {
+								"lab": {
+									"type": "string"
+								},
+								"tutorial": {
+									"type": "string"
+								},
+								"lecture": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"lab",
+								"tutorial",
+								"lecture"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					},
+					"subject": {
+						"type": "string",
+						"description": "Abbriviation of the subject of the course.",
+						"example": "ECE"
+					},
+					"code": {
+						"type": "string",
+						"description": "The code portion of the course.",
+						"example": "260"
+					},
+					"formally": {
+						"type": "string",
+						"description": "If a course was named something else previously.",
+						"example": "ELEC260"
+					}
+				},
+				"required": [
+					"pid",
+					"title",
+					"description",
+					"credits",
+					"dateStart",
+					"subject",
+					"code"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"levelType": {
+				"type": "string",
+				"enum": [
+					"law",
+					"undergraduate",
+					"graduate"
+				]
+			},
+			"sectionType": {
+				"type": "string",
+				"enum": [
+					"lecture",
+					"lab",
+					"tutorial",
+					"gradable lab",
+					"lecture topic"
+				]
+			},
+			"MeetingTimes": {
+				"properties": {
+					"type": {
+						"type": "string"
+					},
+					"time": {
+						"type": "string"
+					},
+					"days": {
+						"type": "string"
+					},
+					"where": {
+						"type": "string"
+					},
+					"dateRange": {
+						"type": "string"
+					},
+					"scheduleType": {
+						"type": "string"
+					},
+					"instructors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"type",
+					"time",
+					"days",
+					"where",
+					"dateRange",
+					"scheduleType",
+					"instructors"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ClassScheduleListing": {
+				"properties": {
+					"crn": {
+						"type": "string"
+					},
+					"sectionCode": {
+						"type": "string"
+					},
+					"additionalNotes": {
+						"type": "string"
+					},
+					"associatedTerm": {
+						"properties": {
+							"end": {
+								"type": "string"
+							},
+							"start": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"end",
+							"start"
+						],
+						"type": "object"
+					},
+					"registrationDates": {
+						"properties": {
+							"end": {
+								"type": "string"
+							},
+							"start": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"end",
+							"start"
+						],
+						"type": "object"
+					},
+					"levels": {
+						"items": {
+							"$ref": "#/components/schemas/levelType"
+						},
+						"type": "array"
+					},
+					"campus": {
+						"type": "string",
+						"enum": [
+							"online",
+							"in-person"
+						]
+					},
+					"sectionType": {
+						"$ref": "#/components/schemas/sectionType"
+					},
+					"instructionalMethod": {
+						"type": "string"
+					},
+					"credits": {
+						"type": "string"
+					},
+					"meetingTimes": {
+						"items": {
+							"$ref": "#/components/schemas/MeetingTimes"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"crn",
+					"sectionCode",
+					"associatedTerm",
+					"registrationDates",
+					"levels",
+					"campus",
+					"sectionType",
+					"instructionalMethod",
+					"credits",
+					"meetingTimes"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Section": {
+				"$ref": "#/components/schemas/ClassScheduleListing"
+			},
+			"Seating": {
+				"properties": {
+					"capacity": {
+						"type": "number",
+						"format": "double"
+					},
+					"actual": {
+						"type": "number",
+						"format": "double"
+					},
+					"remaining": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"capacity",
+					"actual",
+					"remaining"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"classification": {
+				"type": "string",
+				"enum": [
+					"YEAR_1",
+					"YEAR_2",
+					"YEAR_3",
+					"YEAR_4",
+					"YEAR_5",
+					"unclassified"
+				]
+			},
+			"Requirements": {
+				"properties": {
+					"level": {
+						"items": {
+							"$ref": "#/components/schemas/levelType"
+						},
+						"type": "array"
+					},
+					"fieldOfStudy": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"classification": {
+						"items": {
+							"$ref": "#/components/schemas/classification"
+						},
+						"type": "array"
+					},
+					"negClassification": {
+						"items": {
+							"$ref": "#/components/schemas/classification"
+						},
+						"type": "array"
+					},
+					"degree": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"program": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"negProgram": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"college": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"negCollege": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"major": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"level"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Seat": {
+				"properties": {
+					"seats": {
+						"$ref": "#/components/schemas/Seating"
+					},
+					"waitListSeats": {
+						"$ref": "#/components/schemas/Seating"
+					},
+					"requirements": {
+						"$ref": "#/components/schemas/Requirements"
+					},
+					"crn": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"seats",
+					"waitListSeats",
+					"crn"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"KualiSubject": {
+				"properties": {
+					"subject": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"subject",
+					"title"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Subject": {
+				"$ref": "#/components/schemas/KualiSubject"
+			},
+			"ExtendedTextbook": {
+				"properties": {
+					"instructor": {
+						"type": "string"
+					},
+					"isbn": {
+						"type": "string"
+					},
+					"price": {
+						"properties": {
+							"newAndDigitalAccessCad": {
+								"type": "string"
+							},
+							"digitalAccessCad": {
+								"type": "string"
+							},
+							"usedCad": {
+								"type": "string"
+							},
+							"newCad": {
+								"type": "string"
+							}
+						},
+						"type": "object"
+					},
+					"required": {
+						"type": "boolean"
+					},
+					"authors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"title": {
+						"type": "string"
+					},
+					"imageUrl": {
+						"type": "string"
+					},
+					"bookstoreUrl": {
+						"type": "string"
+					},
+					"amazonUrl": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"price",
+					"required",
+					"title"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CourseTextbook": {
+				"properties": {
+					"textbooks": {
+						"items": {
+							"$ref": "#/components/schemas/ExtendedTextbook"
+						},
+						"type": "array"
+					},
+					"instructor": {
+						"type": "string"
+					},
+					"additionalInfo": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"section": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"textbooks"
+				],
+				"type": "object"
+			},
+			"TextbookInfo": {
+				"properties": {
+					"subject": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
+					},
+					"term": {
+						"type": "string"
+					},
+					"sections": {
+						"items": {
+							"$ref": "#/components/schemas/CourseTextbook"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"subject",
+					"code",
+					"term",
+					"sections"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TimetableCourse": {
+				"properties": {
+					"color": {
+						"type": "string",
+						"description": "The colour code displayed on the timetable",
+						"example": "#123456",
+						"pattern": "^#(?:[0-9a-fA-F]{3}){1,2}$"
+					},
+					"tutorial": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "The selected tutorial section of the course.",
+						"example": "T03",
+						"pattern": "^T\\d{2}$"
+					},
+					"lab": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "The selected lab section of the course.",
+						"example": "B01",
+						"pattern": "^B\\d{2}$"
+					},
+					"lecture": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "The selected lecture section of the course.",
+						"example": "A02",
+						"pattern": "^A\\d{2}$"
+					},
+					"pid": {
+						"type": "string",
+						"description": "The PID of the course.",
+						"example": "ByS23Pp7E"
+					},
+					"code": {
+						"type": "string",
+						"description": "The code portion of the course.",
+						"example": "260"
+					},
+					"subject": {
+						"type": "string",
+						"description": "Abbreviation of the subject of the course.",
+						"example": "ECE"
+					}
+				},
+				"required": [
+					"color",
+					"pid",
+					"code",
+					"subject"
+				],
+				"type": "object"
+			},
+			"Timetable": {
+				"properties": {
+					"courses": {
+						"items": {
+							"$ref": "#/components/schemas/TimetableCourse"
+						},
+						"type": "array"
+					},
+					"term": {
+						"$ref": "#/components/schemas/Term"
+					}
+				},
+				"required": [
+					"courses",
+					"term"
+				],
+				"type": "object"
+			},
+			"TimetableReturn": {
+				"allOf": [
+					{
+						"properties": {
+							"slug": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"slug"
+						],
+						"type": "object"
+					},
+					{
+						"$ref": "#/components/schemas/Timetable"
+					}
+				]
+			},
+			"ValidateErrorJSON": {
+				"properties": {
+					"message": {
+						"type": "string",
+						"enum": [
+							"Validation failed"
+						],
+						"nullable": false
+					},
+					"details": {
+						"properties": {},
+						"additionalProperties": {},
+						"type": "object"
+					}
+				},
+				"required": [
+					"message",
+					"details"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Timetable.courses-or-term_": {
+				"properties": {
+					"courses": {
+						"items": {
+							"$ref": "#/components/schemas/TimetableCourse"
+						},
+						"type": "array"
+					},
+					"term": {
+						"$ref": "#/components/schemas/Term"
+					}
+				},
+				"required": [
+					"courses",
+					"term"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"TimetableParams": {
+				"$ref": "#/components/schemas/Pick_Timetable.courses-or-term_"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "functions",
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/courses/{term}": {
+			"get": {
+				"operationId": "GetCourses",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Course"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Retrieves all the courses available. If query params are passed in, they will be used to filter results.",
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					},
+					{
+						"in": "query",
+						"name": "in_session",
+						"required": false,
+						"schema": {
+							"default": false,
+							"type": "boolean"
+						}
+					}
+				]
+			}
+		},
+		"/courses/{term}/{pid}": {
+			"get": {
+				"operationId": "GetCourse",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CourseDetails"
+								}
+							}
+						}
+					}
+				},
+				"description": "Retrieves course details given the term and pid.",
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "pid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					}
+				]
+			}
+		},
+		"/courses/{term}/{subject}/{code}": {
+			"get": {
+				"operationId": "GetCourseDetails",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CourseDetails"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					},
+					{
+						"in": "path",
+						"name": "subject",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/sections/{term}": {
+			"get": {
+				"operationId": "Sections",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Section"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Section Not Found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					},
+					{
+						"in": "query",
+						"name": "subject",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/sections/{term}/seats": {
+			"get": {
+				"operationId": "Seats",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Seat"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Section Seats Not Found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					},
+					{
+						"in": "query",
+						"name": "subject",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/subjects/{term}": {
+			"get": {
+				"operationId": "Subjects",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Subject"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Subjects"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					}
+				]
+			}
+		},
+		"/textbooks/{term}/{subject}/{code}": {
+			"get": {
+				"operationId": "GetTextbooks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/TextbookInfo"
+										},
+										{}
+									]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Textbooks Not Found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "term",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Term"
+						}
+					},
+					{
+						"in": "path",
+						"name": "subject",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "code",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/timetables/{slug}": {
+			"get": {
+				"operationId": "GetTimetable",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Timetable"
+										},
+										{}
+									]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "slug",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/timetables": {
+			"put": {
+				"operationId": "CreateTimetable",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/TimetableReturn"
+										},
+										{}
+									]
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Invalid data",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ValidateErrorJSON"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TimetableParams"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
 }
