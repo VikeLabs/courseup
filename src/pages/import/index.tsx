@@ -7,10 +7,11 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { Header } from 'common/header';
 
-import { ImportButtons } from './components/ImportButtons';
-import { ImportCalendar } from './components/ImportCalendar';
 import { useGetCourseSections } from 'pages/scheduler/hooks/useCalendarEvents';
 import { denormalizeCourseEvents } from 'pages/scheduler/hooks/useTransformedCalendarEvents';
+
+import { ImportButtons } from './components/ImportButtons';
+import { ImportCalendar } from './components/ImportCalendar';
 
 export function ImportTimetable(): JSX.Element {
   const { slug } = useParams();
