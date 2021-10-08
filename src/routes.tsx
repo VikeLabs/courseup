@@ -2,6 +2,7 @@ import { BrowserRouter, Routes as ReactRouterRoutes, Route } from 'react-router-
 
 import { Calendar } from 'pages/calendar';
 import { Home } from 'pages/home';
+import { ImportTimetable } from 'pages/import';
 import { Registration } from 'pages/registration';
 import { Scheduler } from 'pages/scheduler';
 
@@ -17,6 +18,7 @@ export function Routes(): JSX.Element {
         <Route path="/scheduler/" element={<Scheduler />} />
         <Route path="/scheduler/:term/*" element={<Scheduler />} />
         <Route path="/registration/:term" element={<Registration />} />
+        <Route path="/s/:slug" element={<ImportTimetable />} />
       </ReactRouterRoutes>
     </BrowserRouter>
   );
