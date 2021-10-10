@@ -2,12 +2,14 @@ import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
+import { useDisclosure } from '@chakra-ui/hooks';
 import { addWeeks, format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { RRule, Weekday } from 'rrule';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
@@ -16,9 +18,6 @@ import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
 
 import { CourseCalendarEvent } from '../shared/types';
-import { useDisclosure } from '@chakra-ui/hooks';
-import { useParams } from 'react-router';
-import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
 
@@ -126,7 +125,6 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { term } = useParams();
   // gets saved courses in session to enable/disable share button accordingly
   const { courses } = useSavedCourses();
 
