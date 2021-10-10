@@ -2,10 +2,10 @@
   "extends": [
     "react-app",
     "react-app/jest",
-    "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
   ],
   "rules": {
     "import/order": [
