@@ -28,6 +28,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./functions
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node.js

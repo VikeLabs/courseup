@@ -18,6 +18,7 @@ export function TermButtons(): JSX.Element {
   const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/schedule/*');
   const registrationMatch = useMatch('/registration/*');
+  const booklistMatch = useMatch('/booklist/*');
 
   const navigate = useNavigate();
 
@@ -39,6 +40,8 @@ export function TermButtons(): JSX.Element {
         navigate(`/scheduler/${name}`);
       } else if (registrationMatch) {
         navigate(`/registration/${name}`);
+      } else if (booklistMatch) {
+        navigate(`/booklist/${name}`);
       } else {
         navigate(`/calendar/${name}`);
       }

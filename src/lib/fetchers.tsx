@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { Get, GetProps, useGet, UseGetProps } from 'restful-react';
+import { Get, GetProps, useGet, UseGetProps, Mutate, MutateProps, useMutate, UseMutateProps } from 'restful-react';
 export const SPEC_VERSION = 'undefined';
 export interface Course {
   pid: string;
@@ -19,7 +19,12 @@ export interface CourseDetails {
   description: string;
   credits: {
     chosen: string;
-    value: {};
+    value:
+      | string
+      | {
+          max: string;
+          min: string;
+        };
     credits: {
       max: string;
       min: string;
@@ -30,7 +35,7 @@ export interface CourseDetails {
     lab: string;
     tutorial: string;
     lecture: string;
-  };
+  }[];
   /**
    * Abbriviation of the subject of the course.
    */
@@ -115,6 +120,94 @@ export interface KualiSubject {
 }
 
 export type Subject = KualiSubject;
+
+export interface ExtendedTextbook {
+  instructor?: string;
+  isbn?: string;
+  price: {
+    newAndDigitalAccessCad?: string;
+    digitalAccessCad?: string;
+    usedCad?: string;
+    newCad?: string;
+  };
+  required: boolean;
+  authors?: string[];
+  title: string;
+  imageUrl?: string;
+  bookstoreUrl?: string;
+  amazonUrl?: string;
+}
+
+export interface CourseTextbook {
+  textbooks: ExtendedTextbook[];
+  instructor?: string;
+  additionalInfo?: string[];
+  section?: string;
+}
+
+export interface TextbookInfo {
+  subject: string;
+  code: string;
+  term: string;
+  sections: CourseTextbook[];
+}
+
+export interface TimetableCourse {
+  /**
+   * The colour code displayed on the timetable
+   */
+  color: string;
+  /**
+   * The selected tutorial section of the course.
+   */
+  tutorial?: string[];
+  /**
+   * The selected lab section of the course.
+   */
+  lab?: string[];
+  /**
+   * The selected lecture section of the course.
+   */
+  lecture?: string[];
+  /**
+   * The PID of the course.
+   */
+  pid: string;
+  /**
+   * The code portion of the course.
+   */
+  code: string;
+  /**
+   * Abbreviation of the subject of the course.
+   */
+  subject: string;
+}
+
+export interface Timetable {
+  courses: TimetableCourse[];
+  term: Term;
+}
+
+export type TimetableReturn = {
+  slug: string;
+} & Timetable;
+
+export interface ValidateErrorJSON {
+  message: 'Validation failed';
+  details: {
+    [key: string]: {};
+  };
+}
+
+/**
+ * From T, pick a set of properties whose keys are in the union K
+ */
+export interface PickTimetableCoursesOrTerm {
+  courses: TimetableCourse[];
+  term: Term;
+}
+
+export type TimetableParams = PickTimetableCoursesOrTerm;
 
 export interface GetCoursesQueryParams {
   in_session?: boolean;
@@ -272,3 +365,76 @@ export const useSubjects = ({ term, ...props }: UseSubjectsProps) =>
     (paramsInPath: SubjectsPathParams) => `/subjects/${paramsInPath.term}`,
     { pathParams: { term }, ...props }
   );
+
+export type GetTextbooksResponse = TextbookInfo | {};
+
+export interface GetTextbooksPathParams {
+  term: Term;
+  subject: string;
+  code: string;
+}
+
+export type GetTextbooksProps = Omit<GetProps<GetTextbooksResponse, void, void, GetTextbooksPathParams>, 'path'> &
+  GetTextbooksPathParams;
+
+export const GetTextbooks = ({ term, subject, code, ...props }: GetTextbooksProps) => (
+  <Get<GetTextbooksResponse, void, void, GetTextbooksPathParams>
+    path={`/textbooks/${term}/${subject}/${code}`}
+    {...props}
+  />
+);
+
+export type UseGetTextbooksProps = Omit<UseGetProps<GetTextbooksResponse, void, void, GetTextbooksPathParams>, 'path'> &
+  GetTextbooksPathParams;
+
+export const useGetTextbooks = ({ term, subject, code, ...props }: UseGetTextbooksProps) =>
+  useGet<GetTextbooksResponse, void, void, GetTextbooksPathParams>(
+    (paramsInPath: GetTextbooksPathParams) =>
+      `/textbooks/${paramsInPath.term}/${paramsInPath.subject}/${paramsInPath.code}`,
+    { pathParams: { term, subject, code }, ...props }
+  );
+
+export type GetTimetableResponse = Timetable | {};
+
+export interface GetTimetablePathParams {
+  slug: string;
+}
+
+export type GetTimetableProps = Omit<GetProps<GetTimetableResponse, void, void, GetTimetablePathParams>, 'path'> &
+  GetTimetablePathParams;
+
+export const GetTimetable = ({ slug, ...props }: GetTimetableProps) => (
+  <Get<GetTimetableResponse, void, void, GetTimetablePathParams> path={`/timetables/${slug}`} {...props} />
+);
+
+export type UseGetTimetableProps = Omit<UseGetProps<GetTimetableResponse, void, void, GetTimetablePathParams>, 'path'> &
+  GetTimetablePathParams;
+
+export const useGetTimetable = ({ slug, ...props }: UseGetTimetableProps) =>
+  useGet<GetTimetableResponse, void, void, GetTimetablePathParams>(
+    (paramsInPath: GetTimetablePathParams) => `/timetables/${paramsInPath.slug}`,
+    { pathParams: { slug }, ...props }
+  );
+
+export type CreateTimetableResponse = TimetableReturn | {};
+
+export type CreateTimetableProps = Omit<
+  MutateProps<CreateTimetableResponse, ValidateErrorJSON, void, TimetableParams, void>,
+  'path' | 'verb'
+>;
+
+export const CreateTimetable = (props: CreateTimetableProps) => (
+  <Mutate<CreateTimetableResponse, ValidateErrorJSON, void, TimetableParams, void>
+    verb="POST"
+    path={`/timetables`}
+    {...props}
+  />
+);
+
+export type UseCreateTimetableProps = Omit<
+  UseMutateProps<CreateTimetableResponse, ValidateErrorJSON, void, TimetableParams, void>,
+  'path' | 'verb'
+>;
+
+export const useCreateTimetable = (props: UseCreateTimetableProps) =>
+  useMutate<CreateTimetableResponse, ValidateErrorJSON, void, TimetableParams, void>('POST', `/timetables`, props);

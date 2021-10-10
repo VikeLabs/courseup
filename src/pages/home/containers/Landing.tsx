@@ -25,7 +25,6 @@ export function Landing() {
       templateColumns={{ xl: 'repeat(2, 1fr)', lg: 'repeat(1, 1fr)' }}
       gap={2}
       m={10}
-      h="100%"
       justifyItems="center"
       alignItems="center"
     >
