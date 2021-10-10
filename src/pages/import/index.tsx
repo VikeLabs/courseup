@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 
-import { Flex, Heading, VStack } from '@chakra-ui/layout';
-import { useParams } from 'react-router';
+// import { useParams } from 'react-router';
+import { Heading, VStack } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/layout';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
@@ -14,9 +15,11 @@ import { ImportButtons } from './components/ImportButtons';
 import { ImportCalendar } from './components/ImportCalendar';
 
 export function ImportTimetable(): JSX.Element {
-  const { slug } = useParams();
+  // const { slug } = useParams();
 
-  const { term } = useParams();
+  // const sample_slug = 'FPfGNnbdEiSI';
+
+  const term = '202109';
   // the user's saved courses
   const { courses } = useSavedCourses();
   // extend the list of courses with section information
@@ -28,13 +31,17 @@ export function ImportTimetable(): JSX.Element {
   );
 
   return (
-    <Flex h="100%" direction="column" overflow="hidden">
+    <>
       <Header />
-      <VStack spacing={8} pt={8}>
-        <Heading>Importing Timetable {slug}</Heading>
+      <VStack p={50} spacing={10}>
+        <Heading>Importing Timetable</Heading>
         <ImportButtons />
-        <ImportCalendar term={term} courseCalendarEvents={calendarEvents} />
       </VStack>
-    </Flex>
+      <VStack>
+        <Box w="70%">
+          <ImportCalendar term={term} courseCalendarEvents={calendarEvents} />
+        </Box>
+      </VStack>
+    </>
   );
 }
