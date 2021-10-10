@@ -1,12 +1,21 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, HStack, Icon, IconButton, Text, useDisclosure } from '@chakra-ui/react';
-import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { Button, Flex, Heading, HStack, IconButton, Text, Icon } from '@chakra-ui/react';
 import { ToolbarProps } from 'react-big-calendar';
-import { useParams } from 'react-router';
+import { IoShareOutline } from 'react-icons/io5';
+
+import { SavedCourse } from 'lib/hooks/useSavedCourses';
+
 import ShareTimetableModal from './share/ShareTimetableModal';
 
 export const CalendarToolBar =
-  (onSelectedDateChange: (date: Date) => void) =>
+  (
+    onSelectedDateChange: (date: Date) => void,
+    isOpen: any,
+    onClose: any,
+    onOpen: any,
+    term: string,
+    courses: SavedCourse[]
+  ) =>
   ({ label, date }: ToolbarProps) => {
     const handleClick = (offset?: number) => () => {
       if (offset) {
@@ -18,15 +27,9 @@ export const CalendarToolBar =
       }
     };
 
-    const { term } = useParams();
-
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const { courses } = useSavedCourses();
-  const inSession_savedCourses = courses
-    .filter((course) => course.term === term)
-    .filter((course) => course.lecture || course.lab || course.tutorial);
-    
+    const inSession_savedCourses = courses
+      .filter((course) => course.term === term)
+      .filter((course) => course.lecture || course.lab || course.tutorial);
     return (
       <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
         <Heading size="md">Scheduler</Heading>
@@ -50,11 +53,11 @@ export const CalendarToolBar =
             onClick={handleClick(7)}
           />
         </HStack>
-        <Text fontSize="xl">{label}</Text>
         <Button
           isDisabled={inSession_savedCourses.length > 0 ? false : true}
           size="sm"
           colorScheme="blue"
+          leftIcon={<Icon as={IoShareOutline} />}
           onClick={onOpen}
         >
           Share

@@ -2,6 +2,7 @@ import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
+import { useDisclosure } from '@chakra-ui/hooks';
 import { addWeeks, format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
@@ -16,11 +17,6 @@ import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
 
-import ShareTimetableModal from './share/ShareTimetableModal';
-
-const locales = {
-  'en-US': enUS,
-};
 import { CourseCalendarEvent } from '../shared/types';
 
 const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
@@ -127,6 +123,11 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
 
   const today = useMemo(() => new Date(), []);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // gets saved courses in session to enable/disable share button accordingly
+  const { courses } = useSavedCourses();
+
   const computedSelectedDate = useMemo<Date>(() => {
     if (term === undefined) return today;
 
@@ -227,7 +228,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
       components={{
-        toolbar: CalendarToolBar(setSelectedDate),
+        toolbar: CalendarToolBar(setSelectedDate, isOpen, onClose, onOpen, term as string, courses),
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"
