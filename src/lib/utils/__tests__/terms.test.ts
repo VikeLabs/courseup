@@ -1,4 +1,4 @@
-import { getReadableTerm, getCurrentTerms, getCurrentTerm } from '../terms';
+import { getReadableTerm, getCurrentTerm } from '../terms';
 
 describe('term utils', () => {
   describe('getReadableTerm', () => {
@@ -26,48 +26,6 @@ describe('term utils', () => {
       });
       it('should return `Fall 1234`', () => {
         expect(getReadableTerm('123409')).toStrictEqual('Fall 1234');
-      });
-    });
-  });
-
-  describe('getCurrentTerms', () => {
-    describe('when passing in the date', () => {
-      it('should return the correct array', () => {
-        expect(getCurrentTerms(new Date('1999-12-09'))).toStrictEqual(['199905', '199909', '200001']);
-      });
-    });
-
-    describe('during the fall', () => {
-      it('should return `[202105, 202109, 202201] at the beginning of the term`', () => {
-        jest.useFakeTimers('modern').setSystemTime(new Date('2021-09-01').getTime());
-        expect(getCurrentTerms()).toStrictEqual(['202105', '202109', '202201']);
-      });
-
-      it('should return `[202105, 202109, 202201] in the middle of the term`', () => {
-        jest.useFakeTimers('modern').setSystemTime(new Date('2021-11-04').getTime());
-        expect(getCurrentTerms()).toStrictEqual(['202105', '202109', '202201']);
-      });
-
-      it('should return `[202205, 202209, 202301]`', () => {
-        jest.useFakeTimers('modern').setSystemTime(new Date('2022-12-31').getTime());
-        expect(getCurrentTerms()).toStrictEqual(['202205', '202209', '202301']);
-      });
-    });
-
-    describe('during the winter', () => {
-      it('should return `[202009, 202101, 202105] at the beginning of the term`', () => {
-        jest.useFakeTimers('modern').setSystemTime(new Date('January 1, 2021').getTime());
-        expect(getCurrentTerms()).toStrictEqual(['202009', '202101', '202105']);
-      });
-
-      it('should return `[202009, 202101, 202105] in the middle of the term`', () => {
-        jest.useFakeTimers('modern').setSystemTime(new Date('February 2, 2021').getTime());
-        expect(getCurrentTerms()).toStrictEqual(['202009', '202101', '202105']);
-      });
-
-      it('should return `[202109, 202201, 202205]`', () => {
-        jest.useFakeTimers('modern').setSystemTime(new Date('April 31, 2022').getTime());
-        expect(getCurrentTerms()).toStrictEqual(['202109', '202201', '202205']);
       });
     });
   });

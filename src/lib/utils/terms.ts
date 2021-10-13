@@ -17,25 +17,6 @@ export function getReadableTerm(term: string): string {
 }
 
 /**
- * Fetches the current terms of a school year given a date.
- *
- * @param {Date} date
- * @return {string[]} array of terms ['202009', '202101', '202105']
- */
-export function getCurrentTerms(date: Date = new Date()): string[] {
-  const year = date.getFullYear();
-  const prevYear = date.getFullYear() - 1;
-  const nextYear = date.getFullYear() + 1;
-  const currMonth = date.getMonth();
-
-  if (0 <= currMonth && currMonth <= 4) {
-    return [`${prevYear}09`, `${year}01`, `${year}05`];
-  } else {
-    return [`${year}05`, `${year}09`, `${nextYear}01`];
-  }
-}
-
-/**
  * Fetches the current term given a date.
  *
  * @param {Date} date
