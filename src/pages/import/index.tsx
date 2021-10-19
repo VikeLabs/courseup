@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 
 // import { useParams } from 'react-router';
-import { Heading, VStack } from '@chakra-ui/layout';
-import { Box } from '@chakra-ui/layout';
+import { Heading, VStack, Box } from '@chakra-ui/layout';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
