@@ -55,7 +55,13 @@ const CopyLinkUrl = ({ isSmallScreen, share_link, loading }: CopyLinkUrlProps) =
         {isSmallScreen ? <Icon boxSize="1.25em" as={HiLink} /> : undefined}
         <Input id="timetable_slug" value={loading ? 'Loading...' : share_link} variant="filled" isReadOnly />
       </HStack>
-      <Button size={isSmallScreen ? 'sm' : 'md'} colorScheme="blue" leftIcon={<CopyIcon />} onClick={onCopy}>
+      <Button
+        disabled={loading}
+        size={isSmallScreen ? 'sm' : 'md'}
+        colorScheme="blue"
+        leftIcon={<CopyIcon />}
+        onClick={onCopy}
+      >
         Copy
       </Button>
     </HStack>
