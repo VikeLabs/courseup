@@ -11,8 +11,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
-import { CustomEvent } from 'pages/scheduler/shared/types';
-import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
+import { CustomEvent, CourseCalendarEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
 
