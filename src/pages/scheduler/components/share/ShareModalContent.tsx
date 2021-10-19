@@ -1,5 +1,6 @@
 import { Alert, AlertIcon, Heading, VStack } from '@chakra-ui/react';
 
+import { CreateTimetableResponse, TimetableReturn } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
@@ -10,10 +11,12 @@ type Props = {
   courses: SavedCourse[];
   isSmallScreen: boolean;
   term: string;
+  loading: boolean;
+  timetable: CreateTimetableResponse;
 };
 
-export function ShareModalContent({ courses, isSmallScreen, term }: Props): JSX.Element {
-  const slug = 'https://courseup.ca/s/9w845yetg9d8gh938wrhsde9';
+export function ShareModalContent({ courses, isSmallScreen, term, loading, timetable }: Props): JSX.Element {
+  const { slug } = timetable as TimetableReturn;
 
   return (
     <VStack align="left" spacing="15px">
@@ -22,9 +25,9 @@ export function ShareModalContent({ courses, isSmallScreen, term }: Props): JSX.
         We've generated a link that you can share to allow people to view, compare, and import the courses and sections
         you currently have selected for the {getReadableTerm(term)} term.
       </Alert>
-      <Heading size="sm"> What you are sharing </Heading>
+      <Heading size="sm"> What you are sharing</Heading>
       <SelectedCoursesCardList courses={courses} term={term} />
-      <ShareLinkOptions isSmallScreen={isSmallScreen} slug={slug} />
+      <ShareLinkOptions isSmallScreen={isSmallScreen} slug={slug} loading={loading} />
     </VStack>
   );
 }

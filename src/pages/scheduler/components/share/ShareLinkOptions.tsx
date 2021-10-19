@@ -19,40 +19,41 @@ import {
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 type SocialMediaButtons_Props = {
-  slug: string;
+  share_link: string;
 };
 
-const SocialMediaButtons = ({ slug }: SocialMediaButtons_Props) => {
+const SocialMediaButtons = ({ share_link }: SocialMediaButtons_Props) => {
   return (
     <HStack justify="center">
-      <EmailShareButton children={<EmailIcon size={50} round />} url={slug} />
-      <FacebookShareButton children={<FacebookIcon size={50} round />} url={slug} />
-      <TelegramShareButton children={<TelegramIcon size={50} round />} url={slug} />
-      <WhatsappShareButton children={<WhatsappIcon size={50} round />} url={slug} />
-      <TwitterShareButton children={<TwitterIcon size={50} round />} url={slug} />
+      <EmailShareButton children={<EmailIcon size={50} round />} url={share_link} />
+      <FacebookShareButton children={<FacebookIcon size={50} round />} url={share_link} />
+      <TelegramShareButton children={<TelegramIcon size={50} round />} url={share_link} />
+      <WhatsappShareButton children={<WhatsappIcon size={50} round />} url={share_link} />
+      <TwitterShareButton children={<TwitterIcon size={50} round />} url={share_link} />
     </HStack>
   );
 };
 
 type CopyLinkUrlProps = {
   isSmallScreen: boolean;
-  slug: string;
+  share_link: string;
+  loading: boolean;
 };
 
-const CopyLinkUrl = ({ isSmallScreen, slug }: CopyLinkUrlProps) => {
-  const { hasCopied, onCopy } = useClipboard(slug);
+const CopyLinkUrl = ({ isSmallScreen, share_link, loading }: CopyLinkUrlProps) => {
+  const { hasCopied, onCopy } = useClipboard(share_link);
   const toast = useToast();
   const mode = useDarkMode();
 
   useEffect(() => {
     hasCopied && toast({ status: 'success', title: `Copied the link to clipboard!`, duration: 3000 });
-  }, [slug, hasCopied, toast]);
+  }, [share_link, hasCopied, toast]);
 
   return (
     <HStack justify="space-between" p="5px" borderWidth="1px" borderColor={mode('gray.300', 'gray.600')}>
       <HStack justify="center" flexGrow={4}>
         {isSmallScreen ? <Icon boxSize="1.25em" as={HiLink} /> : undefined}
-        <Input id="timetable_slug" value={slug} variant="filled" isReadOnly />
+        <Input id="timetable_slug" value={loading ? 'Loading...' : share_link} variant="filled" isReadOnly />
       </HStack>
       <Button size={isSmallScreen ? 'sm' : 'md'} colorScheme="blue" leftIcon={<CopyIcon />} onClick={onCopy}>
         Copy
@@ -64,15 +65,18 @@ const CopyLinkUrl = ({ isSmallScreen, slug }: CopyLinkUrlProps) => {
 type ShareLinkOptions_Props = {
   isSmallScreen: boolean;
   slug: string;
+  loading: boolean;
 };
 
-export function ShareLinkOptions({ isSmallScreen, slug }: ShareLinkOptions_Props): JSX.Element {
+export function ShareLinkOptions({ isSmallScreen, slug, loading }: ShareLinkOptions_Props): JSX.Element {
+  const share_link = window.location.hostname + '/s/' + slug;
+
   return (
     <>
       <Heading size="sm"> Share this link via </Heading>
-      <SocialMediaButtons slug={slug} />
+      <SocialMediaButtons share_link={share_link} />
       <Heading size="sm"> Or copy link </Heading>
-      <CopyLinkUrl isSmallScreen={isSmallScreen} slug={slug} />
+      <CopyLinkUrl isSmallScreen={isSmallScreen} share_link={share_link} loading={loading} />
     </>
   );
 }
