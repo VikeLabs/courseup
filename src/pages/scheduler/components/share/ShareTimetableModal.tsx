@@ -45,7 +45,8 @@ export default function ShareTimetableModal({ onClose, isOpen, inSession_savedCo
 
   useEffect(() => {
     isOpen && mutate({ term: term as Term, courses }).then((data) => setTimetable(data));
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
