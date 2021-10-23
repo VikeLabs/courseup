@@ -111,6 +111,9 @@
     ],
     "modulePaths": [
       "<rootDir>/src/"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(scss|css)$": "<rootDir>/src/lib/utils/jest/__mocks__/styleMock.js"
+    }
   }
 }

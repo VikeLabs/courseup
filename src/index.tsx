@@ -22,8 +22,6 @@ import { Mobile } from 'common/mobile';
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
 
-import './index.css';
-
 export type OldCourse = {
   subject: string;
   pid: string;

@@ -20,6 +20,9 @@ export const customTheme = extendTheme({
       ':focus:not(:focus-visible)': {
         boxShadow: 'none !important',
       },
+      body: {
+        overflow: 'hidden',
+      },
       ...CalendarTheme(props.colorMode),
     }),
   },

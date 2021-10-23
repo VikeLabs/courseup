@@ -2,13 +2,13 @@ import { Box, Flex, Heading, HStack, VStack, Wrap, WrapItem, Text } from '@chakr
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
-import { getReadableTerm } from 'lib/utils';
+import { getReadableTerm } from 'lib/utils/terms';
 
-const ShareCourseCard = ({ subject, code, color, lecture, lab, tutorial }: SavedCourse) => {
+export const ShareCourseCard = ({ subject, code, color, lecture, lab, tutorial }: SavedCourse) => {
   const mode = useDarkMode();
 
   return (
-    <Flex height="100%" direction="column">
+    <Flex height="100%" direction="column" data-testid="card">
       <HStack w="100%" bg={mode('gray.100', 'gray.600')} justifyContent="center" p="0.3em" borderTopRadius="4px">
         <Heading size="xs">
           {subject} {code}
@@ -35,7 +35,7 @@ export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableP
         courses.map((course) => {
           if (course.lecture || course.lab || course.tutorial) {
             return (
-              <WrapItem>
+              <WrapItem key={`${course.subject}${course.code}`}>
                 <ShareCourseCard {...course} />
               </WrapItem>
             );
@@ -44,7 +44,7 @@ export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableP
         })
       ) : (
         <Text>
-          Unable to find saved courses for <Box as="strong"> {getReadableTerm(term || '')} </Box>
+          Unable to find saved courses for <Box as="strong"> {getReadableTerm(term)} </Box>
         </Text>
       )}
     </Wrap>
