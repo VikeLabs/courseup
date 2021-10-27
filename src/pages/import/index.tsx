@@ -15,7 +15,6 @@ export function ImportTimetable(): JSX.Element {
   const { slug } = useParams();
 
   const { loading, data } = useGetTimetable({ slug: slug });
-  const parsedData = data as Timetable;
 
   return (
     <>
@@ -23,10 +22,12 @@ export function ImportTimetable(): JSX.Element {
       <Flex h="100vh" w="100vw">
         <VStack w="100vw" p={50} spacing={10}>
           <Heading>
-            {loading ? 'Viewing Timetable' : 'Viewing Timetable for ' + getReadableTerm(parsedData['term'])}
+            {!loading && data
+              ? 'Viewing Timetable for ' + getReadableTerm((data as Timetable).term)
+              : 'Viewing Timetable'}
           </Heading>
-          <ImportButtons loading={loading} />
-          <Box w="70vw">{loading ? <Spinner size="xl" /> : <ImportCalendar data={data as Timetable} />}</Box>
+          <ImportButtons data={data as Timetable} loading={loading} />
+          <Box w="70vw">{!loading && data ? <ImportCalendar data={data as Timetable} /> : <Spinner size="xl" />}</Box>
         </VStack>
       </Flex>
     </>
