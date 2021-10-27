@@ -16,19 +16,23 @@ export const ImportCalendar = ({ data }: { data: Timetable }): JSX.Element => {
 
   const { courses, term } = data;
 
-  const parsedCourses: SavedCourse[] = courses.map((course) => {
-    return {
-      subject: course.subject,
-      pid: course.pid,
-      code: course.code,
-      term: term,
-      lecture: course.lecture ? course.lecture[0] : undefined,
-      lab: course.lab ? course.lab[0] : undefined,
-      tutorial: course.tutorial ? course.tutorial[0] : undefined,
-      color: course.color,
-      selected: true,
-    };
-  });
+  const parsedCourses: SavedCourse[] = useMemo(
+    () =>
+      courses.map((course) => {
+        return {
+          subject: course.subject,
+          pid: course.pid,
+          code: course.code,
+          term: term,
+          lecture: course.lecture ? course.lecture[0] : undefined,
+          lab: course.lab ? course.lab[0] : undefined,
+          tutorial: course.tutorial ? course.tutorial[0] : undefined,
+          color: course.color,
+          selected: true,
+        };
+      }),
+    [courses, term]
+  );
 
   // extend the list of courses with section information
   const coursesResult = useGetCourseSections(term, parsedCourses);
