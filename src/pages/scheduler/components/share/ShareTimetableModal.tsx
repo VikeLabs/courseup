@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import {
   Modal,
   ModalBody,
@@ -9,9 +7,8 @@ import {
   ModalOverlay,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { useParams } from 'react-router';
 
-import { CreateTimetableResponse, Term, TimetableCourse, useCreateTimetable } from 'lib/fetchers';
+import { CreateTimetableResponse, Term } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils';
 
@@ -21,34 +18,20 @@ type Props = {
   onClose: () => void;
   isOpen: boolean;
   inSession_savedCourses: SavedCourse[];
+  term: Term;
+  loading: boolean;
+  timetable: CreateTimetableResponse;
 };
 
-export default function ShareTimetableModal({ onClose, isOpen, inSession_savedCourses }: Props) {
-  const { term } = useParams();
+export default function ShareTimetableModal({
+  onClose,
+  isOpen,
+  inSession_savedCourses,
+  term,
+  loading,
+  timetable,
+}: Props) {
   const [isSmallScreen] = useMediaQuery('(min-width:680px)');
-
-  const { mutate, loading } = useCreateTimetable({});
-
-  const [timetable, setTimetable] = useState({} as CreateTimetableResponse);
-
-  const courses: TimetableCourse[] = inSession_savedCourses.map(
-    ({ color, tutorial, lab, lecture, pid, code, subject }) => {
-      return {
-        color: color ?? '#A0AEC0',
-        tutorial: tutorial ? [tutorial] : undefined,
-        lab: lab ? [lab] : undefined,
-        lecture: lecture ? [lecture] : undefined,
-        pid: pid,
-        code: code,
-        subject: subject,
-      };
-    }
-  );
-
-  useEffect(() => {
-    isOpen && mutate({ term: term as Term, courses }).then((data) => setTimetable(data));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>

@@ -2,14 +2,13 @@ import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
-import { useDisclosure } from '@chakra-ui/hooks';
 import { addWeeks, format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { RRule, Weekday } from 'rrule';
 
+import { Term } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
@@ -123,11 +122,6 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
 
   const today = useMemo(() => new Date(), []);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  // gets saved courses in session to enable/disable share button accordingly
-  const { courses } = useSavedCourses();
-
   const computedSelectedDate = useMemo<Date>(() => {
     if (term === undefined) return today;
 
@@ -228,7 +222,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
       components={{
-        toolbar: CalendarToolBar(setSelectedDate, isOpen, onClose, onOpen, term as string, courses),
+        toolbar: CalendarToolBar(setSelectedDate, term as Term),
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"

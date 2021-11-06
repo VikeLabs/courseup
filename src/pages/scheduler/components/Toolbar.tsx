@@ -1,21 +1,13 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Button, Flex, Heading, HStack, IconButton, Text, Icon } from '@chakra-ui/react';
+import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
 import { ToolbarProps } from 'react-big-calendar';
-import { IoShareOutline } from 'react-icons/io5';
 
-import { SavedCourse } from 'lib/hooks/useSavedCourses';
+import { Term } from 'lib/fetchers';
 
-import ShareTimetableModal from './share/ShareTimetableModal';
+import { ShareButton } from './share/ShareButton';
 
 export const CalendarToolBar =
-  (
-    onSelectedDateChange: (date: Date) => void,
-    isOpen: any,
-    onClose: any,
-    onOpen: any,
-    term: string,
-    courses: SavedCourse[]
-  ) =>
+  (onSelectedDateChange: (date: Date) => void, term: Term) =>
   ({ label, date }: ToolbarProps) => {
     const handleClick = (offset?: number) => () => {
       if (offset) {
@@ -27,9 +19,6 @@ export const CalendarToolBar =
       }
     };
 
-    const inSession_savedCourses = courses
-      .filter((course) => course.term === term)
-      .filter((course) => course.lecture || course.lab || course.tutorial);
     return (
       <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
         <Heading size="md">Scheduler</Heading>
@@ -53,16 +42,7 @@ export const CalendarToolBar =
             onClick={handleClick(7)}
           />
         </HStack>
-        <Button
-          isDisabled={inSession_savedCourses.length > 0 ? false : true}
-          size="sm"
-          colorScheme="blue"
-          leftIcon={<Icon as={IoShareOutline} />}
-          onClick={onOpen}
-        >
-          Share
-        </Button>
-        <ShareTimetableModal onClose={onClose} isOpen={isOpen} inSession_savedCourses={inSession_savedCourses} />
+        <ShareButton term={term} />
       </Flex>
     );
   };
