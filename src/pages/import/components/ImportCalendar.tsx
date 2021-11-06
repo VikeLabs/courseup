@@ -46,8 +46,8 @@ export const ImportCalendar = ({ data }: { data: Timetable }): JSX.Element => {
   console.log(calendarEvents);
 
   return (
-    <Flex grow={1} height="100%" overflow="hidden">
-      <Box w="100%" height="100%" px="3" py="2">
+    <Flex grow={1}>
+      <Box w="100%" h="500px" px="3" py="2">
         <SchedulerCalendar term={term} courseCalendarEvents={calendarEvents} />
       </Box>
     </Flex>
