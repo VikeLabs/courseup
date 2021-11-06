@@ -22,7 +22,7 @@ export function SchedulerContainer(): JSX.Element {
   );
 
   return (
-    <Flex grow={1} height="100%" overflow="hidden">
+    <Flex grow={1} height="100%" overflow="scroll">
       <Box w="100%" height="100%" px="3" py="2">
         <SchedulerCalendar term={term} courseCalendarEvents={calendarEvents} />
       </Box>
