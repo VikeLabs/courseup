@@ -1,5 +1,5 @@
 // import { useParams } from 'react-router';
-import { Heading, VStack, Flex, Box } from '@chakra-ui/layout';
+import { Heading, VStack, Flex, Center } from '@chakra-ui/layout';
 import { Spinner } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
@@ -19,15 +19,17 @@ export function ImportTimetable(): JSX.Element {
   return (
     <>
       <Header />
-      <Flex h="100vh" w="100vw">
-        <VStack w="100vw" p={50} spacing={10}>
+      <Flex w="100vw" h="100vh" direction="column" overflowX="hidden">
+        <VStack p={50} spacing={10} mb={50}>
           <Heading>
             {!loading && data
               ? 'Viewing Timetable for ' + getReadableTerm((data as Timetable).term)
               : 'Viewing Timetable'}
           </Heading>
           <ImportButtons data={data as Timetable} loading={loading} />
-          <Box w="70vw">{!loading && data ? <ImportCalendar data={data as Timetable} /> : <Spinner size="xl" />}</Box>
+          <Center w="70vw">
+            {!loading && data ? <ImportCalendar data={data as Timetable} /> : <Spinner size="xl" />}
+          </Center>
         </VStack>
       </Flex>
     </>
