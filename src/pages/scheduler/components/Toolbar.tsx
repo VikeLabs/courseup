@@ -2,8 +2,12 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
 import { ToolbarProps } from 'react-big-calendar';
 
+import { Term } from 'lib/fetchers';
+
+import { ShareButton } from './share/ShareButton';
+
 export const CalendarToolBar =
-  (onSelectedDateChange: (date: Date) => void) =>
+  (onSelectedDateChange: (date: Date) => void, term: Term) =>
   ({ label, date }: ToolbarProps) => {
     const handleClick = (offset?: number) => () => {
       if (offset) {
@@ -14,6 +18,7 @@ export const CalendarToolBar =
         onSelectedDateChange(new Date());
       }
     };
+
     return (
       <Flex pb="0.5em" justifyContent="space-between" alignItems="center">
         <Heading size="md">Scheduler</Heading>
@@ -37,6 +42,7 @@ export const CalendarToolBar =
             onClick={handleClick(7)}
           />
         </HStack>
+        <ShareButton term={term} />
       </Flex>
     );
   };

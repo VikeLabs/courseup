@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { Get, GetProps, useGet, UseGetProps, Mutate, MutateProps, useMutate, UseMutateProps } from 'restful-react';
+
 export const SPEC_VERSION = 'undefined';
 export interface Course {
   pid: string;
@@ -425,7 +426,7 @@ export type CreateTimetableProps = Omit<
 
 export const CreateTimetable = (props: CreateTimetableProps) => (
   <Mutate<CreateTimetableResponse, ValidateErrorJSON, void, TimetableParams, void>
-    verb="POST"
+    verb="PUT"
     path={`/timetables`}
     {...props}
   />
@@ -437,4 +438,4 @@ export type UseCreateTimetableProps = Omit<
 >;
 
 export const useCreateTimetable = (props: UseCreateTimetableProps) =>
-  useMutate<CreateTimetableResponse, ValidateErrorJSON, void, TimetableParams, void>('POST', `/timetables`, props);
+  useMutate<CreateTimetableResponse, ValidateErrorJSON, void, TimetableParams, void>('PUT', `/timetables`, props);
