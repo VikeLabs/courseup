@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, HStack, VStack, Wrap, WrapItem, Text } from '@chakra-ui/react';
+import { Flex, Heading, HStack, VStack, Wrap, WrapItem, Text } from '@chakra-ui/react';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
@@ -44,7 +44,7 @@ export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableP
         })
       ) : (
         <Text>
-          Unable to find saved courses for <Box as="strong"> {getReadableTerm(term || '')} </Box>
+          Unable to find saved courses for <Text as="strong"> {getReadableTerm(term || '')} </Text>
         </Text>
       )}
     </Wrap>

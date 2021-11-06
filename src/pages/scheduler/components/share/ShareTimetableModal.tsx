@@ -31,17 +31,19 @@ export default function ShareTimetableModal({ onClose, isOpen, inSession_savedCo
 
   const [timetable, setTimetable] = useState({} as CreateTimetableResponse);
 
-  const courses: TimetableCourse[] = inSession_savedCourses.map((course) => {
-    return {
-      color: course.color ?? '#123456',
-      tutorial: course.tutorial ? [course.tutorial] : undefined,
-      lab: course.lab ? [course.lab] : undefined,
-      lecture: course.lecture ? [course.lecture] : undefined,
-      pid: course.pid,
-      code: course.code,
-      subject: course.subject,
-    };
-  });
+  const courses: TimetableCourse[] = inSession_savedCourses.map(
+    ({ color, tutorial, lab, lecture, pid, code, subject }) => {
+      return {
+        color: color ?? '#A0AEC0',
+        tutorial: tutorial ? [tutorial] : undefined,
+        lab: lab ? [lab] : undefined,
+        lecture: lecture ? [lecture] : undefined,
+        pid: pid,
+        code: code,
+        subject: subject,
+      };
+    }
+  );
 
   useEffect(() => {
     isOpen && mutate({ term: term as Term, courses }).then((data) => setTimetable(data));

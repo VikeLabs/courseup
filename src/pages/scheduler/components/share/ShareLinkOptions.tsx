@@ -18,11 +18,11 @@ import {
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
-type SocialMediaButtons_Props = {
+type SocialMediaButtonsProps = {
   share_link: string;
 };
 
-const SocialMediaButtons = ({ share_link }: SocialMediaButtons_Props) => {
+const SocialMediaButtons = ({ share_link }: SocialMediaButtonsProps) => {
   return (
     <HStack justify="center">
       <EmailShareButton children={<EmailIcon size={50} round />} url={share_link} />
@@ -68,13 +68,13 @@ const CopyLinkUrl = ({ isSmallScreen, share_link, loading }: CopyLinkUrlProps) =
   );
 };
 
-type ShareLinkOptions_Props = {
+type ShareLinkOptionsProps = {
   isSmallScreen: boolean;
   slug: string;
   loading: boolean;
 };
 
-export function ShareLinkOptions({ isSmallScreen, slug, loading }: ShareLinkOptions_Props): JSX.Element {
+export function ShareLinkOptions({ isSmallScreen, slug, loading }: ShareLinkOptionsProps): JSX.Element {
   const share_link = window.location.hostname + '/s/' + slug;
 
   return (
