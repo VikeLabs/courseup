@@ -58,7 +58,8 @@ type SavedCourses = {
   // Methods exposed by hook
 
   addCourse: (term: string, subject: string, code: string, pid: string) => void;
-  importCourses: (courses: TimetableCourse[], term: Term, replace: boolean) => void;
+  importCourses: (courses: TimetableCourse[], term: Term) => void;
+  replaceCourses: (courses: TimetableCourse[], term: Term) => void;
   deleteCourse: (newCourse: SavedCourse) => void;
   clearCourses: (term: string) => void;
   setSection: (type: string, newSection: SavedSection, existingCourse: SavedCourse) => void;
@@ -146,21 +147,63 @@ export const useSavedCourses = (): SavedCourses => {
    * @param term: Timetable term
    */
   const importCourses = useCallback(
-    (courses: TimetableCourse[], term: Term, replace: boolean) => {
+    (courses: TimetableCourse[], term: Term) => {
       // filtered courses keeps only those not currently saved
       const filteredCourses: SavedCourse[] = [];
 
       courses.forEach(({ subject, code, pid, lecture, lab, tutorial, color }) => {
         // avoid adding a course if it is saved already.
-        if (!contains(pid, term)) {
+        const containsCourse =
+          contains(pid, term) || filteredCourses.some((course) => course.pid === pid && course.term === term);
+        if (!containsCourse) {
           // TODO: Clean up?
           // I know this looks bad but I tried some different things and none of them were working but this did :S
-          const new_color = replace
-            ? !filteredCourses.some((course) => course.color === color && course.term === term)
+          const new_color =
+            !containsColor(color, term) &&
+            !filteredCourses.some((course) => course.color === color && course.term === term)
               ? color
-              : '#A0AEC0'
-            : !containsColor(color, term) &&
-              !filteredCourses.some((course) => course.color === color && course.term === term)
+              : '#A0AEC0';
+
+          const newCourse: SavedCourse = {
+            subject,
+            pid,
+            code,
+            term,
+            selected: true,
+            showSections: true,
+            lecture: lecture ? lecture[0] : undefined,
+            lab: lab ? lab[0] : undefined,
+            tutorial: tutorial ? tutorial[0] : undefined,
+            color: new_color,
+          };
+          filteredCourses.push(newCourse);
+        }
+      });
+
+      setData([...data].concat(filteredCourses));
+
+      // TODO: add reject
+    },
+    [contains, containsColor, data, setData]
+  );
+
+  /**
+   * Replaces saved courses to a list of timetable courses to the saved courses.
+   * @param courses: List of timetable courses
+   * @param term: Timetable term
+   */
+  const replaceCourses = useCallback(
+    (courses: TimetableCourse[], term: Term) => {
+      // filtered courses keeps only those not currently saved
+      const filteredCourses: SavedCourse[] = [];
+
+      courses.forEach(({ subject, code, pid, lecture, lab, tutorial, color }) => {
+        // avoid adding a course if it is saved already.
+        const containsCourse = filteredCourses.some((course) => course.pid === pid && course.term === term);
+        if (!containsCourse) {
+          // TODO: Clean up?
+          // I know this looks bad but I tried some different things and none of them were working but this did :S
+          const new_color = !filteredCourses.some((course) => course.color === color && course.term === term)
             ? color
             : '#A0AEC0';
 
@@ -180,11 +223,11 @@ export const useSavedCourses = (): SavedCourses => {
         }
       });
 
-      setData(replace ? filteredCourses : [...data].concat(filteredCourses));
+      setData(filteredCourses);
 
       // TODO: add reject
     },
-    [contains, containsColor, data, setData]
+    [setData]
   );
 
   /**
@@ -247,6 +290,7 @@ export const useSavedCourses = (): SavedCourses => {
     courses: data,
     addCourse,
     importCourses,
+    replaceCourses,
     deleteCourse,
     clearCourses,
     setSection,
