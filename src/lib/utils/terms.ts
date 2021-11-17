@@ -9,7 +9,7 @@ export function getReadableTerm(term: string): string {
   const year = term.slice(0, 4);
   let month = term.slice(4);
 
-  if (month === '01') month = 'Winter';
+  if (month === '01') month = 'Spring';
   else if (month === '05') month = 'Summer';
   else month = 'Fall';
 

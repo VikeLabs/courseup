@@ -11,12 +11,12 @@ describe('term utils', () => {
       });
     });
 
-    describe('winter terms', () => {
-      it('should return `Winter 2021`', () => {
-        expect(getReadableTerm('202101')).toStrictEqual('Winter 2021');
+    describe('spring terms', () => {
+      it('should return `Spring 2021`', () => {
+        expect(getReadableTerm('202101')).toStrictEqual('Spring 2021');
       });
-      it('should return `Winter 3001`', () => {
-        expect(getReadableTerm('300101')).toStrictEqual('Winter 3001');
+      it('should return `Spring 3001`', () => {
+        expect(getReadableTerm('300101')).toStrictEqual('Spring 3001');
       });
     });
 
@@ -44,7 +44,7 @@ describe('term utils', () => {
       });
     });
 
-    describe('during the winter', () => {
+    describe('during the spring', () => {
       it('should return 202101', () => {
         jest.useFakeTimers('modern').setSystemTime(new Date('March 16, 2021').getTime());
         expect(getCurrentTerm()).toStrictEqual('202101');
