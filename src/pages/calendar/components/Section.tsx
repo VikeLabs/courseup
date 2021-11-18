@@ -23,14 +23,14 @@ type BadgeProps = {
   color: string;
 };
 
-export function CourseBadge({ condition, color, children }: PropsWithChildren<BadgeProps>): JSX.Element {
+export function CourseBadge({ color, children }: PropsWithChildren<BadgeProps>): JSX.Element {
   return (
     <>
-      {condition && (
+      {
         <Badge colorScheme={color} mx="1">
           {children}
         </Badge>
-      )}
+      }
     </>
   );
 }
@@ -81,32 +81,28 @@ export function SectionInfo({
   const badges: BadgeProps[] = [];
 
   // Special cases for async/sync/blended because UVic notes are funky
-  if (
-    additionalNotes?.indexOf('fully online and asynchronous') !== -1 &&
-    additionalNotes?.indexOf('mix of “real-time” and asynchronous') === -1
-  ) {
-    badges.push({
-      name: 'Asynchronous',
-      color: 'red',
-    });
-  } else if (
-    additionalNotes?.indexOf('mix of “real-time” and asynchronous') !== -1 &&
-    additionalNotes?.indexOf('fully online and asynchronous') === -1
-  ) {
-    badges.push({
-      name: 'Synchronous',
-      color: 'red',
-    });
-  } else if (instructionalMethod === 'online') {
-    badges.push({
-      name: 'Blended',
-      color: 'red',
-    });
+  if (instructionalMethod === 'online') {
+    if (additionalNotes?.indexOf('mix of “real-time” and asynchronous') !== -1) {
+      badges.push({
+        name: 'Blended',
+        color: 'cyan',
+      });
+    } else if (additionalNotes?.indexOf('fully online and asynchronous') !== -1) {
+      badges.push({
+        name: 'Asynchronous',
+        color: 'cyan',
+      });
+    } else {
+      badges.push({
+        name: 'Synchronous',
+        color: 'cyan',
+      });
+    }
   }
 
   const rules: string[] = [
     'Reserved for BSENG students',
-    'Computer Science program',
+    'Computer Science program.',
     'BEng students',
     'Faculty of Engineering',
     'SCIENCE students',
@@ -133,8 +129,6 @@ export function SectionInfo({
     }
   }
 
-  badges.map((badge) => <CourseBadge name={name?} color={colour} />);
-
   const { term } = useParams();
   const mode = useDarkMode();
 
@@ -149,36 +143,11 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            <CourseBadge name={name} color={color}>
-              Asynchronous
-            </CourseBadge>
-            {/* <CourseBadge condition={!isASYNC && !isBLENDED && instructionalMethod === 'online'} color="cyan">
-              Synchronous
-            </CourseBadge>
-            <CourseBadge condition={isBLENDED} color="cyan">
-              Blended
-            </CourseBadge>
-            <CourseBadge condition={isSENG} color="red">
-              SENG ONLY
-            </CourseBadge>
-            <CourseBadge condition={isCSC} color="red">
-              CSC ONLY
-            </CourseBadge>
-            <CourseBadge condition={isENGR} color="red">
-              ENGR ONLY
-            </CourseBadge>
-            <CourseBadge condition={isENGRorCSC} color="red">
-              ENGR/CSC ONLY
-            </CourseBadge>
-            <CourseBadge condition={isSCI} color="red">
-              SCI ONLY
-            </CourseBadge>
-            <CourseBadge condition={isENGRmulti} color="red">
-              BME/SENG/CENG/ELEC ONLY
-            </CourseBadge>
-            <CourseBadge condition={isBENGorBSENG} color="red">
-              BENG/BSENG ONLY
-            </CourseBadge> */}
+            {badges.map((b) => (
+              <CourseBadge name={b.name} color={b.color}>
+                {b.name}
+              </CourseBadge>
+            ))}
           </Box>
         </Flex>
         <Heading size="md" as="h3" color={mode('gray', 'dark.header')}>
