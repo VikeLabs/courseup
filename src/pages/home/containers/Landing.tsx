@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react';
 import { Image } from '@chakra-ui/image';
 import { Container, Flex, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
 
+import { useDarkMode } from 'lib/hooks/useDarkMode';
+
 export function Landing() {
   const [handIndex, setHandIndex] = useState(0);
   const hands = ['👋', '👋🏻', '👋🏼', '👋🏽', '👋🏾', '👋🏿'];
+  const mode = useDarkMode();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -22,7 +25,6 @@ export function Landing() {
       templateColumns={{ xl: 'repeat(2, 1fr)', lg: 'repeat(1, 1fr)' }}
       gap={2}
       m={10}
-      h="100%"
       justifyItems="center"
       alignItems="center"
     >
@@ -33,10 +35,10 @@ export function Landing() {
           </Heading>
           <Text fontSize="1.6em">CourseUp makes it simple to browse and schedule UVic Courses</Text>
           <Flex alignItems="center" mt="1rem" as="a" w="fit-content" target="_blank" href="https://www.vikelabs.ca">
-            <Text color="#4C6EA5" fontSize={{ base: '1em', md: '1.5em' }}>
+            <Text fontSize={{ base: '1em', md: '1.5em' }} color={mode('light.caption', 'dark.caption')}>
               <span>{hands[handIndex]}</span> Built by students @
             </Text>
-            <Text fontWeight="bolder" fontSize="1.75em" color="#222B49" ml="1">
+            <Text fontWeight="bolder" fontSize="1.75em" color={mode('light.brand', 'dark.brand')} ml="1">
               VIKE LABS
             </Text>
           </Flex>

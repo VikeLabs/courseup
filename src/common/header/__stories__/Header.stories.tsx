@@ -1,14 +1,13 @@
-import { Story, Meta } from '@storybook/react/types-6-0';
-// also exported from '@storybook/react' if you can deal with breaking changes in 6.1
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import { Header } from '.';
+import { Header } from '..';
 
 export default {
   title: 'Header',
   component: Header,
-} as Meta;
+} as ComponentMeta<typeof Header>;
 
-const Template: Story = (args) => <Header {...args} />;
+const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
 
 export const Default = Template.bind({});
 

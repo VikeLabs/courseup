@@ -1,15 +1,19 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as express from 'express';
-
+import * as Redis from 'ioredis';
 // FIX: need to initialize Firebase prior to import of app.
 // there's probably a better way to fix this issue.
 admin.initializeApp();
 
-import * as bodyParser from 'body-parser';
 import { RegisterRoutes } from '../build/routes';
 
 import * as openapi from '../build/swagger.json';
+import { rateLimiterMiddleware } from './middlewares/rateLimiter/rateLimiter';
+import {
+  IRateLimiterStoreOptions,
+  RateLimiterRedis,
+} from 'rate-limiter-flexible';
 
 // THIS FILE SHOULDN'T RUN WITHOUT FIREBASE EMULATOR!
 // nor is it meant to be. use server.ts!
@@ -28,6 +32,25 @@ app.use((req, res, next) => {
   next();
 });
 
+if (functions.config()?.ratelimit?.enabled && functions.config()?.redis?.uri) {
+  try {
+    const config = functions.config().redis.uri;
+    const redis = new Redis(config); // uses defaults unless given configuration object
+
+    const options: IRateLimiterStoreOptions = {
+      storeClient: redis,
+      keyPrefix: `middleware:rate-limit`,
+      points: 20,
+      duration: 1, // per 1 second by IP
+    };
+
+    const rateLimiter = new RateLimiterRedis(options);
+    app.use(rateLimiterMiddleware(rateLimiter));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript
 
@@ -35,11 +58,11 @@ app.use((req, res, next) => {
 
 // Use body parser to read sent json payloads
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
-app.use(bodyParser.json());
+app.use(express.json());
 
 // TODO: can probably accomplish the same thing using hosting.
 // serve the OpenAPI spec.
@@ -52,8 +75,3 @@ RegisterRoutes(app);
 
 // By default, /api/* will be routed to this Express app.
 export const api = functions.https.onRequest(app);
-
-// TODO: import in from SectionsService
-// export const updateCRNMap = functions.pubsub
-//   .schedule('every monday 00:00')
-//   .onRun(async (context) => {});
