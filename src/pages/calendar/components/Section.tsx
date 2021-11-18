@@ -23,6 +23,16 @@ type BadgeProps = {
   color: string;
 };
 
+const ruleNames: string[][] = [
+  ['Reserved for BSENG students', 'SENG Only'],
+  ['Computer Science program.', 'CSC Only'],
+  ['BEng students', 'ENGR Only'],
+  ['Faculty of Engineering', 'ENGR/CSC Only'],
+  ['SCIENCE students', 'SCI Only'],
+  ['BEng and BSEng students', 'BEng/BSeng Only'],
+  ['BME, BSEN, CENG, ELEC students', 'BME/SENG/CENG/ELEC Only'],
+];
+
 export function CourseBadge({ color, children }: PropsWithChildren<BadgeProps>): JSX.Element {
   return (
     <>
@@ -100,30 +110,10 @@ export function SectionInfo({
     }
   }
 
-  const rules: string[] = [
-    'Reserved for BSENG students',
-    'Computer Science program.',
-    'BEng students',
-    'Faculty of Engineering',
-    'SCIENCE students',
-    'BEng and BSEng students',
-    'BME, BSEN, CENG, ELEC students',
-  ];
-
-  const names: string[] = [
-    'SENG Only',
-    'CSC Only',
-    'ENGR Only',
-    'ENGR/CSC Only',
-    'SCI Only',
-    'BENG or BSENG only',
-    'BME/SENG/CENG/ELEC ONLY',
-  ];
-
-  for (let i = 0; i < rules.length; i++) {
-    if (additionalNotes?.indexOf(rules[i]) !== -1) {
+  for (let i = 0; i < ruleNames.length; i++) {
+    if (additionalNotes?.indexOf(ruleNames[i][0]) !== -1) {
       badges.push({
-        name: names[i],
+        name: ruleNames[i][1],
         color: 'red',
       });
     }
@@ -143,9 +133,9 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            {badges.map((b) => (
-              <CourseBadge name={b.name} color={b.color}>
-                {b.name}
+            {badges.map((badges, index) => (
+              <CourseBadge key={index} name={badges.name} color={badges.color}>
+                {badges.name}
               </CourseBadge>
             ))}
           </Box>
