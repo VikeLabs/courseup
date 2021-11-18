@@ -3,6 +3,8 @@ import {
   Textbook,
 } from '@vikelabs/uvic-course-scraper/dist';
 import { collection, subcollection, Ref } from 'typesaurus';
+import { Term } from '../constants';
+import { TimetableCourse } from '../timetables/Timetable.model';
 
 export type CourseDoc = {
   // human metadata
@@ -30,6 +32,14 @@ export type SectionDoc = {
   instructors?: string[];
 };
 
+export type TimetableDoc = {
+  term: Term;
+  courses: TimetableCourse[];
+  hash: string;
+  slug: string;
+  createdAt: Date;
+  updatedAt?: Date;
+};
 export interface ExtendedTextbook extends Textbook {
   amazonUrl?: string;
 }
@@ -58,4 +68,11 @@ const SectionsSubstore = subcollection<SectionDoc, CourseDoc>(
   CoursesCollection
 );
 
-export { CoursesCollection, TextbooksCollection, SectionsSubstore };
+const TimetablesCollection = collection<TimetableDoc>('timetables');
+
+export {
+  CoursesCollection,
+  TextbooksCollection,
+  SectionsSubstore,
+  TimetablesCollection,
+};
