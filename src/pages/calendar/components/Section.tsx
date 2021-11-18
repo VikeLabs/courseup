@@ -19,7 +19,7 @@ import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';
 
 type BadgeProps = {
-  condition: boolean;
+  name: string;
   color: string;
 };
 
@@ -78,15 +78,62 @@ export function SectionInfo({
   seat,
   meetingTimes,
 }: SectionInfoProps): JSX.Element {
-  const isASYNC = additionalNotes?.indexOf('This course will be offered fully online and asynchronous') !== -1;
-  const isBLENDED = additionalNotes?.indexOf('a mix of “real-time” and asynchronous sessions') !== -1;
-  const isSENG = additionalNotes?.indexOf('Reserved for BSENG students') !== -1;
-  const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
-  const isENGR = additionalNotes?.indexOf('Restricted to BEng students only') !== -1;
-  const isENGRorCSC = additionalNotes?.indexOf('Restricted to students in the Faculty of Engineering') !== -1;
-  const isSCI = additionalNotes?.indexOf('Restricted to SCIENCE students') !== -1;
-  const isBENGorBSENG = additionalNotes?.indexOf('Restricted to BEng and BSEng students') !== -1;
-  const isENGRmulti = additionalNotes?.indexOf('Reserved for BME, BSEN, CENG, ELEC students') !== -1;
+  const badges: BadgeProps[] = [];
+
+  // Special cases for async/sync/blended because UVic notes are funky
+  if (
+    additionalNotes?.indexOf('fully online and asynchronous') !== -1 &&
+    additionalNotes?.indexOf('mix of “real-time” and asynchronous') === -1
+  ) {
+    badges.push({
+      name: 'Asynchronous',
+      color: 'red',
+    });
+  } else if (
+    additionalNotes?.indexOf('mix of “real-time” and asynchronous') !== -1 &&
+    additionalNotes?.indexOf('fully online and asynchronous') === -1
+  ) {
+    badges.push({
+      name: 'Synchronous',
+      color: 'red',
+    });
+  } else if (instructionalMethod === 'online') {
+    badges.push({
+      name: 'Blended',
+      color: 'red',
+    });
+  }
+
+  const rules: string[] = [
+    'Reserved for BSENG students',
+    'Computer Science program',
+    'BEng students',
+    'Faculty of Engineering',
+    'SCIENCE students',
+    'BEng and BSEng students',
+    'BME, BSEN, CENG, ELEC students',
+  ];
+
+  const names: string[] = [
+    'SENG Only',
+    'CSC Only',
+    'ENGR Only',
+    'ENGR/CSC Only',
+    'SCI Only',
+    'BENG or BSENG only',
+    'BME/SENG/CENG/ELEC ONLY',
+  ];
+
+  for (let i = 0; i < rules.length; i++) {
+    if (additionalNotes?.indexOf(rules[i]) !== -1) {
+      badges.push({
+        name: names[i],
+        color: 'red',
+      });
+    }
+  }
+
+  badges.map((badge) => <CourseBadge name={name?} color={colour} />);
 
   const { term } = useParams();
   const mode = useDarkMode();
@@ -102,10 +149,10 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            <CourseBadge condition={isASYNC && !isBLENDED} color="cyan">
+            <CourseBadge name={name} color={color}>
               Asynchronous
             </CourseBadge>
-            <CourseBadge condition={!isASYNC && !isBLENDED && instructionalMethod === 'online'} color="cyan">
+            {/* <CourseBadge condition={!isASYNC && !isBLENDED && instructionalMethod === 'online'} color="cyan">
               Synchronous
             </CourseBadge>
             <CourseBadge condition={isBLENDED} color="cyan">
@@ -131,7 +178,7 @@ export function SectionInfo({
             </CourseBadge>
             <CourseBadge condition={isBENGorBSENG} color="red">
               BENG/BSENG ONLY
-            </CourseBadge>
+            </CourseBadge> */}
           </Box>
         </Flex>
         <Heading size="md" as="h3" color={mode('gray', 'dark.header')}>
