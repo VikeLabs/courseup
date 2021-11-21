@@ -32,7 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
-if (functions.config().ratelimit.enabled && functions.config().redis.uri) {
+if (functions.config()?.ratelimit?.enabled && functions.config()?.redis?.uri) {
   try {
     const config = functions.config().redis.uri;
     const redis = new Redis(config); // uses defaults unless given configuration object

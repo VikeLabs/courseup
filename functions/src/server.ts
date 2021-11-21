@@ -17,6 +17,7 @@ import { CoursesService } from './courses/Course.service';
 import { Term } from './constants';
 import { rateLimiterMiddleware } from './middlewares/rateLimiter/rateLimiter';
 import { IRateLimiterOptions, RateLimiterMemory } from 'rate-limiter-flexible';
+import { validationErrorHandler } from './middlewares/dataValidation';
 
 export const app = express();
 
@@ -52,6 +53,8 @@ if (process.env.ENABLE_RATE_LIMITER) {
 }
 
 RegisterRoutes(app);
+
+app.use(validationErrorHandler);
 
 const main = async () => {
   if (!fs.existsSync(dir)) {

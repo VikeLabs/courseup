@@ -10,6 +10,8 @@ import { SectionsController } from './../src/sections/Section.controller';
 import { SubjectsController } from './../src/subjects/Subject.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { TextbooksController } from './../src/textbooks/Textbook.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { TimetablesController } from './../src/timetables/Timetable.controller';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -181,6 +183,40 @@ const models: TsoaRoute.Models = {
             "sections": {"dataType":"array","array":{"dataType":"refAlias","ref":"CourseTextbook"},"required":true},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TimetableCourse": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"color":{"dataType":"string","required":true,"validators":{"pattern":{"value":"^#(?:[0-9a-fA-F]{3}){1,2}$"}}},"tutorial":{"dataType":"array","array":{"dataType":"string"},"validators":{"pattern":{"value":"^T\\d{2}$"}}},"lab":{"dataType":"array","array":{"dataType":"string"},"validators":{"pattern":{"value":"^B\\d{2}$"}}},"lecture":{"dataType":"array","array":{"dataType":"string"},"validators":{"pattern":{"value":"^A\\d{2}$"}}},"pid":{"dataType":"string","required":true},"code":{"dataType":"string","required":true},"subject":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Timetable": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"courses":{"dataType":"array","array":{"dataType":"refAlias","ref":"TimetableCourse"},"required":true},"term":{"ref":"Term","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TimetableReturn": {
+        "dataType": "refAlias",
+        "type": {"dataType":"intersection","subSchemas":[{"dataType":"nestedObjectLiteral","nestedProperties":{"slug":{"dataType":"string","required":true}}},{"ref":"Timetable"}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ValidateErrorJSON": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"enum","enums":["Validation failed"],"required":true},
+            "details": {"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"any"},"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Pick_Timetable.courses-or-term_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"courses":{"dataType":"array","array":{"dataType":"refAlias","ref":"TimetableCourse"},"required":true},"term":{"ref":"Term","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TimetableParams": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_Timetable.courses-or-term_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -361,6 +397,52 @@ export function RegisterRoutes(app: express.Router) {
 
 
             const promise = controller.getTextbooks.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, undefined, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/timetables/:slug',
+
+            function TimetablesController_getTimetable(request: any, response: any, next: any) {
+            const args = {
+                    slug: {"in":"path","name":"slug","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new TimetablesController();
+
+
+            const promise = controller.getTimetable.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, undefined, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/timetables',
+
+            function TimetablesController_createTimetable(request: any, response: any, next: any) {
+            const args = {
+                    requestBody: {"in":"body","name":"requestBody","required":true,"ref":"TimetableParams"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new TimetablesController();
+
+
+            const promise = controller.createTimetable.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

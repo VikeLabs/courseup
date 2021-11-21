@@ -19,6 +19,9 @@ import { CourseCalendarEvent } from '../shared/types';
 
 const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
 
+const buildEventsCacheKey = (event: CourseCalendarEvent) =>
+  `${event.term}_${event.subject}_${event.code}_${event.sectionCode}_${event.meetingTime.days}_${event.meetingTime.time}`;
+
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -117,6 +120,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const mode = useDarkMode();
   const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [maxHour, setMaxHour] = useState(20);
 
   const today = useMemo(() => new Date(), []);
 
@@ -143,7 +147,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
     const events: CustomEvent[] = [];
     courseCalendarEvents.forEach((calendarEvent) => {
       // for caching purposes
-      const key = `${calendarEvent.term}_${calendarEvent.subject}_${calendarEvent.code}_${calendarEvent.sectionCode}`;
+      const key = buildEventsCacheKey(calendarEvent);
 
       try {
         // if event does not have a scheduled time, move on.
@@ -164,6 +168,11 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
           // TODO: find better means of handling timezones
           const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
           const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
+
+          const endHour = endDate.getHours();
+          if (endHour >= maxHour) {
+            setMaxHour(endHour + 1);
+          }
 
           const duplicateEvent = events.find(
             (event) =>
@@ -201,14 +210,14 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
     });
     setSelectedDate(computedSelectedDate);
     return events;
-  }, [courseCalendarEvents, computedSelectedDate]);
+  }, [courseCalendarEvents, computedSelectedDate, maxHour]);
 
   return (
     <Calendar<CustomEvent>
       localizer={localizer}
       events={events}
       min={set(today, { hours: 8, minutes: 0 })}
-      max={set(today, { hours: 20, minutes: 0 })}
+      max={set(today, { hours: maxHour, minutes: 0 })}
       defaultView="work_week"
       views={['work_week']}
       date={selectedDate}
