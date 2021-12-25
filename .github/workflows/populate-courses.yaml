@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
@@ -34,7 +34,7 @@ jobs:
         run: npm run lint
   npm-run:
     name: Execute Script
-    needs: [ lint ]
+    needs: [lint]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     defaults:
@@ -45,7 +45,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
@@ -62,4 +62,3 @@ jobs:
           export_default_credentials: true
       - name: Execute Script
         run: npm run db:populate ${{ github.event.inputs.term }}
-        
