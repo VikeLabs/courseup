@@ -64,7 +64,7 @@
     "@types/jest-axe": "^3.5.2",
     "@types/node": "^14.18.2",
     "@types/react": "^17.0.38",
-    "@types/react-big-calendar": "^0.33.2",
+    "@types/react-big-calendar": "^0.36.2",
     "@types/react-dom": "^17.0.11",
     "@types/react-helmet": "^6.1.5",
     "@types/react-instantsearch-core": "^6.10.5",
