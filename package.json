@@ -34,8 +34,6 @@
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
     "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/lib/fetchers.tsx",
     "lint": "eslint \"src/**/*.{t,j}s{x,}\"",
     "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
