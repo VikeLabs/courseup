@@ -16,7 +16,8 @@ export const customTheme = extendTheme({
   },
 
   styles: {
-    global: (props) => ({
+    // TODO: figure out best typing for this
+    global: (props: any) => ({
       ':focus:not(:focus-visible)': {
         boxShadow: 'none !important',
       },
