@@ -1,9 +1,13 @@
-import { differenceInMinutes, parse } from 'date-fns';
+import { addMinutes, addWeeks, differenceInMinutes, parse } from 'date-fns';
 import { Weekday, RRule } from 'rrule';
 
 import { MeetingTimes } from 'lib/fetchers';
 
-import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
+import { CourseCalendarEvent, CustomEvent } from 'pages/scheduler/shared/types';
+
+export const buildEventsCacheKey = (event: CourseCalendarEvent) =>
+  `${event.term}_${event.subject}_${event.code}_${event.sectionCode}_${event.meetingTime.days}_${event.meetingTime.time}`;
+const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
 
 const delim = ' - ';
 
@@ -113,5 +117,123 @@ export const parseMeetingTimes = (event: CourseCalendarEvent): ParseMeetingTimes
     endDate: courseEndDate,
     upper: ruleUpper,
     lower: ruleLower,
+  };
+};
+
+export const parseMeetingTimes2 = (event: CourseCalendarEvent) => {
+  const { start: startDatetime, end: endDatetime, durationMinutes, isSameDay } = parseDatetimeRange(event.meetingTime);
+
+  const days = parseMeetingTimeDays(event);
+  return {
+    startDate: startDatetime,
+    endDate: endDatetime,
+    upper: isSameDay
+      ? undefined
+      : new RRule({
+          // TODO: make sure freq gets set correctly based on event data
+          freq: RRule.WEEKLY,
+          byweekday: days,
+          dtstart: startDatetime,
+          until: endDatetime,
+          tzid: 'America/Vancouver',
+        }),
+    durationMinutes,
+  };
+};
+
+export const createEvent = (event: CourseCalendarEvent) => {
+  const title = `${event.subject} ${event.code}`;
+  // if event does not have a scheduled time, move on.
+  if (event.meetingTime.time.indexOf('TBA') !== -1) return;
+
+  const { startDate, endDate, durationMinutes, upper: rrule } = parseMeetingTimes2(event);
+
+  if (!rrule) return;
+
+  rrule.all().forEach((date) => {
+    const start = date;
+    const end = addMinutes(start, durationMinutes);
+
+    console.log(start.toLocaleString(), end.toLocaleString());
+  });
+};
+
+export const createEvents = (events: CourseCalendarEvent[]) => {
+  return events.map(createEvent);
+};
+
+export const CreateCourseCalendarEvents = (courseCalendarEvents: CourseCalendarEvent[]) => {
+  // TODO: add as param. default max hour
+  let maxHour = 20;
+  let minEventDate: Date | undefined = undefined;
+
+  const events: CustomEvent[] = [];
+  courseCalendarEvents.forEach((calendarEvent) => {
+    // for caching purposes
+    const key = buildEventsCacheKey(calendarEvent);
+
+    try {
+      // if event does not have a scheduled time, move on.
+      if (calendarEvent.meetingTime.time.indexOf('TBA') !== -1) return;
+
+      // check cache, if it exists, use it otherwise parse and set value in cache
+      if (!EVENTS_CACHE[key]) {
+        EVENTS_CACHE[key] = parseMeetingTimes(calendarEvent);
+      }
+
+      const { lower: ruleLower, upper: ruleUpper, startDate: courseStartDate } = EVENTS_CACHE[key];
+
+      const ruleLowerAll = ruleLower.all();
+
+      // TODO: move as much as possible into the backend
+      ruleUpper.all().forEach((dateUpper, i) => {
+        const title = `${calendarEvent.subject} ${calendarEvent.code}`;
+        // TODO: find better means of handling timezones
+        const startDate = new Date(dateUpper.toUTCString().replace('GMT', ''));
+        const endDate = new Date(ruleLowerAll[i].toUTCString().replace('GMT', ''));
+
+        const endHour = endDate.getHours();
+        if (endHour >= maxHour) {
+          maxHour = endHour;
+        }
+
+        const duplicateEvent = events.find(
+          (event) =>
+            event.title === title &&
+            event.start?.getTime() === startDate.getTime() &&
+            event.end?.getTime() === endDate.getTime()
+        );
+
+        if (!duplicateEvent) {
+          events.push({
+            title: title,
+            start: startDate,
+            end: endDate,
+            resource: {
+              color: calendarEvent.color,
+              subject: calendarEvent.subject,
+              code: calendarEvent.code,
+              textColor: calendarEvent.textColor,
+              sectionCode: calendarEvent.sectionCode,
+              location: calendarEvent.meetingTime.where,
+              opacity: startDate < courseStartDate,
+            },
+          });
+        }
+
+        if (minEventDate === undefined) {
+          minEventDate = addWeeks(startDate, 1);
+        } else if (startDate < minEventDate) {
+          minEventDate = addWeeks(startDate, 1);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  });
+  return {
+    events,
+    maxHour,
+    minEventDate,
   };
 };

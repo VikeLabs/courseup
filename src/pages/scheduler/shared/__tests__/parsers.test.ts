@@ -3,6 +3,8 @@ import { RRule, Weekday } from 'rrule';
 import { MeetingTimes } from 'lib/fetchers';
 
 import {
+  CreateCourseCalendarEvents,
+  createEvent,
   parseDatetimeRange,
   parseMeetingTimeDays,
   parseMeetingTimes,
@@ -27,6 +29,22 @@ const baseCalendarEvent: CourseCalendarEvent = {
   term: '202101',
   meetingTime: {
     ...baseMeetingTime,
+  },
+};
+
+const e = {
+  subject: 'SENG',
+  code: '360',
+  sectionCode: 'A01',
+  term: '202109',
+  meetingTime: {
+    dateRange: 'Sep 08, 2021 - Dec 06, 2021',
+    days: 'TWF',
+    instructors: [],
+    scheduleType: '',
+    time: '4:30 pm - 5:20 pm',
+    type: 'Every Week',
+    where: 'MacLaurin Building A144',
   },
 };
 
@@ -126,6 +144,76 @@ describe('parsers', () => {
         durationMinutes: 50,
         isSameDay: false,
       });
+    });
+  });
+
+  describe('CreateCourseCalendarEvents', () => {
+    it('works', () => {
+      const { maxHour, minEventDate, events } = CreateCourseCalendarEvents([
+        {
+          subject: 'ENGR',
+          code: '130',
+          sectionCode: 'A01',
+          term: '202109',
+          meetingTime: {
+            // Oct 29 is a Friday
+            dateRange: 'Sep 08, 2021 - Oct 29, 2021',
+            days: 'MR',
+            time: '9:00 am - 9:50 am',
+            instructors: [],
+            scheduleType: '',
+            type: 'Every Week',
+            where: 'MacLaurin Building A144',
+          },
+        },
+      ]);
+      expect(maxHour).toEqual(20);
+      // WHY???
+      expect(minEventDate).toEqual(new Date('November 4, 2021 16:00:00 GMT'));
+
+      const baseEvent = {
+        title: 'ENGR 130',
+      };
+      const baseResource = {
+        code: '130',
+        color: undefined,
+        location: 'MacLaurin Building A144',
+        opacity: false,
+        sectionCode: 'A01',
+        subject: 'ENGR',
+        textColor: undefined,
+      };
+
+      // first class
+      expect(events[0]).toEqual({
+        ...baseEvent,
+        // note: this event doesnt' actually exist (since this course starts on the 8th)
+        start: new Date('September 2, 2021 09:00:00 PDT'),
+        end: new Date('September 2, 2021 09:50:00 PDT'),
+        resource: {
+          ...baseResource,
+          // shows with opacity on the calendar
+          opacity: true,
+        },
+      });
+
+      // last class (29th is a Friday so the 28th is the last class)
+      expect(events[events.length - 1]).toEqual({
+        ...baseEvent,
+        start: new Date('October 28, 2021 09:00:00 PDT'),
+        end: new Date('October 28, 2021 09:50:00 PDT'),
+        resource: {
+          ...baseResource,
+          opacity: false,
+        },
+      });
+      console.log(events);
+    });
+  });
+
+  describe('createEvent', () => {
+    it('works', () => {
+      //   const event = createEvent(e);
     });
   });
 });
