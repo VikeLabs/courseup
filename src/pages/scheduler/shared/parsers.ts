@@ -5,6 +5,8 @@ import { MeetingTimes } from 'lib/fetchers';
 
 import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
 
+const delim = ' - ';
+
 export const parseMeetingTimeDays = (calendarEvent: CourseCalendarEvent) => {
   const days = calendarEvent.meetingTime.days;
   const daysRRule: Weekday[] = [];
@@ -33,7 +35,6 @@ export const parseDatetimeRange = (
   meetingTime: MeetingTimes
 ): { start: Date; end: Date; durationMinutes: number; isSameDay: boolean } => {
   const ref = new Date();
-  const delim = ' - ';
 
   const parseFormat = 'MMM dd yyyy h:mm a';
 
@@ -72,9 +73,9 @@ export const parseMeetingTimes = (event: CourseCalendarEvent): ParseMeetingTimes
   const parseFormat = 'MM, d, yyyy h:mm a XXX';
 
   // ie. "May 05, 2021 - Jul 30, 2021"
-  const startEndDates = event.meetingTime.dateRange.split(' - ').map((d) => d.replace(',', ''));
+  const startEndDates = event.meetingTime.dateRange.split(delim).map((d) => d.replace(',', ''));
   // ie. Array [ "10:30 am", "11:50 am" ]
-  const startEndTimes = event.meetingTime.time.split(' - ');
+  const startEndTimes = event.meetingTime.time.split(delim);
   // ie. Sep 08 2021 1:00 pm
 
   // TODO: find better means of handling timezones
