@@ -10,6 +10,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
+import { ExportCoursesToIcs } from 'pages/scheduler/shared/exporter';
 import { CreateEventsFromCourses } from 'pages/scheduler/shared/parsers';
 import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
@@ -38,6 +39,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   // for darkmode
   const mode = useDarkMode();
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [vCalendar, setVCalendar] = useState('');
   const [maxHour, setMaxHour] = useState(20);
 
   const today = useMemo(() => new Date(), []);
@@ -64,6 +66,12 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
     const { events, maxHour } = CreateEventsFromCourses(courseCalendarEvents);
     setMaxHour(maxHour);
     setSelectedDate(computedSelectedDate);
+
+    const vCalendar = ExportCoursesToIcs(courseCalendarEvents);
+    if (events.length > 0 && vCalendar) {
+      setVCalendar(vCalendar);
+    }
+
     return events;
   }, [courseCalendarEvents, computedSelectedDate]);
 
@@ -79,7 +87,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
       components={{
-        toolbar: CalendarToolBar(setSelectedDate),
+        toolbar: CalendarToolBar(setSelectedDate, vCalendar),
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"
