@@ -16,7 +16,7 @@ type vEvent = {
   // specify the "METHOD" property; otherwise, it
   // is OPTIONAL; in any case, it MUST NOT occur
   // more than once.
-  dtstart: Date;
+  dtstart: Date | string;
   // The following are OPTIONAL, but MUST NOT occur more than once.
   description?: string;
   location?: string;
@@ -59,8 +59,14 @@ export const createVEvent = ({
   }
   let event = ['BEGIN:VEVENT', `UID:${uid}`];
 
-  event.push(toDatetime(dtstamp ?? dtstart, tz, 'DTSTAMP'));
-  event.push(toDatetime(dtstart, tz, 'DTSTART'));
+  if (dtstart && dtstart instanceof Date) {
+    event.push(toDatetime(dtstamp ?? dtstart, tz, 'DTSTAMP'));
+    event.push(toDatetime(dtstart, tz, 'DTSTART'));
+  } else if (typeof dtstart === 'string') {
+    event.push(dtstart.replace('DTSTART', 'DTSTAMP'));
+    event.push(dtstart);
+  }
+
   dtend && event.push(toDatetime(dtend, tz, 'DTEND'));
   description && event.push(`DESCRIPTION:${description}`);
   location && event.push(`LOCATION:${location}`);
