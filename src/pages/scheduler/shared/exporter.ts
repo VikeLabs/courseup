@@ -17,7 +17,7 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
   const { start: startDatetime, end: endDatetime, isSameDay, durationMinutes } = parseDatetimeRange(course.meetingTime);
   const days = parseMeetingTimeDays(course);
 
-  const uid = `${course.term}_${course.subject}_${course.code}_${course.sectionCode}`;
+  const uid = `${course.term}_${course.subject}_${course.code}_${course.sectionCode}_${course.meetingTime.days}`;
   const description = `${course.subject} ${course.code} ${course.sectionCode}`;
 
   if (isSameDay) {
@@ -41,12 +41,16 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
     tzid: 'America/Vancouver',
   });
 
+  // this date is used because the start date of the event might land on
+  // a day that is not in the rrule.
   const dtStart = clearTimezone(rrule.all()[0]);
 
   return createVEvent({
     uid,
-    dtstart: clearTimezone(dtStart),
-    dtend: clearTimezone(addMinutes(dtStart, durationMinutes)),
+    dtstart: dtStart,
+    // the duration of the event is determined by the difference between the
+    // start and end dates of the event.
+    dtend: addMinutes(dtStart, durationMinutes),
     rrule: rrule.toString().split('\n')[1],
     description,
     summary: description,
