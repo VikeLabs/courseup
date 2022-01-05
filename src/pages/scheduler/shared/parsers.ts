@@ -6,7 +6,7 @@ import { MeetingTimes } from 'lib/fetchers';
 import { CourseCalendarEvent, CustomEvent, Resource } from 'pages/scheduler/shared/types';
 
 const DELIM = ' - ';
-const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
+// const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
 const MAX_HOUR = 20;
 
 export const toUTC = (date: Date) =>
