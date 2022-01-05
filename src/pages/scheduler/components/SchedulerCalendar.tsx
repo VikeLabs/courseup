@@ -1,4 +1,4 @@
-import { MutableRefObject, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
@@ -10,7 +10,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
-import { CreateCourseCalendarEvents } from 'pages/scheduler/shared/parsers';
+import { CreateEventsFromCourses } from 'pages/scheduler/shared/parsers';
 import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
@@ -37,7 +37,6 @@ export interface SchedulerCalendarProps {
 export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: SchedulerCalendarProps): JSX.Element => {
   // for darkmode
   const mode = useDarkMode();
-  const minEventDate: MutableRefObject<Date | undefined> = useRef(undefined);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [maxHour, setMaxHour] = useState(20);
 
@@ -62,12 +61,11 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   }, [today, term]);
 
   const events = useMemo(() => {
-    const { events, maxHour, minEventDate: minDate } = CreateCourseCalendarEvents(courseCalendarEvents);
-    minEventDate.current = minDate;
+    const { events, maxHour } = CreateEventsFromCourses(courseCalendarEvents);
     setMaxHour(maxHour);
     setSelectedDate(computedSelectedDate);
     return events;
-  }, [courseCalendarEvents, computedSelectedDate, minEventDate]);
+  }, [courseCalendarEvents, computedSelectedDate]);
 
   return (
     <Calendar<CustomEvent>
