@@ -43,7 +43,11 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
 
   // this date is used because the start date of the event might land on
   // a day that is not in the rrule.
-  const dtStart = clearTimezone(rrule.all()[0]);
+  const a = clearTimezone(startDatetime);
+  const b = rrule.all()[0];
+  const dtStart = new Date(
+    Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), b.getUTCDate(), a.getUTCHours(), a.getUTCMinutes())
+  );
 
   return createVEvent({
     uid,
