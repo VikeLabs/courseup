@@ -7,16 +7,18 @@ import {
   clearTimezone,
   parseDatetimeRange,
   parseMeetingTimeDays,
-  toUTC,
 } from 'pages/scheduler/shared/parsers';
 import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
 
 export const courseToVEvent = (course: CourseCalendarEvent): string | undefined => {
   // exit if event has no time
   if (assertMeetingTime(course.meetingTime)) return;
+  // TODO: investigate potential other types
+  if (course.meetingTime.type !== 'Every Week') return;
   const { start: startDatetime, end: endDatetime, isSameDay, durationMinutes } = parseDatetimeRange(course.meetingTime);
   const days = parseMeetingTimeDays(course);
 
+  // Google Calendar doesn't like when the uid isn't actually unique
   const uid = `${course.term}_${course.subject}_${course.code}_${course.sectionCode}_${course.meetingTime.days}`;
   const description = `${course.subject} ${course.code} ${course.sectionCode}`;
 
@@ -36,24 +38,13 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
     // TODO: make sure freq gets set correctly based on event data
     freq: RRule.WEEKLY,
     byweekday: days,
-    dtstart: toUTC(startDatetime),
-    until: toUTC(endDatetime),
-    tzid: 'America/Vancouver',
-  });
-
-  // HACK: WHY IS THIS NEEDED! (ノಠ益ಠ)ノ彡┻━┻
-  const rrule2 = new RRule({
-    // TODO: make sure freq gets set correctly based on event data
-    freq: RRule.WEEKLY,
-    byweekday: days,
-    dtstart: clearTimezone(startDatetime),
-    until: clearTimezone(endDatetime),
-    // omit tzid
+    dtstart: startDatetime,
+    until: endDatetime,
   });
 
   // this date is used because the start date of the event might land on
   // a day that is not in the rrule.
-  const dtStart = rrule2.all()[0];
+  const dtStart = clearTimezone(rrule.all()[0]);
 
   return createVEvent({
     uid,
@@ -61,7 +52,7 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
     // the duration of the event is determined by the difference between the
     // start and end dates of the event.
     dtend: addMinutes(dtStart, durationMinutes),
-    rrule: rrule.toString().split('\n')[1],
+    rrule: rrule.toString().split('\n')[1].replace('Z', ''),
     description,
     summary: description,
     location: course.meetingTime.where,
