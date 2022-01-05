@@ -41,13 +41,19 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
     tzid: 'America/Vancouver',
   });
 
+  // HACK: WHY IS THIS NEEDED! (ノಠ益ಠ)ノ彡┻━┻
+  const rrule2 = new RRule({
+    // TODO: make sure freq gets set correctly based on event data
+    freq: RRule.WEEKLY,
+    byweekday: days,
+    dtstart: clearTimezone(startDatetime),
+    until: clearTimezone(endDatetime),
+    // omit tzid
+  });
+
   // this date is used because the start date of the event might land on
   // a day that is not in the rrule.
-  const a = clearTimezone(startDatetime);
-  const b = rrule.all()[0];
-  const dtStart = new Date(
-    Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), b.getUTCDate(), a.getUTCHours(), a.getUTCMinutes())
-  );
+  const dtStart = rrule2.all()[0];
 
   return createVEvent({
     uid,

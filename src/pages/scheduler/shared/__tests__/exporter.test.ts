@@ -100,5 +100,38 @@ describe('exporters', () => {
         })
       );
     });
+    it('should handle when the start date does not land a day of reoccurance 2', async () => {
+      const vevent = courseToVEvent({
+        subject: 'ENGR',
+        code: '141',
+        sectionCode: 'T01',
+        meetingTime: {
+          dateRange: 'Jan 10, 2022 - Apr 07, 2022',
+          days: 'M',
+          time: '6:00 pm - 6:50 pm',
+          instructors: [],
+          scheduleType: '',
+          type: 'Every Week',
+          where: 'MacLaurin Building D010',
+        },
+        term: '202201',
+      });
+      expect(vevent).toBeDefined();
+      if (!vevent) return;
+
+      console.log(createVCalendar(vevent));
+      await fs.writeFile('test2.ics', createVCalendar(vevent));
+      expect(vevent).toBe(
+        createVEvent({
+          uid: '202201_ENGR_141_T01_M',
+          dtstart: 'DTSTART;TZID=America/Vancouver:20220110T180000',
+          dtend: new Date(2022, 0, 10, 18, 50),
+          rrule: 'RRULE:FREQ=WEEKLY;BYDAY=MO;UNTIL=20220407T185000',
+          description: 'ENGR 141 T01',
+          summary: 'ENGR 141 T01',
+          location: 'MacLaurin Building D010',
+        })
+      );
+    });
   });
 });
