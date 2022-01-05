@@ -181,8 +181,8 @@ describe('parsers', () => {
       expect(events.length).toEqual(9);
       expect(events[0]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('September 2, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('September 2, 2021 09:50:00 GMT')),
+        start: new Date('September 2, 2021 09:00:00 PDT'),
+        end: new Date('September 2, 2021 09:50:00 PDT'),
         resource: {
           ...baseResource,
           opacity: true,
@@ -190,8 +190,8 @@ describe('parsers', () => {
       });
       expect(events[2]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('September 6, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('September 6, 2021 09:50:00 GMT')),
+        start: new Date('September 6, 2021 09:00:00 PDT'),
+        end: new Date('September 6, 2021 09:50:00 PDT'),
         resource: {
           ...baseResource,
           opacity: true,
@@ -199,8 +199,8 @@ describe('parsers', () => {
       });
       expect(events[1]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('September 9, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('September 9, 2021 09:50:00 GMT')),
+        start: new Date('September 9, 2021 09:00:00 PDT'),
+        end: new Date('September 9, 2021 09:50:00 PDT'),
         resource: {
           ...baseResource,
           opacity: false,
@@ -208,8 +208,8 @@ describe('parsers', () => {
       });
       expect(events[3]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('September 13, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('September 13, 2021 09:50:00 GMT')),
+        start: new Date('September 13, 2021 09:00:00 PDT'),
+        end: new Date('September 13, 2021 09:50:00 PDT'),
         resource: {
           ...baseResource,
           opacity: false,
@@ -235,8 +235,8 @@ describe('parsers', () => {
 
       expect(events[0]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('September 2, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('September 2, 2021 09:50:00 GMT')),
+        start: new Date('September 2, 2021 09:00:00 PDT'),
+        end: new Date('September 2, 2021 09:50:00 PDT'),
         resource: {
           ...baseResource,
           opacity: true,
@@ -244,8 +244,8 @@ describe('parsers', () => {
       });
       expect(events[2]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('September 6, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('September 6, 2021 09:50:00 GMT')),
+        start: new Date('September 6, 2021 09:00:00 PDT'),
+        end: new Date('September 6, 2021 09:50:00 PDT'),
         resource: {
           ...baseResource,
           opacity: true,
@@ -253,8 +253,8 @@ describe('parsers', () => {
       });
       expect(events[1]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('September 9, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('September 9, 2021 09:50:00 GMT')),
+        start: new Date('September 9, 2021 09:00:00 PDT'),
+        end: new Date('September 9, 2021 09:50:00 PDT'),
         resource: {
           ...baseResource,
           opacity: false,
@@ -262,8 +262,8 @@ describe('parsers', () => {
       });
       expect(events[3]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('September 13, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('September 13, 2021 09:50:00 GMT')),
+        start: new Date('September 13, 2021 09:00:00 PDT'),
+        end: new Date('September 13, 2021 09:50:00 PDT'),
         resource: {
           ...baseResource,
           opacity: false,
@@ -271,8 +271,8 @@ describe('parsers', () => {
       });
       expect(events[events.length - 1]).toEqual({
         title: 'ENGR 130',
-        start: clearTimezone(new Date('December 6, 2021 09:00:00 GMT')),
-        end: clearTimezone(new Date('December 6, 2021 09:50:00 GMT')),
+        start: new Date('December 6, 2021 09:00:00 PST'),
+        end: new Date('December 6, 2021 09:50:00 PST'),
         resource: {
           ...baseResource,
           opacity: false,

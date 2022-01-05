@@ -23,7 +23,7 @@ describe('exporters', () => {
       });
       expect(vevent).toBe(
         createVEvent({
-          uid: '202109_CSC_123_A01',
+          uid: '202109_CSC_123_A01_M',
           dtstart: new Date(2021, 8, 1, 9, 0),
           dtend: new Date(2021, 8, 1, 10, 0),
           description: 'CSC 123 A01',
