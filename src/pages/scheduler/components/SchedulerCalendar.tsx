@@ -10,7 +10,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
-import { ExportCoursesToIcs } from 'pages/scheduler/shared/exporter';
+import { coursesToVCalendar } from 'pages/scheduler/shared/exporter';
 import { CreateEventsFromCourses } from 'pages/scheduler/shared/parsers';
 import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
@@ -67,7 +67,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
     setMaxHour(maxHour);
     setSelectedDate(computedSelectedDate);
 
-    const vCalendar = ExportCoursesToIcs(courseCalendarEvents);
+    const vCalendar = coursesToVCalendar(courseCalendarEvents);
     if (events.length > 0 && vCalendar) {
       setVCalendar(vCalendar);
     }
