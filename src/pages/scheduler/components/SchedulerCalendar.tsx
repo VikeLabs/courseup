@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
@@ -38,13 +38,12 @@ export interface SchedulerCalendarProps {
 export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: SchedulerCalendarProps): JSX.Element => {
   // for darkmode
   const mode = useDarkMode();
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [vCalendar, setVCalendar] = useState('');
-  const [maxHour, setMaxHour] = useState(20);
-
   const today = useMemo(() => new Date(), []);
-
-  const computedSelectedDate = useMemo<Date>(() => {
+  // initialize selected date
+  const [selectedDate, setSelectedDate] = useState(today);
+  // determine what date to position the calendar on.
+  const initialSelectedDate = useMemo<Date>(() => {
+    // if there is a term, use today as the default
     if (term === undefined) return today;
 
     // eg. 202105 => 2021, 05
@@ -61,19 +60,27 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       return new Date(year, month - 1, 12);
     }
   }, [today, term]);
+  // for iCalendar export
+  const [vCalendar, setVCalendar] = useState('');
+  // determines the max hour to display on the calendar. defaults to 8 pm
+  const [maxHour, setMaxHour] = useState(20);
+  // create events compatible with the calendar from courses
 
   const events = useMemo(() => {
-    const { events, maxHour } = CreateEventsFromCourses(courseCalendarEvents);
-    setMaxHour(maxHour);
-    setSelectedDate(computedSelectedDate);
-
-    const vCalendar = coursesToVCalendar(courseCalendarEvents);
+    const { events, maxHour: tmpMaxHour } = CreateEventsFromCourses(courseCalendarEvents);
     if (events.length > 0 && vCalendar) {
-      setVCalendar(vCalendar);
+      setVCalendar(coursesToVCalendar(courseCalendarEvents));
     }
-
+    if (tmpMaxHour > maxHour) {
+      setMaxHour(tmpMaxHour);
+    }
     return events;
-  }, [courseCalendarEvents, computedSelectedDate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseCalendarEvents]);
+
+  useEffect(() => {
+    setSelectedDate(initialSelectedDate);
+  }, [initialSelectedDate, courseCalendarEvents.length]);
 
   return (
     <Calendar<CustomEvent>
