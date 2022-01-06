@@ -46,6 +46,22 @@ END:VEVENT`
       );
     });
 
+    it('creates a basic event using dtstart as a string', () => {
+      const result = createVEvent({
+        uid: 'UIDXYZ',
+        dtstart: 'DTSTART;TZID=America/Vancouver:20220110T180000',
+        dtend: new Date(2022, 0, 10, 18, 50),
+      });
+      expect(result).toBe(
+        `BEGIN:VEVENT
+UID:UIDXYZ
+DTSTAMP;TZID=America/Vancouver:20220110T180000
+DTSTART;TZID=America/Vancouver:20220110T180000
+DTEND;TZID=America/Vancouver:20220110T185000
+END:VEVENT`
+      );
+    });
+
     it('creates an event with optional properties', () => {
       const result = createVEvent({
         uid: 'UIDXYZ',
