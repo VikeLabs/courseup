@@ -19,6 +19,8 @@ import { CourseCalendarEvent } from '../shared/types';
 
 const EVENTS_CACHE: { [key: string]: ParseMeetingTimesResult } = {};
 
+console.log('test');
+
 const buildEventsCacheKey = (event: CourseCalendarEvent) =>
   `${event.term}_${event.subject}_${event.code}_${event.sectionCode}_${event.meetingTime.days}_${event.meetingTime.time}`;
 

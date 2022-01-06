@@ -24,7 +24,16 @@ import { TermButtons } from '../components/TermButtons';
 export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
   return (
-    <Box zIndex="overlay" position="sticky" top={0} as="header" px="8" boxShadow="md" pb="1">
+    <Box
+      zIndex="overlay"
+      position="sticky"
+      top={0}
+      as="header"
+      px="8"
+      boxShadow="md"
+      pb="1"
+      data-testid="mobile-header"
+    >
       <HStack justifyContent="space-between">
         <IconButton aria-label="menu" onClick={onToggle} icon={<HamburgerIcon />} variant="ghost" fontSize="1.5em" />
         <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
@@ -72,7 +81,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
       {isMobile ? (
         <MobileHeaderContainer onSearchChange={onSearchChange} />
       ) : (
-        <Box zIndex="overlay" position="sticky" top={0}>
+        <Box zIndex="overlay" position="sticky" top={0} data-testid="desktop-header">
           <HStack as="header" px="8" boxShadow="md" zIndex={100} minH="63px">
             <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
               {/* <Image
