@@ -59,9 +59,12 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
   });
 };
 
-export const ExportCoursesToIcs = (courses: CourseCalendarEvent[]) => {
-  const vEvents = courses.map(courseToVEvent).filter((e) => e !== undefined);
-  if (vEvents) {
-    return createVCalendar(vEvents.join('\n'));
-  }
+export const coursesToVCalendar = (courses: CourseCalendarEvent[]) => {
+  const vEvents = courses.flatMap((c) => {
+    const vEvent = courseToVEvent(c);
+    if (vEvent) return [vEvent];
+    return [];
+  });
+
+  return createVCalendar(vEvents.join('\n'));
 };
