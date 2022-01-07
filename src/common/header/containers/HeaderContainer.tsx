@@ -27,12 +27,12 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
       position="sticky"
       top={0}
       as="header"
-      px="8"
+      px={{ lg: 8, md: 5, base: 3 }}
       boxShadow="md"
       pb="1"
       data-testid="mobile-header"
     >
-      <HStack justifyContent="space-between" my="1.5">
+      <HStack justifyContent="space-between" minH="56px">
         <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
           {/*
             TODO: LOGO
@@ -52,7 +52,7 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
         <IconButton aria-label="menu" onClick={onToggle} icon={<HamburgerIcon />} variant="ghost" fontSize="1.5em" />
       </HStack>
       <Collapse in={isOpen} animateOpacity>
-        <VStack width="100%">
+        <VStack width="100%" mb="1.5">
           <TermSelect />
           <NavButtons />
           <RightSideButtons />

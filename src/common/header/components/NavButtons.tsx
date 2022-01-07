@@ -28,7 +28,7 @@ export function NavButtons(): JSX.Element {
         <ButtonGroup isAttached variant="ghost" w="100%" data-testid="mobile-nav">
           <VStack w="100%">
             <Button onClick={onClick} name="calendar" w="100%">
-              View courses
+              Explore courses
             </Button>
             <Divider />
             <Button onClick={onClick} name="scheduler" w="100%">
