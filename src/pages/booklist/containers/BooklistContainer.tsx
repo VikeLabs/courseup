@@ -52,8 +52,10 @@ export function BooklistContainer(): JSX.Element | null {
             </>
           )}
         </Box>
-        {textbooks.status === 'loaded' && (
-          <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+        {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
+          <Box as="footer">
+            <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+          </Box>
         )}
       </Flex>
     </Flex>

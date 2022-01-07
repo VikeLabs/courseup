@@ -9,7 +9,7 @@ import {
   useDisclosure,
   VStack,
   IconButton,
-  Text,
+  Image,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -34,19 +34,15 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
     >
       <HStack justifyContent="space-between" minH="56px">
         <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
-          {/*
-            TODO: LOGO
-            <Image
-            src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Logo-Blue.svg'}
+          <Image
+            src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
             maxH="55px"
-            minW="4em"
+            minW="7em"
             alt="CourseUp"
             color="transparent"
             loading="lazy"
-          /> */}
-          <Text fontSize="xl" fontWeight="bold">
-            CourseUp
-          </Text>
+            mr="2"
+          />
         </LinkBox>
         <Search onChange={onSearchChange} />
         <IconButton aria-label="menu" onClick={onToggle} icon={<HamburgerIcon />} variant="ghost" fontSize="1.5em" />
@@ -82,17 +78,18 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
         <Box zIndex="overlay" position="sticky" top={0} data-testid="desktop-header">
           <HStack as="header" px="8" boxShadow="md" zIndex={100} minH="56px">
             <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
-              {/* <Image
-                src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Logo-Blue.svg'}
+              <Image
+                src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
                 maxH="55px"
-                minW="4em"
+                minW="7em"
                 alt="CourseUp"
                 color="transparent"
                 loading="lazy"
-              /> */}
-              <Text fontSize="xl" fontWeight="bold" mr="2">
+                mr="2"
+              />
+              {/* <Text fontSize="xl" fontWeight="bold" mr="2">
                 CourseUp
-              </Text>
+              </Text> */}
             </LinkBox>
             <Search onChange={onSearchChange} />
             <NavButtons />

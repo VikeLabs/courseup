@@ -1,7 +1,5 @@
-import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { Container, Divider, Flex, Heading, Text, Center, HStack, Link as Links } from '@chakra-ui/react';
+import { Container, Divider, Flex, Heading, Text, Center, HStack } from '@chakra-ui/react';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import { getReadableTerm } from 'lib/utils/terms';
 
@@ -11,9 +9,6 @@ export function BooklistHeading() {
   return (
     <Container alignItems="center" maxW="container.xl">
       <HStack>
-        <Links as={Link} to={`/scheduler/${term}`} display="flex" alignItems="center">
-          <ChevronLeftIcon fontSize="2.1875rem" colorScheme="white" verticalAlign="bottom" aria-label="back" />
-        </Links>
         <Center direction={{ md: 'row', base: 'column' }} alignItems="center" w="100%">
           <Heading fontSize={{ base: '1.5rem', md: '2.15rem' }} as="h1" marginBottom={{ base: '1rem', md: '0' }}>
             Booklist for {`${getReadableTerm(term)}`}
