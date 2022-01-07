@@ -33,11 +33,10 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
       data-testid="mobile-header"
     >
       <HStack justifyContent="space-between">
-        <IconButton aria-label="menu" onClick={onToggle} icon={<HamburgerIcon />} variant="ghost" fontSize="1.5em" />
-        <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
+        <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
           {/*
             TODO: LOGO
-          <Image
+            <Image
             src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Logo-Blue.svg'}
             maxH="55px"
             minW="4em"
@@ -49,13 +48,14 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
             CourseUp
           </Text>
         </LinkBox>
-        <RightSideButtons />
+        <Search onChange={onSearchChange} />
+        <IconButton aria-label="menu" onClick={onToggle} icon={<HamburgerIcon />} variant="ghost" fontSize="1.5em" />
       </HStack>
       <Collapse in={isOpen} animateOpacity>
         <VStack width="100%">
           <TermSelect />
-          <Search onChange={onSearchChange} />
           <NavButtons />
+          <RightSideButtons />
         </VStack>
       </Collapse>
     </Box>

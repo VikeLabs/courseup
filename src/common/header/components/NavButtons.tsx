@@ -42,6 +42,7 @@ export function NavButtons(): JSX.Element {
             <Button onClick={onClick} name="booklist" w="100%">
               Booklist
             </Button>
+            <Divider />
           </VStack>
         </ButtonGroup>
       ) : (
