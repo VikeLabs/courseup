@@ -53,7 +53,7 @@ export function BooklistContainer(): JSX.Element | null {
           )}
         </Box>
         {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
-          <Box as="footer">
+          <Box as="footer" px="2" textAlign={{ base: 'center', md: 'left' }}>
             <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
           </Box>
         )}
