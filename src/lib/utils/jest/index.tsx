@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('algoliasearch');
 
-const searchClient = mocked(algoliasearch);
+const searchClient = { search: jest.fn() };
 
 // borrowed from: https://testing-library.com/docs/example-react-router/
 export const renderWithRouter = (ui: JSX.Element, { route = '/' } = {}) => {
