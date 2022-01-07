@@ -32,7 +32,7 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
       pb="1"
       data-testid="mobile-header"
     >
-      <HStack justifyContent="space-between">
+      <HStack justifyContent="space-between" my="1.5">
         <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
           {/*
             TODO: LOGO
@@ -80,7 +80,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
         <MobileHeaderContainer onSearchChange={onSearchChange} />
       ) : (
         <Box zIndex="overlay" position="sticky" top={0} data-testid="desktop-header">
-          <HStack as="header" px="8" boxShadow="md" zIndex={100} minH="63px">
+          <HStack as="header" px="8" boxShadow="md" zIndex={100} minH="56px">
             <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
               {/* <Image
                 src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Logo-Blue.svg'}
