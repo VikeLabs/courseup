@@ -48,7 +48,7 @@ export function NavButtons(): JSX.Element {
       ) : (
         <ButtonGroup isAttached variant="ghost">
           <Button onClick={onClick} name="calendar">
-            View courses
+            Explore courses
           </Button>
           <Button onClick={onClick} name="scheduler">
             Timetable
