@@ -19,7 +19,7 @@ import { Banner } from '../components/Banner';
 import { NavButtons } from '../components/NavButtons';
 import { RightSideButtons } from '../components/RightSideButtons';
 import { Search } from '../components/SearchBar';
-import { TermButtons } from '../components/TermButtons';
+import { TermSelect } from '../components/TermSelect';
 
 export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
@@ -55,7 +55,7 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
       </HStack>
       <Collapse in={isOpen} animateOpacity>
         <VStack width="100%">
-          <TermButtons />
+          <TermSelect />
           <Search onChange={onSearchChange} />
           <NavButtons />
         </VStack>
@@ -100,7 +100,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
             <NavButtons />
             <Spacer />
             <HStack marginLeft="auto">
-              <TermButtons />
+              <TermSelect />
               <RightSideButtons />
             </HStack>
           </HStack>

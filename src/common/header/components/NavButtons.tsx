@@ -23,7 +23,7 @@ export function NavButtons(): JSX.Element {
   return (
     <>
       {isMobile ? (
-        <ButtonGroup isAttached variant="ghost" w="100%">
+        <ButtonGroup isAttached variant="ghost" w="100%" data-testid="mobile-nav">
           <VStack w="100%">
             <Button onClick={onClick} name="calendar" w="100%">
               View courses

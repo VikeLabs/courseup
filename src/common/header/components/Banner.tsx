@@ -96,7 +96,10 @@ export function Banner(): JSX.Element {
           position="absolute"
           right="8px"
           top="8px"
-          onClick={() => setBanner(false)}
+          onClick={() => {
+            console.log('test');
+            setBanner(false);
+          }}
           _focusVisible={{ boxShadow: 'none', color: 'rgb(19, 135, 243)', fontSize: '1.2rem' }}
         />
       </Alert>

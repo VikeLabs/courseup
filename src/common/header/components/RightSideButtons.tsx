@@ -27,7 +27,7 @@ export function RightSideButtons(): JSX.Element {
         icon={<AiFillGithub />}
       />
       <IconButton
-        aria-label="toggle"
+        aria-label="toggle dark mode"
         isRound
         icon={mode(<MoonIcon fontSize="1.3em" />, <SunIcon fontSize="1.3em" />)}
         size="md"

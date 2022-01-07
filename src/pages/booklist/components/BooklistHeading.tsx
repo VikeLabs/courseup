@@ -3,7 +3,7 @@ import { Container, Divider, Flex, Heading, Text, Center, HStack, Link as Links 
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import { getReadableTerm } from 'lib/utils';
+import { getReadableTerm } from 'lib/utils/terms';
 
 export function BooklistHeading() {
   const { term } = useParams();

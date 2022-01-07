@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
+import { renderWithRouter } from 'lib/utils/jest';
+
 import { HeaderContainer } from '../HeaderContainer';
 
 describe('HeaderContainer', () => {
@@ -9,7 +11,7 @@ describe('HeaderContainer', () => {
 
   describe('when the window width is larger than 1020px', () => {
     it('should render the desktop header', () => {
-      render(<HeaderContainer />);
+      renderWithRouter(<HeaderContainer />);
 
       expect(screen.getByTestId('desktop-header')).toBeInTheDocument();
     });

@@ -5,11 +5,11 @@ import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { getCurrentTerm, getReadableTerm } from 'lib/utils';
+import { getCurrentTerm, getReadableTerm } from 'lib/utils/terms';
 
 const terms = ['202105', '202109', '202201'];
 
-export function TermButtons(): JSX.Element {
+export function TermSelect(): JSX.Element {
   const { subject } = useParams();
   const [selectedTerm, setTerm] = useState(getCurrentTerm());
   const [searchParams] = useSearchParams();
@@ -25,6 +25,7 @@ export function TermButtons(): JSX.Element {
 
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const name = event.target.value;
+    console.log(name);
     if (name) {
       setTerm(name);
       if (calendarMatch) {
@@ -41,8 +42,8 @@ export function TermButtons(): JSX.Element {
     }
   };
 
-  // TODO: A "bug" in Chakra is preventing the `option` components from inheriting the `Select` background color
-  // this leads to eligible text in the options. https://github.com/chakra-ui/chakra-ui/issues/5331
+  // TODO: A "bug" in Firefox for macOS is preventing the `option` components
+  // from inheriting the `Select` background color this leads to eligible text in the options.
   return (
     <Select
       borderColor={mode('green.500', 'green.300')}
