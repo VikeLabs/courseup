@@ -19,7 +19,7 @@ describe('NavButtons', () => {
   it('should render all the buttons', () => {
     render(<NavButtons />);
 
-    expect(screen.getByText('View courses')).toBeInTheDocument();
+    expect(screen.getByText('Explore courses')).toBeInTheDocument();
     expect(screen.getByText('Timetable')).toBeInTheDocument();
     expect(screen.getByText('Register')).toBeInTheDocument();
     expect(screen.getByText('Booklist')).toBeInTheDocument();

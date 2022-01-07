@@ -1,7 +1,5 @@
 import { render } from '@testing-library/react';
-import { mocked } from 'ts-jest/utils';
 
-import algoliasearch from 'algoliasearch';
 import { InstantSearch } from 'react-instantsearch-core';
 import { BrowserRouter } from 'react-router-dom';
 
