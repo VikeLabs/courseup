@@ -12,7 +12,7 @@ import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
 import { useInitialDateTime } from 'pages/scheduler/hooks/useInitialDatetime';
 import { coursesToVCalendar } from 'pages/scheduler/shared/exporter';
-import { CreateEventsFromCourses } from 'pages/scheduler/shared/parsers';
+import { courseCalEventsToCustomEvents } from 'pages/scheduler/shared/transformers';
 import { CustomEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
@@ -53,7 +53,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   }, [courseCalendarEvents]);
 
   const events = useMemo(() => {
-    const { events, maxHour: tmpMaxHour } = CreateEventsFromCourses(courseCalendarEvents);
+    const { events, maxHour: tmpMaxHour } = courseCalEventsToCustomEvents(courseCalendarEvents);
 
     if (tmpMaxHour > maxHour) {
       setMaxHour(tmpMaxHour);
