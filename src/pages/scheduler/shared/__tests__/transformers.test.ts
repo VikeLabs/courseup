@@ -4,26 +4,6 @@ import { clearTimezone } from 'pages/scheduler/shared/parsers';
 import { courseCalEventToCustomEvents } from 'pages/scheduler/shared/transformers';
 import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
 
-const baseBlankMeetingTime: MeetingTimes = {
-  days: '',
-  dateRange: '',
-  time: '',
-  instructors: [],
-  scheduleType: '',
-  type: '',
-  where: '',
-};
-
-const baseCalendarEvent: CourseCalendarEvent = {
-  subject: 'CSC',
-  code: '111',
-  sectionCode: 'A01',
-  term: '202101',
-  meetingTime: {
-    ...baseBlankMeetingTime,
-  },
-};
-
 describe('transformers', () => {
   describe('courseCalEventToCustomEvents', () => {
     const baseResource = {
