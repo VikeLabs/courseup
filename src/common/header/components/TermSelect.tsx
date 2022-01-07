@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Select } from '@chakra-ui/react';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
+import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getCurrentTerm, getReadableTerm } from 'lib/utils/terms';
 
@@ -11,7 +12,7 @@ const terms = ['202105', '202109', '202201'];
 
 export function TermSelect(): JSX.Element {
   const { subject } = useParams();
-  const [selectedTerm, setTerm] = useState(getCurrentTerm());
+  const [selectedTerm, setTerm] = useSessionStorage('user:term', getCurrentTerm());
   const [searchParams] = useSearchParams();
   const pid = searchParams.get('pid');
   const mode = useDarkMode();
@@ -25,7 +26,6 @@ export function TermSelect(): JSX.Element {
 
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const name = event.target.value;
-    console.log(name);
     if (name) {
       setTerm(name);
       if (calendarMatch) {

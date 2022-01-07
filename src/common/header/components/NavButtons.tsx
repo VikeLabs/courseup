@@ -1,6 +1,8 @@
 import { Button, ButtonGroup, useMediaQuery, VStack, Divider } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router';
 
+import { getCurrentTerm } from 'lib/utils/terms';
+
 export function NavButtons(): JSX.Element {
   const [isMobile] = useMediaQuery('(max-width: 1020px)');
   const { term } = useParams();
@@ -10,13 +12,13 @@ export function NavButtons(): JSX.Element {
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
     if (name === 'calendar') {
-      navigate(`/calendar/${term || ''}`);
+      navigate(`/calendar/${term || getCurrentTerm()}`);
     } else if (name === 'scheduler') {
-      navigate(`/scheduler/${term || ''}`);
+      navigate(`/scheduler/${term || getCurrentTerm()}`);
     } else if (name === 'register') {
-      navigate(`/registration/${term || ''}`);
+      navigate(`/registration/${term || getCurrentTerm()}`);
     } else if (name === 'booklist') {
-      navigate(`/booklist/${term || ''}`);
+      navigate(`/booklist/${term || getCurrentTerm()}`);
     }
   };
 
