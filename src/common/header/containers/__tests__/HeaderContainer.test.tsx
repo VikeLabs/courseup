@@ -9,7 +9,7 @@ describe('HeaderContainer', () => {
     renderWithSearchAndRouter(<HeaderContainer />);
 
     expect(screen.getByTestId('desktop-header')).toBeInTheDocument();
-    expect(screen.getAllByRole('button')).toHaveLength(6);
+    expect(screen.getAllByRole('button')).toHaveLength(8);
     expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 });
