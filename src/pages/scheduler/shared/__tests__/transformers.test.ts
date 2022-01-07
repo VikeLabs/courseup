@@ -39,10 +39,10 @@ describe('transformers', () => {
       expect(result).toBeDefined();
       // for static checks
       if (!result) return;
-      const { maxHour, events } = result;
+      const { maxHours, events } = result;
       // 1 "ghost events" and 1 class session
       expect(events.length).toEqual(2);
-      expect(maxHour).toEqual(9);
+      expect(maxHours).toEqual(9);
 
       expect(events[0]).toEqual({
         title: 'ENGR 130',
@@ -128,11 +128,11 @@ describe('transformers', () => {
       expect(result).toBeDefined();
       // for static checks
       if (!result) return;
-      const { maxHour, events } = result;
+      const { maxHours, events } = result;
       // 2 "ghost events" and 28 class session
       expect(events.length).toEqual(28);
       // round 9:50 am to 10:00 am
-      expect(maxHour).toEqual(10);
+      expect(maxHours).toEqual(10);
 
       expect(events[0]).toEqual({
         title: 'ENGR 130',

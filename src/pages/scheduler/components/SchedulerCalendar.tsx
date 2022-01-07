@@ -44,20 +44,22 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const [selectedDate, setSelectedDate] = useState(today);
   // determine what date to position the calendar on.
   const initialSelectedDate = useInitialDateTime(term);
-  // for iCalendar export
+
   // determines the max hour to display on the calendar. defaults to 8 pm
-  const [maxHour, setMaxHour] = useState(20);
+  const [maxTime, setMaxTime] = useState<{ hours: number; minutes: number }>({ hours: 20, minutes: 0 });
+
   // create events compatible with the calendar from courses
   const vCalendar = useMemo(() => {
     return courseCalendarEvents.length !== 0 ? coursesToVCalendar(courseCalendarEvents) : undefined;
   }, [courseCalendarEvents]);
 
   const events = useMemo(() => {
-    const { events, maxHour: tmpMaxHour } = courseCalEventsToCustomEvents(courseCalendarEvents);
+    const { events, maxHours: maxHour, maxMinutes } = courseCalEventsToCustomEvents(courseCalendarEvents);
 
-    if (tmpMaxHour > maxHour) {
-      setMaxHour(tmpMaxHour);
+    if (maxHour >= maxTime.hours && maxMinutes >= maxTime.minutes) {
+      setMaxTime({ hours: maxHour, minutes: maxMinutes });
     }
+
     return events;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseCalendarEvents]);
@@ -71,7 +73,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       localizer={localizer}
       events={events}
       min={set(today, { hours: 8, minutes: 0 })}
-      max={set(today, { hours: maxHour, minutes: 0 })}
+      max={set(today, { hours: maxTime.hours, minutes: maxTime.minutes })}
       defaultView="work_week"
       views={['work_week']}
       date={selectedDate}

@@ -14,7 +14,6 @@ export const CalendarToolBar =
         onSelectedDateChange(new Date());
       }
     };
-    console.log(vCalendar);
 
     const handleDownload = () => {
       if (vCalendar) {

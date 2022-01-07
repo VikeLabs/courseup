@@ -37,7 +37,8 @@ export const createCustomEvent = (
 
 type CalendarEventsResult = {
   events: CustomEvent[];
-  maxHour: number;
+  maxHours: number;
+  maxMinutes: number;
   minEventDate?: Date;
   rrule?: RRule;
 };
@@ -54,7 +55,8 @@ export const courseCalEventToCustomEvents = (course: CourseCalendarEvent): Calen
   if (isSameDay) {
     const ghostStartDatetime = subWeeks(startDatetime, 1);
     return {
-      maxHour: endDatetime.getUTCHours(),
+      maxHours: endDatetime.getUTCHours(),
+      maxMinutes: endDatetime.getUTCMinutes(),
       events: [
         createCustomEvent(title, clearTimezone(ghostStartDatetime), durationMinutes, course, true),
         createCustomEvent(title, clearTimezone(startDatetime), durationMinutes, course, false),
@@ -82,12 +84,11 @@ export const courseCalEventToCustomEvents = (course: CourseCalendarEvent): Calen
 
     events.push(createCustomEvent(title, clearTimezone(date), durationMinutes, course, false));
   });
-  // get nearest hour from hour and minutes to determine max hour
-  const maxHour = Math.ceil(endDatetime.getUTCHours() / 2) * 2;
 
   // events are not sorted by start time. ie. there will be "placeholder events" interleaved with actual events
   return {
-    maxHour,
+    maxHours: endDatetime.getUTCHours(),
+    maxMinutes: endDatetime.getUTCMinutes(),
     minEventDate: events[0].start ? clearTimezone(events[0].start) : undefined,
     events,
     rrule,
@@ -97,20 +98,23 @@ export const courseCalEventToCustomEvents = (course: CourseCalendarEvent): Calen
 export const courseCalEventsToCustomEvents = (courses: CourseCalendarEvent[]): CalendarEventsResult => {
   const events: CustomEvent[] = [];
 
-  let maxHour = MAX_HOUR;
+  let maxHours = MAX_HOUR;
+  let maxMinutes = 0;
 
   courses.forEach((course) => {
     const courseEvents = courseCalEventToCustomEvents(course);
     if (courseEvents) {
       events.push(...courseEvents.events);
-      if (courseEvents.maxHour > maxHour) {
-        maxHour = courseEvents.maxHour;
+      if (courseEvents.maxHours >= maxHours && courseEvents.maxMinutes >= maxMinutes) {
+        maxHours = courseEvents.maxHours;
+        maxMinutes = courseEvents.maxMinutes;
       }
     }
   });
 
   return {
     events,
-    maxHour,
+    maxMinutes,
+    maxHours,
   };
 };
