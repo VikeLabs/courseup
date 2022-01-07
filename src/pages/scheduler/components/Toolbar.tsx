@@ -3,7 +3,7 @@ import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/reac
 import { ToolbarProps } from 'react-big-calendar';
 
 export const CalendarToolBar =
-  (onSelectedDateChange: (date: Date) => void, vCalendar: string) =>
+  (onSelectedDateChange: (date: Date) => void, vCalendar?: string) =>
   ({ label, date }: ToolbarProps) => {
     const handleClick = (offset?: number) => () => {
       if (offset) {
@@ -17,7 +17,7 @@ export const CalendarToolBar =
     console.log(vCalendar);
 
     const handleDownload = () => {
-      if (vCalendar.length > 0) {
+      if (vCalendar) {
         const element = document.createElement('a');
         const file = new Blob([vCalendar], { type: 'text/plain' });
         element.href = URL.createObjectURL(file);
@@ -33,7 +33,7 @@ export const CalendarToolBar =
         <Heading size="md">Scheduler</Heading>
         <Text fontSize="xl">{label}</Text>
         <HStack pb="0.2em">
-          <Button size="sm" colorScheme="gray" onClick={handleDownload} disabled={vCalendar === ''}>
+          <Button size="sm" colorScheme="gray" onClick={handleDownload} disabled={!vCalendar}>
             Download
           </Button>
           <Button size="sm" colorScheme="gray" onClick={handleClick()}>

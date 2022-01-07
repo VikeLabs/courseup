@@ -26,23 +26,10 @@ const localizer = dateFnsLocalizer({
   locales: { 'en-US': enUS },
 });
 
-export interface SchedulerCalendarProps {
-  /**
-   * CalendarEvents
-   * Parses events that can go into the calendar from this
-   */
-  courseCalendarEvents?: CourseCalendarEvent[];
-  term?: string;
-}
-
-export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: SchedulerCalendarProps): JSX.Element => {
-  // for darkmode
-  const mode = useDarkMode();
+const useInitialDateTime = (term?: string) => {
   const today = useMemo(() => new Date(), []);
-  // initialize selected date
-  const [selectedDate, setSelectedDate] = useState(today);
   // determine what date to position the calendar on.
-  const initialSelectedDate = useMemo<Date>(() => {
+  return useMemo<Date>(() => {
     // if there is a term, use today as the default
     if (term === undefined) return today;
 
@@ -60,17 +47,36 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       return new Date(year, month - 1, 12);
     }
   }, [today, term]);
+};
+
+export interface SchedulerCalendarProps {
+  /**
+   * CalendarEvents
+   * Parses events that can go into the calendar from this
+   */
+  courseCalendarEvents?: CourseCalendarEvent[];
+  term?: string;
+}
+
+export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: SchedulerCalendarProps): JSX.Element => {
+  // for darkmode
+  const mode = useDarkMode();
+  const today = useMemo(() => new Date(), []);
+  // initialize selected date
+  const [selectedDate, setSelectedDate] = useState(today);
+  // determine what date to position the calendar on.
+  const initialSelectedDate = useInitialDateTime(term);
   // for iCalendar export
-  const [vCalendar, setVCalendar] = useState('');
   // determines the max hour to display on the calendar. defaults to 8 pm
   const [maxHour, setMaxHour] = useState(20);
   // create events compatible with the calendar from courses
+  const vCalendar = useMemo(() => {
+    return courseCalendarEvents.length !== 0 ? coursesToVCalendar(courseCalendarEvents) : undefined;
+  }, [courseCalendarEvents]);
 
   const events = useMemo(() => {
     const { events, maxHour: tmpMaxHour } = CreateEventsFromCourses(courseCalendarEvents);
-    if (events.length > 0 && vCalendar) {
-      setVCalendar(coursesToVCalendar(courseCalendarEvents));
-    }
+
     if (tmpMaxHour > maxHour) {
       setMaxHour(tmpMaxHour);
     }
