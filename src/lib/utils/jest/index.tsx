@@ -24,3 +24,15 @@ export const renderWithSearch = (ui: JSX.Element) => {
     </InstantSearch>
   );
 };
+
+// I know this is sus but it works so
+export const renderWithSearchAndRouter = (ui: JSX.Element, { route = '/' } = {}) => {
+  window.history.pushState({}, 'Test page', route);
+
+  return render(
+    <InstantSearch indexName="testing" searchClient={searchClient}>
+      {ui}
+    </InstantSearch>,
+    { wrapper: BrowserRouter }
+  );
+};
