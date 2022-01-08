@@ -10,7 +10,7 @@ import {
 } from 'pages/scheduler/shared/parsers';
 import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
 
-export const courseToVEvent = (course: CourseCalendarEvent): string | undefined => {
+export const courseToVEvent = (course: CourseCalendarEvent, index?: number): string | undefined => {
   // exit if event has no time
   if (assertMeetingTime(course.meetingTime)) return;
   // TODO: investigate potential other types
@@ -19,7 +19,10 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
   const days = parseMeetingTimeDays(course);
 
   // Google Calendar doesn't like when the uid isn't actually unique
-  const uid = `${course.term}_${course.subject}_${course.code}_${course.sectionCode}_${course.meetingTime.days}`;
+  // the index is used to make it unique when there are multiple events on the same day
+  const uid = `${course.term}_${course.subject}_${course.code}_${course.sectionCode}_${course.meetingTime.days}_${
+    index || ''
+  }`;
   const description = `${course.subject} ${course.code} ${course.sectionCode}`;
 
   if (isSameDay) {
@@ -60,8 +63,8 @@ export const courseToVEvent = (course: CourseCalendarEvent): string | undefined 
 };
 
 export const coursesToVCalendar = (courses: CourseCalendarEvent[]) => {
-  const vEvents = courses.flatMap((c) => {
-    const vEvent = courseToVEvent(c);
+  const vEvents = courses.flatMap((c, i) => {
+    const vEvent = courseToVEvent(c, i);
     if (vEvent) return [vEvent];
     return [];
   });
