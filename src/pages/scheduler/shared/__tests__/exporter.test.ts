@@ -50,7 +50,7 @@ describe('exporters', () => {
 
       expect(vevent).toBe(
         createVEvent({
-          uid: '202109_CSC_123_A01_M',
+          uid: '202109_CSC_123_A01_M_',
           dtstart: new Date(2021, 8, 1, 9, 0),
           dtend: new Date(2021, 8, 1, 10, 0),
           description: 'CSC 123 A01',
@@ -72,7 +72,7 @@ describe('exporters', () => {
 
       expect(vevent).toBe(
         createVEvent({
-          uid: '202109_CSC_123_A01_TWF',
+          uid: '202109_CSC_123_A01_TWF_',
           dtstart: new Date(2021, 8, 8, 11, 30),
           dtend: new Date(2021, 8, 8, 12, 20),
           rrule: 'RRULE:FREQ=WEEKLY;BYDAY=TU,WE,FR;UNTIL=20211206T122000',
@@ -94,7 +94,7 @@ describe('exporters', () => {
 
       expect(vevent).toBe(
         createVEvent({
-          uid: '202109_CSC_123_A01_TWF',
+          uid: '202109_CSC_123_A01_TWF_',
           dtstart: new Date(2021, 8, 7, 11, 30),
           dtend: new Date(2021, 8, 7, 12, 20),
           rrule: 'RRULE:FREQ=WEEKLY;BYDAY=TU,WE,FR;UNTIL=20210915T122000',
@@ -117,7 +117,7 @@ describe('exporters', () => {
 
       expect(vevent).toBe(
         createVEvent({
-          uid: '202109_CSC_123_A01_M',
+          uid: '202109_CSC_123_A01_M_',
           dtstart: 'DTSTART;TZID=America/Vancouver:20220110T180000',
           dtend: new Date(2022, 0, 10, 18, 50),
           rrule: 'RRULE:FREQ=WEEKLY;BYDAY=MO;UNTIL=20220407T185000',
@@ -152,7 +152,7 @@ describe('exporters', () => {
         createVCalendar(
           [
             createVEvent({
-              uid: '202109_CSC_123_A01_M',
+              uid: '202109_CSC_123_A01_M_',
               dtstart: new Date(2021, 8, 1, 9, 0),
               dtend: new Date(2021, 8, 1, 10, 0),
               description: 'CSC 123 A01',
@@ -160,7 +160,7 @@ describe('exporters', () => {
               location: 'ABC',
             }),
             createVEvent({
-              uid: '202109_CSC_123_A01_M',
+              uid: '202109_CSC_123_A01_M_1',
               dtstart: new Date(2021, 8, 1, 21, 0),
               dtend: new Date(2021, 8, 1, 22, 0),
               description: 'CSC 123 A01',
