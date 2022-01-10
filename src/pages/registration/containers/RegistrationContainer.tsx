@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
-import { getReadableTerm } from 'lib/utils';
+import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 

@@ -5,7 +5,7 @@ import { AiFillGithub } from 'react-icons/ai';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
-export function RightSideButtons(): JSX.Element {
+export function MiscHeaderButtons(): JSX.Element {
   const { toggleColorMode } = useColorMode();
   const mode = useDarkMode();
 
@@ -15,9 +15,9 @@ export function RightSideButtons(): JSX.Element {
         as="a"
         href="https://github.com/VikeLabs/courseup"
         target="_blank"
-        size="sm"
+        size="md"
         colorScheme="none"
-        fontSize="2.188em"
+        fontSize="2.87em"
         isRound
         aria-label="Open GitHub Repo"
         color={mode('gray.400', 'gray.300')}
@@ -27,10 +27,10 @@ export function RightSideButtons(): JSX.Element {
         icon={<AiFillGithub />}
       />
       <IconButton
-        aria-label="toggle"
+        aria-label="toggle dark mode"
         isRound
         icon={mode(<MoonIcon fontSize="1.3em" />, <SunIcon fontSize="1.3em" />)}
-        size="sm"
+        size="md"
         onClick={toggleColorMode}
         colorScheme={mode('purple', 'orange')}
       />

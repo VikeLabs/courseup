@@ -4,7 +4,8 @@ import _ from 'lodash';
 
 import { getSections } from 'lib/api/getSections';
 import { MeetingTimes } from 'lib/fetchers';
-import { SECTION_TYPES, getFirstSectionType, hasSectionType } from 'lib/utils';
+import { SECTION_TYPES } from 'lib/utils/constants';
+import { getFirstSectionType, hasSectionType } from 'lib/utils/courses';
 
 import useLocalStorage from './storage/useLocalStorage';
 
