@@ -64,7 +64,7 @@ export const locations : { [key: string]: string } = {
   'Sedgewick': 'SED',
   'Shirley Baker': 'RSB',
   'South Tower': 'R43',
-  'Student Union': 'SUB',
+  'Student Union Building': 'SUB',
   'Tower': 'R41',
   'University Club': 'UCL',
   'University House 1': 'UH1',
