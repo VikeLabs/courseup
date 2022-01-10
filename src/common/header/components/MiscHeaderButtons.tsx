@@ -5,7 +5,7 @@ import { AiFillGithub } from 'react-icons/ai';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
-export function RightSideButtons(): JSX.Element {
+export function MiscHeaderButtons(): JSX.Element {
   const { toggleColorMode } = useColorMode();
   const mode = useDarkMode();
 

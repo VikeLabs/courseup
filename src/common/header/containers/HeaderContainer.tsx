@@ -9,13 +9,13 @@ import {
   useDisclosure,
   VStack,
   IconButton,
-  Image,
+  Text,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { Banner } from '../components/Banner';
+import { MiscHeaderButtons } from '../components/MiscHeaderButtons';
 import { NavButtons } from '../components/NavButtons';
-import { RightSideButtons } from '../components/RightSideButtons';
 import { Search } from '../components/SearchBar';
 import { TermSelect } from '../components/TermSelect';
 
@@ -29,11 +29,12 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
       as="header"
       px={{ lg: 8, md: 5, base: 3 }}
       boxShadow="md"
-      pb="1"
       data-testid="mobile-header"
     >
-      <HStack justifyContent="space-between" minH="56px">
+      <HStack justifyContent="space-between" minH="48px">
         <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
+          {/*
+          LOGO WILL GO HERE
           <Image
             src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
             maxH="55px"
@@ -42,16 +43,19 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
             color="transparent"
             loading="lazy"
             mr="2"
-          />
+          /> */}
+          <Text fontSize="xl" fontWeight="bold" mr="2">
+            CourseUp
+          </Text>
         </LinkBox>
         <Search onChange={onSearchChange} />
         <IconButton aria-label="menu" onClick={onToggle} icon={<HamburgerIcon />} variant="ghost" fontSize="1.5em" />
       </HStack>
       <Collapse in={isOpen} animateOpacity>
-        <VStack width="100%" mb="1.5">
+        <VStack width="100%" mb="2.5">
           <TermSelect />
           <NavButtons />
-          <RightSideButtons />
+          <MiscHeaderButtons />
         </VStack>
       </Collapse>
     </Box>
@@ -78,6 +82,8 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
         <Box zIndex="overlay" position="sticky" top={0} data-testid="desktop-header">
           <HStack as="header" px="8" boxShadow="md" zIndex={100} minH="56px">
             <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
+              {/*
+              LOGO WILL GO HERE
               <Image
                 src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
                 maxH="55px"
@@ -86,17 +92,17 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
                 color="transparent"
                 loading="lazy"
                 mr="2"
-              />
-              {/* <Text fontSize="xl" fontWeight="bold" mr="2">
+              /> */}
+              <Text fontSize="xl" fontWeight="bold" mr="2">
                 CourseUp
-              </Text> */}
+              </Text>
             </LinkBox>
             <Search onChange={onSearchChange} />
             <NavButtons />
             <Spacer />
-            <HStack marginLeft="auto">
+            <HStack>
               <TermSelect />
-              <RightSideButtons />
+              <MiscHeaderButtons />
             </HStack>
           </HStack>
         </Box>
