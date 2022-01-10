@@ -7,7 +7,7 @@ import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { getCurrentTerm } from 'lib/utils';
+import { getCurrentTerm } from 'lib/utils/terms';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
