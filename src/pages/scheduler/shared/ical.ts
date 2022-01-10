@@ -10,13 +10,14 @@ const toDatetime = (date: Date, tz: string, attr: string) => `${attr};TZID=${tz}
 type vEvent = {
   // The following are REQUIRED, but MUST NOT occur more than once.
   uid: string;
+  // if dtstamp is not present, it is generated using dtstart
   dtstamp?: Date;
   // The following is REQUIRED if the component
   // appears in an iCalendar object that doesn't
   // specify the "METHOD" property; otherwise, it
   // is OPTIONAL; in any case, it MUST NOT occur
   // more than once.
-  dtstart: Date | string;
+  dtstart?: Date | string;
   // The following are OPTIONAL, but MUST NOT occur more than once.
   description?: string;
   location?: string;
