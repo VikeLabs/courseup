@@ -1,4 +1,4 @@
-# CourseUp
+<img src="public/assets/logo/png/CourseUp-Logo-With-Wordmark.png" height="75px">
 
 [![Contributors][contributors-shield]][contributors-link]
 [![Stargazers][stars-shield]][stars-link]

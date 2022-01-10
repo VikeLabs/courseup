@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { getReadableTerm } from 'lib/utils';
+import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 
@@ -52,8 +52,10 @@ export function BooklistContainer(): JSX.Element | null {
             </>
           )}
         </Box>
-        {textbooks.status === 'loaded' && (
-          <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+        {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
+          <Box as="footer" px="2" textAlign={{ base: 'center', md: 'left' }}>
+            <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+          </Box>
         )}
       </Flex>
     </Flex>

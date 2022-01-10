@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 
-import { FormControl, FormLabel, Input, InputGroup } from '@chakra-ui/react';
+import { FormControl, FormLabel, Input, InputGroup, useMediaQuery } from '@chakra-ui/react';
 import { SearchBoxProvided } from 'react-instantsearch-core';
 import { connectSearchBox } from 'react-instantsearch-dom';
 
@@ -13,6 +13,7 @@ type SearchBoxProps = {
 };
 
 function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSubmit }: SearchBoxProps) {
+  const [isMobile] = useMediaQuery('(max-width: 1020px)');
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     refine(e.currentTarget.value);
     onChange && onChange(e.currentTarget.value);
@@ -24,19 +25,18 @@ function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSub
   };
 
   return (
-    <form noValidate action="" role="search" onSubmit={handleSubmit}>
-      <InputGroup size="sm" mx="4">
+    <form noValidate action="" role="search" onSubmit={handleSubmit} style={{ width: isMobile ? '100%' : '' }}>
+      <InputGroup>
         <FormControl id="courseSearch">
           <FormLabel margin={0}>
             <Input
               placeholder="Search for courses..."
-              borderRadius="md"
-              width={['xs', 'sm', 'md']}
+              width={{ base: '100%', xl: 'md' }}
               height={8}
               fontSize={['sm']}
               value={currentRefinement}
               onChange={handleChange}
-              aria-label="Search for courses..."
+              aria-label="Search for courses"
             />
           </FormLabel>
         </FormControl>

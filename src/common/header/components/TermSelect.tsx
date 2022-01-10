@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { Button, ButtonGroup } from '@chakra-ui/react';
+import { Select } from '@chakra-ui/react';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { getReadableTerm } from 'lib/utils';
+import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { getCurrentTerm, getReadableTerm } from 'lib/utils/terms';
 
 const terms = ['202105', '202109', '202201'];
 
-export function TermButtons(): JSX.Element {
-  const [status, setStatus] = useState([false, false, false]);
-
-  const { term, subject } = useParams();
+export function TermSelect(): JSX.Element {
+  const { subject } = useParams();
+  const [selectedTerm, setTerm] = useSessionStorage('user:term', getCurrentTerm());
   const [searchParams] = useSearchParams();
   const pid = searchParams.get('pid');
+  const mode = useDarkMode();
 
   const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/schedule/*');
@@ -22,18 +24,10 @@ export function TermButtons(): JSX.Element {
 
   const navigate = useNavigate();
 
-  // initally the current term button needs to be set active to reflect the default term of the context
-  useEffect(() => {
-    const idx = terms.indexOf(term);
-    const initStatus = [false, false, false];
-    initStatus[idx] = true;
-    setStatus(initStatus);
-  }, [term]);
-  const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    const name = event.currentTarget.getAttribute('name');
-    let idx = -1;
+  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const name = event.target.value;
     if (name) {
-      idx = terms.indexOf(name);
+      setTerm(name);
       if (calendarMatch) {
         navigate({ pathname: `/calendar/${name}/${subject || ''}`, search: pid ? `?pid=${pid}` : undefined });
       } else if (scheduleMatch) {
@@ -45,21 +39,26 @@ export function TermButtons(): JSX.Element {
       } else {
         navigate(`/calendar/${name}`);
       }
-      const status = [false, false, false];
-      status[idx] = true;
-      setStatus(status);
     }
   };
 
+  // TODO: A "bug" in Firefox for macOS is preventing the `option` components
+  // from inheriting the `Select` background color this leads to eligible text in the options.
   return (
-    <ButtonGroup isAttached>
+    <Select
+      borderColor={mode('green.500', 'green.300')}
+      defaultValue={selectedTerm}
+      value={selectedTerm}
+      onChange={onChange}
+      minW="150px"
+    >
       {terms.map((term, i) => {
         return (
-          <Button colorScheme="green" key={i} name={term} isActive={status[i]} onClick={onClick} size="sm">
+          <option key={i} value={term}>
             {getReadableTerm(term)}
-          </Button>
+          </option>
         );
       })}
-    </ButtonGroup>
+    </Select>
   );
 }

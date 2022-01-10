@@ -1,11 +1,66 @@
-import { Center, Grid, GridItem, Flex, Text, LinkBox, Box, HStack } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  LinkBox,
+  HStack,
+  Spacer,
+  useMediaQuery,
+  Collapse,
+  useDisclosure,
+  VStack,
+  IconButton,
+  Text,
+} from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 import { Banner } from '../components/Banner';
+import { MiscHeaderButtons } from '../components/MiscHeaderButtons';
 import { NavButtons } from '../components/NavButtons';
-import { RightSideButtons } from '../components/RightSideButtons';
 import { Search } from '../components/SearchBar';
-import { TermButtons } from '../components/TermButtons';
+import { TermSelect } from '../components/TermSelect';
+
+export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
+  const { isOpen, onToggle } = useDisclosure();
+  return (
+    <Box
+      zIndex="overlay"
+      position="sticky"
+      top={0}
+      as="header"
+      px={{ lg: 8, md: 5, base: 3 }}
+      boxShadow="md"
+      data-testid="mobile-header"
+    >
+      <HStack justifyContent="space-between" minH="48px">
+        <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
+          {/*
+          LOGO WILL GO HERE
+          <Image
+            src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
+            maxH="55px"
+            minW="7em"
+            alt="CourseUp"
+            color="transparent"
+            loading="lazy"
+            mr="2"
+          /> */}
+          <Text fontSize="xl" fontWeight="bold" mr="2">
+            CourseUp
+          </Text>
+        </LinkBox>
+        <Search onChange={onSearchChange} />
+        <IconButton aria-label="menu" onClick={onToggle} icon={<HamburgerIcon />} variant="ghost" fontSize="1.5em" />
+      </HStack>
+      <Collapse in={isOpen} animateOpacity>
+        <VStack width="100%" mb="2.5">
+          <TermSelect />
+          <NavButtons />
+          <MiscHeaderButtons />
+        </VStack>
+      </Collapse>
+    </Box>
+  );
+}
 
 export interface HeaderProps {
   onSearchChange?: (query: string) => void;
@@ -16,32 +71,42 @@ export interface HeaderProps {
  * Primary UI component for content
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
+  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+
   return (
-    <Box zIndex="overlay" position="sticky" top={0}>
+    <>
       <Banner />
-      <Grid templateColumns="repeat(3, 1fr)" as="header" py="1.5" px="8" boxShadow="md" zIndex={100} maxH="56px">
-        <GridItem colSpan={1}>
-          <Flex justifyContent="space-between" alignContent="center" alignItems="flex-start">
-            <LinkBox as={RouterLink} to="/" bg="transparent" border="none" ml={5} _hover={{ textDecor: 'none' }}>
-              <Text fontSize="xl" fontWeight="bold">
+      {isMobile ? (
+        <MobileHeaderContainer onSearchChange={onSearchChange} />
+      ) : (
+        <Box zIndex="overlay" position="sticky" top={0} data-testid="desktop-header">
+          <HStack as="header" px="8" boxShadow="md" zIndex={100} minH="56px">
+            <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
+              {/*
+              LOGO WILL GO HERE
+              <Image
+                src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
+                maxH="55px"
+                minW="7em"
+                alt="CourseUp"
+                color="transparent"
+                loading="lazy"
+                mr="2"
+              /> */}
+              <Text fontSize="xl" fontWeight="bold" mr="2">
                 CourseUp
               </Text>
             </LinkBox>
-            <NavButtons />
-          </Flex>
-        </GridItem>
-        <GridItem colStart={2}>
-          <Center>
             <Search onChange={onSearchChange} />
-          </Center>
-        </GridItem>
-        <GridItem colStart={3}>
-          <HStack justifyContent="space-between">
-            <TermButtons />
-            <RightSideButtons />
+            <NavButtons />
+            <Spacer />
+            <HStack>
+              <TermSelect />
+              <MiscHeaderButtons />
+            </HStack>
           </HStack>
-        </GridItem>
-      </Grid>
-    </Box>
+        </Box>
+      )}
+    </>
   );
 }

@@ -2,7 +2,7 @@ import { Box, Center, Divider, Heading, Spinner, Text } from '@chakra-ui/react';
 
 import { ClassScheduleListing, Seat, Term, useSeats, useSections } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { getReadableTerm } from 'lib/utils';
+import { getReadableTerm } from 'lib/utils/terms';
 
 import { SectionInfo } from '../components/Section';
 
