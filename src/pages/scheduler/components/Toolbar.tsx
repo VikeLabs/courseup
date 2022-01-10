@@ -3,7 +3,7 @@ import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/reac
 import { ToolbarProps } from 'react-big-calendar';
 
 export const CalendarToolBar =
-  (onSelectedDateChange: (date: Date) => void, vCalendar?: string) =>
+  (onSelectedDateChange: (date: Date) => void, term: string, vCalendar?: string) =>
   ({ label, date }: ToolbarProps) => {
     const handleClick = (offset?: number) => () => {
       if (offset) {
@@ -20,8 +20,7 @@ export const CalendarToolBar =
         const element = document.createElement('a');
         const file = new Blob([vCalendar], { type: 'text/plain' });
         element.href = URL.createObjectURL(file);
-        element.download = 'calendar.ics';
-        document.body.appendChild(element); // Required for this to work in FireFox
+        element.download = `${term}_calendar.ics`;
         element.click();
         document.body.removeChild(element);
       }

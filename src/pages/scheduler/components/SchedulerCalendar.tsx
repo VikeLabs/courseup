@@ -7,6 +7,7 @@ import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { getCurrentTerm } from 'lib/utils';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
@@ -80,7 +81,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
       components={{
-        toolbar: CalendarToolBar(setSelectedDate, vCalendar),
+        toolbar: CalendarToolBar(setSelectedDate, term || getCurrentTerm(), vCalendar),
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"
