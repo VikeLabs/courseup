@@ -31,7 +31,7 @@ export const CalendarToolBar =
         <Heading size="md">Scheduler</Heading>
         <Text fontSize="xl">{label}</Text>
         <HStack pb="0.2em">
-          <Button size="sm" colorScheme="gray" onClick={handleDownload} disabled={!vCalendar}>
+          <Button size="sm" colorScheme="blue" onClick={handleDownload} disabled={!vCalendar}>
             Download
           </Button>
           <Button size="sm" colorScheme="gray" onClick={handleClick()}>
