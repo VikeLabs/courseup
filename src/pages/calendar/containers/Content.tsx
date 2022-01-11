@@ -25,11 +25,12 @@ export type ContentProps = {
  * Primary UI component for content
  */
 
-function checkIfCourseOffered(courses: Course[] | null, data: CourseDetails | null): boolean {
+function checkIfNotOffered(courses: Course[] | null, data: CourseDetails | null): boolean {
   if (courses && data && courses.find((course) => course.pid === data.pid)) {
     //found the course, so button should not be disabled
     return false;
   } else {
+    //did not find the course, so button should be disabled
     return true;
   }
 }
@@ -61,7 +62,7 @@ export function Content({ term }: ContentProps): JSX.Element {
     }
   }, [data, courseIsSaved, addCourse, term, deleteCourse, toast]);
 
-  const courseNotOffered = checkIfCourseOffered(courses, data);
+  const courseNotOffered = checkIfNotOffered(courses, data);
 
   return (
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
