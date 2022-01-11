@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
+import { logEvent } from 'index';
 import _ from 'lodash';
 
 import { getSections } from 'lib/api/getSections';
@@ -72,6 +73,16 @@ export const useSavedCourses = (): SavedCourses => {
   // The underlying data persistent storage.
   const [data, setData] = useLocalStorage<SavedCourse[]>('user:saved_courses', []);
 
+  useEffect(() => {
+    data.forEach((course) => {
+      logEvent('saved_course', {
+        subject: course.subject,
+      });
+    });
+    // only want to run once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const containsColor = useCallback(
     (color: string, term: string): boolean => data.some((course) => course.color === color && course.term === term),
     [data]
@@ -119,6 +130,10 @@ export const useSavedCourses = (): SavedCourses => {
     (term: string, subject: string, code: string, pid: string) => {
       // avoid adding a course if it is saved already.
       if (contains(pid, term)) return;
+
+      logEvent('saved_course', {
+        subject,
+      });
 
       const course: SavedCourse = { term, subject, code, pid, selected: true, showSections: true };
       // we need to load in the course sections given we have no idea which default sections to select

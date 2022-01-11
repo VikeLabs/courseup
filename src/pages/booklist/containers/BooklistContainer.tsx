@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
+
 import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/layout';
 import { Center, Spinner, Text } from '@chakra-ui/react';
+import { logEvent } from 'index';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
@@ -18,6 +21,10 @@ export function BooklistContainer(): JSX.Element | null {
   const mode = useDarkMode();
 
   const textbooks = useTextbooks(term as Term);
+
+  useEffect(() => {
+    logEvent('textbooks_view', { term });
+  }, [term]);
 
   return (
     <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">

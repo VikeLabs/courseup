@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
+import { logEvent } from 'index';
 import { ToolbarProps } from 'react-big-calendar';
 
 export const CalendarToolBar =
@@ -17,6 +18,8 @@ export const CalendarToolBar =
 
     const handleDownload = () => {
       if (vCalendar) {
+        logEvent('calendar_download', { term });
+
         const element = document.createElement('a');
         const file = new Blob([vCalendar], { type: 'text/plain' });
         element.href = URL.createObjectURL(file);
