@@ -23,7 +23,7 @@ export function BooklistContainer(): JSX.Element | null {
   const textbooks = useTextbooks(term as Term);
 
   useEffect(() => {
-    logEvent('textbooks', { term });
+    logEvent('textbooks_view', { term });
   }, [term]);
 
   return (
