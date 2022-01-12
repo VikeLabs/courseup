@@ -30,7 +30,6 @@ export function Banner(): JSX.Element {
   const [tipIndex, setTipIndex] = useState(0);
 
   const tips: Array<JSX.Element> = [
-    <Text>💡 Your courses and sections are saved between sessions, no need to leave the tab open!</Text>,
     <Text>
       💡 Press the{' '}
       <Text
@@ -44,10 +43,11 @@ export function Banner(): JSX.Element {
         fontSize="11"
         fontWeight="bold"
       >
-        Register
+        Download
       </Text>{' '}
-      button while viewing your timetable to help you quickly register for classes!
+      button while viewing your timetable to download your current timetable!
     </Text>,
+    <Text>💡 Your courses and sections are saved between sessions, no need to leave the tab open!</Text>,
     <Text>
       💡 See something you don't like or think might be a bug? Send feedback to the team via the button at the bottom
       right!
