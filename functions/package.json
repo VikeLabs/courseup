@@ -18,7 +18,7 @@
     "db:start": "firebase emulators:start --only firestore --project development --import=tmp/firestore --export-on-exit"
   },
   "engines": {
-    "node": "12"
+    "node": "14"
   },
   "main": "lib/src/index.js",
   "dependencies": {
