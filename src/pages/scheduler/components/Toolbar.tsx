@@ -3,6 +3,10 @@ import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/reac
 import { logEvent } from 'index';
 import { ToolbarProps } from 'react-big-calendar';
 
+import { Term } from 'lib/fetchers';
+
+import { ShareButton } from './share/ShareButton';
+
 export const CalendarToolBar =
   (onSelectedDateChange: (date: Date) => void, term: string, vCalendar?: string) =>
   ({ label, date }: ToolbarProps) => {
@@ -34,6 +38,7 @@ export const CalendarToolBar =
         <Heading size="md">Scheduler</Heading>
         <Text fontSize="xl">{label}</Text>
         <HStack pb="0.2em">
+          <ShareButton term={term as Term} />
           <Button size="sm" colorScheme="blue" onClick={handleDownload} disabled={!vCalendar}>
             Download
           </Button>
