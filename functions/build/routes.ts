@@ -242,15 +242,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new CoursesController();
+
+
+              const promise = controller.getCourses.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new CoursesController();
-
-
-            const promise = controller.getCourses.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/courses/:term/:pid',
@@ -266,15 +266,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new CoursesController();
+
+
+              const promise = controller.getCourse.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new CoursesController();
-
-
-            const promise = controller.getCourse.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/courses/:term/:subject/:code',
@@ -291,15 +291,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new CoursesController();
+
+
+              const promise = controller.getCourseDetails.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new CoursesController();
-
-
-            const promise = controller.getCourseDetails.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/sections/:term',
@@ -316,15 +316,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new SectionsController();
+
+
+              const promise = controller.sections.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new SectionsController();
-
-
-            const promise = controller.sections.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/sections/:term/seats',
@@ -341,15 +341,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new SectionsController();
+
+
+              const promise = controller.seats.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new SectionsController();
-
-
-            const promise = controller.seats.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/subjects/:term',
@@ -364,15 +364,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new SubjectsController();
+
+
+              const promise = controller.subjects.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new SubjectsController();
-
-
-            const promise = controller.subjects.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/textbooks/:term/:subject/:code',
@@ -389,15 +389,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new TextbooksController();
+
+
+              const promise = controller.getTextbooks.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new TextbooksController();
-
-
-            const promise = controller.getTextbooks.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/timetables/:slug',
@@ -412,15 +412,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new TimetablesController();
+
+
+              const promise = controller.getTimetable.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new TimetablesController();
-
-
-            const promise = controller.getTimetable.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/timetables',
@@ -435,15 +435,15 @@ export function RegisterRoutes(app: express.Router) {
             let validatedArgs: any[] = [];
             try {
                 validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new TimetablesController();
+
+
+              const promise = controller.createTimetable.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
             }
-
-            const controller = new TimetablesController();
-
-
-            const promise = controller.createTimetable.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
