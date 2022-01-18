@@ -24,7 +24,7 @@ describe('ShareTimetableModal', () => {
           timetable={{}}
         />
       );
-      expect(screen.getByText('Share your Fall 2021 timeline')).toBeInTheDocument();
+      expect(screen.getByText('Share your Fall 2021 timetable')).toBeInTheDocument();
     });
 
     it('should display the correct number of cards', () => {
