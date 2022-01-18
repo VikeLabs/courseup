@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 
 import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/layout';
 import { Center, Spinner, Text } from '@chakra-ui/react';
-import { logEvent } from 'index';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { logEvent } from 'lib/utils/logEvent';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';

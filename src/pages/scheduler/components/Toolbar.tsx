@@ -1,9 +1,9 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
-import { logEvent } from 'index';
 import { ToolbarProps } from 'react-big-calendar';
 
 import { Term } from 'lib/fetchers';
+import { logEvent } from 'lib/utils/logEvent';
 
 import { ShareButton } from './share/ShareButton';
 

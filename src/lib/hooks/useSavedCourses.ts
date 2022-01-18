@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from 'react';
 
-import { logEvent } from 'index';
 import _ from 'lodash';
 
 import { getSections } from 'lib/api/getSections';
 import { MeetingTimes, Term, TimetableCourse } from 'lib/fetchers';
 import { SECTION_TYPES } from 'lib/utils/constants';
 import { getFirstSectionType, hasSectionType } from 'lib/utils/courses';
+import { logEvent } from 'lib/utils/logEvent';
 
 import useLocalStorage from './storage/useLocalStorage';
 
