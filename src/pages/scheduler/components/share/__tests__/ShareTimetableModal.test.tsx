@@ -1,6 +1,7 @@
-import { SavedCourse } from 'lib/hooks/useSavedCourses';
 import { render, screen } from '@testing-library/react';
-import { ShareModalContent } from '../ShareModalContent';
+
+import { SavedCourse } from 'lib/hooks/useSavedCourses';
+
 import ShareTimetableModal from '../ShareTimetableModal';
 
 const courses: SavedCourse[] = [
@@ -24,6 +25,20 @@ describe('ShareTimetableModal', () => {
         />
       );
       expect(screen.getByText('Share your Fall 2021 timeline')).toBeInTheDocument();
+    });
+
+    it('should display the correct number of cards', () => {
+      render(
+        <ShareTimetableModal
+          term={'202109'}
+          loading={false}
+          onClose={() => {}}
+          isOpen={true}
+          inSession_savedCourses={courses}
+          timetable={{}}
+        />
+      );
+      expect(screen.getAllByTestId('card')).toHaveLength(4);
     });
   });
 });

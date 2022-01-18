@@ -1,5 +1,7 @@
-import { SavedCourse } from 'lib/hooks/useSavedCourses';
 import { render, screen } from '@testing-library/react';
+
+import { SavedCourse } from 'lib/hooks/useSavedCourses';
+
 import { ShareModalContent } from '../ShareModalContent';
 
 const courses: SavedCourse[] = [
@@ -12,7 +14,7 @@ const courses: SavedCourse[] = [
 describe('ShareModalContent', () => {
   describe('when sending params in', () => {
     it('should display the correct term in readable format', () => {
-      const { debug } = render(
+      render(
         <ShareModalContent courses={courses} isSmallScreen={false} timetable={{}} term={'202109'} loading={false} />
       );
       expect(
