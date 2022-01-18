@@ -103,6 +103,9 @@
     ],
     "modulePaths": [
       "<rootDir>/src/"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(css|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
+    }
   }
 }
