@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Button, Icon, useDisclosure } from '@chakra-ui/react';
 import { IoShareOutline } from 'react-icons/io5';
+import { useMatch } from 'react-router';
 
 import { CreateTimetableResponse, Term, TimetableCourse, useCreateTimetable } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
@@ -9,6 +10,8 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import ShareTimetableModal from './ShareTimetableModal';
 
 export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element {
+  const importPage = useMatch('/s/:slug');
+  console.log(importPage);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // gets saved courses in session to enable/disable share button accordingly
@@ -43,7 +46,9 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
     onOpen();
   };
 
-  return (
+  return importPage ? (
+    <></>
+  ) : (
     <>
       <Button
         disabled={disabled}
