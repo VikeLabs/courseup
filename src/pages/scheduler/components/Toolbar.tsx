@@ -38,7 +38,7 @@ export const CalendarToolBar =
         <Heading size="md">Scheduler</Heading>
         <Text fontSize="xl">{label}</Text>
         <HStack pb="0.2em">
-          <ShareButton term={term as Term} />
+          <ShareButton term={term as Term} disabled={!vCalendar} />
           <Button size="sm" colorScheme="blue" onClick={handleDownload} disabled={!vCalendar}>
             Download
           </Button>

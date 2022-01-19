@@ -8,7 +8,7 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import ShareTimetableModal from './ShareTimetableModal';
 
-export function ShareButton({ term }: { term: Term }): JSX.Element {
+export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // gets saved courses in session to enable/disable share button accordingly
@@ -46,7 +46,7 @@ export function ShareButton({ term }: { term: Term }): JSX.Element {
   return (
     <>
       <Button
-        isDisabled={inSession_savedCourses.length > 0 ? false : true}
+        disabled={disabled}
         size="sm"
         colorScheme="blue"
         leftIcon={<Icon as={IoShareOutline} />}
