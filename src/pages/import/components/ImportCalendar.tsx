@@ -12,8 +12,6 @@ import { useGetCourseSections } from 'pages/scheduler/hooks/useCalendarEvents';
 import { denormalizeCourseEvents } from 'pages/scheduler/hooks/useTransformedCalendarEvents';
 
 export const ImportCalendar = ({ data }: { data: Timetable }): JSX.Element => {
-  //console.log(data);
-
   const { courses, term } = data;
 
   const parsedCourses: SavedCourse[] = useMemo(
@@ -42,8 +40,6 @@ export const ImportCalendar = ({ data }: { data: Timetable }): JSX.Element => {
     () => denormalizeCourseEvents(coursesResult.status === 'loaded' ? coursesResult.data : []),
     [coursesResult]
   );
-
-  console.log(calendarEvents);
 
   return (
     <Flex grow={1}>

@@ -11,7 +11,7 @@ import ShareTimetableModal from './ShareTimetableModal';
 
 export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element {
   const importPage = useMatch('/s/:slug');
-  console.log(importPage);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // gets saved courses in session to enable/disable share button accordingly
