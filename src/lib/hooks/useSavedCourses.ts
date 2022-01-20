@@ -172,9 +172,7 @@ export const useSavedCourses = (): SavedCourses => {
         const containsCourse =
           contains(pid, term) || filteredCourses.some((course) => course.pid === pid && course.term === term);
         if (!containsCourse) {
-          // TODO: Clean up?
-          // I know this looks bad but I tried some different things and none of them were working but this did :S
-          const new_color =
+          const newColor =
             !containsColor(color, term) &&
             !filteredCourses.some((course) => course.color === color && course.term === term)
               ? color
@@ -190,13 +188,13 @@ export const useSavedCourses = (): SavedCourses => {
             lecture: lecture ? lecture[0] : undefined,
             lab: lab ? lab[0] : undefined,
             tutorial: tutorial ? tutorial[0] : undefined,
-            color: new_color,
+            color: newColor,
           };
           filteredCourses.push(newCourse);
         }
       });
 
-      setData([...data].concat(filteredCourses));
+      setData([...data, ...filteredCourses]);
 
       // TODO: add reject
     },
@@ -217,9 +215,7 @@ export const useSavedCourses = (): SavedCourses => {
         // avoid adding a course if it is saved already.
         const containsCourse = filteredCourses.some((course) => course.pid === pid && course.term === term);
         if (!containsCourse) {
-          // TODO: Clean up?
-          // I know this looks bad but I tried some different things and none of them were working but this did :S
-          const new_color = !filteredCourses.some((course) => course.color === color && course.term === term)
+          const newColor = !filteredCourses.some((course) => course.color === color && course.term === term)
             ? color
             : '#A0AEC0';
 
@@ -233,7 +229,7 @@ export const useSavedCourses = (): SavedCourses => {
             lecture: lecture ? lecture[0] : undefined,
             lab: lab ? lab[0] : undefined,
             tutorial: tutorial ? tutorial[0] : undefined,
-            color: new_color,
+            color: newColor,
           };
           filteredCourses.push(newCourse);
         }

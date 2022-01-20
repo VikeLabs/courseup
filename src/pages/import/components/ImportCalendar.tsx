@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
-import { Box, Flex } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/layout';
 
 import { Timetable } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
@@ -42,10 +42,8 @@ export const ImportCalendar = ({ data }: { data: Timetable }): JSX.Element => {
   );
 
   return (
-    <Flex grow={1}>
-      <Box w="100%" h="500px" px="3" py="2">
-        <SchedulerCalendar term={term} courseCalendarEvents={calendarEvents} />
-      </Box>
-    </Flex>
+    <Box w="100%" h="500px" px="3" py="2">
+      <SchedulerCalendar term={term} courseCalendarEvents={calendarEvents} />
+    </Box>
   );
 };
