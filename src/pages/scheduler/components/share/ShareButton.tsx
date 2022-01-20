@@ -17,15 +17,17 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
   // gets saved courses in session to enable/disable share button accordingly
   const { courses } = useSavedCourses();
 
-  const inSession_savedCourses = courses
+  // filter courses in the current term, that contain at least one lecture/lab/tutorial, and that is currently selected
+  const filteredCourses = courses
     .filter((course) => course.term === term)
-    .filter((course) => course.lecture || course.lab || course.tutorial);
+    .filter((course) => course.lecture || course.lab || course.tutorial)
+    .filter((course) => course.selected === true);
 
   const { mutate, loading } = useCreateTimetable({});
 
   const [timetable, setTimetable] = useState({} as CreateTimetableResponse);
 
-  const timetableCourses: TimetableCourse[] = inSession_savedCourses.map(
+  const timetableCourses: TimetableCourse[] = filteredCourses.map(
     ({ color, tutorial, lab, lecture, pid, code, subject }) => {
       return {
         color: color ?? '#A0AEC0',
@@ -65,7 +67,7 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
         timetable={timetable}
         onClose={onClose}
         isOpen={isOpen}
-        inSession_savedCourses={inSession_savedCourses}
+        inSession_savedCourses={filteredCourses}
       />
     </>
   );
