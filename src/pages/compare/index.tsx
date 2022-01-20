@@ -8,7 +8,7 @@ import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { Header } from 'common/header';
 
-import { ImportButtons } from 'pages/import/components/ImportButtons';
+import { TimetableActionButtons } from 'pages/import/components/TimetableActionButtons';
 import { SelectedCoursesCardList } from 'pages/scheduler/components/share/SelectedCoursesCardList';
 
 export function TimetableComparison(): JSX.Element {
@@ -42,23 +42,21 @@ export function TimetableComparison(): JSX.Element {
     <>
       <Header />
       <Flex w="100vw" h="100vh" direction="column" overflowX="hidden">
-        <VStack p={50} spacing={10} mb={50}>
+        <VStack p={50} spacing={5}>
           <Heading>Comparing Timetables</Heading>
-          <ImportButtons data={data as Timetable} loading={loading} />
+          <TimetableActionButtons data={data as Timetable} loading={loading} />
           <Center w="70vw">
             {!loading && data ? (
-              <>
-                <HStack spacing={20}>
-                  <VStack spacing={10}>
-                    <Heading>Your Saved Courses</Heading>
-                    <SelectedCoursesCardList courses={courses} term={(data as Timetable).term} />
-                  </VStack>
-                  <VStack spacing={10}>
-                    <Heading>Timetable Courses</Heading>
-                    <SelectedCoursesCardList courses={timetableCourses} term={(data as Timetable).term} />
-                  </VStack>
-                </HStack>
-              </>
+              <HStack spacing={20}>
+                <VStack spacing={10}>
+                  <Heading>Your Saved Courses</Heading>
+                  <SelectedCoursesCardList courses={courses} term={(data as Timetable).term} />
+                </VStack>
+                <VStack spacing={10}>
+                  <Heading>Timetable Courses</Heading>
+                  <SelectedCoursesCardList courses={timetableCourses} term={(data as Timetable).term} />
+                </VStack>
+              </HStack>
             ) : (
               <Spinner size="xl" />
             )}

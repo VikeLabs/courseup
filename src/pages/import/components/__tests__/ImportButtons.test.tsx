@@ -1,10 +1,9 @@
-import { render, screen } from '@testing-library/react';
-
-import { BrowserRouter } from 'react-router-dom';
+import { screen } from '@testing-library/react';
 
 import { Timetable, TimetableCourse } from 'lib/fetchers';
+import { renderWithRouter } from 'lib/utils/jest';
 
-import { ImportButtons } from '../ImportButtons';
+import { TimetableActionButtons } from '../TimetableActionButtons';
 
 const courses: TimetableCourse[] = [
   { code: '373', color: '#F56565', lab: ['B01'], lecture: ['A01'], pid: 'Bk24BupmN', subject: 'GEOG' },
@@ -15,14 +14,10 @@ const courses: TimetableCourse[] = [
 
 const sample_timetable: Timetable = { courses: courses, term: '202201' };
 
-describe('ImportButtons', () => {
+describe('TimetableActionButtons', () => {
   describe('when it is rendered', () => {
     it('should always display 3 buttons', () => {
-      render(
-        <BrowserRouter>
-          <ImportButtons loading={false} data={sample_timetable} />
-        </BrowserRouter>
-      );
+      renderWithRouter(<TimetableActionButtons loading={false} data={sample_timetable} />);
       expect(screen.getAllByRole('button')).toHaveLength(3);
     });
   });

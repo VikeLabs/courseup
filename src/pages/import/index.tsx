@@ -7,8 +7,8 @@ import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 
-import { ImportButtons } from './components/ImportButtons';
 import { ImportCalendar } from './components/ImportCalendar';
+import { TimetableActionButtons } from './components/TimetableActionButtons';
 
 export function ImportTimetable(): JSX.Element {
   const { slug } = useParams();
@@ -18,14 +18,14 @@ export function ImportTimetable(): JSX.Element {
   return (
     <>
       <Header />
-      <Flex w="100vw" h="100vh" direction="column" overflowX="hidden">
-        <VStack p={50} spacing={10} mb={50}>
+      <Flex w="100vw" h="100vh" direction="column">
+        <VStack p={50} spacing={5}>
           <Heading>
             {!loading && data
               ? 'Viewing Timetable for ' + getReadableTerm((data as Timetable).term)
               : 'Viewing Timetable'}
           </Heading>
-          <ImportButtons data={data as Timetable} loading={loading} />
+          <TimetableActionButtons data={data as Timetable} loading={loading} />
           <Center w="70vw">
             {!loading && data ? <ImportCalendar data={data as Timetable} /> : <Spinner size="xl" />}
           </Center>
