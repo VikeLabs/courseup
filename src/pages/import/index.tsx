@@ -20,7 +20,7 @@ export function ImportTimetable(): JSX.Element {
       <Header />
       <Flex w="100vw" h="100vh" direction="column">
         <VStack p={50} spacing={5}>
-          <Heading>
+          <Heading textAlign="center">
             {!loading && data
               ? 'Viewing Timetable for ' + getReadableTerm((data as Timetable).term)
               : 'Viewing Timetable'}
