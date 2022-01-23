@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
@@ -39,6 +40,23 @@ describe('ShareTimetableModal', () => {
         />
       );
       expect(screen.getAllByTestId('card')).toHaveLength(4);
+    });
+
+    it('should call the correct function onClose', () => {
+      const mock = jest.fn(() => {});
+      render(
+        <ShareTimetableModal
+          term={'202109'}
+          loading={false}
+          onClose={mock}
+          isOpen={true}
+          inSession_savedCourses={[]}
+          timetable={{}}
+        />
+      );
+      expect(mock).toHaveBeenCalledTimes(0);
+      userEvent.click(screen.getAllByRole('button')[0]);
+      expect(mock).toHaveBeenCalledTimes(1);
     });
   });
 });
