@@ -195,8 +195,6 @@ export const useSavedCourses = (): SavedCourses => {
       });
 
       setData([...data, ...filteredCourses]);
-
-      // TODO: add reject
     },
     [contains, containsColor, data, setData]
   );
@@ -236,8 +234,6 @@ export const useSavedCourses = (): SavedCourses => {
       });
 
       setData(filteredCourses);
-
-      // TODO: add reject
     },
     [setData]
   );
