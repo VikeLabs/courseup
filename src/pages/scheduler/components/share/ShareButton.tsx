@@ -55,7 +55,7 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
       <Button
         disabled={disabled}
         size="sm"
-        colorScheme="blue"
+        colorScheme="purple"
         leftIcon={<Icon as={IoShareOutline} />}
         onClick={handleShare}
       >

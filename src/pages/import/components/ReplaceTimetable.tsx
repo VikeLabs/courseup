@@ -82,10 +82,12 @@ export function ReplaceTimetable({ loading, data }: { loading: boolean; data: Ti
               <SelectedCoursesCardList courses={filteredCourses} term={timetableTerm} />
               <Alert status="warning" borderRadius="10px">
                 {isSmallScreen ? <AlertIcon /> : null}
-                This action will DELETE ALL the current courses you have saved for this term, and replace them with this
-                timetable's courses.
+                <Text>
+                  This action will <Text as="strong">DELETE ALL</Text> the current courses you have saved for this term,
+                  and replace them with this timetable's courses.
+                </Text>
               </Alert>
-              <Text>Do you wish to continue?</Text>
+              <Text as="strong">Do you wish to continue?</Text>
             </VStack>
           </ModalBody>
           <ModalFooter>

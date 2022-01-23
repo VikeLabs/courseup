@@ -84,7 +84,7 @@ export function ImportTimetable({ loading, data }: { loading: boolean; data: Tim
                 {isSmallScreen ? <AlertIcon /> : null}
                 This action will not delete the current courses you have saved, but will add to them.
               </Alert>
-              <Text>Do you wish to continue?</Text>
+              <Text as="strong">Do you wish to continue?</Text>
             </VStack>
           </ModalBody>
           <ModalFooter>
