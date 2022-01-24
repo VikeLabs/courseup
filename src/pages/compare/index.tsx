@@ -5,6 +5,8 @@ import { useParams } from 'react-router';
 
 import { Timetable, useGetTimetable } from 'lib/fetchers';
 import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { groupCoursesBy } from 'lib/utils/courses';
+import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 
@@ -14,7 +16,20 @@ import { SelectedCoursesCardList } from 'pages/scheduler/components/share/Select
 export function TimetableComparison(): JSX.Element {
   const { slug } = useParams();
   const [timetableCourses, setTimetableCourses] = useState<SavedCourse[]>([]);
+  const [timetableTerm, settimetableTerm] = useState('');
   const { courses } = useSavedCourses();
+  const coursesBySection = groupCoursesBy(courses);
+
+  const savedCoursesCards = Object.entries(coursesBySection).map(([term, courses]) => {
+    return (
+      term !== timetableTerm && (
+        <>
+          <Heading size="md">{getReadableTerm(term)}</Heading>
+          <SelectedCoursesCardList courses={courses} term={term} />
+        </>
+      )
+    );
+  });
 
   const { loading, data } = useGetTimetable({ slug: slug });
 
@@ -35,6 +50,7 @@ export function TimetableComparison(): JSX.Element {
       });
 
       setTimetableCourses(newCourseList);
+      settimetableTerm((data as Timetable).term);
     }
   }, [data, loading]);
 
@@ -47,14 +63,17 @@ export function TimetableComparison(): JSX.Element {
           <TimetableActionButtons data={data as Timetable} loading={loading} />
           <Center w="70vw">
             {!loading && data ? (
-              <HStack spacing={20}>
-                <VStack spacing={10}>
+              <HStack spacing={20} align={'start'}>
+                <VStack spacing={8}>
                   <Heading>Your Saved Courses</Heading>
-                  <SelectedCoursesCardList courses={courses} term={(data as Timetable).term} />
+                  <Heading size="md">{getReadableTerm(timetableTerm)}</Heading>
+                  <SelectedCoursesCardList courses={coursesBySection[timetableTerm] || []} term={timetableTerm} />
+                  {savedCoursesCards}
                 </VStack>
-                <VStack spacing={10}>
+                <VStack spacing={8}>
                   <Heading>Timetable Courses</Heading>
-                  <SelectedCoursesCardList courses={timetableCourses} term={(data as Timetable).term} />
+                  <Heading size="md">{getReadableTerm(timetableTerm)}</Heading>
+                  <SelectedCoursesCardList courses={timetableCourses} term={timetableTerm} />
                 </VStack>
               </HStack>
             ) : (
