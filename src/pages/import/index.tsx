@@ -27,7 +27,11 @@ export function ImportTimetable(): JSX.Element {
           </Heading>
           <TimetableActionButtons data={data as Timetable} loading={loading} />
           <Center w="70vw">
-            {!loading && data ? <ImportCalendar data={data as Timetable} /> : <Spinner size="xl" />}
+            {!loading && data ? (
+              <ImportCalendar saved_courses={[]} timetable_courses={data as Timetable} />
+            ) : (
+              <Spinner size="xl" />
+            )}
           </Center>
         </VStack>
       </Flex>

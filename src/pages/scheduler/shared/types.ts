@@ -19,6 +19,7 @@ export type CourseCalendarEvent = {
   term: string;
   location?: string;
   opacity?: boolean;
+  dashedBorder?: boolean;
 };
 
 export type SavedCourseWithSections = SavedCourse & {

@@ -9,8 +9,16 @@ export type EventProps = BaseEventProps<{ resource: Omit<CourseCalendarEvent, 'm
 
 export const CalendarEvent = ({ title, event: { resource } }: EventProps) => {
   const mode = useDarkMode();
+  console.log('Resource dashed border', resource.dashedBorder);
+  console.log('Resource', resource);
   return (
-    <Flex height="100%" direction="column">
+    <Flex
+      height="100%"
+      direction="column"
+      border={resource.dashedBorder ? '2px' : '0'}
+      borderColor="yellow"
+      borderStyle="dashed"
+    >
       <HStack
         w="100%"
         bg={mode('gray.100', 'dark.main')}
