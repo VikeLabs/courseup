@@ -11,7 +11,6 @@ import ShareTimetableModal from './ShareTimetableModal';
 
 export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element {
   const importPage = useMatch('/s/:slug');
-  const comparePage = useMatch('/c/:slug');
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -49,7 +48,7 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
     onOpen();
   };
 
-  return importPage || comparePage ? (
+  return importPage ? (
     <></>
   ) : (
     <>

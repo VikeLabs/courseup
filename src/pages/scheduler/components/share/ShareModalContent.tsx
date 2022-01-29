@@ -22,8 +22,8 @@ export function ShareModalContent({ courses, isSmallScreen, term, loading, timet
     <VStack align="left" spacing="15px">
       <Alert status="info" borderRadius="10px">
         {isSmallScreen ? <AlertIcon /> : null}
-        We've generated a link that you can share to allow people to view, compare, and import the courses and sections
-        you currently have selected for the {getReadableTerm(term)} term.
+        We've generated a link that you can share to allow people to view and import the courses and sections you
+        currently have selected for the {getReadableTerm(term)} term.
       </Alert>
       <Heading size="sm"> What you are sharing</Heading>
       <SelectedCoursesCardList courses={courses} term={term} />

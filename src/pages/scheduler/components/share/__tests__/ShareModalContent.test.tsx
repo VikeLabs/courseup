@@ -19,7 +19,7 @@ describe('ShareModalContent', () => {
       );
       expect(
         screen.getByText(
-          "We've generated a link that you can share to allow people to view, compare, and import the courses and sections you currently have selected for the Fall 2021 term."
+          "We've generated a link that you can share to allow people to view and import the courses and sections you currently have selected for the Fall 2021 term."
         )
       ).toBeInTheDocument();
     });

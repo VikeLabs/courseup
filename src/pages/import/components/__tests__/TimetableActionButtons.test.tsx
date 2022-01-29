@@ -16,9 +16,9 @@ const sample_timetable: Timetable = { courses: courses, term: '202201' };
 
 describe('TimetableActionButtons', () => {
   describe('when it is rendered', () => {
-    it('should always display 3 buttons', () => {
+    it('should always display 2 buttons', () => {
       renderWithRouter(<TimetableActionButtons loading={false} data={sample_timetable} />);
-      expect(screen.getAllByRole('button')).toHaveLength(3);
+      expect(screen.getAllByRole('button')).toHaveLength(2);
     });
   });
 });
