@@ -25,6 +25,8 @@ export function BooklistContainer(): JSX.Element | null {
     logEvent('textbooks_view', { term });
   }, [term]);
 
+  // to avoid erroring out if term is not provided in URL
+  // term is eventually filled in but need to avoid initial error
   if (!term)
     return (
       <Page title="Loading booklist...">
