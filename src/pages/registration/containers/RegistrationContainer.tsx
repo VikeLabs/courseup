@@ -13,6 +13,8 @@ import { RegistrationHeading } from '../components/RegistrationHeading';
 
 import { CourseContainer } from './CourseContainer';
 
+import { RegistrationNotFound } from '../components/RegistrationNotFound'
+
 export function RegistrationContainer(): JSX.Element | null {
   const { term } = useParams();
   const { courses } = useSavedCourses();
@@ -36,14 +38,7 @@ export function RegistrationContainer(): JSX.Element | null {
           ) : (
             <>
               <Divider my="4" />
-              <Container alignItems="center" maxW="container.xl">
-                <Heading size="md" color={mode('gray', 'dark.header')}>
-                  Unable to find saved courses for{' '}
-                  <Text as="span" color={mode('black', 'white')}>
-                    {getReadableTerm(term)}
-                  </Text>
-                </Heading>
-              </Container>
+              <RegistrationNotFound />
             </>
           )}
         </Box>
