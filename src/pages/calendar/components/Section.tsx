@@ -90,7 +90,10 @@ export function SectionInfo({
 }: SectionInfoProps): JSX.Element {
   const badges: BadgeProps[] = [];
 
-  // Special cases for async/sync/blended because UVic notes are funky
+ /* Special cases for async/sync/blended
+  * The UVic notes are not normalized, giving
+  * us inconsistent things to look out for. 
+  */
   if (instructionalMethod === 'online') {
     if (additionalNotes?.indexOf('mix of “real-time” and asynchronous') !== -1) {
       badges.push({
