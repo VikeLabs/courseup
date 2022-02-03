@@ -23,15 +23,15 @@ type BadgeProps = {
   color: string;
 };
 
-const ruleNames: string[][] = [
-  ['Reserved for BSENG students', 'SENG Only'],
-  ['Computer Science program.', 'CSC Only'],
-  ['BEng students', 'ENGR Only'],
-  ['Faculty of Engineering', 'ENGR/CSC Only'],
-  ['SCIENCE students', 'SCI Only'],
-  ['BEng and BSEng students', 'BEng/BSeng Only'],
-  ['BME, BSEN, CENG, ELEC students', 'BME/SENG/CENG/ELEC Only'],
-];
+var names = {
+  'Reserved for BSENG students': 'SENG Only',
+  'Computer Science program.': 'CSC Only',
+  'BEng students': 'ENGR Only',
+  'Faculty of Engineering': 'ENGR/CSC Only',
+  'SCIENCE students': 'SCI only',
+  'BEng and BSEng students': 'BEng/BSeng Only',
+  'BME, BSEN, CENG, ELEC students': 'BME/SENG/CENG/ELEC Only',
+};
 
 export function CourseBadge({ color, children }: PropsWithChildren<BadgeProps>): JSX.Element {
   return (
@@ -90,10 +90,10 @@ export function SectionInfo({
 }: SectionInfoProps): JSX.Element {
   const badges: BadgeProps[] = [];
 
- /* Special cases for async/sync/blended
-  * The UVic notes are not normalized, giving
-  * us inconsistent things to look out for. 
-  */
+  /* Special cases for async/sync/blended
+   * The UVic notes are not normalized, giving
+   * us inconsistent things to look out for.
+   */
   if (instructionalMethod === 'online') {
     if (additionalNotes?.indexOf('mix of “real-time” and asynchronous') !== -1) {
       badges.push({
@@ -113,10 +113,10 @@ export function SectionInfo({
     }
   }
 
-  for (let i = 0; i < ruleNames.length; i++) {
-    if (additionalNotes?.indexOf(ruleNames[i][0]) !== -1) {
+  for (const [key, value] of Object.entries(names)) {
+    if (additionalNotes?.indexOf(key) !== -1) {
       badges.push({
-        name: ruleNames[i][1],
+        name: value,
         color: 'red',
       });
     }
