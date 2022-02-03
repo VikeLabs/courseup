@@ -133,8 +133,8 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            {badges.map((badges, index) => (
-              <CourseBadge key={index} name={badges.name} color={badges.color}>
+            {badges.map((badges, name) => (
+              <CourseBadge key={name} name={badges.name} color={badges.color}>
                 {badges.name}
               </CourseBadge>
             ))}
