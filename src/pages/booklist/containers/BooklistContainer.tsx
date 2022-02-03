@@ -1,11 +1,14 @@
+import { useEffect } from 'react';
+
 import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/layout';
 import { Center, Spinner, Text } from '@chakra-ui/react';
+import { logEvent } from 'index';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { getReadableTerm } from 'lib/utils';
+import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 
@@ -18,6 +21,10 @@ export function BooklistContainer(): JSX.Element | null {
   const mode = useDarkMode();
 
   const textbooks = useTextbooks(term as Term);
+
+  useEffect(() => {
+    logEvent('textbooks_view', { term });
+  }, [term]);
 
   return (
     <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
@@ -52,8 +59,10 @@ export function BooklistContainer(): JSX.Element | null {
             </>
           )}
         </Box>
-        {textbooks.status === 'loaded' && (
-          <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+        {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
+          <Box as="footer" px="2" textAlign={{ base: 'center', md: 'left' }}>
+            <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+          </Box>
         )}
       </Flex>
     </Flex>

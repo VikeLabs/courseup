@@ -14,6 +14,7 @@ import {
   VStack,
   Image,
 } from '@chakra-ui/react';
+import { logEvent } from 'index';
 import { IoBook } from 'react-icons/io5';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -43,6 +44,10 @@ export function Textbook({
   amazonUrl,
 }: Props) {
   const mode = useDarkMode();
+
+  const handleTextbookClick = (url?: string) => {
+    url && logEvent('textbook_click', { url });
+  };
 
   return (
     <Flex alignItems="center" direction={{ base: 'column', md: 'row' }} mt="1">
@@ -117,6 +122,7 @@ export function Textbook({
           colorScheme="blue"
           rightIcon={<LinkIcon />}
           disabled={bookstoreUrl === undefined}
+          onClick={() => handleTextbookClick(bookstoreUrl)}
           as="a"
           href={bookstoreUrl}
           target="_blank"
@@ -131,6 +137,7 @@ export function Textbook({
           href={amazonUrl}
           target="_blank"
           disabled={amazonUrl === undefined}
+          onClick={() => handleTextbookClick(amazonUrl)}
         >
           <Image
             loading="lazy"

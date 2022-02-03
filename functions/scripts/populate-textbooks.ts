@@ -15,7 +15,12 @@ if (process.env.FIRESTORE_EMULATOR_HOST) {
   admin.initializeApp({ credential: admin.credential.applicationDefault() });
 }
 
-const term = '202109';
+if (process.argv.length != 3) throw Error('Term argument not found.');
+
+const term = process.argv[2];
+
+if (!/20\d{2}0[1,5,9]/.test(term.trim()))
+  throw Error('Invalid term argument format');
 
 const main = async () => {
   const courses = await got(

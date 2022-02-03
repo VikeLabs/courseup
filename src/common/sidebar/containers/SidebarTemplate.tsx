@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { Term } from 'lib/fetchers';
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
-import { getCurrentTerm } from 'lib/utils';
+import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 

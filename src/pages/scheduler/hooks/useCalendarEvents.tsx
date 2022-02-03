@@ -58,7 +58,7 @@ export function useGetCourseSections(term: string, courses: SavedCourse[]) {
         );
         setResult({ status: 'loaded', data: coursesSections });
       } catch (e) {
-        setResult({ status: 'error', errorMessage: e });
+        setResult({ status: 'error', errorMessage: e as string });
       }
     })();
   }, [termCourses]);

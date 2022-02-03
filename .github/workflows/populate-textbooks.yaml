@@ -5,6 +5,9 @@ on:
       environment:
         description: Application environment to execute in.
         required: true
+      term:
+        description: Academic term to execute descript with. ie 202009, 202001
+        required: true
 jobs:
   lint:
     name: Lint
@@ -17,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
@@ -42,7 +45,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
@@ -58,4 +61,4 @@ jobs:
           service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           export_default_credentials: true
       - name: Execute Script
-        run: npm run db:textbooks
+        run: npm run db:textbooks ${{ github.event.inputs.term }}
