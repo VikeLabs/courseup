@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
 
-import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/layout';
+import { Box, Flex } from '@chakra-ui/layout';
 import { Center, Spinner, Text } from '@chakra-ui/react';
 import { logEvent } from 'index';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
-import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
+
+import { RegistrationNotFound } from 'pages/registration/components/RegistrationNotFound';
 
 import { BooklistHeading } from '../components/BooklistHeading';
 import { TextbookCard } from '../components/TextbookCard';
@@ -18,7 +19,6 @@ import { useTextbooks } from '../hooks/useTextbooks';
 
 export function BooklistContainer(): JSX.Element | null {
   const { term } = useParams();
-  const mode = useDarkMode();
 
   const textbooks = useTextbooks(term as Term);
 
@@ -46,17 +46,7 @@ export function BooklistContainer(): JSX.Element | null {
                 return <TextbookCard subject={subject} code={code} sections={sections} />;
               })
           ) : (
-            <>
-              <Divider my="4" />
-              <Container alignItems="center" maxW="container.xl">
-                <Heading size="md" color={mode('gray', 'dark.header')}>
-                  Unable to find saved courses or textbooks for{' '}
-                  <Text as="span" color={mode('black', 'white')}>
-                    {getReadableTerm(term)}
-                  </Text>
-                </Heading>
-              </Container>
-            </>
+            <RegistrationNotFound />
           )}
         </Box>
         {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (

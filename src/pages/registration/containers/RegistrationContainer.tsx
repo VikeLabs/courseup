@@ -1,24 +1,20 @@
-import { Box, Container, Divider, Flex, Heading } from '@chakra-ui/layout';
-import { Text } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/layout';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 
-import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 
 import { RegistrationHeading } from '../components/RegistrationHeading';
+import { RegistrationNotFound } from '../components/RegistrationNotFound';
 
 import { CourseContainer } from './CourseContainer';
-
-import { RegistrationNotFound } from '../components/RegistrationNotFound'
 
 export function RegistrationContainer(): JSX.Element | null {
   const { term } = useParams();
   const { courses } = useSavedCourses();
-  const mode = useDarkMode();
 
   return (
     <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
@@ -36,10 +32,7 @@ export function RegistrationContainer(): JSX.Element | null {
                 return <CourseContainer course={course} />;
               })
           ) : (
-            <>
-              <Divider my="4" />
-              <RegistrationNotFound />
-            </>
+            <RegistrationNotFound />
           )}
         </Box>
       </Flex>

@@ -1,4 +1,4 @@
-import { Container, Heading, Flex, Text } from '@chakra-ui/layout';
+import { Container, Heading, Flex, Text, Divider } from '@chakra-ui/layout';
 import { Button, Box } from '@chakra-ui/react';
 import { HiExternalLink } from 'react-icons/hi';
 import { useParams } from 'react-router';
@@ -11,6 +11,7 @@ export function RegistrationNotFound() {
   const mode = useDarkMode();
   return (
     <Container maxW="container.xl" centerContent data-testid="registration-component-1">
+      <Divider my="4" />
       <Box padding="10">
         <Flex direction={{ md: 'row', base: 'column' }} justifyContent="space-between">
           <Heading size="md" color={mode('gray', 'dark.header')}>
