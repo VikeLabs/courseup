@@ -1,6 +1,6 @@
 import { Center } from '@chakra-ui/react';
 
-import { Page } from 'common/page';
+import { Page } from 'common/page/Page';
 
 import { Landing } from './containers/Landing';
 

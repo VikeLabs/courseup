@@ -1,4 +1,21 @@
-import { logEvent, OldCourse } from 'index';
+import { Section } from 'lib/fetchers';
+import { SavedSection } from 'lib/hooks/useSavedCourses';
+
+import { logEvent } from './logEvent';
+
+export type OldCourse = {
+  subject: string;
+  pid: string;
+  code: string;
+  term: string;
+  sections: Section[];
+  selected?: boolean;
+  color?: string;
+  textColor?: string;
+  lecture?: SavedSection;
+  lab?: SavedSection;
+  tutorial?: SavedSection;
+};
 
 export function migrateLocalStorage() {
   // insert cat cry emoji here
