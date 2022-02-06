@@ -70,7 +70,7 @@
     "@types/react-instantsearch-core": "^6.10.5",
     "@types/react-instantsearch-dom": "^6.12.1",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
     "http-proxy-middleware": "^2.0.1",
     "jest-axe": "^5.0.1",
