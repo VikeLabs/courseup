@@ -48,6 +48,7 @@ export function SidebarContainer({ searchQuery, term }: SidebarContainerProps): 
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
     term: term as Term,
+    // eslint-disable-next-line camelcase
     queryParams: { in_session: filter },
   });
 
