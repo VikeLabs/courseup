@@ -15,9 +15,5 @@ export function Calendar(): JSX.Element {
 
   const pid = searchParams.get('pid');
 
-  return (
-    <Page title="Calendar" hasSidebar>
-      {pid ? <Content term={term as Term} /> : <Landing />}
-    </Page>
-  );
+  return <Page title="Calendar">{pid ? <Content term={term as Term} /> : <Landing />}</Page>;
 }

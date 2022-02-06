@@ -1,6 +1,7 @@
 import { Badge, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 import { MeetingTimes } from 'lib/fetchers';
+import { useIsMobile } from 'lib/hooks/useIsMobile';
 
 export interface ScheduleProps {
   /**
@@ -10,7 +11,52 @@ export interface ScheduleProps {
   meetingTimes: MeetingTimes[];
 }
 
+function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
+  return (
+    <Table variant="striped" size="sm" w="100%">
+      <Tr>
+        <Th scope="row">Days</Th>
+        {meetingTimes.map((m, i) => (
+          <Td key={i}>
+            <Badge>{m.days}</Badge>
+          </Td>
+        ))}
+      </Tr>
+      <Tr>
+        <Th scope="row">Dates</Th>
+        {meetingTimes.map((m, i) => (
+          <Td key={i}>{m.dateRange}</Td>
+        ))}
+      </Tr>
+      <Tr>
+        <Th scope="row">Time</Th>
+        {meetingTimes.map((m, i) => (
+          <Td key={i}>{m.time}</Td>
+        ))}
+      </Tr>
+      <Tr>
+        <Th scope="row">Location</Th>
+        {meetingTimes.map((m, i) => (
+          <Td key={i}>{m.where}</Td>
+        ))}
+      </Tr>
+      <Tr>
+        <Th scope="row">Instructors</Th>
+        {meetingTimes.map((m, i) => (
+          <Td key={i}>{m.instructors}</Td>
+        ))}
+      </Tr>
+      {/* <Th>Dates</Th>
+          <Th>Time</Th>
+          <Th>Location</Th>
+          <Th>Instructors</Th> */}
+    </Table>
+  );
+}
+
 export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileSchedule meetingTimes={meetingTimes} />;
   return (
     <Table variant="striped" size="sm">
       <Thead>
