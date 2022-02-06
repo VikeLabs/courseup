@@ -92,9 +92,11 @@ export function Content({ term }: ContentProps): JSX.Element {
                     </Center>
                   )}
                 </HStack>
-                <Heading size={isMobile ? 'md' : 'lg'} as="h3" color={mode('gray', 'dark.header')}>
-                  {data.title}
-                </Heading>
+                <Center w={{ base: '100%', sm: 'fit-content' }}>
+                  <Heading size={isMobile ? 'md' : 'lg'} as="h3" color={mode('gray', 'dark.header')}>
+                    {data.title}
+                  </Heading>
+                </Center>
               </Flex>
             )}
           </Skeleton>
