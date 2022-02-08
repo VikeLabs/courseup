@@ -23,7 +23,17 @@ type BadgeProps = {
   color: string;
 };
 
-var names = {
+/*
+ * Course info and course tag pairs
+ *
+ * Additional info on courses are listed here alongside
+ * the coorisponding badge that is associated with it.
+ *
+ * For example, SENG265 has a section that says 'Reserved for
+ * BSENG students', so we want to display a 'SENG Only' badge
+ */
+
+const courseTags = {
   'Reserved for BSENG students': 'SENG Only',
   'Computer Science program.': 'CSC Only',
   'BEng students': 'ENGR Only',
@@ -94,26 +104,26 @@ export function SectionInfo({
    * The UVic notes are not normalized, giving
    * us inconsistent things to look out for.
    */
-  if (instructionalMethod === 'online') {
-    if (additionalNotes?.indexOf('mix of “real-time” and asynchronous') !== -1) {
-      badges.push({
-        name: 'Blended',
-        color: 'cyan',
-      });
-    } else if (additionalNotes?.indexOf('fully online and asynchronous') !== -1) {
-      badges.push({
-        name: 'Asynchronous',
-        color: 'cyan',
-      });
-    } else {
-      badges.push({
-        name: 'Synchronous',
-        color: 'cyan',
-      });
-    }
+  if (additionalNotes?.indexOf('fully online and asynchronous') !== -1) {
+    badges.push({
+      name: 'Asynchronous',
+      color: 'cyan',
+    });
+  }
+  if (additionalNotes?.indexOf('fully online and synchronous') !== -1) {
+    badges.push({
+      name: 'Synchronous',
+      color: 'cyan',
+    });
+  }
+  if (additionalNotes?.indexOf('mix of “real-time” and asynchronous') !== -1) {
+    badges.push({
+      name: 'Blended',
+      color: 'cyan',
+    });
   }
 
-  for (const [key, value] of Object.entries(names)) {
+  for (const [key, value] of Object.entries(courseTags)) {
     if (additionalNotes?.indexOf(key) !== -1) {
       badges.push({
         name: value,
