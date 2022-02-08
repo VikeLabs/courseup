@@ -36,24 +36,24 @@ const SocialMediaButtons = ({ share_link }: SocialMediaButtonsProps) => {
 
 type CopyLinkUrlProps = {
   isSmallScreen: boolean;
-  share_link: string;
+  shareLink: string;
   loading: boolean;
 };
 
-const CopyLinkUrl = ({ isSmallScreen, share_link, loading }: CopyLinkUrlProps) => {
-  const { hasCopied, onCopy } = useClipboard(share_link);
+const CopyLinkUrl = ({ isSmallScreen, shareLink, loading }: CopyLinkUrlProps) => {
+  const { hasCopied, onCopy } = useClipboard(shareLink);
   const toast = useToast();
   const mode = useDarkMode();
 
   useEffect(() => {
     hasCopied && toast({ status: 'success', title: `Copied the link to clipboard!`, duration: 3000 });
-  }, [share_link, hasCopied, toast]);
+  }, [shareLink, hasCopied, toast]);
 
   return (
     <HStack justify="space-between" p="5px" borderWidth="1px" borderColor={mode('gray.300', 'gray.600')}>
       <HStack justify="center" flexGrow={4}>
         {isSmallScreen ? <Icon boxSize="1.25em" as={HiLink} /> : undefined}
-        <Input id="timetable_slug" value={loading ? 'Loading...' : share_link} variant="filled" isReadOnly />
+        <Input id="timetable_slug" value={loading ? 'Loading...' : shareLink} variant="filled" isReadOnly />
       </HStack>
       <Button
         disabled={loading}
@@ -82,7 +82,7 @@ export function ShareLinkOptions({ isSmallScreen, slug, loading }: ShareLinkOpti
       <Heading size="sm"> Share this link via </Heading>
       <SocialMediaButtons share_link={share_link} />
       <Heading size="sm"> Or copy link </Heading>
-      <CopyLinkUrl isSmallScreen={isSmallScreen} share_link={share_link} loading={loading} />
+      <CopyLinkUrl isSmallScreen={isSmallScreen} shareLink={share_link} loading={loading} />
     </>
   );
 }

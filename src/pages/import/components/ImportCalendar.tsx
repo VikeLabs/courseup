@@ -11,8 +11,8 @@ import { SchedulerCalendar } from 'pages/scheduler/components/SchedulerCalendar'
 import { useGetCourseSections } from 'pages/scheduler/hooks/useCalendarEvents';
 import { denormalizeCourseEvents } from 'pages/scheduler/hooks/useTransformedCalendarEvents';
 
-export const ImportCalendar = ({ timetable_courses }: { timetable_courses: Timetable }): JSX.Element => {
-  const { courses, term } = timetable_courses;
+export const ImportCalendar = ({ timetableCourses }: { timetableCourses: Timetable }): JSX.Element => {
+  const { courses, term } = timetableCourses;
 
   const parsedCourses: SavedCourse[] = useMemo(
     () =>

@@ -18,6 +18,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { BsArrowRepeat } from 'react-icons/bs';
+import { useNavigate } from 'react-router';
 
 import { Timetable } from 'lib/fetchers';
 import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
@@ -32,12 +33,14 @@ export function ReplaceTimetable({ loading, data }: { loading: boolean; data: Ti
   const filteredCoursesList: SavedCourse[] = [];
   const [filteredCourses, setFilteredCourses] = useState(filteredCoursesList);
   const [timetableTerm, setTimetableTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleReplace = () => {
     replaceCourses(data.courses, data.term);
     onClose();
+    navigate(`/scheduler/${timetableTerm}`);
     toast({
-      title: 'Timetable Replaced!',
+      title: 'Timetable replaced!',
       status: 'success',
       duration: 3000,
     });

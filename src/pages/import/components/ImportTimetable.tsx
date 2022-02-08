@@ -18,6 +18,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { BsPlusCircleFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router';
 
 import { Timetable } from 'lib/fetchers';
 import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
@@ -32,12 +33,14 @@ export function ImportTimetable({ loading, data }: { loading: boolean; data: Tim
   const filteredCoursesList: SavedCourse[] = [];
   const [filteredCourses, setFilteredCourses] = useState(filteredCoursesList);
   const [timetableTerm, setTimetableTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleImport = () => {
     importCourses(data.courses, data.term);
     onClose();
+    navigate(`/scheduler/${timetableTerm}`);
     toast({
-      title: 'Timetable Imported!',
+      title: 'Timetable imported!',
       status: 'success',
       duration: 3000,
     });

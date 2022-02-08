@@ -9,8 +9,7 @@ export type EventProps = BaseEventProps<{ resource: Omit<CourseCalendarEvent, 'm
 
 export const CalendarEvent = ({ title, event: { resource } }: EventProps) => {
   const mode = useDarkMode();
-  console.log('Resource dashed border', resource.dashedBorder);
-  console.log('Resource', resource);
+
   return (
     <Flex
       height="100%"
