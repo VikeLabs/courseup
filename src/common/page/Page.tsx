@@ -14,10 +14,12 @@ import { ContentSidebar } from 'common/sidebar';
 type Props = {
   title?: string;
   hasSearchableSidebar?: boolean;
+  leftSidebar?: JSX.Element;
+  rightSidebar?: JSX.Element;
   mobileSupport?: boolean;
 };
 
-export function Page({ title, hasSearchableSidebar, children }: PropsWithChildren<Props>) {
+export function Page({ title, hasSearchableSidebar, leftSidebar, rightSidebar, children }: PropsWithChildren<Props>) {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
@@ -28,9 +30,6 @@ export function Page({ title, hasSearchableSidebar, children }: PropsWithChildre
   const route = location.pathname.split('/')[1];
 
   const handleSearchChange = (q: string) => {
-    if (!hasSearchableSidebar) {
-      navigate(`/calendar/${savedTerm}`);
-    }
     setQuery(q);
   };
 
@@ -48,18 +47,24 @@ export function Page({ title, hasSearchableSidebar, children }: PropsWithChildre
         <title>{title}</title>
       </Helmet>
       <Header onSearchChange={handleSearchChange} />
-      {hasSearchableSidebar ? (
-        <Flex grow={1} overflow="hidden">
+      {/* {hasSearchableSidebar ? ( */}
+      <Flex width="100%" overflowY="auto" pt="1.25rem" direction="column">
+        {/* <ContentSidebar term={term as Term} searchQuery={query} /> */}
+        {!hasSearchableSidebar && query.length > 0 ? (
           <ContentSidebar term={term as Term} searchQuery={query} />
-          <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>
-            {children}
-          </Flex>
+        ) : (
+          leftSidebar
+        )}
+        <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>
+          {children}
         </Flex>
-      ) : (
+        {rightSidebar}
+      </Flex>
+      {/* ) : (
         <Flex width="100%" pt="1.25rem" direction="column" alignItems="center" overflowY="auto">
           {children}
         </Flex>
-      )}
+      )} */}
     </Flex>
   );
 }
