@@ -1,3 +1,5 @@
+import { PropsWithChildren } from 'react';
+
 import { Box, Heading, Text } from '@chakra-ui/layout';
 import {
   Accordion,
@@ -15,6 +17,43 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';
+
+type BadgeProps = {
+  name: string;
+  color: string;
+};
+
+/*
+ * Course info and course tag pairs
+ *
+ * Additional info on courses are listed here alongside
+ * the coorisponding badge that is associated with it.
+ *
+ * For example, SENG265 has a section that says 'Reserved for
+ * BSENG students', so we want to display a 'SENG Only' badge
+ */
+
+const courseTags = {
+  'Reserved for BSENG students': 'SENG Only',
+  'Computer Science program.': 'CSC Only',
+  'BEng students': 'ENGR Only',
+  'Faculty of Engineering': 'ENGR/CSC Only',
+  'SCIENCE students': 'SCI only',
+  'BEng and BSEng students': 'BEng/BSeng Only',
+  'BME, BSEN, CENG, ELEC students': 'BME/SENG/CENG/ELEC Only',
+};
+
+export function CourseBadge({ color, children }: PropsWithChildren<BadgeProps>): JSX.Element {
+  return (
+    <>
+      {
+        <Badge colorScheme={color} mx="1">
+          {children}
+        </Badge>
+      }
+    </>
+  );
+}
 
 export interface SectionInfoProps {
   /**
@@ -59,9 +98,39 @@ export function SectionInfo({
   seat,
   meetingTimes,
 }: SectionInfoProps): JSX.Element {
-  const isASYNC = additionalNotes?.indexOf('asynchronous') !== -1;
-  const isSENG = additionalNotes?.indexOf('Reserved for BSENG students') !== -1;
-  const isCSC = additionalNotes?.indexOf('Reserved for students in a Computer Science program') !== -1;
+  const badges: BadgeProps[] = [];
+
+  /* Special cases for async/sync/blended
+   * The UVic notes are not normalized, giving
+   * us inconsistent things to look out for.
+   */
+  if (additionalNotes?.indexOf('fully online and asynchronous') !== -1) {
+    badges.push({
+      name: 'Asynchronous',
+      color: 'cyan',
+    });
+  }
+  if (additionalNotes?.indexOf('fully online and synchronous') !== -1) {
+    badges.push({
+      name: 'Synchronous',
+      color: 'cyan',
+    });
+  }
+  if (additionalNotes?.indexOf('mix of “real-time” and asynchronous') !== -1) {
+    badges.push({
+      name: 'Blended',
+      color: 'cyan',
+    });
+  }
+
+  for (const [key, value] of Object.entries(courseTags)) {
+    if (additionalNotes?.indexOf(key) !== -1) {
+      badges.push({
+        name: value,
+        color: 'red',
+      });
+    }
+  }
 
   const { term } = useParams();
   const mode = useDarkMode();
@@ -77,21 +146,11 @@ export function SectionInfo({
             <Badge colorScheme="green" mx="1">
               {instructionalMethod}
             </Badge>
-            {isASYNC && (
-              <Badge colorScheme="cyan" mx="1">
-                Asynchronous
-              </Badge>
-            )}
-            {isSENG && (
-              <Badge colorScheme="orange" mx="1">
-                SENG ONLY
-              </Badge>
-            )}
-            {isCSC && (
-              <Badge colorScheme="yellow" mx="1">
-                CSC ONLY
-              </Badge>
-            )}
+            {badges.map((badges, name) => (
+              <CourseBadge key={name} name={badges.name} color={badges.color}>
+                {badges.name}
+              </CourseBadge>
+            ))}
           </Box>
         </Flex>
         <Heading size="md" as="h3" color={mode('gray', 'dark.header')}>
