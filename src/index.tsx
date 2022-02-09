@@ -11,9 +11,10 @@ import { Helmet } from 'react-helmet';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
+import { Section } from 'lib/fetchers';
+import { SavedSection } from 'lib/hooks/useSavedCourses';
 import { customTheme } from 'lib/theme';
 import { migrateLocalStorage } from 'lib/utils/localStorageMigration';
-import { logEvent } from 'lib/utils/logEvent';
 
 import { Feedback } from 'common/feedback';
 import { Mobile } from 'common/mobile';
@@ -22,6 +23,20 @@ import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
 
 import './index.css';
+
+export type OldCourse = {
+  subject: string;
+  pid: string;
+  code: string;
+  term: string;
+  sections: Section[];
+  selected?: boolean;
+  color?: string;
+  textColor?: string;
+  lecture?: SavedSection;
+  lab?: SavedSection;
+  tutorial?: SavedSection;
+};
 
 const firebaseConfig =
   process.env.REACT_APP_ENV === 'production'
@@ -95,3 +110,17 @@ reportWebVitals(({ id, name, value }) => {
     nonInteraction: true, // avoids affecting bounce rate
   });
 });
+
+export function logEvent(
+  eventName: string,
+  eventParams?:
+    | {
+        [key: string]: any;
+      }
+    | undefined,
+  options?: firebase.analytics.AnalyticsCallOptions | undefined
+): void {
+  if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
+    firebase.analytics().logEvent(eventName, eventParams);
+  }
+}

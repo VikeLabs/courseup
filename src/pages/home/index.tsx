@@ -1,15 +1,17 @@
+import { Flex } from '@chakra-ui/layout';
 import { Center } from '@chakra-ui/react';
 
-import { Page } from 'common/page/Page';
+import { Header } from 'common/header';
 
 import { Landing } from './containers/Landing';
 
 export function Home(): JSX.Element {
   return (
-    <Page>
+    <Flex h="100vh" direction="column" overflow="hidden">
+      <Header />
       <Center h="100%" overflow="auto">
         <Landing />
       </Center>
-    </Page>
+    </Flex>
   );
 }
