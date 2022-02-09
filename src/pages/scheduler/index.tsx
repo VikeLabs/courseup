@@ -10,7 +10,7 @@ export function Scheduler(): JSX.Element {
   const { term } = useParams();
 
   return (
-    <Page title="Scheduler" hasSidebar>
+    <Page title="Scheduler" hasSearchableSidebar>
       <Flex flexGrow={1}>
         <SchedulerContainer />
         <SchedulerSidebar term={term} />

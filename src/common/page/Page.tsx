@@ -13,11 +13,11 @@ import { ContentSidebar } from 'common/sidebar';
 
 type Props = {
   title?: string;
-  hasSidebar?: boolean;
+  hasSearchableSidebar?: boolean;
   mobileSupport?: boolean;
 };
 
-export function Page({ title, hasSidebar, children }: PropsWithChildren<Props>) {
+export function Page({ title, hasSearchableSidebar, children }: PropsWithChildren<Props>) {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export function Page({ title, hasSidebar, children }: PropsWithChildren<Props>) 
   const route = location.pathname.split('/')[1];
 
   const handleSearchChange = (q: string) => {
-    if (!hasSidebar) {
+    if (!hasSearchableSidebar) {
       navigate(`/calendar/${savedTerm}`);
     }
     setQuery(q);
@@ -48,7 +48,7 @@ export function Page({ title, hasSidebar, children }: PropsWithChildren<Props>) 
         <title>{title}</title>
       </Helmet>
       <Header onSearchChange={handleSearchChange} />
-      {hasSidebar ? (
+      {hasSearchableSidebar ? (
         <Flex grow={1} overflow="hidden">
           <ContentSidebar term={term as Term} searchQuery={query} />
           <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>

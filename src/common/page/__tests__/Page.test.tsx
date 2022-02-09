@@ -44,15 +44,15 @@ describe('Page', () => {
     expect(screen.getByText('what is up')).toBeInTheDocument();
   });
 
-  describe('when hasSidebar is true', () => {
+  describe('when hasSearchableSidebar is true', () => {
     it('should render the sidebar', () => {
-      renderWithSearch(<Page hasSidebar />);
+      renderWithSearch(<Page hasSearchableSidebar />);
       expect(screen.getByTestId('sidebar')).toBeInTheDocument();
     });
 
     it('should render the children', () => {
       renderWithSearch(
-        <Page hasSidebar>
+        <Page hasSearchableSidebar>
           <p>what is up</p>
         </Page>
       );
