@@ -14,10 +14,10 @@ import {
   VStack,
   Image,
 } from '@chakra-ui/react';
-import { logEvent } from 'index';
 import { IoBook } from 'react-icons/io5';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { logEvent } from 'lib/utils/logEvent';
 
 type Props = {
   title: string;
