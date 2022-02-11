@@ -56,7 +56,7 @@ export function Page({ title, hasSearchableSidebar, children }: PropsWithChildre
           </Flex>
         </Flex>
       ) : (
-        <Flex width="100%" pt="1.25rem" direction="column" alignItems="center" overflowY="auto">
+        <Flex width="100%" pt="1.25rem" direction="column" alignItems="center" overflow="auto">
           {children}
         </Flex>
       )}
