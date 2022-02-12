@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 
-import { Flex } from '@chakra-ui/react';
+import { Flex, useMediaQuery } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
@@ -24,7 +24,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [isMobile] = useMediaQuery('(max-width: 1020px)');
   const { term } = useParams();
 
   const route = location.pathname.split('/')[1];
@@ -50,17 +50,23 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
         </Helmet>
         <Header onSearchChange={handleSearchChange} />
         <Flex overflowY="auto" h="100%">
-          {query.length > 0 ? (
+          {!isMobile && query.length > 0 ? (
             <Sidebar>
               <SearchResults />
             </Sidebar>
           ) : (
-            leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
+            leftSidebar && !isMobile && <Sidebar>{leftSidebar}</Sidebar>
           )}
           <Flex overflow="auto" zIndex={56} w="100%" justifyContent="center">
-            {children}
+            {isMobile && query.length > 0 ? (
+              <Sidebar>
+                <SearchResults />
+              </Sidebar>
+            ) : (
+              children
+            )}
           </Flex>
-          {rightSidebar && <Sidebar>{rightSidebar}</Sidebar>}
+          {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>}
         </Flex>
       </Flex>
     </>
