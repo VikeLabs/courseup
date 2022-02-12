@@ -26,7 +26,7 @@ export function BooklistContainer(): JSX.Element | null {
   }, [term]);
 
   return (
-    <Page title={`${getReadableTerm(term)} · Booklist`}>
+    <Page title={`${getReadableTerm(term)} · Booklist`} mobileSupport>
       <VStack>
         <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center" pt="1.25rem">
           <BooklistHeading />

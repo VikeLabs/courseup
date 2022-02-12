@@ -8,6 +8,7 @@ import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
+import { Mobile } from 'common/mobile';
 import { Sidebar } from 'common/sidebar/containers/Sidebar';
 import { SearchResults } from 'common/sidebar/variants/SearchResults';
 
@@ -18,7 +19,7 @@ type Props = {
   mobileSupport?: boolean;
 };
 
-export function Page({ title, leftSidebar, rightSidebar, children }: PropsWithChildren<Props>) {
+export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children }: PropsWithChildren<Props>) {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
@@ -41,24 +42,27 @@ export function Page({ title, leftSidebar, rightSidebar, children }: PropsWithCh
   }, [navigate, route, savedTerm, setSavedTerm, term]);
 
   return (
-    <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
-      <Header onSearchChange={handleSearchChange} />
-      <Flex overflowY="auto" h="100%">
-        {query.length > 0 ? (
-          <Sidebar>
-            <SearchResults />
-          </Sidebar>
-        ) : (
-          leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
-        )}
-        <Flex overflow="auto" zIndex={56} w="100%">
-          {children}
+    <>
+      {!mobileSupport && <Mobile />}
+      <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
+        <Header onSearchChange={handleSearchChange} />
+        <Flex overflowY="auto" h="100%">
+          {query.length > 0 ? (
+            <Sidebar>
+              <SearchResults />
+            </Sidebar>
+          ) : (
+            leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
+          )}
+          <Flex overflow="auto" zIndex={56} w="100%" justifyContent="center">
+            {children}
+          </Flex>
+          {rightSidebar && <Sidebar>{rightSidebar}</Sidebar>}
         </Flex>
-        {rightSidebar && <Sidebar>{rightSidebar}</Sidebar>}
       </Flex>
-    </Flex>
+    </>
   );
 }

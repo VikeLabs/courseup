@@ -18,7 +18,7 @@ export function RegistrationContainer(): JSX.Element | null {
   const mode = useDarkMode();
 
   return (
-    <Page title={`${getReadableTerm(term)} · Registration`}>
+    <Page title={`${getReadableTerm(term)} · Registration`} mobileSupport>
       <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center" pt="1.25rem">
         <RegistrationHeading />
         {courses.filter((course) => course.term === term).length > 0 ? (

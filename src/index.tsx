@@ -17,7 +17,6 @@ import { customTheme } from 'lib/theme';
 import { migrateLocalStorage } from 'lib/utils/localStorageMigration';
 
 import { Feedback } from 'common/feedback';
-import { Mobile } from 'common/mobile';
 
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
@@ -87,7 +86,6 @@ ReactDOM.render(
           <ChakraProvider portalZIndex={999} theme={customTheme}>
             <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
             <Helmet titleTemplate="%s · CourseUp" defaultTitle="CourseUp · We make school easier" />
-            <Mobile />
             <Routes />
             <Feedback />
           </ChakraProvider>
