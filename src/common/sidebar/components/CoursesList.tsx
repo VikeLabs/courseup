@@ -15,7 +15,6 @@ type CoursesListProps = {
 
 export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | null {
   const { subject } = useParams();
-  const calendarMatch = useMatch('/calendar/*');
   const scheduleMatch = useMatch('/scheduler/*');
 
   if (!courses || !courses[subject]) {
@@ -23,14 +22,14 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
   }
 
   const createCard = (pid: string, code: string, subject: string, title: string) => {
-    if (calendarMatch)
+    if (!scheduleMatch)
       return (
         <LinkBox key={pid} as={Link} to={`/calendar/${term}/${subject}?pid=${pid}`} data-title={title}>
           <Card title={title} pid={pid} subject={subject} code={code} />
         </LinkBox>
       );
     else if (scheduleMatch) {
-      return <Card key={pid} title={title} subject={subject} pid={pid} code={code} schedule={true} />;
+      return <Card key={pid} title={title} subject={subject} pid={pid} code={code} schedule />;
     }
   };
 

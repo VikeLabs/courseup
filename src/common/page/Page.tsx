@@ -10,6 +10,7 @@ import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 import { ContentSidebar } from 'common/sidebar';
+import { Sidebar } from 'common/sidebar/containers/Sidebar';
 
 type Props = {
   title?: string;
@@ -47,24 +48,19 @@ export function Page({ title, hasSearchableSidebar, leftSidebar, rightSidebar, c
         <title>{title}</title>
       </Helmet>
       <Header onSearchChange={handleSearchChange} />
-      {/* {hasSearchableSidebar ? ( */}
-      <Flex width="100%" overflowY="auto" pt="1.25rem" direction="column">
-        {/* <ContentSidebar term={term as Term} searchQuery={query} /> */}
+      <Flex overflowY="auto" h="100%">
         {!hasSearchableSidebar && query.length > 0 ? (
-          <ContentSidebar term={term as Term} searchQuery={query} />
+          <Sidebar>
+            <ContentSidebar term={term as Term} searchQuery={query} />
+          </Sidebar>
         ) : (
-          leftSidebar
+          leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
         )}
-        <Flex minW="80%" overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56}>
+        <Flex overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56} w="100%">
           {children}
         </Flex>
-        {rightSidebar}
+        {rightSidebar && <Sidebar>{rightSidebar}</Sidebar>}
       </Flex>
-      {/* ) : (
-        <Flex width="100%" pt="1.25rem" direction="column" alignItems="center" overflowY="auto">
-          {children}
-        </Flex>
-      )} */}
     </Flex>
   );
 }

@@ -7,7 +7,7 @@ import { Landing } from './containers/Landing';
 export function Home(): JSX.Element {
   return (
     <Page>
-      <Center h="100vh" overflow="auto">
+      <Center overflow="auto">
         <Landing />
       </Center>
     </Page>

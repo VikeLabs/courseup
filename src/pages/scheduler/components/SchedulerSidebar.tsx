@@ -113,15 +113,16 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   );
 
   return (
-    <Flex
-      minW="25%"
-      maxW="25%"
-      bgColor={mode('light.background', 'dark.background')}
-      overflowY="auto"
-      direction="column"
-      boxShadow="md"
-      justifyContent="space-between"
-    >
+    // <Flex
+    //   minW="25%"
+    //   maxW="25%"
+    //   bgColor={mode('light.background', 'dark.background')}
+    //   overflowY="auto"
+    //   direction="column"
+    //   boxShadow="md"
+    //   justifyContent="space-between"
+    // >
+    <>
       <Box
         bgColor={mode('white', 'dark.main')}
         top="0"
@@ -179,6 +180,7 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
               </VStack>
             ))}
       </Box>
-    </Flex>
+    </>
+    // </Flex>
   );
 }
