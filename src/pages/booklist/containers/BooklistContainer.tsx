@@ -9,7 +9,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { logEvent } from 'lib/utils/logEvent';
 import { getReadableTerm } from 'lib/utils/terms';
 
-import { Page } from 'common/page/Page';
+import { Page } from 'common/layouts/Page';
 
 import { BooklistHeading } from '../components/BooklistHeading';
 import { TextbookCard } from '../components/TextbookCard';

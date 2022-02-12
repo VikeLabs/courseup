@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/layout';
 import { useParams } from 'react-router';
 
-import { Page } from 'common/page/Page';
+import { Page } from 'common/layouts/Page';
 
 import { SchedulerSidebar } from './components/SchedulerSidebar';
 import { SchedulerContainer } from './containers/SchedulerContainer';

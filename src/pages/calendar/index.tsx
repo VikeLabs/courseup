@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { Term } from 'lib/fetchers';
 
-import { Page } from 'common/page/Page';
+import { Page } from 'common/layouts/Page';
 
 import { Landing } from 'pages/home/containers/Landing';
 
