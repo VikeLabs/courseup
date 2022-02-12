@@ -12,7 +12,7 @@ export function Sidebar({ topBar, children }: PropsWithChildren<Props>): JSX.Ele
   const mode = useDarkMode();
 
   return (
-    <Flex bgColor={mode('light.background', 'dark.background')} minW="20%" flexDirection="column">
+    <Flex bgColor={mode('light.background', 'dark.background')} minW="20%" maxW="20%" flexDirection="column">
       {/* <TopBar onFilter={handleFilter} /> */}
       <Flex justifyContent="flex-start" height="100%" width="100%" overflow="hidden" direction="column">
         <Flex direction="column" overflowY="auto">

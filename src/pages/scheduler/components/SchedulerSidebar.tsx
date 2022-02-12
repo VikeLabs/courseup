@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 
-import { Button } from '@chakra-ui/button';
-import { Box, Flex, Text, VStack } from '@chakra-ui/layout';
+import { Box, VStack } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
 
 import { MeetingTimes } from 'lib/fetchers';
-import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+
+import { TopBar } from 'common/sidebar/components/TopBar';
 
 import { useGetCourseSections } from '../hooks/useCalendarEvents';
 
@@ -23,7 +23,6 @@ interface SchedulerSidebarProps {
 export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   const { deleteCourse, setSection, setShowSections, courses, setSelected, clearCourses } = useSavedCourses();
   const coursesResult = useGetCourseSections(term, courses);
-  const mode = useDarkMode();
 
   const handleCourseSectionChange = useCallback(
     (
@@ -113,17 +112,18 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   );
 
   return (
-    // <Flex
-    //   minW="25%"
-    //   maxW="25%"
-    //   bgColor={mode('light.background', 'dark.background')}
-    //   overflowY="auto"
-    //   direction="column"
-    //   boxShadow="md"
-    //   justifyContent="space-between"
-    // >
     <>
-      <Box
+      <TopBar
+        buttonProps={{
+          colorScheme: 'red',
+          onClick: () => clearCourses(term),
+          disabled: courses.filter((course) => course.term === term).length === 0,
+        }}
+        buttonName="Clear"
+      >
+        Saved Courses
+      </TopBar>
+      {/* <Box
         bgColor={mode('white', 'dark.main')}
         top="0"
         m="0"
@@ -145,8 +145,8 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
             </Button>
           </Flex>
         </Flex>
-      </Box>
-      <Box h="100%" overflow="auto" pb="20">
+      </Box> */}
+      <Box h="100%" pb="20" overflowY="auto">
         {coursesResult.status === 'loaded' &&
           coursesResult.data
             .filter((course) => course.term === term)
@@ -181,6 +181,5 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
             ))}
       </Box>
     </>
-    // </Flex>
   );
 }

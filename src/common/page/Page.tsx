@@ -4,23 +4,21 @@ import { Flex } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
-import { Term } from 'lib/fetchers';
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
-import { ContentSidebar } from 'common/sidebar';
 import { Sidebar } from 'common/sidebar/containers/Sidebar';
+import { SearchResults } from 'common/sidebar/variants/SearchResults';
 
 type Props = {
   title?: string;
-  hasSearchableSidebar?: boolean;
   leftSidebar?: JSX.Element;
   rightSidebar?: JSX.Element;
   mobileSupport?: boolean;
 };
 
-export function Page({ title, hasSearchableSidebar, leftSidebar, rightSidebar, children }: PropsWithChildren<Props>) {
+export function Page({ title, leftSidebar, rightSidebar, children }: PropsWithChildren<Props>) {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
@@ -49,9 +47,9 @@ export function Page({ title, hasSearchableSidebar, leftSidebar, rightSidebar, c
       </Helmet>
       <Header onSearchChange={handleSearchChange} />
       <Flex overflowY="auto" h="100%">
-        {!hasSearchableSidebar && query.length > 0 ? (
+        {query.length > 0 ? (
           <Sidebar>
-            <ContentSidebar term={term as Term} searchQuery={query} />
+            <SearchResults />
           </Sidebar>
         ) : (
           leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
