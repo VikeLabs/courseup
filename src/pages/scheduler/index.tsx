@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
 
-import { Page } from 'common/page/Page';
+import { Page } from 'common/layouts/Page';
 import { Courses } from 'common/sidebar/variants/Courses';
 
 import { SchedulerSidebar } from './components/SchedulerSidebar';

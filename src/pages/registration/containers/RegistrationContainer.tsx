@@ -7,7 +7,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils/terms';
 
-import { Header } from 'common/header';
+import { Page } from 'common/layouts/Page';
 
 import { RegistrationHeading } from '../components/RegistrationHeading';
 

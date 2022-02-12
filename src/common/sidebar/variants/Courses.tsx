@@ -1,25 +1,27 @@
 import { useMemo, useState } from 'react';
 
-// import { ChevronRightIcon } from '@chakra-ui/icons';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
   Center,
   Box,
   Spinner,
-  //   Breadcrumb,
-  //   BreadcrumbItem,
-  //   BreadcrumbLink,
-  //   useDisclosure,
-  //   //   Text,
-  //   Collapse,
-  //   FormControl,
-  //   Flex,
-  //   FormLabel,
-  //   Switch,
+  useDisclosure,
+  Flex,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Text,
+  Button,
+  Collapse,
+  FormControl,
+  FormLabel,
+  Switch,
 } from '@chakra-ui/react';
-import { Route, Routes } from 'react-router';
-// import { Link, useSearchParams } from 'react-router-dom';
+import { Route, Routes, useLocation, useParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { Course, Term, useGetCourses, useSubjects } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CoursesList } from '../components/CoursesList';
 import { SubjectsList } from '../components/SubjectsList';
@@ -41,6 +43,70 @@ function computeParsedCourses(courses: Course[] | null) {
   );
 }
 
+export interface TopBarProps {
+  /**
+   * Back button click handler
+   */
+  onFilter?: (filter: boolean) => void;
+}
+
+export function TopBar({ onFilter }: TopBarProps): JSX.Element {
+  const { isOpen, onToggle } = useDisclosure();
+  const { term } = useParams();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const mode = useDarkMode();
+
+  const subject = location.pathname.split('/')[3];
+  const route = location.pathname.split('/')[1];
+
+  const pid = searchParams.get('pid');
+
+  return (
+    <Box
+      bgColor={mode('white', 'dark.main')}
+      top="0"
+      m="0"
+      boxShadow="md"
+      zIndex={10}
+      borderBottomWidth="2px"
+      borderBottomStyle="solid"
+    >
+      <Flex justifyContent="space-between" alignItems="center" p="3">
+        <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
+          <BreadcrumbItem>
+            <BreadcrumbLink as={Link} to={{ pathname: `/${route}/${term}/`, search: pid ? `?pid=${pid}` : undefined }}>
+              Subjects
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          {subject && (
+            <BreadcrumbItem>
+              <Text fontWeight="semibold">{subject}</Text>
+            </BreadcrumbItem>
+          )}
+        </Breadcrumb>
+        <Box>
+          <Button onClick={onToggle} size="xs">
+            Filters
+          </Button>
+        </Box>
+      </Flex>
+      <Collapse in={isOpen} animateOpacity>
+        <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
+          <FormControl>
+            <Flex justifyContent="space-between" w="100%">
+              <FormLabel htmlFor="email-alerts" mb="0" fontSize="sm">
+                Only Show Courses in Session
+              </FormLabel>
+              <Switch id="email-alerts" onChange={(e) => onFilter && onFilter(e.currentTarget.checked)} />
+            </Flex>
+          </FormControl>
+        </Box>
+      </Collapse>
+    </Box>
+  );
+}
+
 type Props = {
   /**
    * Term Selected
@@ -50,7 +116,7 @@ type Props = {
 };
 
 export function Courses({ term }: Props): JSX.Element | null {
-  const [filter] = useState(false);
+  const [filter, setFilter] = useState(false);
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
     term: term as Term,
@@ -64,22 +130,13 @@ export function Courses({ term }: Props): JSX.Element | null {
   const sortedSubjects = useMemo(() => subjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
 
-  //topbar
-  //   const { isOpen, onToggle } = useDisclosure();
-  //   const location = useLocation();
-  //   const [searchParams] = useSearchParams();
-
-  //   const subject = location.pathname.split('/')[3];
-  //   const route = location.pathname.split('/')[1];
-
-  //   const pid = searchParams.get('pid');
-
-  //   const handleFilter = (s: boolean) => {
-  //     setFilter(s);
-  //   };
+  const handleFilter = (s: boolean) => {
+    setFilter(s);
+  };
 
   return (
     <>
+      <TopBar onFilter={handleFilter} />
       {!loading && sortedSubjects && courses ? (
         <Box h="100%" overflowY="auto">
           <Routes>
