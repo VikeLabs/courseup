@@ -74,4 +74,11 @@ app.get('/openapi.json', async (req, res) => {
 RegisterRoutes(app);
 
 // By default, /api/* will be routed to this Express app.
-export const api = functions.https.onRequest(app);
+export const api = functions
+  .runWith({
+    // Ensure the function has enough memory and time
+    // to process large files
+    timeoutSeconds: 60,
+    memory: '512MB',
+  })
+  .https.onRequest(app);
