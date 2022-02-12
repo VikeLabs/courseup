@@ -5,10 +5,10 @@ import { useParams } from 'react-router';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils/terms';
 
+import { CoursesNotFound } from 'common/coursesnotfound/CoursesNotFound';
 import { Header } from 'common/header';
 
 import { RegistrationHeading } from '../components/RegistrationHeading';
-import { RegistrationNotFound } from '../components/RegistrationNotFound';
 
 import { CourseContainer } from './CourseContainer';
 
@@ -32,7 +32,7 @@ export function RegistrationContainer(): JSX.Element | null {
                 return <CourseContainer course={course} />;
               })
           ) : (
-            <RegistrationNotFound />
+            <CoursesNotFound />
           )}
         </Box>
       </Flex>

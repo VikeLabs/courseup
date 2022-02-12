@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
 import { Box, Flex } from '@chakra-ui/layout';
-import { Center, Spinner, Text } from '@chakra-ui/react';
+import { Button, Center, Container, Divider, Heading, Link, Spinner, Text } from '@chakra-ui/react';
 import { logEvent } from 'index';
 import { Helmet } from 'react-helmet';
+import { HiOutlineCalendar } from 'react-icons/hi';
 import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
-
-import { RegistrationNotFound } from 'pages/registration/components/RegistrationNotFound';
 
 import { BooklistHeading } from '../components/BooklistHeading';
 import { TextbookCard } from '../components/TextbookCard';
@@ -19,7 +19,7 @@ import { useTextbooks } from '../hooks/useTextbooks';
 
 export function BooklistContainer(): JSX.Element | null {
   const { term } = useParams();
-
+  const mode = useDarkMode();
   const textbooks = useTextbooks(term as Term);
 
   useEffect(() => {
@@ -46,7 +46,31 @@ export function BooklistContainer(): JSX.Element | null {
                 return <TextbookCard subject={subject} code={code} sections={sections} />;
               })
           ) : (
-            <RegistrationNotFound />
+            <Container maxW="container.xl" centerContent data-testid="courses-not-found">
+              <Divider my="4" />
+              <Box padding="10">
+                <Flex direction={{ md: 'row', base: 'column' }} justifyContent="space-between">
+                  <Heading size="md" color={mode('gray', 'dark.header')}>
+                    Unable to find saved textbooks from{' '}
+                    <Text as="span" color={mode('black', 'white')}>
+                      {getReadableTerm(term)}{' '}
+                    </Text>
+                    timetable
+                    <Box padding="4">
+                      <Button
+                        colorScheme="blue"
+                        width="auto"
+                        leftIcon={<HiOutlineCalendar />}
+                        as={Link}
+                        to={`/scheduler/${term}`}
+                      >
+                        {`${getReadableTerm(term)}`} timetable
+                      </Button>
+                    </Box>
+                  </Heading>
+                </Flex>
+              </Box>
+            </Container>
           )}
         </Box>
         {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
