@@ -54,7 +54,7 @@ export function Page({ title, leftSidebar, rightSidebar, children }: PropsWithCh
         ) : (
           leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
         )}
-        <Flex overflow="auto" justifyContent="center" boxShadow="lg" zIndex={56} w="100%">
+        <Flex overflow="auto" zIndex={56} w="100%">
           {children}
         </Flex>
         {rightSidebar && <Sidebar>{rightSidebar}</Sidebar>}

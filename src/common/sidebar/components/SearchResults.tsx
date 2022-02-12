@@ -22,16 +22,20 @@ const SearchResults = ({ hits }: Props) => {
 
   return (
     <>
-      {hits.map(({ objectID, pid, subject, code, title }) => (
-        <LinkBox
-          as={Link}
-          to={`/calendar/${term || getCurrentTerm()}/${subject}?pid=${pid}`}
-          data-pid={pid}
-          key={objectID}
-        >
-          <Card subject={subject} title={title} pid={pid} code={code} schedule={scheduleMatch != null} />
-        </LinkBox>
-      ))}
+      {hits.map(({ objectID, pid, subject, code, title }) =>
+        scheduleMatch ? (
+          <Card subject={subject} title={title} pid={pid} code={code} schedule />
+        ) : (
+          <LinkBox
+            as={Link}
+            to={`/calendar/${term || getCurrentTerm()}/${subject}?pid=${pid}`}
+            data-pid={pid}
+            key={objectID}
+          >
+            <Card subject={subject} title={title} pid={pid} code={code} />
+          </LinkBox>
+        )
+      )}
     </>
   );
 };

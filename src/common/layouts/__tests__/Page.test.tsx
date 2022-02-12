@@ -5,8 +5,6 @@ import { useLocation, useParams } from 'react-router';
 
 import { renderWithSearch } from 'lib/utils/jest';
 
-import { ContentSidebar } from 'common/sidebar';
-
 import { Page } from '../Page';
 
 jest.mock('common/sidebar');
@@ -14,7 +12,6 @@ jest.mock('react-router');
 
 const mockUseParams = mocked(useParams);
 const mockUseLocation = mocked(useLocation);
-const mockContentSidebar = mocked(ContentSidebar);
 
 const mockLocation = { pathname: '/registration/' } as any;
 
@@ -22,12 +19,6 @@ describe('Page', () => {
   beforeEach(() => {
     mockUseLocation.mockReturnValue(mockLocation);
     mockUseParams.mockReturnValue({ term: '202109' });
-    mockContentSidebar.mockImplementation(({ term, searchQuery }) => (
-      <div data-testid="sidebar">
-        {searchQuery}
-        {term}
-      </div>
-    ));
   });
 
   it('should have the expected title', async () => {
@@ -44,15 +35,56 @@ describe('Page', () => {
     expect(screen.getByText('what is up')).toBeInTheDocument();
   });
 
-  describe('when hasSearchableSidebar is true', () => {
+  describe('when it has a left sidebar', () => {
     it('should render the sidebar', () => {
-      renderWithSearch(<Page hasSearchableSidebar />);
-      expect(screen.getByTestId('sidebar')).toBeInTheDocument();
+      renderWithSearch(<Page leftSidebar={<div data-testid="left">cool sidebar</div>} />);
+      expect(screen.getByTestId('left')).toBeInTheDocument();
     });
 
     it('should render the children', () => {
       renderWithSearch(
-        <Page hasSearchableSidebar>
+        <Page leftSidebar={<div data-testid="left">cool sidebar</div>}>
+          <p>what is up</p>
+        </Page>
+      );
+      expect(screen.getByText('what is up')).toBeInTheDocument();
+    });
+  });
+
+  describe('when it has a right sidebar', () => {
+    it('should render the sidebar', () => {
+      renderWithSearch(<Page rightSidebar={<div data-testid="right">cool sidebar</div>} />);
+      expect(screen.getByTestId('right')).toBeInTheDocument();
+    });
+
+    it('should render the children', () => {
+      renderWithSearch(
+        <Page rightSidebar={<div data-testid="right">cool sidebar</div>}>
+          <p>what is up</p>
+        </Page>
+      );
+      expect(screen.getByText('what is up')).toBeInTheDocument();
+    });
+  });
+
+  describe('when it has a both sidebars', () => {
+    it('should render the sidebar', () => {
+      renderWithSearch(
+        <Page
+          rightSidebar={<div data-testid="right">cool sidebar</div>}
+          leftSidebar={<div data-testid="left">even cooler sidebar</div>}
+        />
+      );
+      expect(screen.getByTestId('right')).toBeInTheDocument();
+      expect(screen.getByTestId('left')).toBeInTheDocument();
+    });
+
+    it('should render the children', () => {
+      renderWithSearch(
+        <Page
+          rightSidebar={<div data-testid="right">cool sidebar</div>}
+          leftSidebar={<div data-testid="left">even cooler sidebar</div>}
+        >
           <p>what is up</p>
         </Page>
       );
