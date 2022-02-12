@@ -57,7 +57,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
           ) : (
             leftSidebar && !isMobile && <Sidebar>{leftSidebar}</Sidebar>
           )}
-          <Flex overflow="auto" zIndex={56} w="100%" justifyContent="center">
+          <Flex overflowY="auto" zIndex={56} w="100%" justifyContent="center" overflowX="hidden">
             {isMobile && query.length > 0 ? (
               <Sidebar>
                 <SearchResults />

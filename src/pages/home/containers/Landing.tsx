@@ -27,6 +27,7 @@ export function Landing() {
       m={10}
       justifyItems="center"
       alignItems="center"
+      textAlign={{ base: 'center', xl: 'left' }}
     >
       <GridItem colSpan={1}>
         <Container>
@@ -34,7 +35,15 @@ export function Landing() {
             Explore UVic Courses
           </Heading>
           <Text fontSize="1.6em">CourseUp makes it simple to browse and schedule UVic Courses</Text>
-          <Flex alignItems="center" mt="1rem" as="a" w="fit-content" target="_blank" href="https://www.vikelabs.ca">
+          <Flex
+            alignItems="center"
+            mt="1rem"
+            as="a"
+            w={{ base: '100%', xl: 'fit-content' }}
+            target="_blank"
+            href="https://www.vikelabs.ca"
+            direction={{ base: 'column', xl: 'row' }}
+          >
             <Text fontSize={{ base: '1em', md: '1.5em' }} color={mode('light.caption', 'dark.caption')}>
               <span>{hands[handIndex]}</span> Built by students @
             </Text>

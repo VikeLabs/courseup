@@ -6,7 +6,7 @@ import { Landing } from './containers/Landing';
 
 export function Home(): JSX.Element {
   return (
-    <Page>
+    <Page mobileSupport>
       <Center h="100%">
         <Landing />
       </Center>
