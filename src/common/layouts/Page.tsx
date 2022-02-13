@@ -8,9 +8,9 @@ import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
+import { Sidebar } from 'common/layouts/sidebar/containers/Sidebar';
+import { SearchResults } from 'common/layouts/sidebar/variants/SearchResults';
 import { Mobile } from 'common/mobile';
-import { Sidebar } from 'common/sidebar/containers/Sidebar';
-import { SearchResults } from 'common/sidebar/variants/SearchResults';
 
 type Props = {
   title?: string;

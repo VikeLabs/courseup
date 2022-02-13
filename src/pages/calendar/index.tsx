@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Term } from 'lib/fetchers';
 
 import { Page } from 'common/layouts/Page';
-import { Courses } from 'common/sidebar/variants/Courses';
+import { Courses } from 'common/layouts/sidebar/variants/Courses';
 
 import { Landing } from 'pages/home/containers/Landing';
 

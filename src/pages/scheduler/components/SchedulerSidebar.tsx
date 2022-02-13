@@ -6,7 +6,7 @@ import { Collapse } from '@chakra-ui/transition';
 import { MeetingTimes } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
-import { TopBar } from 'common/sidebar/components/TopBar';
+import { TopBar } from 'common/layouts/sidebar/components/TopBar';
 
 import { useGetCourseSections } from '../hooks/useCalendarEvents';
 
@@ -123,29 +123,6 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
       >
         Saved Courses
       </TopBar>
-      {/* <Box
-        bgColor={mode('white', 'dark.main')}
-        top="0"
-        m="0"
-        boxShadow="md"
-        zIndex={10}
-        borderBottomWidth="2px"
-        borderBottomStyle="solid"
-      >
-        <Flex justifyContent="space-between" alignItems="center" p="3">
-          <Text>Saved Courses</Text>
-          <Flex>
-            <Button
-              size="xs"
-              colorScheme="red"
-              onClick={() => clearCourses(term)}
-              disabled={courses.filter((course) => course.term === term).length === 0}
-            >
-              Clear
-            </Button>
-          </Flex>
-        </Flex>
-      </Box> */}
       <Box h="100%" pb="20" overflowY="auto">
         {coursesResult.status === 'loaded' &&
           coursesResult.data

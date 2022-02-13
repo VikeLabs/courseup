@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import { Term } from 'lib/fetchers';
 
 import { Page } from 'common/layouts/Page';
-import { Courses } from 'common/sidebar/variants/Courses';
+import { Courses } from 'common/layouts/sidebar/variants/Courses';
 
 import { SchedulerSidebar } from './components/SchedulerSidebar';
 import { SchedulerContainer } from './containers/SchedulerContainer';

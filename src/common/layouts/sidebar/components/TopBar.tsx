@@ -6,8 +6,6 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 type Props = {
   buttonName?: string;
-  // buttonColor?: string;
-  // handleClick?: () => void;
   buttonProps?: ButtonProps;
 };
 

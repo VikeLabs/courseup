@@ -50,7 +50,7 @@ export interface TopBarProps {
   onFilter?: (filter: boolean) => void;
 }
 
-export function TopBar({ onFilter }: TopBarProps): JSX.Element {
+export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
   const { term } = useParams();
   const location = useLocation();
@@ -136,7 +136,7 @@ export function Courses({ term }: Props): JSX.Element | null {
 
   return (
     <>
-      <TopBar onFilter={handleFilter} />
+      <CoursesTopBar onFilter={handleFilter} />
       {!loading && sortedSubjects && courses ? (
         <Box h="100%" overflowY="auto">
           <Routes>
