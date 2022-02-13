@@ -7,7 +7,6 @@ import { renderWithSearch } from 'lib/utils/jest';
 
 import { Page } from '../Page';
 
-jest.mock('common/sidebar');
 jest.mock('react-router');
 
 const mockUseParams = mocked(useParams);

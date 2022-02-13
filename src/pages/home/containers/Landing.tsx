@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Image } from '@chakra-ui/image';
-import { Container, Flex, Grid, GridItem, Heading, Text, Center } from '@chakra-ui/layout';
+import { Container, Flex, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 

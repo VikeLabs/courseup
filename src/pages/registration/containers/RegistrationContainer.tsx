@@ -1,5 +1,5 @@
 import { Box, Container, Divider, Heading } from '@chakra-ui/layout';
-import { Text } from '@chakra-ui/react';
+import { Center, Spinner, Text } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -21,7 +21,7 @@ export function RegistrationContainer(): JSX.Element | null {
   // term is eventually filled in but need to avoid initial error
   if (!term)
     return (
-      <Page title="Loading registration data...">
+      <Page title="Loading registration data..." mobileSupport>
         <Center height="100%" mt="10">
           <Spinner size="xl" />
         </Center>

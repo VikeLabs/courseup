@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import { Box, Container, Divider, Heading } from '@chakra-ui/layout';
 import { Center, Spinner, Text, VStack } from '@chakra-ui/react';
-import { logEvent } from 'index';
 import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
@@ -30,7 +29,7 @@ export function BooklistContainer(): JSX.Element | null {
   // term is eventually filled in but need to avoid initial error
   if (!term)
     return (
-      <Page title="Loading booklist...">
+      <Page title="Loading booklist..." mobileSupport>
         <Center height="100%" mt="10">
           <Spinner size="xl" />
         </Center>
