@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { logEvent } from 'lib/utils/logEvent';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Page } from 'common/layouts/Page';
@@ -24,6 +25,17 @@ export function BooklistContainer(): JSX.Element | null {
   useEffect(() => {
     logEvent('textbooks_view', { term });
   }, [term]);
+
+  // to avoid erroring out if term is not provided in URL
+  // term is eventually filled in but need to avoid initial error
+  if (!term)
+    return (
+      <Page title="Loading booklist...">
+        <Center height="100%" mt="10">
+          <Spinner size="xl" />
+        </Center>
+      </Page>
+    );
 
   return (
     <Page title={`${getReadableTerm(term)} · Booklist`} mobileSupport>

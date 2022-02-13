@@ -17,6 +17,17 @@ export function RegistrationContainer(): JSX.Element | null {
   const { courses } = useSavedCourses();
   const mode = useDarkMode();
 
+  // to avoid erroring out if term is not provided in URL
+  // term is eventually filled in but need to avoid initial error
+  if (!term)
+    return (
+      <Page title="Loading registration data...">
+        <Center height="100%" mt="10">
+          <Spinner size="xl" />
+        </Center>
+      </Page>
+    );
+
   return (
     <Page title={`${getReadableTerm(term)} · Registration`} mobileSupport>
       <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center" pt="1.25rem">
