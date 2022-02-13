@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { Term } from 'lib/fetchers';
 
-import { SidebarTemplate } from 'common/sidebar/';
+import { Page } from 'common/layouts/Page';
 
 import { Landing } from 'pages/home/containers/Landing';
 
@@ -16,8 +16,8 @@ export function Calendar(): JSX.Element {
   const pid = searchParams.get('pid');
 
   return (
-    <SidebarTemplate title="Calendar" term={term as Term}>
+    <Page title="Calendar" hasSearchableSidebar>
       {pid ? <Content term={term as Term} /> : <Landing />}
-    </SidebarTemplate>
+    </Page>
   );
 }

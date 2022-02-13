@@ -1,7 +1,8 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Button, Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
-import { logEvent } from 'index';
 import { ToolbarProps } from 'react-big-calendar';
+
+import { logEvent } from 'lib/utils/logEvent';
 
 export const CalendarToolBar =
   (onSelectedDateChange: (date: Date) => void, term: string, vCalendar?: string) =>
