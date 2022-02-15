@@ -9,7 +9,7 @@ export interface Course {
   code: string;
 }
 
-export type Term = '202001' | '202005' | '202009' | '202101' | '202105' | '202109' | '202201';
+export type Term = '202001' | '202005' | '202009' | '202101' | '202105' | '202109' | '202201' | '202201';
 
 export interface CourseDetails {
   pid: string;
