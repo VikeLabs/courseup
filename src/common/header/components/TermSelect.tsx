@@ -8,7 +8,7 @@ import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getCurrentTerm, getReadableTerm } from 'lib/utils/terms';
 
-const terms = ['202105', '202109', '202201'];
+const terms = ['202109', '202201', '202205'];
 
 export function TermSelect(): JSX.Element {
   const { subject } = useParams();
