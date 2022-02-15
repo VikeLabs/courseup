@@ -48,6 +48,7 @@ const models: TsoaRoute.Models = {
         { dataType: 'enum', enums: ['202105'] },
         { dataType: 'enum', enums: ['202109'] },
         { dataType: 'enum', enums: ['202201'] },
+        { dataType: 'enum', enums: ['202205'] },
       ],
       validators: {},
     },
