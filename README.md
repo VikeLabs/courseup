@@ -31,6 +31,19 @@ Note: If the above is failing to compile on a Windows machine, you will first ne
 
 If you get stuck setting up the development environment, try Google **then** if you're still stuck drop a question in our [GitHub Discussions](https://github.com/VikeLabs/courseup/discussions/categories/q-a).
 
+### Next.js
+
+CourseUp is migrating to [Next.js](https://nextjs.org/) and thus the project is configured to be dual-stack as there's a create-react-app and Next.js project within the same repository.
+
+During the migration, the Next.js related scripts are prefixed with `next`:
+
+- `npm run next:dev` - Starts Next.js in development mode
+- `npm run next:build` - Builds the application for production usage
+- `npm run next:start` - Starts a Next.js production server
+- `npm run next:lint` - Sets up Next.js' built-in ESLint configuration
+
+These prefixed scripts will be removed when create-react-app is removed.
+
 ### Directory Structure
 
 CourseUp uses a defined structure for directories. Make sure you read up on our [frontend directory structure guidelines](https://github.com/VikeLabs/courseup/wiki/Frontend-Directory-Structure) before submitting contributions.
