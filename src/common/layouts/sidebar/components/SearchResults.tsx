@@ -1,9 +1,7 @@
 import { LinkBox } from '@chakra-ui/react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
-import { Link, useMatch, useParams } from 'react-router-dom';
-
-import { getCurrentTerm } from 'lib/utils/terms';
+import { Link, useMatch } from 'react-router-dom';
 
 import { Card } from './Card';
 
@@ -14,11 +12,10 @@ type CourseRecord = {
   code: string;
 };
 
-type Props = HitsProvided<CourseRecord>;
+type Props = { term: string } & HitsProvided<CourseRecord>;
 
-const SearchResults = ({ hits }: Props) => {
+const SearchResults = ({ hits, term }: Props) => {
   const scheduleMatch = useMatch('/scheduler/*');
-  const { term } = useParams();
 
   return (
     <>
@@ -26,12 +23,7 @@ const SearchResults = ({ hits }: Props) => {
         scheduleMatch ? (
           <Card subject={subject} title={title} pid={pid} code={code} schedule />
         ) : (
-          <LinkBox
-            as={Link}
-            to={`/calendar/${term || getCurrentTerm()}/${subject}?pid=${pid}`}
-            data-pid={pid}
-            key={objectID}
-          >
+          <LinkBox as={Link} to={`/calendar/${term}/${subject}?pid=${pid}`} data-pid={pid} key={objectID}>
             <Card subject={subject} title={title} pid={pid} code={code} />
           </LinkBox>
         )

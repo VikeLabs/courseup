@@ -9,8 +9,8 @@ export function Sidebar({ children }: { children: JSX.Element }): JSX.Element | 
   return (
     <Flex
       bgColor={mode('light.background', 'dark.background')}
-      w={isMobile ? '100%' : '25%'}
-      maxW={isMobile ? '100%' : '350px'}
+      minW={isMobile ? '100%' : '20%'}
+      maxW={isMobile ? '100%' : '20%'}
       flexDirection="column"
       h="100%"
     >

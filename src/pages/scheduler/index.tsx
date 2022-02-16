@@ -1,4 +1,3 @@
-import { Flex } from '@chakra-ui/layout';
 import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
@@ -18,9 +17,7 @@ export function Scheduler(): JSX.Element {
       leftSidebar={<Courses term={term as Term} />}
       rightSidebar={<SchedulerSidebar term={term} />}
     >
-      <Flex flexGrow={1}>
-        <SchedulerContainer />
-      </Flex>
+      <SchedulerContainer />
     </Page>
   );
 }
