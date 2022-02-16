@@ -9,7 +9,7 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import ShareTimetableModal from './ShareTimetableModal';
 
-export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element {
+export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element | null {
   const importPage = useMatch('/s/:slug');
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -67,7 +67,7 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
         timetable={timetable}
         onClose={onClose}
         isOpen={isOpen}
-        inSession_savedCourses={filteredCourses}
+        inSessionSavedCourses={filteredCourses}
       />
     </>
   );

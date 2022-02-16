@@ -71,7 +71,14 @@ export function ReplaceTimetable({ loading, data }: { loading: boolean; data: Ti
 
   return (
     <>
-      <Button disabled={loading} rightIcon={<BsArrowRepeat />} colorScheme="green" onClick={onOpen}>
+      <Button
+        borderRadius={0}
+        disabled={loading}
+        rightIcon={<BsArrowRepeat />}
+        colorScheme="orange"
+        onClick={onOpen}
+        isFullWidth
+      >
         Replace Your Timetable
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>

@@ -19,17 +19,17 @@ import {
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 type SocialMediaButtonsProps = {
-  share_link: string;
+  shareLink: string;
 };
 
-const SocialMediaButtons = ({ share_link }: SocialMediaButtonsProps) => {
+const SocialMediaButtons = ({ shareLink }: SocialMediaButtonsProps) => {
   return (
     <HStack justify="center">
-      <EmailShareButton children={<EmailIcon size={50} round />} url={share_link} />
-      <FacebookShareButton children={<FacebookIcon size={50} round />} url={share_link} />
-      <TelegramShareButton children={<TelegramIcon size={50} round />} url={share_link} />
-      <WhatsappShareButton children={<WhatsappIcon size={50} round />} url={share_link} />
-      <TwitterShareButton children={<TwitterIcon size={50} round />} url={share_link} />
+      <EmailShareButton children={<EmailIcon size={50} round />} url={shareLink} />
+      <FacebookShareButton children={<FacebookIcon size={50} round />} url={shareLink} />
+      <TelegramShareButton children={<TelegramIcon size={50} round />} url={shareLink} />
+      <WhatsappShareButton children={<WhatsappIcon size={50} round />} url={shareLink} />
+      <TwitterShareButton children={<TwitterIcon size={50} round />} url={shareLink} />
     </HStack>
   );
 };
@@ -75,14 +75,14 @@ type ShareLinkOptionsProps = {
 };
 
 export function ShareLinkOptions({ isSmallScreen, slug, loading }: ShareLinkOptionsProps): JSX.Element {
-  const share_link = 'https://' + window.location.hostname + '/s/' + slug;
+  const shareLink = 'https://' + window.location.hostname + '/s/' + slug;
 
   return (
     <>
       <Heading size="sm"> Share this link via </Heading>
-      <SocialMediaButtons share_link={share_link} />
+      <SocialMediaButtons shareLink={shareLink} />
       <Heading size="sm"> Or copy link </Heading>
-      <CopyLinkUrl isSmallScreen={isSmallScreen} shareLink={share_link} loading={loading} />
+      <CopyLinkUrl isSmallScreen={isSmallScreen} shareLink={shareLink} loading={loading} />
     </>
   );
 }

@@ -17,7 +17,7 @@ import { ShareModalContent } from './ShareModalContent';
 type Props = {
   onClose: () => void;
   isOpen: boolean;
-  inSession_savedCourses: SavedCourse[];
+  inSessionSavedCourses: SavedCourse[];
   term: Term;
   loading: boolean;
   timetable: CreateTimetableResponse;
@@ -26,7 +26,7 @@ type Props = {
 export default function ShareTimetableModal({
   onClose,
   isOpen,
-  inSession_savedCourses,
+  inSessionSavedCourses,
   term,
   loading,
   timetable,
@@ -44,7 +44,7 @@ export default function ShareTimetableModal({
             <ShareModalContent
               loading={loading}
               timetable={timetable}
-              courses={inSession_savedCourses}
+              courses={inSessionSavedCourses}
               isSmallScreen={isSmallScreen}
               term={term || ''}
             />

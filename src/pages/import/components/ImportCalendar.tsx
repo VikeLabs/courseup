@@ -42,7 +42,7 @@ export const ImportCalendar = ({ timetableCourses }: { timetableCourses: Timetab
   );
 
   return (
-    <Box w="100%" h="500px" px="3" py="2">
+    <Box w="100%" px="3" pb="14" h="100%">
       <SchedulerCalendar term={term} courseCalendarEvents={calendarEvents} />
     </Box>
   );

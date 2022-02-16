@@ -19,6 +19,14 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
       : { ...courses[0], sections: [] };
   }, [coursesResult, courses]);
   console.log(coursesResult);
+
+  const sharedSections = useMemo(
+    () =>
+      course.sections.filter(
+        (c) => c.sectionCode === course.lecture || c.sectionCode === course.lab || c.sectionCode === course.tutorial
+      ),
+    [course]
+  );
   // const sections = useMemo(() => {
   //   coursesResult.status === 'loaded' && coursesResult.data ?
   //   coursesResult.data[0].sections : []}, [coursesResult])
@@ -29,79 +37,41 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
   const mode = useDarkMode();
   return (
     <>
-      {
-        coursesResult.status === 'loaded' && coursesResult.data ? (
-          <Box bgColor={mode('white', 'dark.main')}>
-            <HStack
-              px="3"
-              my="0.5"
-              fontSize="12px"
-              borderTop={mode('light.background', 'dark.background')}
-              borderTopWidth="2"
-              borderTopStyle="solid"
-            >
-              <Text as="strong">
-                {course
-                  ? course.sections[course.sections.map((s) => s.sectionCode).indexOf(courses[0].lecture ?? '')]
-                      .sectionCode
-                  : ''}
-              </Text>
-              <VStack flexGrow={1} py="1.5">
-                {course
-                  ? course.sections[
-                      course.sections.map((s) => s.sectionCode).indexOf(courses[0].lecture ?? '')
-                    ].meetingTimes.map((m, key) => (
-                      <HStack key={key} w="100%" px="5">
-                        <Box w="33%" minW="27%">
-                          {m.time.split('-').map((time) => (
-                            <Text key={time}>{time}</Text>
-                          ))}
-                        </Box>
-                        <Box w="20%" minW="13%">
-                          {m.days}
-                        </Box>
-                        <Box w="47%">{m.where}</Box>
-                      </HStack>
-                    ))
-                  : ''}
-              </VStack>
-            </HStack>
-          </Box>
-        ) : (
-          <></>
-        )
-        // sectionTypes.map((type) => (
-        //   <HStack
-        //     as="label"
-        //     px="3"
-        //     my="0.5"
-        //     fontSize="12px"
-        //     borderTop={mode('light.background', 'dark.background')}
-        //     borderTopWidth="2"
-        //     borderTopStyle="solid"
-        //   >
-        //     <HStack>
-        //       <Text as="strong">{sectionCode}</Text>
-        //     </HStack>
-        //     <VStack flexGrow={1} py="1.5">
-        //       {meetingTimes.map((m, key) => (
-        //         <HStack key={key} w="100%" px="5">
-        //           <Box w="33%" minW="27%">
-        //             {m.time.split('-').map((time) => (
-        //               <Text key={time}>{time}</Text>
-        //             ))}
-        //           </Box>
-        //           <Box w="20%" minW="13%">
-        //             {m.days}
-        //           </Box>
-        //           <Box w="47%">{m.where}</Box>
-        //         </HStack>
-        //       ))}
-        //     </VStack>
-        //   </HStack>
-        // ))}
-        // ))
-      }
+      {coursesResult.status === 'loaded' && coursesResult.data ? (
+        <Box bgColor={mode('white', 'dark.main')}>
+          {sharedSections.map((s) => {
+            return (
+              <HStack
+                px="3"
+                my="0.5"
+                fontSize="12px"
+                borderTop={mode('light.background', 'dark.background')}
+                borderTopWidth="2"
+                borderTopStyle="solid"
+              >
+                <Text as="strong">{s.sectionCode}</Text>
+                <VStack flexGrow={1} py="1.5">
+                  {s.meetingTimes.map((m, key) => (
+                    <HStack key={key} w="100%" px="5">
+                      <Box w="33%" minW="27%">
+                        {m.time.split('-').map((time) => (
+                          <Text key={time}>{time}</Text>
+                        ))}
+                      </Box>
+                      <Box w="20%" minW="13%">
+                        {m.days}
+                      </Box>
+                      <Box w="47%">{m.where}</Box>
+                    </HStack>
+                  ))}
+                </VStack>
+              </HStack>
+            );
+          })}
+        </Box>
+      ) : (
+        <></>
+      )}
     </>
   );
 }
@@ -186,12 +156,12 @@ export function TimetableCourseCard({ course, term }: { course: TimetableCourse;
     tutorial: course.tutorial ? course.tutorial[0] : undefined,
   };
 
-  const [showSection, setShowSection] = useState(false);
+  const [showSection, setShowSection] = useState(true);
 
   const handleToggle = () => setShowSection(!showSection);
 
   return (
-    <VStack mt="1" spacing="0" w="80%" maxW="400px">
+    <VStack mt="1" spacing="0" w="100%">
       <TopRow
         color={color}
         term={term}

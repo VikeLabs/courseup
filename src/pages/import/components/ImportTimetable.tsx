@@ -71,8 +71,15 @@ export function ImportTimetable({ loading, data }: { loading: boolean; data: Tim
 
   return (
     <>
-      <Button disabled={loading} rightIcon={<BsPlusCircleFill />} colorScheme="purple" onClick={onOpen}>
-        Import Courses to Your Timetable
+      <Button
+        borderRadius={0}
+        disabled={loading}
+        rightIcon={<BsPlusCircleFill />}
+        colorScheme="purple"
+        onClick={onOpen}
+        isFullWidth
+      >
+        Import Courses
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
