@@ -19,26 +19,21 @@ export async function getSections(
       // i.e. where = 'Bob Wright Centre 123"
       const { where } = meetingTime;
 
-      // TODO: need to verify if this is the correct way to get the room number
-      const buildingRegex = /(?<building>.+)\s(?<number>\S{1,4})/;
+      const buildingRegex = /(?<building>.+)\s(?<number>\S{3,6})/;
 
       const results = buildingRegex.exec(where);
 
       const building = results?.groups?.building;
       const roomNumber = results?.groups?.number;
 
-      if (building && roomNumber) {
-        const buildingAccronym = Buildings.get(building);
+      const buildingAccronym = Buildings.get(building ?? '');
 
-        return {
-          ...meetingTime,
-          building,
-          buildingAccronym,
-          roomNumber: roomNumber,
-        };
-      }
-
-      return meetingTime;
+      return {
+        ...meetingTime,
+        building,
+        buildingAccronym,
+        roomNumber,
+      };
     });
 
     return {
