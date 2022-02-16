@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",
-    "@chakra-ui/react": "^1.7.3",
+    "@chakra-ui/react": "^1.8.3",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@sentry/react": "^6.16.1",
@@ -12,9 +12,10 @@
     "algoliasearch": "^4.11.0",
     "date-fns": "^2.27.0",
     "firebase": "^8.9.1",
-    "framer-motion": "^4.1.17",
+    "framer-motion": "^6.2.6",
     "history": "^5.0.0",
     "luxon": "^2.2.0",
+    "next": "^12.0.10",
     "react": "^17.0.2",
     "react-big-calendar": "^0.38.9",
     "react-dom": "^17.0.2",
@@ -33,15 +34,18 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
     "eject": "react-scripts eject",
+    "test": "jest",
     "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/lib/fetchers.tsx",
     "lint": "eslint \"src/**/*.{t,j}s{x,}\"",
     "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
     "format": "prettier --write \"src/**/*.{t,j}s{x,}\"",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "next:dev": "next dev",
+    "next:build": "next build",
+    "next:start": "next start",
+    "next:lint": "next lint"
   },
-  "proxy": "https://courseup.vikelabs.dev/",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -59,7 +63,7 @@
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.1",
     "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^27.4.0",
     "@types/jest-axe": "^3.5.2",
     "@types/luxon": "^2.0.8",
     "@types/node": "^14.18.2",
@@ -77,36 +81,7 @@
     "prettier": "^2.5.1",
     "react-share": "^4.4.0",
     "source-map-explorer": "^2.5.2",
-    "ts-jest": "^27.1.2",
-    "typescript": "^4.5.4"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testPathIgnorePatterns": [
-      "/node_modules",
-      "functions"
-    ],
-    "testRegex": "src/.*(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.ts"
-    ],
-    "modulePaths": [
-      "<rootDir>/src/"
-    ],
-    "moduleNameMapper": {
-      "^.+\\.(css|scss)$": "<rootDir>/src/lib/utils/jest/__mocks__/styleMock.js"
-    }
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5"
   }
 }
