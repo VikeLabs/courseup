@@ -114,11 +114,9 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
   return (
     <>
       <TopBar
-        buttonProps={{
-          colorScheme: 'red',
-          onClick: () => clearCourses(term),
-          disabled: courses.filter((course) => course.term === term).length === 0,
-        }}
+        colorScheme="red"
+        onClick={() => clearCourses(term)}
+        disabled={courses.filter((course) => course.term === term).length === 0}
         buttonName="Clear"
       >
         Saved Courses

@@ -6,10 +6,9 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 type Props = {
   buttonName?: string;
-  buttonProps?: ButtonProps;
-};
+} & ButtonProps;
 
-export function TopBar({ children, buttonName, buttonProps }: PropsWithChildren<Props>): JSX.Element {
+export function TopBar({ children, buttonName, ...buttonProps }: PropsWithChildren<Props>): JSX.Element {
   const mode = useDarkMode();
 
   return (
