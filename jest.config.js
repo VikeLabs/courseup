@@ -1,3 +1,4 @@
+const baseTsConfig = require('./tsconfig.json');
 // Sync object
 /** @type {import('@jest/types').Config.InitialOptions} */
 const config = {
@@ -6,23 +7,8 @@ const config = {
   globals: {
     'ts-jest': {
       tsconfig: {
-        baseUrl: 'src',
-        target: 'es5',
-        lib: ['dom', 'dom.iterable', 'esnext'],
-        allowJs: true,
-        skipLibCheck: true,
-        esModuleInterop: true,
-        allowSyntheticDefaultImports: true,
-        strict: true,
-        forceConsistentCasingInFileNames: true,
-        noFallthroughCasesInSwitch: true,
-        module: 'esnext',
-        moduleResolution: 'node',
-        resolveJsonModule: true,
-        isolatedModules: true,
-        noEmit: true,
+        ...baseTsConfig.compilerOptions,
         jsx: 'react-jsx',
-        incremental: true,
       },
     },
   },
