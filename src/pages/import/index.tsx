@@ -9,6 +9,7 @@ import { Header } from 'common/header';
 
 import { ImportCalendar } from './components/ImportCalendar';
 import { TimetableActionButtons } from './components/TimetableActionButtons';
+import { TimetableCourseCard } from './components/TimetableCourseCard';
 
 export function ImportTimetable(): JSX.Element {
   const { slug } = useParams();
@@ -25,6 +26,11 @@ export function ImportTimetable(): JSX.Element {
               ? 'Viewing Timetable for ' + getReadableTerm((data as Timetable).term)
               : 'Viewing Timetable'}
           </Heading>
+          {!loading && data
+            ? (data as Timetable).courses.map((course) => (
+                <TimetableCourseCard course={course} term={(data as Timetable).term} />
+              ))
+            : null}
           <TimetableActionButtons data={data as Timetable} loading={loading} />
           <Center w="70vw">
             {!loading && data ? <ImportCalendar timetableCourses={data as Timetable} /> : <Spinner size="xl" />}
