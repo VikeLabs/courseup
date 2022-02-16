@@ -17,7 +17,7 @@ export function Mobile(): JSX.Element | null {
       <ModalOverlay />
       <ModalContent w="90%" minW="200px" zIndex={999}>
         <ModalBody textAlign="center">
-          (╯°□°)╯︵ ┻━┻<Text my="5px"> Hey! We're still not quite there with mobile support.</Text>
+          (╯°□°)╯︵ ┻━┻<Text my="5px"> Hey! We're still not quite there with mobile support for this page.</Text>
           <Text>
             Please use a <Text as="strong">desktop</Text> to get the best experience
           </Text>

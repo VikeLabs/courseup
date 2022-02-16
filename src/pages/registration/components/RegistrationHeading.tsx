@@ -1,4 +1,4 @@
-import { Container, Divider, Flex, Heading, HStack, ListItem, OrderedList, Text } from '@chakra-ui/layout';
+import { Container, Divider, Flex, Heading, ListItem, OrderedList, Text } from '@chakra-ui/layout';
 import { Button, Icon } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoCopyOutline } from 'react-icons/io5';
@@ -12,23 +12,18 @@ export function RegistrationHeading() {
   return (
     <Container alignItems="center" maxW="container.xl">
       <Flex direction={{ md: 'row', base: 'column' }} justifyContent="space-between">
-        <HStack>
-          <Heading fontSize={{ base: '1.5rem', md: '2.15rem' }} as="h1" marginBottom={{ base: '1rem', md: '0' }}>
-            Registration for {`${getReadableTerm(term)}`}
-          </Heading>
-        </HStack>
-        <HStack>
-          <Button
-            colorScheme="blue"
-            width="100%"
-            rightIcon={<HiLink />}
-            as="a"
-            href="https://www.uvic.ca/tools/student/registration/add-or-drop-classes/index.php"
-            target="_blank"
-          >
-            UVic Registration Page
-          </Button>
-        </HStack>
+        <Heading fontSize={{ base: '1.5rem', md: '2.15rem' }} as="h1" marginBottom={{ base: '1rem', md: '0' }}>
+          Registration for {`${getReadableTerm(term)}`}
+        </Heading>
+        <Button
+          colorScheme="blue"
+          rightIcon={<HiLink />}
+          as="a"
+          href="https://www.uvic.ca/tools/student/registration/add-or-drop-classes/index.php"
+          target="_blank"
+        >
+          UVic Registration Page
+        </Button>
       </Flex>
       <Divider my="4" />
       <Flex>
