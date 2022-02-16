@@ -21,7 +21,7 @@ describe('ShareTimetableModal', () => {
           loading={false}
           onClose={() => {}}
           isOpen={true}
-          inSession_savedCourses={[]}
+          inSessionSavedCourses={[]}
           timetable={{}}
         />
       );
@@ -35,7 +35,7 @@ describe('ShareTimetableModal', () => {
           loading={false}
           onClose={() => {}}
           isOpen={true}
-          inSession_savedCourses={courses}
+          inSessionSavedCourses={courses}
           timetable={{}}
         />
       );
@@ -50,7 +50,7 @@ describe('ShareTimetableModal', () => {
           loading={false}
           onClose={mock}
           isOpen={true}
-          inSession_savedCourses={[]}
+          inSessionSavedCourses={[]}
           timetable={{}}
         />
       );

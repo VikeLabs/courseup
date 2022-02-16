@@ -12,12 +12,12 @@ const courses: TimetableCourse[] = [
   { code: '407', color: '#ED8936', lecture: ['A01'], pid: 'B1gBVuamE', subject: 'ES' },
 ];
 
-const sample_timetable: Timetable = { courses: courses, term: '202201' };
+const sampleTimetable: Timetable = { courses: courses, term: '202201' };
 
 describe('TimetableActionButtons', () => {
   describe('when it is rendered', () => {
     it('should always display 2 buttons', () => {
-      renderWithRouter(<TimetableActionButtons loading={false} data={sample_timetable} />);
+      renderWithRouter(<TimetableActionButtons loading={false} data={sampleTimetable} />);
       expect(screen.getAllByRole('button')).toHaveLength(2);
     });
   });
