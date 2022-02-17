@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { Box, Container, Divider, Heading } from '@chakra-ui/layout';
-import { Center, Spinner, Text } from '@chakra-ui/react';
+import { Center, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
@@ -29,7 +29,7 @@ export function BooklistContainer(): JSX.Element | null {
   // term is eventually filled in but need to avoid initial error
   if (!term)
     return (
-      <Page title="Loading booklist...">
+      <Page title="Loading booklist..." mobileSupport>
         <Center height="100%" mt="10">
           <Spinner size="xl" />
         </Center>
@@ -37,38 +37,40 @@ export function BooklistContainer(): JSX.Element | null {
     );
 
   return (
-    <Page title={`${getReadableTerm(term)} · Booklist`}>
-      <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center">
-        <BooklistHeading />
-        {textbooks.status === 'loading' ? (
-          <Center height="100%" mt="10">
-            <Spinner size="xl" />
-          </Center>
-        ) : textbooks.textbookInfo.filter((textbook) => textbook && textbook.term === term).length > 0 ? (
-          textbooks.textbookInfo
-            .filter((textbook) => textbook && textbook.term === term)
-            .map(({ sections, subject, code }) => {
-              return <TextbookCard subject={subject} code={code} sections={sections} />;
-            })
-        ) : (
-          <>
-            <Divider my="4" />
-            <Container alignItems="center" maxW="container.xl">
-              <Heading size="md" color={mode('gray', 'dark.header')}>
-                Unable to find saved courses or textbooks for{' '}
-                <Text as="span" color={mode('black', 'white')}>
-                  {getReadableTerm(term)}
-                </Text>
-              </Heading>
-            </Container>
-          </>
-        )}
-      </Box>
-      {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
-        <Box as="footer" px="2" textAlign={{ base: 'center', md: 'left' }}>
-          <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+    <Page title={`${getReadableTerm(term)} · Booklist`} mobileSupport>
+      <VStack>
+        <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center" pt="1.25rem">
+          <BooklistHeading />
+          {textbooks.status === 'loading' ? (
+            <Center height="100%" mt="10">
+              <Spinner size="xl" />
+            </Center>
+          ) : textbooks.textbookInfo.filter((textbook) => textbook && textbook.term === term).length > 0 ? (
+            textbooks.textbookInfo
+              .filter((textbook) => textbook && textbook.term === term)
+              .map(({ sections, subject, code }) => {
+                return <TextbookCard subject={subject} code={code} sections={sections} />;
+              })
+          ) : (
+            <>
+              <Divider my="4" />
+              <Container alignItems="center" maxW="container.xl">
+                <Heading size="md" color={mode('gray', 'dark.header')}>
+                  Unable to find saved courses or textbooks for{' '}
+                  <Text as="span" color={mode('black', 'white')}>
+                    {getReadableTerm(term)}
+                  </Text>
+                </Heading>
+              </Container>
+            </>
+          )}
         </Box>
-      )}
+        {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
+          <Box as="footer" px="2" textAlign={{ base: 'center', md: 'left' }}>
+            <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+          </Box>
+        )}
+      </VStack>
     </Page>
   );
 }
