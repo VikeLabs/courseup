@@ -200,7 +200,7 @@ export const useSavedCourses = (): SavedCourses => {
   );
 
   /**
-   * Replaces saved courses to a list of timetable courses to the saved courses.
+   * Replaces saved courses with a new list of courses.
    * @param courses: List of timetable courses
    * @param term: Timetable term
    */
