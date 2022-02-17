@@ -5,7 +5,7 @@ admin.initializeApp({
   projectId: 'development',
 });
 
-const term = '202109';
+const term = '202201';
 const dir = 'tmp/firestore';
 
 import * as express from 'express';

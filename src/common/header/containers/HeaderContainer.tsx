@@ -23,7 +23,6 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
   const { isOpen, onToggle } = useDisclosure();
   return (
     <Box
-      zIndex="overlay"
       position="sticky"
       top={0}
       as="header"
@@ -79,8 +78,8 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
       {isMobile ? (
         <MobileHeaderContainer onSearchChange={onSearchChange} />
       ) : (
-        <Box zIndex="overlay" position="sticky" top={0} data-testid="desktop-header">
-          <HStack as="header" px="8" boxShadow="md" zIndex={100} minH="56px">
+        <Box position="sticky" top={0} data-testid="desktop-header">
+          <HStack as="header" px="8" boxShadow="md" minH="56px">
             <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
               {/*
               LOGO WILL GO HERE
