@@ -18,7 +18,6 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
       ? coursesResult.data[0]
       : { ...courses[0], sections: [] };
   }, [coursesResult, courses]);
-  console.log(coursesResult);
 
   const sharedSections = useMemo(
     () =>
@@ -27,17 +26,11 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
       ),
     [course]
   );
-  // const sections = useMemo(() => {
-  //   coursesResult.status === 'loaded' && coursesResult.data ?
-  //   coursesResult.data[0].sections : []}, [coursesResult])
-
-  // const sectionTypes = useMemo(() =>
-  // Array.from(new Set(sections.map((s) => s.sectionType))), [sections]);
 
   const mode = useDarkMode();
   return (
     <>
-      {coursesResult.status === 'loaded' && coursesResult.data ? (
+      {coursesResult.status === 'loaded' && coursesResult.data && (
         <Box bgColor={mode('white', 'dark.main')}>
           {sharedSections.map((s) => {
             return (
@@ -58,10 +51,10 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
                           <Text key={time}>{time}</Text>
                         ))}
                       </Box>
-                      <Box w="20%" minW="13%">
+                      <Box w="15%" minW="13%">
                         {m.days}
                       </Box>
-                      <Box w="47%">{m.where}</Box>
+                      <Box maxW="50%">{m.where}</Box>
                     </HStack>
                   ))}
                 </VStack>
@@ -69,8 +62,6 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
             );
           })}
         </Box>
-      ) : (
-        <></>
       )}
     </>
   );
@@ -173,7 +164,7 @@ export function TimetableCourseCard({ course, term }: { course: TimetableCourse;
         toggleSection={handleToggle}
         showSection={showSection}
       />
-      \
+
       <Collapse in={showSection} animateOpacity style={{ width: '100%' }}>
         <SectionInfoRow courses={[savedCourse]} term={term} />
       </Collapse>

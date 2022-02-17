@@ -16,16 +16,16 @@ export const ImportCalendar = ({ timetableCourses }: { timetableCourses: Timetab
 
   const parsedCourses: SavedCourse[] = useMemo(
     () =>
-      courses.map((course) => {
+      courses.map(({ subject, pid, code, lecture, lab, tutorial, color }) => {
         return {
-          subject: course.subject,
-          pid: course.pid,
-          code: course.code,
-          term: term,
-          lecture: course.lecture ? course.lecture[0] : undefined,
-          lab: course.lab ? course.lab[0] : undefined,
-          tutorial: course.tutorial ? course.tutorial[0] : undefined,
-          color: course.color,
+          subject,
+          pid,
+          code,
+          term,
+          lecture: lecture ? lecture[0] : undefined,
+          lab: lab ? lab[0] : undefined,
+          tutorial: tutorial ? tutorial[0] : undefined,
+          color,
           selected: true,
         };
       }),

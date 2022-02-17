@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   Button,
@@ -30,7 +30,7 @@ export function ImportTimetable({ loading, data }: { loading: boolean; data: Tim
   const toast = useToast();
   const [isSmallScreen] = useMediaQuery('(min-width:680px)');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const filteredCoursesList: SavedCourse[] = [];
+  const filteredCoursesList: SavedCourse[] = useMemo(() => [], []);
   const [filteredCourses, setFilteredCourses] = useState(filteredCoursesList);
   const [timetableTerm, setTimetableTerm] = useState('');
   const navigate = useNavigate();
@@ -66,8 +66,7 @@ export function ImportTimetable({ loading, data }: { loading: boolean; data: Tim
       setFilteredCourses(filteredCoursesList);
       setTimetableTerm(data.term);
     }
-    // eslint-disable-next-line
-  }, [data]);
+  }, [data, filteredCoursesList, loading]);
 
   return (
     <>
@@ -75,7 +74,7 @@ export function ImportTimetable({ loading, data }: { loading: boolean; data: Tim
         borderRadius={0}
         disabled={loading}
         rightIcon={<BsPlusCircleFill />}
-        colorScheme="purple"
+        colorScheme="teal"
         onClick={onOpen}
         isFullWidth
       >
@@ -88,11 +87,11 @@ export function ImportTimetable({ loading, data }: { loading: boolean; data: Tim
           <ModalCloseButton />
           <ModalBody>
             <VStack spacing="15px">
-              <Text>You are about to add the following courses to your saved courses.</Text>
+              <Text>You are about to add the following courses to your timetable:</Text>
               <SelectedCoursesCardList courses={filteredCourses} term={timetableTerm} />
               <Alert status="info" borderRadius="10px">
                 {isSmallScreen ? <AlertIcon /> : null}
-                This action will not delete the current courses you have saved, but will add to them.
+                This action will not delete the current timetable you have, but will add to it.
               </Alert>
               <Text as="strong">Do you wish to continue?</Text>
             </VStack>

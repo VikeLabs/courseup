@@ -42,14 +42,12 @@ export function ImportTimetable(): JSX.Element {
     <>
       <TopBar>Included Courses</TopBar>
       <Box h="100%" overflowY="auto" pb="20">
-        {!loading && data ? (
+        {!loading && data && (
           <VStack>
             {(data as Timetable).courses.map((course) => (
               <TimetableCourseCard course={course} term={(data as Timetable).term} />
             ))}
           </VStack>
-        ) : (
-          <></>
         )}
       </Box>
     </>
@@ -59,13 +57,11 @@ export function ImportTimetable(): JSX.Element {
   const listView = (
     <Sidebar>
       <VStack pb="60">
-        {!loading && data ? (
+        {!loading &&
+          data &&
           (data as Timetable).courses.map((course) => (
             <TimetableCourseCard course={course} term={(data as Timetable).term} />
-          ))
-        ) : (
-          <></>
-        )}
+          ))}
       </VStack>
     </Sidebar>
   );
@@ -73,7 +69,7 @@ export function ImportTimetable(): JSX.Element {
   const [calendarView, setCalendarView] = useState(false);
 
   return (
-    <Page title="View Timetable" leftSidebar={left} rightSidebar={right}>
+    <Page title="View Timetable" leftSidebar={left} rightSidebar={right} mobileSupport>
       {isMobile ? (
         <VStack pt={2} w="100%" h="100%" overflow="hidden" grow={1} px="3">
           <HStack justify="space-between" w="100%">

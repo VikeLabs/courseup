@@ -59,7 +59,7 @@ export function ReplaceTimetable({ loading, data }: { loading: boolean; data: Ti
           lecture: lecture ? lecture[0] : undefined,
           lab: lab ? lab[0] : undefined,
           tutorial: tutorial ? tutorial[0] : undefined,
-          color: color,
+          color,
         };
         filteredCoursesList.push(newCourse);
       });
@@ -88,7 +88,7 @@ export function ReplaceTimetable({ loading, data }: { loading: boolean; data: Ti
           <ModalCloseButton />
           <ModalBody>
             <VStack spacing="15px">
-              <Text>You are about to replace your saved courses with the following courses.</Text>
+              <Text>You are about to replace the courses on your timetable with the following courses:</Text>
               <SelectedCoursesCardList courses={filteredCourses} term={timetableTerm} />
               <Alert status="warning" borderRadius="10px">
                 {isSmallScreen ? <AlertIcon /> : null}
