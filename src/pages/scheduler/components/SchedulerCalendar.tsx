@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
+import { useMediaQuery } from '@chakra-ui/react';
 import { format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
@@ -41,6 +42,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   // for darkmode
   const mode = useDarkMode();
   const today = useMemo(() => new Date(), []);
+  const [isMobile] = useMediaQuery('(max-width: 1020px)');
   // initialize selected date
   const [selectedDate, setSelectedDate] = useState(today);
   // determine what date to position the calendar on.
@@ -75,8 +77,8 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       events={events}
       min={set(today, { hours: 8, minutes: 0 })}
       max={set(today, { hours: maxTime.hours, minutes: maxTime.minutes })}
-      defaultView="work_week"
-      views={['work_week']}
+      views={['work_week', 'day']}
+      view={isMobile ? 'day' : 'work_week'}
       date={selectedDate}
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}

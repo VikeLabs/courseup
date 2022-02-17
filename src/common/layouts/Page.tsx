@@ -25,7 +25,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobile] = useMediaQuery('(max-width: 1020px)');
-  const { term } = useParams();
+  const { term, slug } = useParams();
 
   const route = location.pathname.split('/')[1];
 
@@ -36,10 +36,10 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   useEffect(() => {
     if (term) {
       setSavedTerm(term);
-    } else if (route) {
+    } else if (route && !slug) {
       navigate(`/${route}/${savedTerm}`, { replace: true });
     }
-  }, [navigate, route, savedTerm, setSavedTerm, term]);
+  }, [navigate, route, savedTerm, setSavedTerm, term, slug]);
 
   return (
     <>
