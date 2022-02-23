@@ -54,6 +54,7 @@ export const CalendarTheme = (colorMode: 'light' | 'dark'): CSSProperties => {
     },
 
     '.rbc-time-slot': {
+      bgColor: 'transparent !important',
       minH: '1.85em',
     },
 
