@@ -11,7 +11,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
-import { CalendarToolBar, MobileToolBar } from 'pages/scheduler/components/Toolbar';
+import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
 import { useInitialDateTime } from 'pages/scheduler/hooks/useInitialDatetime';
 import { coursesToVCalendar } from 'pages/scheduler/shared/exporter';
 import { courseCalEventsToCustomEvents } from 'pages/scheduler/shared/transformers';
@@ -52,6 +52,9 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const [maxTime, setMaxTime] = useState<{ hours: number; minutes: number }>({ hours: 20, minutes: 0 });
 
   // create events compatible with the calendar from courses
+
+  const userCurrentTerm = term || getCurrentTerm();
+
   const vCalendar = useMemo(() => {
     return courseCalendarEvents.length !== 0 ? coursesToVCalendar(courseCalendarEvents) : undefined;
   }, [courseCalendarEvents]);
@@ -83,9 +86,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
       components={{
-        toolbar: isMobile
-          ? MobileToolBar(setSelectedDate, term || getCurrentTerm(), vCalendar)
-          : CalendarToolBar(setSelectedDate, term || getCurrentTerm(), vCalendar),
+        toolbar: CalendarToolBar(setSelectedDate, userCurrentTerm, isMobile, vCalendar),
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"
