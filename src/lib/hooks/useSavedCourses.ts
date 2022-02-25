@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import _ from 'lodash';
 
 import { getSections } from 'lib/api/getSections';
-import { MeetingTimes } from 'lib/fetchers';
+import { MeetingTimes, Term, TimetableCourse } from 'lib/fetchers';
 import { SECTION_TYPES } from 'lib/utils/constants';
 import { getFirstSectionType, hasSectionType } from 'lib/utils/courses';
 import { logEvent } from 'lib/utils/logEvent';
@@ -60,6 +60,8 @@ type SavedCourses = {
   // Methods exposed by hook
 
   addCourse: (term: string, subject: string, code: string, pid: string) => void;
+  importCourses: (courses: TimetableCourse[], term: Term) => void;
+  replaceCourses: (courses: TimetableCourse[], term: Term) => void;
   deleteCourse: (newCourse: SavedCourse) => void;
   clearCourses: (term: string) => void;
   setSection: (type: string, newSection: SavedSection, existingCourse: SavedCourse) => void;
@@ -156,6 +158,87 @@ export const useSavedCourses = (): SavedCourses => {
   );
 
   /**
+   * Adds a list of timetable courses to the saved courses.
+   * @param courses: List of timetable courses
+   * @param term: Timetable term
+   */
+  const importCourses = useCallback(
+    (courses: TimetableCourse[], term: Term) => {
+      // filtered courses keeps only those not currently saved
+      const filteredCourses: SavedCourse[] = [];
+
+      courses.forEach(({ subject, code, pid, lecture, lab, tutorial, color }) => {
+        // avoid adding a course if it is saved already.
+        const containsCourse =
+          contains(pid, term) || filteredCourses.some((course) => course.pid === pid && course.term === term);
+        if (!containsCourse) {
+          const newColor =
+            !containsColor(color, term) &&
+            !filteredCourses.some((course) => course.color === color && course.term === term)
+              ? color
+              : '#A0AEC0';
+
+          const newCourse: SavedCourse = {
+            subject,
+            pid,
+            code,
+            term,
+            selected: true,
+            showSections: true,
+            lecture: lecture ? lecture[0] : undefined,
+            lab: lab ? lab[0] : undefined,
+            tutorial: tutorial ? tutorial[0] : undefined,
+            color: newColor,
+          };
+          filteredCourses.push(newCourse);
+        }
+      });
+
+      setData([...data, ...filteredCourses]);
+    },
+    [contains, containsColor, data, setData]
+  );
+
+  /**
+   * Replaces saved courses with a new list of courses.
+   * @param courses: List of timetable courses
+   * @param term: Timetable term
+   */
+  const replaceCourses = useCallback(
+    (courses: TimetableCourse[], term: Term) => {
+      // filtered courses keeps only those not currently saved
+      const filteredCourses: SavedCourse[] = [];
+
+      courses.forEach(({ subject, code, pid, lecture, lab, tutorial, color }) => {
+        // avoid adding a course if it is saved already.
+        const containsCourse = filteredCourses.some((course) => course.pid === pid && course.term === term);
+        if (!containsCourse) {
+          const newColor = !filteredCourses.some((course) => course.color === color && course.term === term)
+            ? color
+            : '#A0AEC0';
+
+          const newCourse: SavedCourse = {
+            subject,
+            pid,
+            code,
+            term,
+            selected: true,
+            showSections: true,
+            lecture: lecture ? lecture[0] : undefined,
+            lab: lab ? lab[0] : undefined,
+            tutorial: tutorial ? tutorial[0] : undefined,
+            color: newColor,
+          };
+          filteredCourses.push(newCourse);
+        }
+      });
+
+      setData(filteredCourses);
+    },
+    [setData]
+  );
+
+  /**
    * Deletes a course from the saved courses if it is found.
    * @param oldCourse
    */
@@ -214,6 +297,8 @@ export const useSavedCourses = (): SavedCourses => {
   return {
     courses: data,
     addCourse,
+    importCourses,
+    replaceCourses,
     deleteCourse,
     clearCourses,
     setSection,

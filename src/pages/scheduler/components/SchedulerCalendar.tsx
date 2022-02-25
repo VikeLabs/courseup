@@ -2,12 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
+import { useMediaQuery } from '@chakra-ui/react';
 import { format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { getCurrentTerm } from 'lib/utils/terms';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
@@ -34,13 +34,14 @@ export interface SchedulerCalendarProps {
    * Parses events that can go into the calendar from this
    */
   courseCalendarEvents?: CourseCalendarEvent[];
-  term?: string;
+  term: string;
 }
 
 export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: SchedulerCalendarProps): JSX.Element => {
   // for darkmode
   const mode = useDarkMode();
   const today = useMemo(() => new Date(), []);
+  const [isMobile] = useMediaQuery('(max-width: 1020px)');
   // initialize selected date
   const [selectedDate, setSelectedDate] = useState(today);
   // determine what date to position the calendar on.
@@ -50,6 +51,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const [maxTime, setMaxTime] = useState<{ hours: number; minutes: number }>({ hours: 20, minutes: 0 });
 
   // create events compatible with the calendar from courses
+
   const vCalendar = useMemo(() => {
     return courseCalendarEvents.length !== 0 ? coursesToVCalendar(courseCalendarEvents) : undefined;
   }, [courseCalendarEvents]);
@@ -75,13 +77,13 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       events={events}
       min={set(today, { hours: 8, minutes: 0 })}
       max={set(today, { hours: maxTime.hours, minutes: maxTime.minutes })}
-      defaultView="work_week"
-      views={['work_week']}
+      views={['work_week', 'day']}
+      view={isMobile ? 'day' : 'work_week'}
       date={selectedDate}
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
       components={{
-        toolbar: CalendarToolBar(setSelectedDate, term || getCurrentTerm(), vCalendar),
+        toolbar: CalendarToolBar(setSelectedDate, term, isMobile, vCalendar),
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"

@@ -17,6 +17,7 @@ export const courseCalEventToResource = (course: CourseCalendarEvent, opacity = 
   subject: course.subject,
   code: course.code,
   textColor: course.textColor,
+  dashedBorder: course.dashedBorder,
   sectionCode: course.sectionCode,
   location: course.meetingTime.where,
   opacity,

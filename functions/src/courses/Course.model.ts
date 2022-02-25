@@ -14,7 +14,14 @@ export interface Course extends Pick<KualiCourseCatalog, 'pid' | 'title'> {
 export interface CourseDetails
   extends Pick<
     KualiCourseItemParsed,
-    'pid' | 'title' | 'description' | 'dateStart' | 'credits' | 'hoursCatalog'
+    | 'pid'
+    | 'title'
+    | 'description'
+    | 'dateStart'
+    | 'credits'
+    | 'hoursCatalog'
+    | 'preOrCorequisites'
+    | 'preAndCorequisites'
   > {
   /**
    * Abbriviation of the subject of the course.

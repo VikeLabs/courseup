@@ -6,7 +6,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils/terms';
 
-import { Page } from 'common/page/Page';
+import { Page } from 'common/layouts/Page';
 
 import { RegistrationHeading } from '../components/RegistrationHeading';
 
@@ -21,7 +21,7 @@ export function RegistrationContainer(): JSX.Element | null {
   // term is eventually filled in but need to avoid initial error
   if (!term)
     return (
-      <Page title="Loading registration data...">
+      <Page title="Loading registration data..." mobileSupport>
         <Center height="100%" mt="10">
           <Spinner size="xl" />
         </Center>
@@ -29,8 +29,8 @@ export function RegistrationContainer(): JSX.Element | null {
     );
 
   return (
-    <Page title={`${getReadableTerm(term)} · Registration`}>
-      <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center">
+    <Page title={`${getReadableTerm(term)} · Registration`} mobileSupport>
+      <Box maxW={{ base: '35rem', md: '65rem' }} textAlign="center" pt="1.25rem">
         <RegistrationHeading />
         {courses.filter((course) => course.term === term).length > 0 ? (
           courses

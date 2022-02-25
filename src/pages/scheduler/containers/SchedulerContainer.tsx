@@ -4,6 +4,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { getCurrentTerm } from 'lib/utils/terms';
 
 import { SchedulerCalendar } from '../components/SchedulerCalendar';
 import { useGetCourseSections } from '../hooks/useCalendarEvents';
@@ -24,7 +25,7 @@ export function SchedulerContainer(): JSX.Element {
   return (
     <Flex grow={1} height="100%" overflow="hidden">
       <Box w="100%" height="100%" px="3" py="2">
-        <SchedulerCalendar term={term} courseCalendarEvents={calendarEvents} />
+        <SchedulerCalendar term={term || getCurrentTerm()} courseCalendarEvents={calendarEvents} />
       </Box>
     </Flex>
   );
