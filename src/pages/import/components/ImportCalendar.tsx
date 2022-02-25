@@ -6,6 +6,7 @@ import { Box } from '@chakra-ui/layout';
 
 import { Timetable } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
+import { getCurrentTerm } from 'lib/utils/terms';
 
 import { SchedulerCalendar } from 'pages/scheduler/components/SchedulerCalendar';
 import { useGetCourseSections } from 'pages/scheduler/hooks/useCalendarEvents';
@@ -43,7 +44,7 @@ export const ImportCalendar = ({ timetableCourses }: { timetableCourses: Timetab
 
   return (
     <Box w="100%" px="3" pb="14" h="100%">
-      <SchedulerCalendar term={term} courseCalendarEvents={calendarEvents} />
+      <SchedulerCalendar term={term || getCurrentTerm()} courseCalendarEvents={calendarEvents} />
     </Box>
   );
 };

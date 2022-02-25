@@ -8,7 +8,6 @@ import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { getCurrentTerm } from 'lib/utils/terms';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
@@ -35,7 +34,7 @@ export interface SchedulerCalendarProps {
    * Parses events that can go into the calendar from this
    */
   courseCalendarEvents?: CourseCalendarEvent[];
-  term?: string;
+  term: string;
 }
 
 export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: SchedulerCalendarProps): JSX.Element => {
@@ -52,6 +51,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const [maxTime, setMaxTime] = useState<{ hours: number; minutes: number }>({ hours: 20, minutes: 0 });
 
   // create events compatible with the calendar from courses
+
   const vCalendar = useMemo(() => {
     return courseCalendarEvents.length !== 0 ? coursesToVCalendar(courseCalendarEvents) : undefined;
   }, [courseCalendarEvents]);
@@ -83,7 +83,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
       components={{
-        toolbar: CalendarToolBar(setSelectedDate, term || getCurrentTerm(), vCalendar),
+        toolbar: CalendarToolBar(setSelectedDate, term, isMobile, vCalendar),
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"

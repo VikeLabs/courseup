@@ -78,9 +78,7 @@ export function ImportTimetable(): JSX.Element {
               <Button isActive={!calendarView} onClick={() => setCalendarView(false)}>
                 List
               </Button>
-              <Button isDisabled onClick={() => setCalendarView(true)}>
-                Calendar
-              </Button>
+              <Button onClick={() => setCalendarView(true)}>Calendar</Button>
             </ButtonGroup>
           </HStack>
           <Box w="100%">
