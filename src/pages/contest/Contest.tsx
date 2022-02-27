@@ -148,7 +148,9 @@ export function Contest() {
             </VStack>
           </Box>
           <VStack id="submit" pb="1.25em">
-            <Countdown />
+            <Box>
+              <Countdown />
+            </Box>
             <Button
               colorScheme="blue"
               size="lg"

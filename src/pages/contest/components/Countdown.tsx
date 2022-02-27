@@ -1,4 +1,5 @@
 import { Center, Flex, Heading } from '@chakra-ui/react';
+import { useMatch } from 'react-router';
 
 import { useCountdown } from '../hooks/useCountdown';
 
@@ -7,8 +8,15 @@ export function Countdown() {
 
   startCountdown();
 
+  const contest = useMatch('/contest');
+
   return (
-    <Flex w="100%" direction={{ base: 'column', sm: 'row' }} textAlign={{ base: 'center', sm: 'left' }}>
+    <Flex
+      w="100%"
+      direction={{ base: 'column', sm: 'row' }}
+      textAlign={{ base: 'center', sm: 'left' }}
+      color={contest ? '' : 'white'}
+    >
       <Heading size="lg" mr="2">
         Submissions close in:{' '}
       </Heading>
