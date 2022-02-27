@@ -16,8 +16,8 @@ export function Landing() {
           userSelect="none"
         />
         <Countdown />
-        <Button as={Link} to="/contest" colorScheme="pink" rightIcon={<BsPalette />}>
-          Click for more details!
+        <Button as={Link} to="/contest" colorScheme="pink" rightIcon={<BsPalette />} size="lg">
+          Click me for more details!
         </Button>
       </VStack>
     </Center>

@@ -1,5 +1,7 @@
-import { ArrowRightIcon } from '@chakra-ui/icons';
+import { ArrowRightIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Heading, Image, Link, ListItem, Text, UnorderedList, VStack } from '@chakra-ui/react';
+
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { Page } from 'common/layouts/Page';
 
@@ -9,27 +11,29 @@ import { useCountdown } from './hooks/useCountdown';
 export function Contest() {
   const [{ days, hours, minutes, seconds }] = useCountdown();
 
+  const mode = useDarkMode();
+
   return (
     <Page title="Logo contest" mobileSupport>
-      <Container my="1.25em" id="top">
+      <Container my="1.25em">
         <VStack>
           <Image alt="logo contest graphic" src={process.env.PUBLIC_URL + '/assets/contest/heading_card.svg'} />
           <Text>
-            <Text as={Link} href="#outline" color="blue.500">
+            <Link href="#outline" color={mode('teal.500', 'teal.300')}>
               Outline
-            </Text>{' '}
+            </Link>{' '}
             |{' '}
-            <Text as={Link} href="#requirements" color="blue.500">
+            <Link href="#requirements" color={mode('teal.500', 'teal.300')}>
               Requirements
-            </Text>{' '}
+            </Link>{' '}
             |{' '}
-            <Text as={Link} href="#prizing" color="blue.500">
+            <Link href="#prizing" color={mode('teal.500', 'teal.300')}>
               Prizing
-            </Text>{' '}
+            </Link>{' '}
             |{' '}
-            <Text as={Link} href="#submit" color="blue.500">
+            <Link href="#submit" color={mode('teal.500', 'teal.300')}>
               Submit
-            </Text>{' '}
+            </Link>{' '}
           </Text>
           <Box id="outline">
             <Heading>Outline</Heading>
@@ -38,9 +42,12 @@ export function Contest() {
               permanently featured on this very website. Keep reading to get more details about rules, prizing, and how
               to submit.
               <br /> If you have any questions direct them to{' '}
-              <Text as={Link} href="mailto:courseup@vikelabs.ca?subject=CourseUp Logo Contest" color="blue.500">
+              <Link
+                href="mailto:courseup@vikelabs.ca?subject=CourseUp Logo Contest"
+                color={mode('teal.500', 'teal.300')}
+              >
                 courseup@vikelabs.ca
-              </Text>
+              </Link>
               .
             </Text>
           </Box>
@@ -95,8 +102,25 @@ export function Contest() {
                   <ListItem>
                     One of the following items:{' '}
                     <UnorderedList>
-                      <ListItem>Fjällräven backpack</ListItem>
-                      <ListItem>Soundcore Bluetooth speaker</ListItem>
+                      <ListItem>
+                        <Link
+                          isExternal
+                          color={mode('teal.500', 'teal.300')}
+                          href="https://www.fjallraven.com/ca/en-ca/bags-gear/kanken/kanken-bags/kanken-mini?_t_q=&_t_hit.id=Luminos_Storefront_Web_Features_Catalog_Product_Domain_CommonProduct"
+                        >
+                          Fjällräven backpack <ExternalLinkIcon mx="2px" />
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link
+                          isExternal
+                          color={mode('teal.500', 'teal.300')}
+                          href="https://www.amazon.ca/Soundcore-Bluetooth-Diaphragm-Technology-Waterproof/dp/B08BCHKY52/ref=sr_1_9?crid=BKMZ3PMFN72S&keywords=bluetooth+speaker+anker&qid=1645833031&sprefix=bluetooth+speaker+anke%2Caps%2C152&sr=8-9"
+                        >
+                          Soundcore Bluetooth speaker
+                          <ExternalLinkIcon mx="2px" />
+                        </Link>
+                      </ListItem>
                       <ListItem>Whatever else you might need!</ListItem>
                     </UnorderedList>
                   </ListItem>
@@ -116,9 +140,36 @@ export function Contest() {
                   <ListItem>
                     One of the following items:{' '}
                     <UnorderedList>
-                      <ListItem>Hydro Flask water bottle</ListItem>
-                      <ListItem>Amazon Echo Dot</ListItem>
-                      <ListItem>Anker Bluetooth Speaker</ListItem>
+                      <ListItem>
+                        <Link
+                          isExternal
+                          color={mode('teal.500', 'teal.300')}
+                          href="https://www.hydroflask.com/24-oz-standard-mouth-with-flex-straw-cap?color=starfish"
+                        >
+                          Hydro Flask water bottle
+                          <ExternalLinkIcon mx="2px" />
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link
+                          isExternal
+                          color={mode('teal.500', 'teal.300')}
+                          href="https://www.bestbuy.ca/en-ca/product/amazon-echo-dot-3rd-gen-smart-speaker-with-bluetooth-mesh-smart-led-light-bulb-charcoal/B0015627"
+                        >
+                          Amazon Echo Dot
+                          <ExternalLinkIcon mx="2px" />
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link
+                          isExternal
+                          color={mode('teal.500', 'teal.300')}
+                          href="https://www.amazon.ca/Bluetooth-Anker-SoundCore-Dual-Driver-Distortion/dp/B016XTADG2/ref=sr_1_6?crid=BKMZ3PMFN72S&keywords=bluetooth+speaker+anker&qid=1645832949&sprefix=bluetooth+speaker+anke%2Caps%2C152&sr=8-6"
+                        >
+                          Anker Bluetooth Speaker
+                          <ExternalLinkIcon mx="2px" />
+                        </Link>
+                      </ListItem>
                       <ListItem>Whatever else you might need!</ListItem>
                     </UnorderedList>
                   </ListItem>
@@ -136,10 +187,36 @@ export function Contest() {
                   <ListItem>
                     One of the following items:{' '}
                     <UnorderedList>
-                      <ListItem>Hydro Flask water bottle</ListItem>
-                      <ListItem>Amazon Echo Dot</ListItem>
-                      <ListItem>Anker Bluetooth Speaker</ListItem>
-                      <ListItem>Whatever else you might need!</ListItem>
+                      <ListItem>
+                        <Link
+                          isExternal
+                          color={mode('teal.500', 'teal.300')}
+                          href="https://www.hydroflask.com/24-oz-standard-mouth-with-flex-straw-cap?color=starfish"
+                        >
+                          Hydro Flask water bottle
+                          <ExternalLinkIcon mx="2px" />
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link
+                          isExternal
+                          color={mode('teal.500', 'teal.300')}
+                          href="https://www.bestbuy.ca/en-ca/product/amazon-echo-dot-3rd-gen-smart-speaker-with-bluetooth-mesh-smart-led-light-bulb-charcoal/B0015627"
+                        >
+                          Amazon Echo Dot
+                          <ExternalLinkIcon mx="2px" />
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link
+                          isExternal
+                          color={mode('teal.500', 'teal.300')}
+                          href="https://www.amazon.ca/Bluetooth-Anker-SoundCore-Dual-Driver-Distortion/dp/B016XTADG2/ref=sr_1_6?crid=BKMZ3PMFN72S&keywords=bluetooth+speaker+anker&qid=1645832949&sprefix=bluetooth+speaker+anke%2Caps%2C152&sr=8-6"
+                        >
+                          Anker Bluetooth Speaker
+                          <ExternalLinkIcon mx="2px" />
+                        </Link>
+                      </ListItem>
                     </UnorderedList>
                   </ListItem>
                   <ListItem>VikeLabs stickers</ListItem>
@@ -152,7 +229,7 @@ export function Contest() {
               <Countdown />
             </Box>
             <Button
-              colorScheme="blue"
+              colorScheme="pink"
               size="lg"
               rightIcon={<ArrowRightIcon />}
               disabled={days === 0 && hours === 0 && minutes === 0 && seconds === 0}
