@@ -16,12 +16,14 @@ import {
   FormControl,
   FormLabel,
   Switch,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { Route, Routes, useLocation, useParams } from 'react-router';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import { Course, Term, useGetCourses, useSubjects } from 'lib/fetchers';
+import { Course, Term, useGetCourse, useGetCourses, useSubjects } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { getCurrentTerm } from 'lib/utils/terms';
 
 import { CoursesList } from '../components/CoursesList';
 import { SubjectsList } from '../components/SubjectsList';
@@ -56,11 +58,17 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const mode = useDarkMode();
+  const [isMobile] = useMediaQuery('(max-width: 1030px)');
 
   const subject = location.pathname.split('/')[3];
   const route = location.pathname.split('/')[1];
 
   const pid = searchParams.get('pid');
+
+  const { data } = useGetCourse({
+    term: (term as Term) || (getCurrentTerm() as Term),
+    pid: searchParams.get('pid') || '',
+  });
 
   return (
     <Box
@@ -75,23 +83,41 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
       <Flex justifyContent="space-between" alignItems="center" p="3">
         <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
-            <BreadcrumbLink as={Link} to={{ pathname: `/${route}/${term}/`, search: pid ? `?pid=${pid}` : undefined }}>
+            <BreadcrumbLink
+              as={Link}
+              to={{ pathname: `/${route}/${term}/`, search: pid && !isMobile ? `?pid=${pid}` : undefined }}
+            >
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {subject && (
+          {isMobile && pid ? (
             <BreadcrumbItem>
-              <Text fontWeight="semibold">{subject}</Text>
+              <BreadcrumbLink as={Link} to={{ pathname: `/${route}/${term}/${subject}` }}>
+                {subject}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          ) : (
+            subject && (
+              <BreadcrumbItem>
+                <Text fontWeight="semibold">{subject}</Text>
+              </BreadcrumbItem>
+            )
+          )}
+          {isMobile && pid && (
+            <BreadcrumbItem>
+              <Text fontWeight="semibold">
+                {data?.subject} {data?.code}
+              </Text>
             </BreadcrumbItem>
           )}
         </Breadcrumb>
         <Box>
-          <Button onClick={onToggle} size="xs">
+          <Button onClick={onToggle} size="xs" disabled={isMobile && pid ? true : false}>
             Filters
           </Button>
         </Box>
       </Flex>
-      <Collapse in={isOpen} animateOpacity>
+      <Collapse in={isOpen && (!isMobile || !pid)} animateOpacity>
         <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
           <FormControl>
             <Flex justifyContent="space-between" w="100%">
@@ -129,6 +155,7 @@ export function Courses({ term }: Props): JSX.Element | null {
   // sorts the list of subjects alphabetically
   const sortedSubjects = useMemo(() => subjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
+  const [isMobile] = useMediaQuery('(max-width: 1030px)');
 
   const handleFilter = (s: boolean) => {
     setFilter(s);
@@ -136,9 +163,9 @@ export function Courses({ term }: Props): JSX.Element | null {
 
   return (
     <>
-      <CoursesTopBar onFilter={handleFilter} />
+      {!isMobile && <CoursesTopBar onFilter={handleFilter} />}
       {!loading && sortedSubjects && courses ? (
-        <Box h="100%" overflowY="auto">
+        <Box h="100%" overflowY="auto" w="100%">
           <Routes>
             <Route path="/">
               <SubjectsList term={term} subjects={sortedSubjects} />

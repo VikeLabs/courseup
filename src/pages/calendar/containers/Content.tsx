@@ -1,6 +1,19 @@
 import { useCallback } from 'react';
 
-import { Box, Center, Flex, Heading, Skeleton, Spacer, Text, Button, Alert, useToast, HStack } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Skeleton,
+  Spacer,
+  Text,
+  Button,
+  Alert,
+  useToast,
+  HStack,
+  IconButton,
+} from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
@@ -76,23 +89,45 @@ export function Content({ term }: ContentProps): JSX.Element {
             {data && (
               <Flex direction="column" w="100%">
                 <HStack justifyContent="space-between" w="100%">
-                  <Heading mr="5" size="2xl" as="h2" whiteSpace="pre">{`${data.subject} ${data.code}`}</Heading>
+                  <Heading
+                    mr={{ base: 2, md: 5 }}
+                    size="2xl"
+                    as="h2"
+                    whiteSpace="pre"
+                  >{`${data.subject} ${data.code}`}</Heading>
                   {isMobile && (
                     <Center>
-                      <Button
-                        rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
-                        onClick={handleBookmarkClick}
-                        colorScheme={courseIsSaved ? 'red' : 'green'}
-                        size="sm"
-                        disabled={loading}
-                        alignSelf="flex-end"
-                      >
-                        {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
-                      </Button>
+                      {isMobile ? (
+                        <IconButton
+                          aria-label={courseIsSaved ? 'Remove from timetable' : 'add to timetable'}
+                          icon={courseIsSaved ? <MdDelete fontSize="23px" /> : <MdAdd fontSize="23px" />}
+                          onClick={handleBookmarkClick}
+                          colorScheme={courseIsSaved ? 'red' : 'green'}
+                          size="sm"
+                          disabled={loading}
+                          alignSelf="flex-end"
+                        />
+                      ) : (
+                        <Button
+                          rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
+                          onClick={handleBookmarkClick}
+                          colorScheme={courseIsSaved ? 'red' : 'green'}
+                          size="sm"
+                          disabled={loading}
+                          alignSelf="flex-end"
+                        >
+                          {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
+                        </Button>
+                      )}
                     </Center>
                   )}
                 </HStack>
-                <Heading size={isMobile ? 'md' : 'lg'} as="h3" color={mode('gray', 'dark.header')}>
+                <Heading
+                  size={isMobile ? 'md' : 'lg'}
+                  textAlign={{ base: 'center', sm: 'left' }}
+                  as="h3"
+                  color={mode('gray', 'dark.header')}
+                >
                   {data.title}
                 </Heading>
               </Flex>
