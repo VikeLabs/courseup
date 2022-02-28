@@ -15,7 +15,7 @@ export function Contest() {
 
   return (
     <Page title="Logo contest" mobileSupport>
-      <Container my="1.25em">
+      <Container maxW="container.lg" my="1.25em">
         <VStack>
           <Image alt="logo contest graphic" src={process.env.PUBLIC_URL + '/assets/contest/heading_card.svg'} />
           <Text>
@@ -231,6 +231,9 @@ export function Contest() {
             <Button
               colorScheme="pink"
               size="lg"
+              as={Link}
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdL4Omqd3uZABfi0JkM-1eEl96pSgrYjqxW8rTSb7hDmNfgyQ/viewform?usp=sf_link"
+              _target="blank"
               rightIcon={<ArrowRightIcon />}
               disabled={days === 0 && hours === 0 && minutes === 0 && seconds === 0}
             >

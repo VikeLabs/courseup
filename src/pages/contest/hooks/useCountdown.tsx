@@ -3,8 +3,7 @@ import { useCallback, useState } from 'react';
 export type Time = { days: number; hours: number; minutes: number; seconds: number };
 
 export const calculateTimeLeft = (): Time => {
-  const year = new Date().getFullYear();
-  const difference = +new Date(`3/1/${year}`) - +new Date();
+  const difference = +new Date(`3/22/2022`) - +new Date();
 
   if (difference > 0) {
     return {
