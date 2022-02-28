@@ -58,6 +58,14 @@ export type CourseTextbookDoc = {
   sections: CourseTextbooks[];
 };
 
+export type EventDoc = {
+  timestamp: Date;
+  useragent?: string | string[];
+  params?: {
+    [key: string]: string;
+  };
+};
+
 // highest level collection
 const CoursesCollection = collection<CourseDoc>('courses');
 const TextbooksCollection = collection<CourseTextbookDoc>('textbooks');
@@ -70,9 +78,12 @@ const SectionsSubstore = subcollection<SectionDoc, CourseDoc>(
 
 const TimetablesCollection = collection<TimetableDoc>('timetables');
 
+const EventsCollection = collection<EventDoc>('events');
+
 export {
   CoursesCollection,
   TextbooksCollection,
   SectionsSubstore,
   TimetablesCollection,
+  EventsCollection,
 };
