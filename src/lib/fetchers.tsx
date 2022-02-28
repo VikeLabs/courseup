@@ -9,12 +9,29 @@ export interface Course {
   code: string;
 }
 
-export type Term = '202001' | '202005' | '202009' | '202101' | '202105' | '202109' | '202201' | '202201';
+export type Term = '202001' | '202005' | '202009' | '202101' | '202105' | '202109' | '202201' | '202205';
+
+export interface NestedPreCoRequisites {
+  reqList?: (NestedPreCoRequisites | KualiCourse | string)[];
+  unparsed?: string;
+  gpa?: string;
+  grade?: string;
+  units?: boolean;
+  coreq?: boolean;
+  quantity?: number | 'ALL';
+}
+
+export interface KualiCourse {
+  pid?: string;
+  code: string;
+  subject: string;
+}
 
 export interface CourseDetails {
   pid: string;
   title: string;
   description: string;
+  dateStart: string;
   credits: {
     chosen: string;
     value:
@@ -28,12 +45,13 @@ export interface CourseDetails {
       min: string;
     };
   };
-  dateStart: string;
   hoursCatalog?: {
     lab: string;
     tutorial: string;
     lecture: string;
   }[];
+  preAndCorequisites?: (string | NestedPreCoRequisites | KualiCourse)[];
+  preOrCorequisites?: (string | NestedPreCoRequisites | KualiCourse)[];
   /**
    * Abbriviation of the subject of the course.
    */
@@ -63,6 +81,7 @@ export interface MeetingTimes {
 }
 
 export interface ClassScheduleListing {
+  title: string;
   crn: string;
   sectionCode: string;
   additionalNotes?: string;
@@ -106,6 +125,7 @@ export interface Requirements {
 }
 
 export interface Seat {
+  title: string;
   seats: Seating;
   waitListSeats: Seating;
   requirements?: Requirements;
@@ -295,6 +315,37 @@ export const useGetCourseDetails = ({ term, subject, code, ...props }: UseGetCou
       `/courses/${paramsInPath.term}/${paramsInPath.subject}/${paramsInPath.code}`,
     { pathParams: { term, subject, code }, ...props }
   );
+
+export interface PutEventResponse {
+  success: boolean;
+}
+
+export interface PutEventQueryParams {
+  id: string;
+}
+
+export type PutEventProps = Omit<
+  MutateProps<PutEventResponse, unknown, PutEventQueryParams, void, void>,
+  'path' | 'verb'
+>;
+
+/**
+ * Retrieves all the courses available. If query params are passed in, they will be used to filter results.
+ */
+export const PutEvent = (props: PutEventProps) => (
+  <Mutate<PutEventResponse, unknown, PutEventQueryParams, void, void> verb="POST" path={`/events`} {...props} />
+);
+
+export type UsePutEventProps = Omit<
+  UseMutateProps<PutEventResponse, unknown, PutEventQueryParams, void, void>,
+  'path' | 'verb'
+>;
+
+/**
+ * Retrieves all the courses available. If query params are passed in, they will be used to filter results.
+ */
+export const usePutEvent = (props: UsePutEventProps) =>
+  useMutate<PutEventResponse, unknown, PutEventQueryParams, void, void>('POST', `/events`, props);
 
 export interface SectionsQueryParams {
   subject: string;
