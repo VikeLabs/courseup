@@ -59,6 +59,7 @@ export type CourseTextbookDoc = {
 };
 
 export type EventDoc = {
+  name: string;
   timestamp: Date;
   useragent?: string | string[];
   params?: {
