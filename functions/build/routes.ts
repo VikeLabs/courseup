@@ -637,7 +637,11 @@ export function RegisterRoutes(app: express.Router) {
   app.post(
     '/events',
 
-    function EventsController_putEvent(request: any, response: any, next: any) {
+    function EventsController_postEvent(
+      request: any,
+      response: any,
+      next: any
+    ) {
       const args = {
         id: { in: 'query', name: 'id', required: true, dataType: 'string' },
       };
@@ -650,7 +654,7 @@ export function RegisterRoutes(app: express.Router) {
 
         const controller = new EventsController();
 
-        const promise = controller.putEvent.apply(
+        const promise = controller.postEvent.apply(
           controller,
           validatedArgs as any
         );

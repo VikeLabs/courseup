@@ -935,7 +935,7 @@
 		},
 		"/events": {
 			"post": {
-				"operationId": "PutEvent",
+				"operationId": "PostEvent",
 				"responses": {
 					"200": {
 						"description": "Ok",
