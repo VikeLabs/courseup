@@ -178,6 +178,16 @@ const models: TsoaRoute.Models = {
     additionalProperties: false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  EventRequest: {
+    dataType: 'refAlias',
+    type: {
+      dataType: 'nestedObjectLiteral',
+      nestedProperties: { name: { dataType: 'string', required: true } },
+      additionalProperties: { dataType: 'any' },
+      validators: {},
+    },
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   levelType: {
     dataType: 'refAlias',
     type: {
@@ -643,7 +653,12 @@ export function RegisterRoutes(app: express.Router) {
       next: any
     ) {
       const args = {
-        id: { in: 'query', name: 'id', required: true, dataType: 'string' },
+        requestBody: {
+          in: 'body',
+          name: 'requestBody',
+          required: true,
+          ref: 'EventRequest',
+        },
       };
 
       // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

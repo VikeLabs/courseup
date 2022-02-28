@@ -257,6 +257,18 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"EventRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"additionalProperties": {},
+				"required": [
+					"name"
+				],
+				"type": "object"
+			},
 			"levelType": {
 				"type": "string",
 				"enum": [
@@ -956,18 +968,18 @@
 						}
 					}
 				},
-				"description": "Retrieves all the courses available. If query params are passed in, they will be used to filter results.",
 				"security": [],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EventRequest"
+							}
 						}
 					}
-				]
+				}
 			}
 		},
 		"/sections/{term}": {
