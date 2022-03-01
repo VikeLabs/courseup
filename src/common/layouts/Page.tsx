@@ -2,7 +2,7 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 
 import { Flex, useMediaQuery } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useLocation, useMatch, useNavigate, useParams } from 'react-router';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { getCurrentTerm } from 'lib/utils/terms';
@@ -33,13 +33,14 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
     setQuery(q);
   };
 
+  const contest = useMatch('/contest');
   useEffect(() => {
     if (term) {
       setSavedTerm(term);
-    } else if (route && !slug) {
+    } else if (route && !slug && !contest) {
       navigate(`/${route}/${savedTerm}`, { replace: true });
     }
-  }, [navigate, route, savedTerm, setSavedTerm, term, slug]);
+  }, [navigate, route, savedTerm, setSavedTerm, term, slug, contest]);
 
   return (
     <>
