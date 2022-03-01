@@ -20,7 +20,7 @@ export function Contest() {
   const from = searchParams.get('from');
   useEffect(() => {
     mutate({ name: 'contest page visit', params: { from } });
-  }, []);
+  }, [from, mutate]);
 
   return (
     <Page title="Logo contest" mobileSupport>
