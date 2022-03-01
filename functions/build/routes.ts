@@ -13,6 +13,8 @@ import {
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CoursesController } from './../src/courses/Course.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { EventsController } from './../src/events/Event.controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { SectionsController } from './../src/sections/Section.controller';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { SubjectsController } from './../src/subjects/Subject.controller';
@@ -54,12 +56,59 @@ const models: TsoaRoute.Models = {
     },
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  NestedPreCoRequisites: {
+    dataType: 'refAlias',
+    type: {
+      dataType: 'nestedObjectLiteral',
+      nestedProperties: {
+        reqList: {
+          dataType: 'array',
+          array: {
+            dataType: 'union',
+            subSchemas: [
+              { ref: 'NestedPreCoRequisites' },
+              { ref: 'KualiCourse' },
+              { dataType: 'string' },
+            ],
+          },
+        },
+        unparsed: { dataType: 'string' },
+        gpa: { dataType: 'string' },
+        grade: { dataType: 'string' },
+        units: { dataType: 'boolean' },
+        coreq: { dataType: 'boolean' },
+        quantity: {
+          dataType: 'union',
+          subSchemas: [
+            { dataType: 'double' },
+            { dataType: 'enum', enums: ['ALL'] },
+          ],
+        },
+      },
+      validators: {},
+    },
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  KualiCourse: {
+    dataType: 'refAlias',
+    type: {
+      dataType: 'nestedObjectLiteral',
+      nestedProperties: {
+        pid: { dataType: 'string' },
+        code: { dataType: 'string', required: true },
+        subject: { dataType: 'string', required: true },
+      },
+      validators: {},
+    },
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   CourseDetails: {
     dataType: 'refObject',
     properties: {
       pid: { dataType: 'string', required: true },
       title: { dataType: 'string', required: true },
       description: { dataType: 'string', required: true },
+      dateStart: { dataType: 'string', required: true },
       credits: {
         dataType: 'nestedObjectLiteral',
         nestedProperties: {
@@ -89,7 +138,6 @@ const models: TsoaRoute.Models = {
         },
         required: true,
       },
-      dateStart: { dataType: 'string', required: true },
       hoursCatalog: {
         dataType: 'array',
         array: {
@@ -101,11 +149,43 @@ const models: TsoaRoute.Models = {
           },
         },
       },
+      preAndCorequisites: {
+        dataType: 'array',
+        array: {
+          dataType: 'union',
+          subSchemas: [
+            { dataType: 'string' },
+            { ref: 'NestedPreCoRequisites' },
+            { ref: 'KualiCourse' },
+          ],
+        },
+      },
+      preOrCorequisites: {
+        dataType: 'array',
+        array: {
+          dataType: 'union',
+          subSchemas: [
+            { dataType: 'string' },
+            { ref: 'NestedPreCoRequisites' },
+            { ref: 'KualiCourse' },
+          ],
+        },
+      },
       subject: { dataType: 'string', required: true },
       code: { dataType: 'string', required: true },
       formally: { dataType: 'string' },
     },
     additionalProperties: false,
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  EventRequest: {
+    dataType: 'refAlias',
+    type: {
+      dataType: 'nestedObjectLiteral',
+      nestedProperties: { name: { dataType: 'string', required: true } },
+      additionalProperties: { dataType: 'any' },
+      validators: {},
+    },
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   levelType: {
@@ -157,6 +237,7 @@ const models: TsoaRoute.Models = {
   ClassScheduleListing: {
     dataType: 'refObject',
     properties: {
+      title: { dataType: 'string', required: true },
       crn: { dataType: 'string', required: true },
       sectionCode: { dataType: 'string', required: true },
       additionalNotes: { dataType: 'string' },
@@ -262,6 +343,7 @@ const models: TsoaRoute.Models = {
   Seat: {
     dataType: 'refObject',
     properties: {
+      title: { dataType: 'string', required: true },
       seats: { ref: 'Seating', required: true },
       waitListSeats: { ref: 'Seating', required: true },
       requirements: { ref: 'Requirements' },
@@ -552,6 +634,42 @@ export function RegisterRoutes(app: express.Router) {
         const controller = new CoursesController();
 
         const promise = controller.getCourseDetails.apply(
+          controller,
+          validatedArgs as any
+        );
+        promiseHandler(controller, promise, response, undefined, next);
+      } catch (err) {
+        return next(err);
+      }
+    }
+  );
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  app.post(
+    '/events',
+
+    function EventsController_postEvent(
+      request: any,
+      response: any,
+      next: any
+    ) {
+      const args = {
+        requestBody: {
+          in: 'body',
+          name: 'requestBody',
+          required: true,
+          ref: 'EventRequest',
+        },
+      };
+
+      // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+      let validatedArgs: any[] = [];
+      try {
+        validatedArgs = getValidatedArgs(args, request, response);
+
+        const controller = new EventsController();
+
+        const promise = controller.postEvent.apply(
           controller,
           validatedArgs as any
         );
