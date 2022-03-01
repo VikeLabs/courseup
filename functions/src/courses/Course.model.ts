@@ -1,7 +1,4 @@
-import {
-  KualiCourseCatalog,
-  KualiCourseItemParsed,
-} from '@vikelabs/uvic-course-scraper/dist/types';
+import { KualiCourseCatalog } from '@vikelabs/uvic-course-scraper/dist/types';
 
 /**
  * @tsoaModel
@@ -11,18 +8,47 @@ export interface Course extends Pick<KualiCourseCatalog, 'pid' | 'title'> {
   code: string;
 }
 
-export interface CourseDetails
-  extends Pick<
-    KualiCourseItemParsed,
-    | 'pid'
-    | 'title'
-    | 'description'
-    | 'dateStart'
-    | 'credits'
-    | 'hoursCatalog'
-    | 'preOrCorequisites'
-    | 'preAndCorequisites'
-  > {
+export type KualiCourse = {
+  subject: string;
+  code: string;
+  pid?: string;
+};
+
+export type NestedPreCoRequisites = {
+  quantity?: number | 'ALL';
+  coreq?: boolean;
+  units?: boolean;
+  grade?: string;
+  gpa?: string;
+  unparsed?: string;
+  reqList?: Array<NestedPreCoRequisites | KualiCourse | string>;
+};
+
+export interface CourseDetails {
+  pid: string;
+  title: string;
+  description: string;
+  dateStart: string;
+  credits: {
+    credits: {
+      min: string;
+      max: string;
+    };
+    value:
+      | string
+      | {
+          min: string;
+          max: string;
+        };
+    chosen: string;
+  };
+  hoursCatalog?: {
+    lecture: string;
+    tutorial: string;
+    lab: string;
+  }[];
+  preAndCorequisites?: Array<string | NestedPreCoRequisites | KualiCourse>;
+  preOrCorequisites?: Array<string | NestedPreCoRequisites | KualiCourse>;
   /**
    * Abbriviation of the subject of the course.
    * @example "ECE"
