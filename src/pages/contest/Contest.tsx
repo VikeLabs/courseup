@@ -1,6 +1,10 @@
+import { useEffect } from 'react';
+
 import { ArrowRightIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Heading, Image, Link, ListItem, Text, UnorderedList, VStack } from '@chakra-ui/react';
+import { useSearchParams } from 'react-router-dom';
 
+import { usePostEvent } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { Page } from 'common/layouts/Page';
@@ -10,8 +14,13 @@ import { useCountdown } from './hooks/useCountdown';
 
 export function Contest() {
   const [{ days, hours, minutes, seconds }] = useCountdown();
-
+  const { mutate } = usePostEvent({});
   const mode = useDarkMode();
+  const [searchParams] = useSearchParams();
+  const from = searchParams.get('from');
+  useEffect(() => {
+    mutate({ name: 'contest page visit', params: { from } });
+  }, []);
 
   return (
     <Page title="Logo contest" mobileSupport>
