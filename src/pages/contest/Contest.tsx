@@ -16,7 +16,7 @@ export function Contest() {
   return (
     <Page title="Logo contest" mobileSupport>
       <Container maxW="container.lg" my="1.25em">
-        <VStack>
+        <VStack mb="4em">
           <Image alt="logo contest graphic" src={process.env.PUBLIC_URL + '/assets/contest/heading_card.svg'} />
           <Text>
             <Link href="#outline" color={mode('teal.500', 'teal.300')}>
@@ -224,7 +224,7 @@ export function Contest() {
               </Box>
             </VStack>
           </Box>
-          <VStack id="submit" pb="1.25em">
+          <VStack id="submit">
             <Box>
               <Countdown />
             </Box>
