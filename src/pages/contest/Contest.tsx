@@ -25,7 +25,7 @@ export function Contest() {
   return (
     <Page title="Logo contest" mobileSupport>
       <Container maxW="container.lg" my="1.25em">
-        <VStack pb="2em">
+        <VStack pb={{ base: '7em', sm: '2em' }}>
           <Image alt="logo contest graphic" src={process.env.PUBLIC_URL + '/assets/contest/heading_card.svg'} />
           <Text>
             <Link href="#outline" color={mode('teal.500', 'teal.300')}>
