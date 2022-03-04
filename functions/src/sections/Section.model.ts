@@ -1,16 +1,22 @@
 import {
   ClassScheduleListing,
   DetailedClassInformation,
-  MeetingTimes as MeetingTimesType,
 } from '@vikelabs/uvic-course-scraper/dist/types';
 
-export type MeetingTimes = MeetingTimesType & {
+export type MeetingTimes = {
+  type: string;
+  time: string;
+  days: string;
+  where: string;
+  dateRange: string;
+  scheduleType: string;
+  instructors: string[];
   building?: string;
   buildingAccronym?: string;
   roomNumber?: string;
 };
 
-export type Section = ClassScheduleListing & {
+export type Section = Omit<ClassScheduleListing, 'meetingTimes'> & {
   meetingTimes: MeetingTimes[];
 };
 

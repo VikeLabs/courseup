@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { getSections } from 'lib/api/getSections';
-import { ClassScheduleListing } from 'lib/fetchers';
+import { Section } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
 import { SavedCourseWithSections } from 'pages/scheduler/shared/types';
 
 // where key is the term, subject and code
-const SECTIONS_CACHE: { [key: string]: ClassScheduleListing[] } = {};
+const SECTIONS_CACHE: { [key: string]: Section[] } = {};
 
 type GetCourseSectionsResult =
   | { status: 'loading' }

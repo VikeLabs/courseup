@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { Radio, RadioGroup, Box, HStack, Text, VStack } from '@chakra-ui/react';
 
-import { ClassScheduleListing, MeetingTimes } from 'lib/fetchers';
+import { MeetingTimes, Section } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
@@ -14,7 +14,7 @@ export function SectionsCardContainer({
 }: {
   course: SavedCourse;
   courses: SavedCourse[];
-  sections: ClassScheduleListing[];
+  sections: Section[];
   handleChange: (
     sectionType: string,
     sectionCode: string,
@@ -48,7 +48,7 @@ export interface SectionGroupProps {
   /**
    * Array of sections of a course
    */
-  sections: ClassScheduleListing[];
+  sections: Section[];
   /**
    * type of section
    * example: Lecture, Tutorial, Lab etc.
