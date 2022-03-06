@@ -1,5 +1,5 @@
 import { Container, Divider, Flex, Heading, ListItem, OrderedList, Text } from '@chakra-ui/layout';
-import { Button, Icon } from '@chakra-ui/react';
+import { Alert, AlertIcon, Button, Icon } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoCopyOutline } from 'react-icons/io5';
 import { useParams } from 'react-router';
@@ -26,6 +26,11 @@ export function RegistrationHeading() {
         </Button>
       </Flex>
       <Divider my="4" />
+      <Alert status="warning" borderRadius="10px" mb={2}>
+        {/* {isSmallScreen ? <AlertIcon /> : null} */}
+        <AlertIcon />
+        Please review the course prerequisites in the UVic Calendar before registering.
+      </Alert>
       <Flex>
         <Text w="100%" textAlign="left">
           UVic offers a quick and easy way to register for a course using the Course Reference Number (CRN). Follow the
@@ -42,30 +47,42 @@ export function RegistrationHeading() {
             <ListItem>
               Select the appropriate term and hit{' '}
               <Text as="span" fontWeight="bold">
-                Submit
+                Continue
               </Text>{' '}
               to take you to the{' '}
               <Text as="span" fontWeight="bold">
-                Add or drop classes page.
-              </Text>
+                Manage Registration
+              </Text>{' '}
+              page.
+            </ListItem>
+            <ListItem>
+              Select the{' '}
+              <Text as="span" fontWeight="bold">
+                Enter CRNs
+              </Text>{' '}
+              tab.
             </ListItem>
             <ListItem>
               <Text as="span" fontWeight="bold">
                 {' '}
                 Copy <Icon as={IoCopyOutline} />{' '}
               </Text>{' '}
-              and paste the CRNs into the{' '}
+              and paste the CRNs into the input fields on the page, pressing{' '}
               <Text as="span" fontWeight="bold">
-                Add Classes Worksheet
+                Add Another CRN
               </Text>{' '}
-              input fields on the UVic's page.
+              to add each of your courses.
             </ListItem>
             <ListItem>
               Hit{' '}
               <Text as="span" fontWeight="bold">
-                Submit Changes
-              </Text>
-              , and you’re registered!
+                Add to Summary
+              </Text>{' '}
+              and then press the{' '}
+              <Text as="span" fontWeight="bold">
+                Submit
+              </Text>{' '}
+              button on the bottom right of the page, and you're registered!
             </ListItem>
           </OrderedList>
           For more information, visit UVic's guide on "
