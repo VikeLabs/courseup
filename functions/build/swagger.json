@@ -39,8 +39,77 @@
 					"202101",
 					"202105",
 					"202109",
-					"202201"
+					"202201",
+					"202205"
 				]
+			},
+			"NestedPreCoRequisites": {
+				"properties": {
+					"reqList": {
+						"items": {
+							"anyOf": [
+								{
+									"$ref": "#/components/schemas/NestedPreCoRequisites"
+								},
+								{
+									"$ref": "#/components/schemas/KualiCourse"
+								},
+								{
+									"type": "string"
+								}
+							]
+						},
+						"type": "array"
+					},
+					"unparsed": {
+						"type": "string"
+					},
+					"gpa": {
+						"type": "string"
+					},
+					"grade": {
+						"type": "string"
+					},
+					"units": {
+						"type": "boolean"
+					},
+					"coreq": {
+						"type": "boolean"
+					},
+					"quantity": {
+						"anyOf": [
+							{
+								"type": "number",
+								"format": "double"
+							},
+							{
+								"type": "string",
+								"enum": [
+									"ALL"
+								]
+							}
+						]
+					}
+				},
+				"type": "object"
+			},
+			"KualiCourse": {
+				"properties": {
+					"pid": {
+						"type": "string"
+					},
+					"code": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code",
+					"subject"
+				],
+				"type": "object"
 			},
 			"CourseDetails": {
 				"properties": {
@@ -51,6 +120,9 @@
 						"type": "string"
 					},
 					"description": {
+						"type": "string"
+					},
+					"dateStart": {
 						"type": "string"
 					},
 					"credits": {
@@ -103,9 +175,6 @@
 						],
 						"type": "object"
 					},
-					"dateStart": {
-						"type": "string"
-					},
 					"hoursCatalog": {
 						"items": {
 							"properties": {
@@ -125,6 +194,38 @@
 								"lecture"
 							],
 							"type": "object"
+						},
+						"type": "array"
+					},
+					"preAndCorequisites": {
+						"items": {
+							"anyOf": [
+								{
+									"type": "string"
+								},
+								{
+									"$ref": "#/components/schemas/NestedPreCoRequisites"
+								},
+								{
+									"$ref": "#/components/schemas/KualiCourse"
+								}
+							]
+						},
+						"type": "array"
+					},
+					"preOrCorequisites": {
+						"items": {
+							"anyOf": [
+								{
+									"type": "string"
+								},
+								{
+									"$ref": "#/components/schemas/NestedPreCoRequisites"
+								},
+								{
+									"$ref": "#/components/schemas/KualiCourse"
+								}
+							]
 						},
 						"type": "array"
 					},
@@ -148,13 +249,25 @@
 					"pid",
 					"title",
 					"description",
-					"credits",
 					"dateStart",
+					"credits",
 					"subject",
 					"code"
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"EventRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"additionalProperties": {},
+				"required": [
+					"name"
+				],
+				"type": "object"
 			},
 			"levelType": {
 				"type": "string",
@@ -215,6 +328,9 @@
 			},
 			"ClassScheduleListing": {
 				"properties": {
+					"title": {
+						"type": "string"
+					},
 					"crn": {
 						"type": "string"
 					},
@@ -284,6 +400,7 @@
 					}
 				},
 				"required": [
+					"title",
 					"crn",
 					"sectionCode",
 					"associatedTerm",
@@ -406,6 +523,9 @@
 			},
 			"Seat": {
 				"properties": {
+					"title": {
+						"type": "string"
+					},
 					"seats": {
 						"$ref": "#/components/schemas/Seating"
 					},
@@ -420,6 +540,7 @@
 					}
 				},
 				"required": [
+					"title",
 					"seats",
 					"waitListSeats",
 					"crn"
@@ -822,6 +943,43 @@
 						}
 					}
 				]
+			}
+		},
+		"/events": {
+			"post": {
+				"operationId": "PostEvent",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"success": {
+											"type": "boolean"
+										}
+									},
+									"required": [
+										"success"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EventRequest"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/sections/{term}": {
