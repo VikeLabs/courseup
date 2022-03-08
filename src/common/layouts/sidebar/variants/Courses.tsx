@@ -17,6 +17,7 @@ import {
   FormLabel,
   Switch,
   useMediaQuery,
+  Skeleton,
 } from '@chakra-ui/react';
 import { Route, Routes, useLocation, useParams } from 'react-router';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -65,7 +66,7 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
 
   const pid = searchParams.get('pid');
 
-  const { data } = useGetCourse({
+  const { data, loading } = useGetCourse({
     term: (term as Term) || (getCurrentTerm() as Term),
     pid: searchParams.get('pid') || '',
   });
@@ -90,7 +91,7 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {isMobile && pid ? (
+          {isMobile && pid && subject ? (
             <BreadcrumbItem>
               <BreadcrumbLink as={Link} to={{ pathname: `/${route}/${term}/${subject}` }}>
                 {subject}
@@ -105,9 +106,11 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
           )}
           {isMobile && pid && (
             <BreadcrumbItem>
-              <Text fontWeight="semibold">
-                {data?.subject} {data?.code}
-              </Text>
+              <Skeleton isLoaded={!loading}>
+                <Text fontWeight="semibold">
+                  {data?.subject} {data?.code}
+                </Text>
+              </Skeleton>
             </BreadcrumbItem>
           )}
         </Breadcrumb>

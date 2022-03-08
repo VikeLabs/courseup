@@ -44,7 +44,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   return (
     <>
       {!mobileSupport && <Mobile />}
-      <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
+      <Flex h={isMobile ? window.innerHeight : '100vh'} direction="column" overflowX="hidden" overflowY="hidden">
         <Helmet>
           <title>{title}</title>
         </Helmet>

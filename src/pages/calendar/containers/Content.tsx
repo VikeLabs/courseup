@@ -63,6 +63,7 @@ export function Content({ term }: ContentProps): JSX.Element {
 
   return (
     <Flex
+      h="100%"
       width={['100%', 'container.xs', 'container.sm', 'container.md', 'container.lg', 'container.xl']}
       flexDirection="column"
     >
@@ -124,7 +125,7 @@ export function Content({ term }: ContentProps): JSX.Element {
                 </HStack>
                 <Heading
                   size={isMobile ? 'md' : 'lg'}
-                  textAlign={{ base: 'center', sm: 'left' }}
+                  textAlign={{ sm: 'left' }}
                   as="h3"
                   color={mode('gray', 'dark.header')}
                 >

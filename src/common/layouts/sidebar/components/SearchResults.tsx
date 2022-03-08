@@ -1,7 +1,7 @@
-import { LinkBox } from '@chakra-ui/react';
+import { Box, useMediaQuery } from '@chakra-ui/react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
-import { Link, useMatch } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
 
 import { Card } from './Card';
 
@@ -16,6 +16,8 @@ type Props = { term: string } & HitsProvided<CourseRecord>;
 
 const SearchResults = ({ hits, term }: Props) => {
   const scheduleMatch = useMatch('/scheduler/*');
+  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+  const navigate = useNavigate();
 
   return (
     <>
@@ -23,9 +25,17 @@ const SearchResults = ({ hits, term }: Props) => {
         scheduleMatch ? (
           <Card subject={subject} title={title} pid={pid} code={code} schedule />
         ) : (
-          <LinkBox as={Link} to={`/calendar/${term}/${subject}?pid=${pid}`} data-pid={pid} key={objectID}>
+          <Box
+            // to={`/calendar/${term}/${subject}?pid=${pid}`}
+            onClick={() => {
+              navigate(`/calendar/${term}/${subject}?pid=${pid}`);
+              isMobile && window.location.reload();
+            }} // i do not like this, how else can we empty the search query onClick
+            data-pid={pid}
+            key={objectID}
+          >
             <Card subject={subject} title={title} pid={pid} code={code} />
-          </LinkBox>
+          </Box>
         )
       )}
     </>

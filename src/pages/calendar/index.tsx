@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, VStack } from '@chakra-ui/react';
+import { Box, Center, useMediaQuery, VStack } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
@@ -20,18 +20,20 @@ export function Calendar(): JSX.Element {
 
   if (isMobile)
     return (
-      <Page title="Calendar">
+      <Page title="Calendar" mobileSupport>
         <VStack w="100%">
-          <Box w="100%">
+          <Box w="100%" position="sticky">
             <CoursesTopBar />
           </Box>
-          {pid ? <Content term={term as Term} /> : <Courses term={term as Term} />}
+          <Center w="100%" overflowY="auto" h="100%">
+            {pid ? <Content term={term as Term} /> : <Courses term={term as Term} />}
+          </Center>
         </VStack>
       </Page>
     );
 
   return (
-    <Page title="Calendar" leftSidebar={<Courses term={term as Term} />}>
+    <Page title="Calendar" leftSidebar={<Courses term={term as Term} />} mobileSupport>
       {pid ? <Content term={term as Term} /> : <Landing />}
     </Page>
   );
