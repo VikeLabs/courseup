@@ -1,5 +1,4 @@
 import { screen, waitFor } from '@testing-library/react';
-import { mocked } from 'ts-jest/utils';
 
 import { useLocation, useParams } from 'react-router';
 
@@ -9,8 +8,8 @@ import { Page } from '../Page';
 
 jest.mock('react-router');
 
-const mockUseParams = mocked(useParams);
-const mockUseLocation = mocked(useLocation);
+const mockUseParams = jest.mocked(useParams);
+const mockUseLocation = jest.mocked(useLocation);
 
 const mockLocation = { pathname: '/registration/' } as any;
 

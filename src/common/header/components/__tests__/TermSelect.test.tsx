@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mocked } from 'ts-jest/utils';
 
 import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
@@ -13,10 +12,10 @@ jest.mock('lib/utils/terms');
 jest.mock('react-router');
 jest.mock('react-router-dom');
 
-const mockGetCurrentTerm = mocked(getCurrentTerm);
-const mockUseNavigate = mocked(useNavigate);
-const mockUseParams = mocked(useParams);
-const mockUseSearchParams = mocked(useSearchParams);
+const mockGetCurrentTerm = jest.mocked(getCurrentTerm);
+const mockUseNavigate = jest.mocked(useNavigate);
+const mockUseParams = jest.mocked(useParams);
+const mockUseSearchParams = jest.mocked(useSearchParams);
 const mockNavigate = jest.fn();
 
 describe('TermSelect', () => {

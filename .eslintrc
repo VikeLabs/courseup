@@ -1,5 +1,6 @@
 {
   "extends": [
+    // "next/core-web-vitals",
     "react-app",
     "react-app/jest",
     "plugin:import/errors",

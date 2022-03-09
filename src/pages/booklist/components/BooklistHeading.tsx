@@ -10,7 +10,7 @@ export function BooklistHeading() {
   return (
     <Container alignItems="center" maxW="container.xl">
       <HStack>
-        <Center direction={{ md: 'row', base: 'column' }} alignItems="center" w="100%">
+        <Center flexDir={{ md: 'row', base: 'column' }} alignItems="center" w="100%">
           <Heading fontSize={{ base: '1.5rem', md: '2.15rem' }} as="h1" marginBottom={{ base: '1rem', md: '0' }}>
             Booklist for {readableTerm}
           </Heading>

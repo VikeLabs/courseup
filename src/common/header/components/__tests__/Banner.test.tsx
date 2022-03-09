@@ -1,5 +1,4 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { mocked } from 'ts-jest/utils';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 
@@ -7,7 +6,7 @@ import { Banner } from '../Banner';
 
 jest.mock('lib/hooks/storage/useSessionStorage');
 
-const mockUseSessionStorage = mocked(useSessionStorage);
+const mockUseSessionStorage = jest.mocked(useSessionStorage);
 const mockSetBanner = jest.fn();
 
 // I chose to not test the forward and back buttons as the content of the banner
