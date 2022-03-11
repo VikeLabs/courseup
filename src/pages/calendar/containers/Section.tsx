@@ -77,7 +77,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
         if (c.sections && c.sections.length > 0) {
           return (
             <Box key={i}>
-              <Heading size="xl" my="2">
+              <Heading size="xl" my="2" px={{ base: 2, md: 0 }}>
                 {c.sections.length > 1 ? c.plural : c.singular}
               </Heading>
               <Sections sections={c.sections} seats={seats} />

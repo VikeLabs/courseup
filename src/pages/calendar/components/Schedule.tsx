@@ -13,10 +13,12 @@ export interface ScheduleProps {
 
 function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
   return (
-    <Box overflowX="auto">
+    <Box overflowX="auto" textAlign="left">
       <Table variant="striped" size="sm" w="100%">
         <Tr maxW="100px">
-          <Th scope="row">Days</Th>
+          <Th scope="row" pl={2}>
+            Days
+          </Th>
           {meetingTimes.map((m, i) => (
             <Td key={i}>
               <Badge>{m.days}</Badge>
@@ -24,25 +26,33 @@ function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
           ))}
         </Tr>
         <Tr>
-          <Th scope="row">Dates</Th>
+          <Th scope="row" pl={2}>
+            Dates
+          </Th>
           {meetingTimes.map((m, i) => (
             <Td key={i}>{m.dateRange}</Td>
           ))}
         </Tr>
         <Tr>
-          <Th scope="row">Time</Th>
+          <Th scope="row" pl={2}>
+            Time
+          </Th>
           {meetingTimes.map((m, i) => (
             <Td key={i}>{m.time}</Td>
           ))}
         </Tr>
         <Tr>
-          <Th scope="row">Location</Th>
+          <Th scope="row" pl={2}>
+            Location
+          </Th>
           {meetingTimes.map((m, i) => (
             <Td key={i}>{m.where}</Td>
           ))}
         </Tr>
         <Tr>
-          <Th scope="row">Instructors</Th>
+          <Th scope="row" pl={2}>
+            Instructors
+          </Th>
           {meetingTimes.map((m, i) => (
             <Td key={i}>{m.instructors}</Td>
           ))}

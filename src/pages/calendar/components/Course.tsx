@@ -77,7 +77,7 @@ export function CourseInfo({ description, hours, additionalNotes, credits, units
   };
 
   return (
-    <Box as="section">
+    <Box as="section" p={{ base: 2, md: 0 }}>
       <Divider my="3" />
       <Flex my="3" flexWrap="wrap" w={{ base: '100%', sm: '' }} justifyContent={{ base: 'center', md: 'left' }}>
         {hours && <HoursShield hours={hours} />}

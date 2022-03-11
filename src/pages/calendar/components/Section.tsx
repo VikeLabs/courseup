@@ -136,8 +136,16 @@ export function SectionInfo({
   const mode = useDarkMode();
 
   return (
-    <Box as="section" my="4" boxShadow="md" p="3" rounded="lg" bgColor={mode('white', 'dark.backrgound')}>
-      <Flex my="2" alignItems="center" justifyContent="space-between">
+    <Box
+      as="section"
+      my="4"
+      boxShadow="md"
+      p={{ base: 0, md: 3 }}
+      py={3}
+      rounded="lg"
+      bgColor={mode('white', 'dark.background')}
+    >
+      <Flex my="2" alignItems="center" justifyContent="space-between" px={{ base: 2, md: 0 }}>
         <Flex alignItems="center">
           <Heading size="lg" as="h2" whiteSpace="pre" id={sectionCode}>
             {sectionCode}
@@ -174,11 +182,11 @@ export function SectionInfo({
           </Accordion>
         )}
         <Schedule meetingTimes={meetingTimes} />
-        <Box my="5">
+        <Box my="5" px={{ base: 2, md: 0 }}>
           <SeatInfo seat={seat} />
         </Box>
       </Box>
-      <Text as="span" fontWeight="bold" fontSize={12} align="right" w="100%" display="block">
+      <Text as="span" fontWeight="bold" fontSize={12} align="right" w="100%" display="block" pr={2}>
         Source:
         <Text as="span" color="blue.500" fontWeight="light">
           <Text

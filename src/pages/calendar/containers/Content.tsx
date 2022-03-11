@@ -68,7 +68,7 @@ export function Content({ term }: ContentProps): JSX.Element {
     >
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
 
-      <Box p={4} zIndex={60} pt={{ base: 0, sm: 4 }}>
+      <Box zIndex={60} pt={{ base: 0, sm: 4 }}>
         {error && (
           <Alert status="error" my="5">
             <pre>{error.message}</pre>
@@ -87,7 +87,7 @@ export function Content({ term }: ContentProps): JSX.Element {
             w={{ base: '100%', sm: '' }}
           >
             {data && (
-              <Flex direction="column" w="100%">
+              <Flex direction="column" w="100%" p={{ base: 2, md: 0 }}>
                 <HStack justifyContent="space-between" w="100%">
                   <Heading
                     mr={{ base: 2, md: 5 }}
