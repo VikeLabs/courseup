@@ -61,7 +61,7 @@ export function ImportTimetable(): JSX.Element {
   return (
     <Page title="View Timetable" leftSidebar={left} rightSidebar={right} mobileSupport>
       {smallScreen ? (
-        <VStack pt={2} w="100%" h="100%" overflow="hidden" grow={1} px="3">
+        <VStack pt={2} w="100%" h="100%" overflow="hidden" flexGrow={1} px="3">
           <HStack justify="space-between" w="100%">
             <Heading>{!loading && data ? getReadableTerm((data as Timetable).term) : 'Viewing Timetable'}</Heading>
             <ButtonGroup isAttached colorScheme="green">
