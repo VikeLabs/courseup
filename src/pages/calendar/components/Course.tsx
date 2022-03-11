@@ -53,7 +53,7 @@ export interface CourseInfoProps {
   /**
    * course addtional notes
    */
-  addtionalNotes?: string;
+  additionalNotes?: string;
   /**
    * course units
    */
@@ -68,7 +68,7 @@ export interface CourseInfoProps {
   term: string;
 }
 
-export function CourseInfo({ description, hours, addtionalNotes, credits, units }: CourseInfoProps): JSX.Element {
+export function CourseInfo({ description, hours, additionalNotes, credits, units }: CourseInfoProps): JSX.Element {
   const smallScreen = useSmallScreen();
   const [fullDesc, setFullDesc] = useState(false);
 
@@ -108,12 +108,12 @@ export function CourseInfo({ description, hours, addtionalNotes, credits, units 
           </Button>
         </Center>
       )}
-      {addtionalNotes && (
+      {additionalNotes && (
         <Box my="3">
           <Heading as="h4" size="md">
-            Addtional Notes
+            Additional Notes
           </Heading>
-          <Text>{addtionalNotes}</Text>
+          <Text>{additionalNotes}</Text>
         </Box>
       )}
       <Divider my="5" />

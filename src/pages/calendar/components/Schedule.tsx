@@ -1,4 +1,4 @@
-import { Badge, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Badge, Box, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 import { MeetingTimes } from 'lib/fetchers';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
@@ -13,40 +13,42 @@ export interface ScheduleProps {
 
 function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
   return (
-    <Table variant="striped" size="sm" w="100%">
-      <Tr overflowX="scroll" maxW="100px">
-        <Th scope="row">Days</Th>
-        {meetingTimes.map((m, i) => (
-          <Td key={i}>
-            <Badge>{m.days}</Badge>
-          </Td>
-        ))}
-      </Tr>
-      <Tr>
-        <Th scope="row">Dates</Th>
-        {meetingTimes.map((m, i) => (
-          <Td key={i}>{m.dateRange}</Td>
-        ))}
-      </Tr>
-      <Tr>
-        <Th scope="row">Time</Th>
-        {meetingTimes.map((m, i) => (
-          <Td key={i}>{m.time}</Td>
-        ))}
-      </Tr>
-      <Tr>
-        <Th scope="row">Location</Th>
-        {meetingTimes.map((m, i) => (
-          <Td key={i}>{m.where}</Td>
-        ))}
-      </Tr>
-      <Tr>
-        <Th scope="row">Instructors</Th>
-        {meetingTimes.map((m, i) => (
-          <Td key={i}>{m.instructors}</Td>
-        ))}
-      </Tr>
-    </Table>
+    <Box overflowX="auto">
+      <Table variant="striped" size="sm" w="100%">
+        <Tr maxW="100px">
+          <Th scope="row">Days</Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>
+              <Badge>{m.days}</Badge>
+            </Td>
+          ))}
+        </Tr>
+        <Tr>
+          <Th scope="row">Dates</Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>{m.dateRange}</Td>
+          ))}
+        </Tr>
+        <Tr>
+          <Th scope="row">Time</Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>{m.time}</Td>
+          ))}
+        </Tr>
+        <Tr>
+          <Th scope="row">Location</Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>{m.where}</Td>
+          ))}
+        </Tr>
+        <Tr>
+          <Th scope="row">Instructors</Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>{m.instructors}</Td>
+          ))}
+        </Tr>
+      </Table>
+    </Box>
   );
 }
 
