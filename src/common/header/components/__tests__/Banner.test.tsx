@@ -23,7 +23,7 @@ describe('Banner', () => {
     mockUseSessionStorage.mockReturnValue([true, mockSetBanner]);
     render(<Banner />);
 
-    const closeButton = screen.getAllByRole('button')[2];
+    const closeButton = screen.getAllByRole('button')[0];
     fireEvent.click(closeButton);
     expect(mockSetBanner).toBeCalledWith(false);
   });
