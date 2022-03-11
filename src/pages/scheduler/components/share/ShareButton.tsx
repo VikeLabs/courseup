@@ -1,17 +1,18 @@
 import { useState } from 'react';
 
-import { Button, Icon, IconButton, useDisclosure, useMediaQuery } from '@chakra-ui/react';
+import { Button, Icon, IconButton, useDisclosure } from '@chakra-ui/react';
 import { IoShareOutline } from 'react-icons/io5';
 import { useMatch } from 'react-router';
 
 import { CreateTimetableResponse, Term, TimetableCourse, useCreateTimetable } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import ShareTimetableModal from './ShareTimetableModal';
 
 export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element | null {
   const importPage = useMatch('/s/:slug');
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+  const smallScreen = useSmallScreen();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // gets saved courses in session to enable/disable share button accordingly
@@ -52,7 +53,7 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
     <></>
   ) : (
     <>
-      {isMobile ? (
+      {smallScreen ? (
         <IconButton
           aria-label="Share timetable"
           icon={<IoShareOutline />}

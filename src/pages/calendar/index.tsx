@@ -1,8 +1,9 @@
-import { Box, Center, useMediaQuery, VStack } from '@chakra-ui/react';
+import { Box, Center, VStack } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term } from 'lib/fetchers';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { Page } from 'common/layouts/Page';
 import { Courses, CoursesTopBar } from 'common/layouts/sidebar/variants/Courses';
@@ -14,11 +15,11 @@ import { Content } from './containers/Content';
 export function Calendar(): JSX.Element {
   const { term } = useParams();
   const [searchParams] = useSearchParams();
-  const [isMobile] = useMediaQuery('(max-width: 1030px)');
+  const smallScreen = useSmallScreen();
 
   const pid = searchParams.get('pid');
 
-  if (isMobile)
+  if (smallScreen)
     return (
       <Page title="Calendar" mobileSupport>
         <VStack w="100%">

@@ -1,17 +1,8 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  LinkBox,
-  HStack,
-  Spacer,
-  useMediaQuery,
-  Collapse,
-  useDisclosure,
-  VStack,
-  IconButton,
-  Text,
-} from '@chakra-ui/react';
+import { Box, LinkBox, HStack, Spacer, Collapse, useDisclosure, VStack, IconButton, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { Banner } from '../components/Banner';
 import { MiscHeaderButtons } from '../components/MiscHeaderButtons';
@@ -70,12 +61,12 @@ export interface HeaderProps {
  * Primary UI component for content
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+  const smallScreen = useSmallScreen();
 
   return (
     <>
       <Banner />
-      {isMobile ? (
+      {smallScreen ? (
         <MobileHeaderContainer onSearchChange={onSearchChange} />
       ) : (
         <Box position="sticky" top={0} data-testid="desktop-header">

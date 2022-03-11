@@ -20,8 +20,8 @@ import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { useIsMobile } from 'lib/hooks/useIsMobile';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { CourseInfo } from '../components/Course';
 
@@ -42,8 +42,7 @@ export function Content({ term }: ContentProps): JSX.Element {
   const [searchParams] = useSearchParams();
   const toast = useToast();
   const { data, loading, error } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
-  const isMobile = useIsMobile();
-
+  const smallScreen = useSmallScreen();
   const { addCourse, deleteCourse, contains } = useSavedCourses();
   const mode = useDarkMode();
 
@@ -69,7 +68,7 @@ export function Content({ term }: ContentProps): JSX.Element {
     >
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
 
-      <Box p={4} zIndex={60} pt={isMobile ? 0 : 4}>
+      <Box p={4} zIndex={60} pt={{ base: 0, sm: 4 }}>
         {error && (
           <Alert status="error" my="5">
             <pre>{error.message}</pre>
@@ -85,7 +84,7 @@ export function Content({ term }: ContentProps): JSX.Element {
             display="flex"
             flexDirection="row"
             alignItems="center"
-            w={isMobile ? '100%' : ''}
+            w={{ base: '100%', sm: '' }}
           >
             {data && (
               <Flex direction="column" w="100%">
@@ -96,9 +95,9 @@ export function Content({ term }: ContentProps): JSX.Element {
                     as="h2"
                     whiteSpace="pre"
                   >{`${data.subject} ${data.code}`}</Heading>
-                  {isMobile && (
+                  {smallScreen && (
                     <Center>
-                      {isMobile ? (
+                      {smallScreen ? (
                         <IconButton
                           aria-label={courseIsSaved ? 'Remove from timetable' : 'add to timetable'}
                           icon={courseIsSaved ? <MdDelete fontSize="23px" /> : <MdAdd fontSize="23px" />}
@@ -124,7 +123,7 @@ export function Content({ term }: ContentProps): JSX.Element {
                   )}
                 </HStack>
                 <Heading
-                  size={isMobile ? 'md' : 'lg'}
+                  size={smallScreen ? 'md' : 'lg'}
                   textAlign={{ sm: 'left' }}
                   as="h3"
                   color={mode('gray', 'dark.header')}
@@ -135,7 +134,7 @@ export function Content({ term }: ContentProps): JSX.Element {
             )}
           </Skeleton>
           <Spacer />
-          {!error && !isMobile && (
+          {!error && !smallScreen && (
             <Button
               rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
               onClick={handleBookmarkClick}
@@ -169,7 +168,7 @@ export function Content({ term }: ContentProps): JSX.Element {
       <Center>
         <Skeleton isLoaded={!loading} mb={2} px={5}>
           {data && (
-            <Box textAlign={isMobile ? 'center' : 'left'}>
+            <Box textAlign={{ base: 'center', sm: 'left' }}>
               <Text as="span" fontWeight="bold" fontSize={12}>
                 Sources:
                 <Text as="span" color="blue.500" fontWeight="light">
@@ -182,7 +181,7 @@ export function Content({ term }: ContentProps): JSX.Element {
                   >
                     UVic Undergraduate Calendar
                   </Text>
-                  {isMobile && <br />}
+                  {smallScreen && <br />}
                   <Text
                     as="a"
                     href={`https://www.uvic.ca/BAN1P/bwckctlg.p_disp_listcrse?term_in=${term}&subj_in=${data.subject}&crse_in=${data.code}&schd_in=`}

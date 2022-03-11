@@ -1,7 +1,9 @@
-import { Box, useMediaQuery } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { HitsProvided } from 'react-instantsearch-core';
 import { connectHits } from 'react-instantsearch-dom';
 import { useMatch, useNavigate } from 'react-router-dom';
+
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { Card } from './Card';
 
@@ -16,7 +18,7 @@ type Props = { term: string } & HitsProvided<CourseRecord>;
 
 const SearchResults = ({ hits, term }: Props) => {
   const scheduleMatch = useMatch('/scheduler/*');
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+  const smallScreen = useSmallScreen();
   const navigate = useNavigate();
 
   return (
@@ -29,7 +31,7 @@ const SearchResults = ({ hits, term }: Props) => {
             // to={`/calendar/${term}/${subject}?pid=${pid}`}
             onClick={() => {
               navigate(`/calendar/${term}/${subject}?pid=${pid}`);
-              isMobile && window.location.reload();
+              smallScreen && window.location.reload();
             }} // i do not like this, how else can we empty the search query onClick
             data-pid={pid}
             key={objectID}

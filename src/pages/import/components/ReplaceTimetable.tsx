@@ -15,20 +15,20 @@ import {
   VStack,
   Alert,
   AlertIcon,
-  useMediaQuery,
 } from '@chakra-ui/react';
 import { BsArrowRepeat } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 
 import { Timetable } from 'lib/fetchers';
 import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { SelectedCoursesCardList } from 'pages/scheduler/components/share/SelectedCoursesCardList';
 
 export function ReplaceTimetable({ loading, data }: { loading: boolean; data: Timetable }): JSX.Element {
   const { replaceCourses } = useSavedCourses();
   const toast = useToast();
-  const [isSmallScreen] = useMediaQuery('(min-width:680px)');
+  const isSmallScreen = useSmallScreen();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const filteredCoursesList: SavedCourse[] = [];
   const [filteredCourses, setFilteredCourses] = useState(filteredCoursesList);

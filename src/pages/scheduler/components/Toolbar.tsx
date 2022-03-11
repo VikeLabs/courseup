@@ -8,7 +8,7 @@ import { logEvent } from 'lib/utils/logEvent';
 import { ShareButton } from './share/ShareButton';
 
 export const CalendarToolBar =
-  (onSelectedDateChange: (date: Date) => void, term: string, isMobile: boolean, vCalendar?: string) =>
+  (onSelectedDateChange: (date: Date) => void, term: string, smallScreen: boolean, vCalendar?: string) =>
   ({ label, date }: ToolbarProps) => {
     const handleClick = (offset?: number) => () => {
       if (offset) {
@@ -38,7 +38,7 @@ export const CalendarToolBar =
         <Text fontSize={{ base: 'xs', sm: 'xl' }}>{label}</Text>
         <HStack pb="0.2em">
           <ShareButton term={term as Term} disabled={!vCalendar} />
-          {isMobile ? (
+          {smallScreen ? (
             <IconButton
               icon={<DownloadIcon />}
               aria-label="Download timetable"
@@ -60,14 +60,14 @@ export const CalendarToolBar =
             colorScheme="gray"
             icon={<ChevronLeftIcon />}
             size="sm"
-            onClick={handleClick(isMobile ? -1 : -7)}
+            onClick={handleClick(smallScreen ? -1 : -7)}
           />
           <IconButton
             aria-label="Next Week"
             colorScheme="gray"
             icon={<ChevronRightIcon />}
             size="sm"
-            onClick={handleClick(isMobile ? 1 : 7)}
+            onClick={handleClick(smallScreen ? 1 : 7)}
           />
         </HStack>
       </Flex>

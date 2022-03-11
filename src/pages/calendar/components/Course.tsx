@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Box, Heading, Text } from '@chakra-ui/layout';
 import { BackgroundProps, Button, Center, Divider, Flex } from '@chakra-ui/react';
 
-import { useIsMobile } from 'lib/hooks/useIsMobile';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { HoursShield } from 'pages/calendar/components/Hours';
 import { CourseHours } from 'pages/calendar/shared/types';
@@ -69,7 +69,7 @@ export interface CourseInfoProps {
 }
 
 export function CourseInfo({ description, hours, addtionalNotes, credits, units }: CourseInfoProps): JSX.Element {
-  const isMobile = useIsMobile();
+  const smallScreen = useSmallScreen();
   const [fullDesc, setFullDesc] = useState(false);
 
   const handleClick = () => {
@@ -79,7 +79,7 @@ export function CourseInfo({ description, hours, addtionalNotes, credits, units 
   return (
     <Box as="section">
       <Divider my="3" />
-      <Flex my="3" flexWrap="wrap" w={isMobile ? '100%' : ''} justifyContent={{ base: 'center', md: 'left' }}>
+      <Flex my="3" flexWrap="wrap" w={{ base: '100%', sm: '' }} justifyContent={{ base: 'center', md: 'left' }}>
         {hours && <HoursShield hours={hours} />}
         {credits && (
           <Shield bg="purple.200" title="Credits">
@@ -98,10 +98,10 @@ export function CourseInfo({ description, hours, addtionalNotes, credits, units 
           </Shield>
         )}
       </Flex>
-      <Text as="article" isTruncated={isMobile && !fullDesc}>
+      <Text as="article" isTruncated={smallScreen && !fullDesc}>
         {description}
       </Text>
-      {isMobile && (
+      {smallScreen && (
         <Center>
           <Button onClick={handleClick} variant="link" colorScheme="blue" size="sm">
             {fullDesc ? 'Show less' : 'Read more'}
