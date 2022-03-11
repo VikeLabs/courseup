@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Heading } from '@chakra-ui/react';
 
 import { Shield } from 'pages/calendar/components/Shield';
@@ -7,7 +9,7 @@ export function HoursShield({ hours }: { hours: CourseHours[] }): JSX.Element {
   return (
     <Shield bg="green.200" title="Hours">
       {hours.map((h, index) => (
-        <>
+        <React.Fragment key={index}>
           <Heading as={'span'} size="sm" title="lecture hours per week">
             {h.lecture}
           </Heading>
@@ -28,7 +30,7 @@ export function HoursShield({ hours }: { hours: CourseHours[] }): JSX.Element {
               or
             </Heading>
           )}
-        </>
+        </React.Fragment>
       ))}
     </Shield>
   );

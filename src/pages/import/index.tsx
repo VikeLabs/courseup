@@ -77,7 +77,7 @@ export function ImportTimetable(): JSX.Element {
           {!loading && data ? calendarView ? calendarComponent : listView : <Spinner size="xl" />}
         </VStack>
       ) : (
-        <VStack pt={2} w="100%" height="100%" overflow="hidden" grow={1}>
+        <VStack pt={2} w="100%" height="100%" overflow="hidden" flexGrow={1}>
           <Heading textAlign="center">
             {!loading && data
               ? 'Viewing Timetable for ' + getReadableTerm((data as Timetable).term)

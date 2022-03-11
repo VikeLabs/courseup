@@ -30,7 +30,7 @@ type SelectedCoursesTableProps = {
 
 export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableProps): JSX.Element {
   return (
-    <Wrap variant="striped">
+    <Wrap>
       {courses.length > 0 ? (
         courses.map((course) => {
           if (course.lecture || course.lab || course.tutorial) {

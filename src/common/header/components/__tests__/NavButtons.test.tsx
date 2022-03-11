@@ -1,5 +1,4 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { mocked } from 'ts-jest/utils';
 
 import { useNavigate, useParams } from 'react-router';
 
@@ -7,8 +6,8 @@ import { NavButtons } from '../NavButtons';
 
 jest.mock('react-router');
 
-const mockUseNavigate = mocked(useNavigate);
-const mockUseParams = mocked(useParams);
+const mockUseNavigate = jest.mocked(useNavigate);
+const mockUseParams = jest.mocked(useParams);
 const mockNavigate = jest.fn();
 
 describe('NavButtons', () => {
