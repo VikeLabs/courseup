@@ -135,6 +135,7 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
                   pid={course.pid}
                   selected={course.selected}
                   showSections={course.showSections !== undefined ? course.showSections : true}
+                  showSectionsToggle={course.sections.length > 0 ? true : false}
                   handleSelection={handleCourseToggle}
                   handleDelete={handleCourseDelete}
                   handleShowSections={handleShowSections}

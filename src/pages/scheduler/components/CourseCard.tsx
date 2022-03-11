@@ -15,6 +15,7 @@ export type CourseCardProps = {
   pid: string;
   selected?: boolean;
   showSections?: boolean;
+  showSectionsToggle?: boolean;
   handleSelection: ({
     code,
     pid,
@@ -52,6 +53,7 @@ export function CourseCard({
   pid,
   selected,
   showSections,
+  showSectionsToggle,
   handleSelection,
   handleShowSections,
   handleDelete,
@@ -89,7 +91,7 @@ export function CourseCard({
             />
           </Flex>
         </Flex>
-        <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
+        <Flex direction="row" alignItems="flex-start" justifyContent="space-between" w="100%">
           <Flex grow={1}>
             <VStack
               alignItems="start"
@@ -117,13 +119,15 @@ export function CourseCard({
               size="xs"
               onClick={onDelete}
             />
-            <IconButton
-              aria-label="More information"
-              icon={showSections ? <ChevronUpIcon boxSize="1.5em" /> : <ChevronDownIcon boxSize="1.5em" />}
-              colorScheme="blue"
-              size="xs"
-              onClick={onShowSections}
-            />
+            {showSectionsToggle && (
+              <IconButton
+                aria-label="More information"
+                icon={showSections ? <ChevronUpIcon boxSize="1.5em" /> : <ChevronDownIcon boxSize="1.5em" />}
+                colorScheme="blue"
+                size="xs"
+                onClick={onShowSections}
+              />
+            )}
           </VStack>
         </Flex>
       </Flex>
