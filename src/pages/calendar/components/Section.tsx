@@ -138,7 +138,7 @@ export function SectionInfo({
   return (
     <Box
       as="section"
-      my="4"
+      mb={{ base: 3, md: 4 }}
       boxShadow="md"
       p={{ base: 0, md: 3 }}
       py={3}
