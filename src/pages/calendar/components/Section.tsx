@@ -142,7 +142,7 @@ export function SectionInfo({
       boxShadow="md"
       p={{ base: 0, md: 3 }}
       py={3}
-      rounded="lg"
+      rounded={{ base: 'none', md: 'lg' }}
       bgColor={mode('white', 'dark.background')}
     >
       <Flex my="2" alignItems="center" justifyContent="space-between" px={{ base: 2, md: 0 }}>
@@ -170,14 +170,16 @@ export function SectionInfo({
           <Accordion allowToggle my="3">
             <AccordionItem>
               <Heading as="h2">
-                <AccordionButton>
+                <AccordionButton p={2}>
                   <Box flex="1" textAlign="left">
-                    Addtional Notes
+                    Additional Notes
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
               </Heading>
-              <AccordionPanel pb={4}>{additionalNotes}</AccordionPanel>
+              <AccordionPanel pb={4} px={2}>
+                {additionalNotes}
+              </AccordionPanel>
             </AccordionItem>
           </Accordion>
         )}

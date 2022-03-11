@@ -65,9 +65,11 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
 
   return (
     <>
-      <Banner />
       {smallScreen ? (
-        <MobileHeaderContainer onSearchChange={onSearchChange} />
+        <>
+          <Banner />
+          <MobileHeaderContainer onSearchChange={onSearchChange} />
+        </>
       ) : (
         <Box position="sticky" top={0} data-testid="desktop-header">
           <HStack as="header" px="8" boxShadow="md" minH="56px">
