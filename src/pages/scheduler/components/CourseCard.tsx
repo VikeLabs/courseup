@@ -15,7 +15,7 @@ export type CourseCardProps = {
   pid: string;
   selected?: boolean;
   showSections?: boolean;
-  showSectionsToggle?: boolean;
+  hasSections?: boolean;
   handleSelection: ({
     code,
     pid,
@@ -53,7 +53,7 @@ export function CourseCard({
   pid,
   selected,
   showSections,
-  showSectionsToggle,
+  hasSections,
   handleSelection,
   handleShowSections,
   handleDelete,
@@ -76,20 +76,32 @@ export function CourseCard({
   const { data, loading } = useGetCourse({ term: termTerm, pid });
 
   return (
-    <Box boxShadow="md" cursor="pointer" as="label" w="100%" bgColor={mode('white', 'dark.main')}>
+    <Box
+      boxShadow="md"
+      cursor={hasSections ? 'pointer' : 'default'}
+      as="label"
+      htmlFor={`checkbox-${pid}-${term}-${subject}-${code}`}
+      w="100%"
+      bgColor={mode('white', 'dark.main')}
+    >
       <Flex direction="row">
         <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
-          <Flex>
-            <Checkbox
-              backgroundColor="whiteAlpha.600"
-              colorScheme="whiteAlpha"
-              iconColor="black"
-              size="lg"
-              mx="7px"
-              isChecked={selected}
-              onChange={onChange}
-            />
-          </Flex>
+          {hasSections ? (
+            <Flex>
+              <Checkbox
+                backgroundColor="whiteAlpha.600"
+                colorScheme="whiteAlpha"
+                iconColor="black"
+                id={`checkbox-${pid}-${term}-${subject}-${code}`}
+                size="lg"
+                mx="7px"
+                isChecked={selected}
+                onChange={onChange}
+              />
+            </Flex>
+          ) : (
+            <VStack mx="7px" width="5" />
+          )}
         </Flex>
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
           <Flex grow={1}>
@@ -119,7 +131,7 @@ export function CourseCard({
               size="xs"
               onClick={onDelete}
             />
-            {showSectionsToggle && (
+            {hasSections && (
               <IconButton
                 aria-label="More information"
                 icon={showSections ? <ChevronUpIcon boxSize="1.5em" /> : <ChevronDownIcon boxSize="1.5em" />}
