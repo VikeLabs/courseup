@@ -77,9 +77,9 @@ export function Contest() {
               <ListItem>
                 The submission{' '}
                 <Text as="span" fontWeight="bold" fontStyle="italic">
-                  must
+                  must not
                 </Text>{' '}
-                not primarily use colours associated with UVic or UVic Edge branding
+                primarily use colours associated with UVic or UVic Edge branding
               </ListItem>
               <ListItem>
                 The submission

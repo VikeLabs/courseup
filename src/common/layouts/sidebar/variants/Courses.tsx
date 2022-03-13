@@ -67,7 +67,7 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
   const pid = searchParams.get('pid');
 
   const { data, loading } = useGetCourse({
-    term: (term as Term) || (getCurrentTerm() as Term),
+    term: (term || getCurrentTerm()) as Term,
     pid: searchParams.get('pid') || '',
   });
 
@@ -86,6 +86,8 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
           <BreadcrumbItem>
             <BreadcrumbLink
               as={Link}
+              // Persisting the PID messes with the mobile flow
+              // Since we can't show the sidebar and course info at the same time on mobile, only persist PID on large screens
               to={{ pathname: `/${route}/${term}/`, search: pid && !smallScreen ? `?pid=${pid}` : undefined }}
             >
               Subjects
@@ -115,11 +117,12 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
           )}
         </Breadcrumb>
         <Box>
-          <Button onClick={onToggle} size="xs" disabled={smallScreen && pid ? true : false}>
+          <Button onClick={onToggle} size="xs" disabled={!!(smallScreen && pid)}>
             Filters
           </Button>
         </Box>
       </Flex>
+      {/* Filter button is disabled when viewing courses on mobile, make sure it's not open if that's the case */}
       <Collapse in={isOpen && (!smallScreen || !pid)} animateOpacity>
         <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
           <FormControl>
