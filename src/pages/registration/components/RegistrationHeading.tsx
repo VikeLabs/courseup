@@ -19,18 +19,13 @@ export function RegistrationHeading() {
           colorScheme="blue"
           rightIcon={<HiLink />}
           as="a"
-          href="https://www.uvic.ca/tools/student/registration/add-or-drop-classes/index.php"
+          href="https://banner.uvic.ca/StudentRegistrationSsb/ssb/registration"
           target="_blank"
         >
           UVic Registration Page
         </Button>
       </Flex>
       <Divider my="4" />
-      <Alert status="warning" borderRadius="10px" mb={2}>
-        {/* {isSmallScreen ? <AlertIcon /> : null} */}
-        <AlertIcon />
-        Please review the course prerequisites in the UVic Calendar before registering.
-      </Alert>
       <Flex>
         <Text w="100%" textAlign="left">
           UVic offers a quick and easy way to register for a course using the Course Reference Number (CRN). Follow the
@@ -43,17 +38,20 @@ export function RegistrationHeading() {
               </Text>{' '}
               button.
             </ListItem>
+            <ListItem>
+              Select the{' '}
+              <Text as="span" fontWeight="bold">
+                Manage registration
+              </Text>{' '}
+              page.
+            </ListItem>
             <ListItem>Sign in to UVic with your NetLink ID.</ListItem>
             <ListItem>
               Select the appropriate term and hit{' '}
               <Text as="span" fontWeight="bold">
                 Continue
-              </Text>{' '}
-              to take you to the{' '}
-              <Text as="span" fontWeight="bold">
-                Manage Registration
-              </Text>{' '}
-              page.
+              </Text>
+              .
             </ListItem>
             <ListItem>
               Select the{' '}
@@ -99,6 +97,10 @@ export function RegistrationHeading() {
           ."
         </Text>
       </Flex>
+      <Alert status="warning" borderRadius="10px" my={2}>
+        <AlertIcon />
+        Make sure to review all course prerequisites in the UVic Calendar before registering.
+      </Alert>
     </Container>
   );
 }
