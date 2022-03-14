@@ -59,11 +59,11 @@ export function Content({ term }: ContentProps): JSX.Element {
         <Flex
           justifyContent={'space-between'}
           justifyItems="center"
-          alignItems={{ base: 'start', sm: 'center' }}
+          alignItems={{ base: 'start', md: 'center' }}
           direction={{ base: 'column', sm: 'row' }}
           gap={{ base: '5', md: '10' }}
         >
-          <Skeleton isLoaded={!loading} display="flex" flexDirection="row" alignItems="center">
+          <Skeleton isLoaded={!loading} display="flex" flexDirection="column" alignItems="flex-start">
             {data && (
               <>
                 <Heading mr="5" size="3xl" fontSize={{ base: '3xl', xl: '5xl' }} as="h2" whiteSpace="pre">
