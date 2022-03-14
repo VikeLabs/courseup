@@ -57,31 +57,55 @@ export function Content({ term }: ContentProps): JSX.Element {
           </Alert>
         )}
         <Flex
+          justifyContent={'space-between'}
           justifyItems="center"
           alignItems={{ base: 'start', sm: 'center' }}
           direction={{ base: 'column', sm: 'row' }}
+          gap={{ base: '5', md: '10' }}
         >
           <Skeleton isLoaded={!loading} display="flex" flexDirection="row" alignItems="center">
             {data && (
               <>
-                <Heading mr="5" size="2xl" as="h2" whiteSpace="pre">{`${data.subject} ${data.code}`}</Heading>
-                <Heading size="lg" as="h3" color={mode('gray', 'dark.header')}>
+                <Heading mr="5" size="3xl" fontSize={{ base: '3xl', xl: '5xl' }} as="h2" whiteSpace="pre">
+                  {`${data.subject} ${data.code}`}
+                </Heading>
+                <Heading
+                  size="lg"
+                  fontSize={{ base: 'lg', md: '2xl', xl: '3xl' }}
+                  as="h3"
+                  color={mode('gray', 'dark.header')}
+                >
                   {data.title}
                 </Heading>
               </>
             )}
           </Skeleton>
-          <Spacer />
           {!error && (
-            <Button
-              rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
-              onClick={handleBookmarkClick}
-              colorScheme={courseIsSaved ? 'red' : 'green'}
-              size="sm"
-              disabled={loading}
-            >
-              {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
-            </Button>
+            <>
+              <Button
+                rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
+                onClick={handleBookmarkClick}
+                colorScheme={courseIsSaved ? 'red' : 'green'}
+                size="sm"
+                display={{ base: 'none', md: 'block' }}
+                fontSize={{ base: 'xs', md: 'sm' }}
+                minWidth={'fit-content'}
+                disabled={loading}
+              >
+                {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
+              </Button>
+              <Button
+                onClick={handleBookmarkClick}
+                colorScheme={courseIsSaved ? 'red' : 'green'}
+                size="sm"
+                display={{ base: 'block', md: 'none' }}
+                fontSize={{ base: 'xs', md: 'sm' }}
+                minWidth={'fit-content'}
+                disabled={loading}
+              >
+                {courseIsSaved ? <MdDelete /> : <MdAdd />}
+              </Button>
+            </>
           )}
         </Flex>
         <Skeleton isLoaded={!loading}>
