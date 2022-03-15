@@ -56,45 +56,35 @@ export function Content({ term }: ContentProps): JSX.Element {
             <pre>{error.message}</pre>
           </Alert>
         )}
-        <Flex
-          justifyContent={'space-between'}
-          justifyItems="center"
-          alignItems={{ base: 'start' }}
-          direction={{ base: 'column', sm: 'row' }}
-          gap={{ base: '5', md: '10' }}
-        >
-          <Skeleton isLoaded={!loading} display="flex" flexDirection="column" alignItems="flex-start">
+        <Flex alignItems="start" direction="column" gap="2">
+          <Skeleton isLoaded={!loading} alignItems="center" display="flex" justifyContent="space-between" width="100%">
             {data && (
               <>
-                <Heading mr="5" size="3xl" fontSize={{ base: '3xl', xl: '5xl' }} as="h2" whiteSpace="pre">
+                <Heading as="h2" fontSize={{ base: '3xl', lg: '5xl' }}>
                   {`${data.subject} ${data.code}`}
                 </Heading>
-                <Heading
-                  size="lg"
-                  fontSize={{ base: 'lg', md: '2xl', xl: '3xl' }}
-                  as="h3"
-                  color={mode('gray', 'dark.header')}
-                >
-                  {data.title}
-                </Heading>
+                {!error && (
+                  <Button
+                    rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
+                    onClick={handleBookmarkClick}
+                    colorScheme={courseIsSaved ? 'red' : 'green'}
+                    size="sm"
+                    minWidth={'fit-content'}
+                    disabled={loading}
+                  >
+                    {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
+                  </Button>
+                )}
               </>
             )}
           </Skeleton>
-          {!error && (
-            <>
-              <Button
-                rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
-                onClick={handleBookmarkClick}
-                colorScheme={courseIsSaved ? 'red' : 'green'}
-                size="sm"
-                fontSize={{ base: 'xs', md: 'sm' }}
-                minWidth={'fit-content'}
-                disabled={loading}
-              >
-                {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
-              </Button>
-            </>
-          )}
+          <Skeleton isLoaded={!loading} pr="5rem" width="100%">
+            {data && (
+              <Heading as="h3" color={mode('gray', 'dark.header')} fontSize={{ base: 'xl', lg: '3xl' }}>
+                {data.title}
+              </Heading>
+            )}
+          </Skeleton>
         </Flex>
         <Skeleton isLoaded={!loading}>
           {data && (
