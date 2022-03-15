@@ -59,7 +59,7 @@ export function Content({ term }: ContentProps): JSX.Element {
         <Flex
           justifyContent={'space-between'}
           justifyItems="center"
-          alignItems={{ base: 'start', md: 'center' }}
+          alignItems={{ base: 'start' }}
           direction={{ base: 'column', sm: 'row' }}
           gap={{ base: '5', md: '10' }}
         >
@@ -87,23 +87,11 @@ export function Content({ term }: ContentProps): JSX.Element {
                 onClick={handleBookmarkClick}
                 colorScheme={courseIsSaved ? 'red' : 'green'}
                 size="sm"
-                display={{ base: 'none', md: 'block' }}
                 fontSize={{ base: 'xs', md: 'sm' }}
                 minWidth={'fit-content'}
                 disabled={loading}
               >
                 {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
-              </Button>
-              <Button
-                onClick={handleBookmarkClick}
-                colorScheme={courseIsSaved ? 'red' : 'green'}
-                size="sm"
-                display={{ base: 'block', md: 'none' }}
-                fontSize={{ base: 'xs', md: 'sm' }}
-                minWidth={'fit-content'}
-                disabled={loading}
-              >
-                {courseIsSaved ? <MdDelete /> : <MdAdd />}
               </Button>
             </>
           )}
