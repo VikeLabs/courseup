@@ -136,7 +136,7 @@ export const Option = forwardRef<OptionsProps, 'div'>(
     const mode = useDarkMode();
 
     const truncAdditionalNotes =
-      additionalNotes?.length ?? 0 < maxAdditionalNotesLength
+      (additionalNotes?.length ?? 0) > maxAdditionalNotesLength
         ? additionalNotes?.substring(0, maxAdditionalNotesLength).trim() + '…'
         : additionalNotes;
 
