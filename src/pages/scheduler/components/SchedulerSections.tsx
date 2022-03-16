@@ -129,12 +129,19 @@ export interface OptionsProps {
   additionalNotes?: string;
 }
 
+const maxAdditionalNotesLength = 200;
+
 export const Option = forwardRef<OptionsProps, 'div'>(
   ({ meetingTimes, sectionCode, additionalNotes }: OptionsProps, ref): JSX.Element => {
     const mode = useDarkMode();
 
+    const truncAdditionalNotes =
+      additionalNotes?.length ?? 0 < maxAdditionalNotesLength
+        ? additionalNotes?.substring(0, maxAdditionalNotesLength).trim() + '…'
+        : additionalNotes;
+
     return (
-      <Tooltip label={additionalNotes} isDisabled={!additionalNotes} placement="left">
+      <Tooltip label={truncAdditionalNotes} isDisabled={!additionalNotes} placement="left">
         <HStack
           as="label"
           px="3"
