@@ -56,33 +56,35 @@ export function Content({ term }: ContentProps): JSX.Element {
             <pre>{error.message}</pre>
           </Alert>
         )}
-        <Flex
-          justifyItems="center"
-          alignItems={{ base: 'start', sm: 'center' }}
-          direction={{ base: 'column', sm: 'row' }}
-        >
-          <Skeleton isLoaded={!loading} display="flex" flexDirection="row" alignItems="center">
+        <Flex alignItems="start" direction="column" gap="2">
+          <Skeleton isLoaded={!loading} alignItems="center" display="flex" justifyContent="space-between" width="100%">
             {data && (
               <>
-                <Heading mr="5" size="2xl" as="h2" whiteSpace="pre">{`${data.subject} ${data.code}`}</Heading>
-                <Heading size="lg" as="h3" color={mode('gray', 'dark.header')}>
-                  {data.title}
+                <Heading as="h2" fontSize={{ base: '3xl', lg: '5xl' }}>
+                  {`${data.subject} ${data.code}`}
                 </Heading>
+                {!error && (
+                  <Button
+                    rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
+                    onClick={handleBookmarkClick}
+                    colorScheme={courseIsSaved ? 'red' : 'green'}
+                    size="sm"
+                    minWidth={'fit-content'}
+                    disabled={loading}
+                  >
+                    {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
+                  </Button>
+                )}
               </>
             )}
           </Skeleton>
-          <Spacer />
-          {!error && (
-            <Button
-              rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
-              onClick={handleBookmarkClick}
-              colorScheme={courseIsSaved ? 'red' : 'green'}
-              size="sm"
-              disabled={loading}
-            >
-              {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
-            </Button>
-          )}
+          <Skeleton isLoaded={!loading} pr="5rem" width="100%">
+            {data && (
+              <Heading as="h3" color={mode('gray', 'dark.header')} fontSize={{ base: 'xl', lg: '3xl' }}>
+                {data.title}
+              </Heading>
+            )}
+          </Skeleton>
         </Flex>
         <Skeleton isLoaded={!loading}>
           {data && (
