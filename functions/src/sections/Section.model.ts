@@ -12,7 +12,7 @@ export type MeetingTimes = {
   scheduleType: string;
   instructors: string[];
   building?: string;
-  buildingAccronym?: string;
+  buildingAbbreviation?: string;
   roomNumber?: string;
 };
 
