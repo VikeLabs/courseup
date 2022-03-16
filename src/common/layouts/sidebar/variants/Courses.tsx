@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
@@ -18,6 +18,7 @@ import { Route, Routes, useLocation, useParams } from 'react-router';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import { Course, Term, useGetCourses, useSubjects } from 'lib/fetchers';
+import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { CoursesList } from '../components/CoursesList';
@@ -52,6 +53,7 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const mode = useDarkMode();
+  const [filter] = useSessionStorage<boolean>('filter_courses', true);
 
   const subject = location.pathname.split('/')[3];
   const route = location.pathname.split('/')[1];
@@ -88,7 +90,7 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
             <FormLabel htmlFor="email-alerts" mb="0" fontSize="sm">
               Only Show Courses in Session
             </FormLabel>
-            <Switch id="email-alerts" onChange={(e) => onFilter && onFilter(e.currentTarget.checked)} />
+            <Switch id="email-alerts" onChange={(e) => onFilter && onFilter(e.currentTarget.checked)} isChecked={filter} />
           </Flex>
         </FormControl>
       </Box>
@@ -105,7 +107,8 @@ type Props = {
 };
 
 export function Courses({ term }: Props): JSX.Element | null {
-  const [filter, setFilter] = useState(false);
+  //const [filter, setFilter] = useState(false);
+  const [filter, setFilter] = useSessionStorage<boolean>('filter_courses', true);
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
     term: term as Term,
