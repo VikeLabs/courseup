@@ -5,14 +5,11 @@ import {
   Center,
   Box,
   Spinner,
-  useDisclosure,
   Flex,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Text,
-  Button,
-  Collapse,
   FormControl,
   FormLabel,
   Switch,
@@ -51,7 +48,6 @@ export interface TopBarProps {
 }
 
 export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
-  const { isOpen, onToggle } = useDisclosure();
   const { term } = useParams();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -85,13 +81,7 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
             </BreadcrumbItem>
           )}
         </Breadcrumb>
-        <Box>
-          <Button onClick={onToggle} size="xs">
-            Filters
-          </Button>
-        </Box>
       </Flex>
-      <Collapse in={isOpen} animateOpacity>
         <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
           <FormControl>
             <Flex justifyContent="space-between" w="100%">
@@ -102,7 +92,6 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
             </Flex>
           </FormControl>
         </Box>
-      </Collapse>
     </Box>
   );
 }
