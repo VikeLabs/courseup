@@ -90,7 +90,11 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
             <FormLabel htmlFor="email-alerts" mb="0" fontSize="sm">
               Only Show Courses in Session
             </FormLabel>
-            <Switch id="email-alerts" onChange={(e) => onFilter && onFilter(e.currentTarget.checked)} isChecked={filter} />
+            <Switch
+              id="email-alerts"
+              onChange={(e) => onFilter && onFilter(e.currentTarget.checked)}
+              isChecked={filter}
+            />
           </Flex>
         </FormControl>
       </Box>
@@ -107,7 +111,6 @@ type Props = {
 };
 
 export function Courses({ term }: Props): JSX.Element | null {
-  //const [filter, setFilter] = useState(false);
   const [filter, setFilter] = useSessionStorage<boolean>('filter_courses', true);
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
