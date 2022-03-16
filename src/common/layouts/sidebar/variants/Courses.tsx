@@ -82,16 +82,16 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
           )}
         </Breadcrumb>
       </Flex>
-        <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
-          <FormControl>
-            <Flex justifyContent="space-between" w="100%">
-              <FormLabel htmlFor="email-alerts" mb="0" fontSize="sm">
-                Only Show Courses in Session
-              </FormLabel>
-              <Switch id="email-alerts" onChange={(e) => onFilter && onFilter(e.currentTarget.checked)} />
-            </Flex>
-          </FormControl>
-        </Box>
+      <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
+        <FormControl>
+          <Flex justifyContent="space-between" w="100%">
+            <FormLabel htmlFor="email-alerts" mb="0" fontSize="sm">
+              Only Show Courses in Session
+            </FormLabel>
+            <Switch id="email-alerts" onChange={(e) => onFilter && onFilter(e.currentTarget.checked)} />
+          </Flex>
+        </FormControl>
+      </Box>
     </Box>
   );
 }
