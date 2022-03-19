@@ -11,7 +11,6 @@ import {
   Button,
   Alert,
   useToast,
-  HStack,
   IconButton,
 } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
@@ -74,77 +73,49 @@ export function Content({ term }: ContentProps): JSX.Element {
             <pre>{error.message}</pre>
           </Alert>
         )}
-        <Flex
-          justifyItems="center"
-          alignItems={{ base: 'start', sm: 'center' }}
-          direction={{ base: 'column', sm: 'row' }}
-        >
-          <Skeleton
-            isLoaded={!loading}
-            display="flex"
-            flexDirection="row"
-            alignItems="center"
-            w={{ base: '100%', sm: '' }}
-          >
+        <Flex gap="1" alignItems="start" direction="column">
+          <Skeleton isLoaded={!loading} display="flex" justifyContent="space-between" alignItems="center" w="100%">
             {data && (
-              <Flex direction="column" w="100%" p={{ base: 2, md: 0 }}>
-                <HStack justifyContent="space-between" w="100%">
-                  <Heading
-                    mr={{ base: 2, md: 5 }}
-                    size="2xl"
-                    as="h2"
-                    whiteSpace="pre"
-                  >{`${data.subject} ${data.code}`}</Heading>
-                  {smallScreen && (
-                    <Center>
-                      {smallScreen ? (
-                        <IconButton
-                          aria-label={courseIsSaved ? 'Remove from timetable' : 'add to timetable'}
-                          icon={courseIsSaved ? <MdDelete fontSize="23px" /> : <MdAdd fontSize="23px" />}
-                          onClick={handleBookmarkClick}
-                          colorScheme={courseIsSaved ? 'red' : 'green'}
-                          size="sm"
-                          disabled={loading}
-                          alignSelf="flex-end"
-                        />
-                      ) : (
-                        <Button
-                          rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
-                          onClick={handleBookmarkClick}
-                          colorScheme={courseIsSaved ? 'red' : 'green'}
-                          size="sm"
-                          disabled={loading}
-                          alignSelf="flex-end"
-                        >
-                          {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
-                        </Button>
-                      )}
-                    </Center>
-                  )}
-                </HStack>
-                <Heading
-                  size={smallScreen ? 'md' : 'lg'}
-                  textAlign={{ sm: 'left' }}
-                  as="h3"
-                  color={mode('gray', 'dark.header')}
-                >
-                  {data.title}
-                </Heading>
-              </Flex>
+              <>
+                <Heading fontSize={{ base: '3xl', lg: '5xl' }} as="h2">{`${data.subject} ${data.code}`}</Heading>
+                {!error && (
+                  <Center h="100%">
+                    {smallScreen ? (
+                      <IconButton
+                        aria-label={courseIsSaved ? 'Remove from timetable' : 'add to timetable'}
+                        icon={courseIsSaved ? <MdDelete fontSize="23px" /> : <MdAdd fontSize="23px" />}
+                        onClick={handleBookmarkClick}
+                        colorScheme={courseIsSaved ? 'red' : 'green'}
+                        size="sm"
+                        disabled={loading}
+                        alignSelf="flex-end"
+                      />
+                    ) : (
+                      <Button
+                        rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
+                        onClick={handleBookmarkClick}
+                        colorScheme={courseIsSaved ? 'red' : 'green'}
+                        size="sm"
+                        disabled={loading}
+                        alignSelf="flex-end"
+                        minW="fit-content"
+                      >
+                        {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
+                      </Button>
+                    )}
+                  </Center>
+                )}
+              </>
+            )}
+          </Skeleton>
+          <Skeleton isLoaded={!loading} pr={{ base: '0', md: '5rem' }} width="100%">
+            {data && (
+              <Heading fontSize={{ base: 'xl', lg: '3xl' }} as="h3" color={mode('gray', 'dark.header')}>
+                {data.title}
+              </Heading>
             )}
           </Skeleton>
           <Spacer />
-          {!error && !smallScreen && (
-            <Button
-              rightIcon={courseIsSaved ? <MdDelete /> : <MdAdd />}
-              onClick={handleBookmarkClick}
-              colorScheme={courseIsSaved ? 'red' : 'green'}
-              size="sm"
-              disabled={loading}
-            >
-              {courseIsSaved ? 'Remove from Timetable' : 'Add to Timetable'}
-            </Button>
-          )}
         </Flex>
         <Skeleton isLoaded={!loading}>
           {data && (

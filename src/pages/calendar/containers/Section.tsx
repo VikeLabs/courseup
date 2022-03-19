@@ -1,12 +1,12 @@
 import { Box, Center, Divider, Heading, Spinner, Text } from '@chakra-ui/react';
 
-import { ClassScheduleListing, Seat, Term, useSeats, useSections } from 'lib/fetchers';
+import { Section, Seat, Term, useSeats, useSections } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { SectionInfo } from '../components/Section';
 
-function Sections({ sections, seats }: { sections: ClassScheduleListing[]; seats?: Seat[] | null }): JSX.Element {
+function Sections({ sections, seats }: { sections: Section[]; seats?: Seat[] | null }): JSX.Element {
   return (
     <>
       {sections.map(({ sectionType, crn, sectionCode, instructionalMethod, additionalNotes, meetingTimes }) => (

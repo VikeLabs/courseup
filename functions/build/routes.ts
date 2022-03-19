@@ -78,42 +78,24 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["lecture"]},{"dataType":"enum","enums":["lab"]},{"dataType":"enum","enums":["tutorial"]},{"dataType":"enum","enums":["gradable lab"]},{"dataType":"enum","enums":["lecture topic"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "MeetingTimes": {
-        "dataType": "refObject",
-        "properties": {
-            "type": {"dataType":"string","required":true},
-            "time": {"dataType":"string","required":true},
-            "days": {"dataType":"string","required":true},
-            "where": {"dataType":"string","required":true},
-            "dateRange": {"dataType":"string","required":true},
-            "scheduleType": {"dataType":"string","required":true},
-            "instructors": {"dataType":"array","array":{"dataType":"string"},"required":true},
-        },
-        "additionalProperties": false,
+    "Pick_ClassScheduleListing.Exclude_keyofClassScheduleListing.meetingTimes__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","required":true},"crn":{"dataType":"string","required":true},"sectionCode":{"dataType":"string","required":true},"additionalNotes":{"dataType":"string"},"associatedTerm":{"dataType":"nestedObjectLiteral","nestedProperties":{"end":{"dataType":"string","required":true},"start":{"dataType":"string","required":true}},"required":true},"registrationDates":{"dataType":"nestedObjectLiteral","nestedProperties":{"end":{"dataType":"string","required":true},"start":{"dataType":"string","required":true}},"required":true},"levels":{"dataType":"array","array":{"dataType":"refAlias","ref":"levelType"},"required":true},"campus":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["online"]},{"dataType":"enum","enums":["in-person"]}],"required":true},"sectionType":{"ref":"sectionType","required":true},"instructionalMethod":{"dataType":"string","required":true},"credits":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ClassScheduleListing": {
-        "dataType": "refObject",
-        "properties": {
-            "title": {"dataType":"string","required":true},
-            "crn": {"dataType":"string","required":true},
-            "sectionCode": {"dataType":"string","required":true},
-            "additionalNotes": {"dataType":"string"},
-            "associatedTerm": {"dataType":"nestedObjectLiteral","nestedProperties":{"end":{"dataType":"string","required":true},"start":{"dataType":"string","required":true}},"required":true},
-            "registrationDates": {"dataType":"nestedObjectLiteral","nestedProperties":{"end":{"dataType":"string","required":true},"start":{"dataType":"string","required":true}},"required":true},
-            "levels": {"dataType":"array","array":{"dataType":"refAlias","ref":"levelType"},"required":true},
-            "campus": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["online"]},{"dataType":"enum","enums":["in-person"]}],"required":true},
-            "sectionType": {"ref":"sectionType","required":true},
-            "instructionalMethod": {"dataType":"string","required":true},
-            "credits": {"dataType":"string","required":true},
-            "meetingTimes": {"dataType":"array","array":{"dataType":"refObject","ref":"MeetingTimes"},"required":true},
-        },
-        "additionalProperties": false,
+    "Omit_ClassScheduleListing.meetingTimes_": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_ClassScheduleListing.Exclude_keyofClassScheduleListing.meetingTimes__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "MeetingTimes": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"roomNumber":{"dataType":"string"},"buildingAbbreviation":{"dataType":"string"},"building":{"dataType":"string"},"instructors":{"dataType":"array","array":{"dataType":"string"},"required":true},"scheduleType":{"dataType":"string","required":true},"dateRange":{"dataType":"string","required":true},"where":{"dataType":"string","required":true},"days":{"dataType":"string","required":true},"time":{"dataType":"string","required":true},"type":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Section": {
         "dataType": "refAlias",
-        "type": {"ref":"ClassScheduleListing","validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Omit_ClassScheduleListing.meetingTimes_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"meetingTimes":{"dataType":"array","array":{"dataType":"refAlias","ref":"MeetingTimes"},"required":true}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Seating": {
