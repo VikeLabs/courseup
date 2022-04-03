@@ -9,8 +9,6 @@ import { supabase } from '../utils/supabaseClient';
 import { customTheme } from '../src/lib/theme';
 import { searchClient } from '../utils/algoliaClient';
 
-
-
 // TODO: deprecate
 const API_URL = 'https://courseup.vikelabs.dev/api';
 

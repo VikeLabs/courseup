@@ -1,5 +1,5 @@
-import { handleAuth } from '@supabase/supabase-auth-helpers/nextjs'
+import { handleAuth } from '@supabase/supabase-auth-helpers/nextjs';
 
 // handles the auth callback
 
-export default handleAuth()
+export default handleAuth();

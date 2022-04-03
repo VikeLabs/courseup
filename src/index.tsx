@@ -17,8 +17,9 @@ import { logEvent } from 'lib/utils/logEvent';
 
 import { Feedback } from 'common/feedback';
 
-import reportWebVitals from './reportWebVitals';
 import { searchClient } from '../utils/algoliaClient';
+
+import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
 
 import './index.css';
@@ -26,23 +27,23 @@ import './index.css';
 const firebaseConfig =
   process.env.REACT_APP_ENV === 'production'
     ? {
-      apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-      authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-      projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-      storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-      appId: process.env.REACT_APP_FIREBASE_APP_ID,
-      measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
-    }
+        apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+        authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+        storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.REACT_APP_FIREBASE_APP_ID,
+        measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+      }
     : {
-      apiKey: 'AIzaSyBh3shP0neAHQCRrESGjQVfKpCdz2EbSEE',
-      authDomain: 'staging-clockwork.firebaseapp.com',
-      projectId: 'staging-clockwork',
-      storageBucket: 'staging-clockwork.appspot.com',
-      messagingSenderId: '53599730639',
-      appId: '1:53599730639:web:f31b0eeaf4f0529233f0ba',
-      measurementId: 'G-M645REB5LQ',
-    };
+        apiKey: 'AIzaSyBh3shP0neAHQCRrESGjQVfKpCdz2EbSEE',
+        authDomain: 'staging-clockwork.firebaseapp.com',
+        projectId: 'staging-clockwork',
+        storageBucket: 'staging-clockwork.appspot.com',
+        messagingSenderId: '53599730639',
+        appId: '1:53599730639:web:f31b0eeaf4f0529233f0ba',
+        measurementId: 'G-M645REB5LQ',
+      };
 
 Sentry.init({
   dsn: 'https://08218d366eab4945abe3e09054bc5cce@o551348.ingest.sentry.io/5674718',

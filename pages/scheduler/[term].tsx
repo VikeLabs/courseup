@@ -1,13 +1,9 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 export function SchedulerPage() {
-    const router = useRouter()
-    const { term } = router.query
-    return (
-        <div>
-            term: {term}
-        </div>
-    )
+  const router = useRouter();
+  const { term } = router.query;
+  return <div>term: {term}</div>;
 }
 
-export default SchedulerPage
+export default SchedulerPage;
