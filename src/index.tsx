@@ -4,7 +4,6 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import 'firebase/analytics';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
-import algoliasearch from 'algoliasearch';
 import firebase from 'firebase/app';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
