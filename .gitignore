@@ -32,3 +32,8 @@ firebase*.log
 
 # nextjs
 .next
+
+# Supabase
+**/supabase/.branches
+**/supabase/.temp
+**/supabase/.env
