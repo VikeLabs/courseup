@@ -7,8 +7,9 @@ import { RestfulProvider } from 'restful-react';
 import { supabase } from '../utils/supabaseClient';
 
 import { customTheme } from '../src/lib/theme';
+import { searchClient } from '../utils/algoliaClient';
 
-const searchClient = algoliasearch('CR92D3S394', '5477854d63b676fe021f8f83f5839a3a');
+
 
 // TODO: deprecate
 const API_URL = 'https://courseup.vikelabs.dev/api';
