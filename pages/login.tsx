@@ -1,7 +1,9 @@
-import { useUser, Auth } from '@supabase/supabase-auth-helpers/react';
-import { supabase } from '../utils/supabaseClient';
 import { useEffect, useState } from 'react';
+
 import { Container } from '@chakra-ui/react';
+import { useUser, Auth } from '@supabase/supabase-auth-helpers/react';
+
+import { supabase } from '../utils/supabaseClient';
 
 function UserPage(): JSX.Element {
   const { user, error } = useUser();
