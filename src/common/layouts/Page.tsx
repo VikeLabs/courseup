@@ -3,7 +3,7 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import { Flex, useMediaQuery } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useMatch, useNavigate, useParams } from 'react-router';
-// import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { getCurrentTerm } from 'lib/utils/terms';
@@ -56,7 +56,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
         <Header onSearchChange={handleSearchChange} />
 
         {/* No mobile support */}
-        {!isMobile && query.length > 0 ? (
+        {/* {!isMobile && query.length > 0 ? (
           <Sidebar>
             <SearchResults />
           </Sidebar>
@@ -72,7 +72,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
             children
           )}
         </Flex>
-        {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>}
+        {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>} */}
 
         {/* Vanilla CSS mobile support */}
         {/* <Flex>
@@ -120,7 +120,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
         </Flex> */}
 
         {/* Swiper mobile support */}
-        {/* <Flex overflowY="auto" h="100%">
+        <Flex overflowY="auto" h="100%">
           {isMobile ? (
             <Swiper initialSlide={1}>
               {leftSidebar ? <SwiperSlide>{leftSidebar}</SwiperSlide> : null}
@@ -142,7 +142,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
               {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>}
             </>
           )}
-        </Flex> */}
+        </Flex>
       </Flex>
     </>
   );
