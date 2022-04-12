@@ -1,14 +1,15 @@
 import { GetServerSideProps } from 'next';
+import { getCurrentTerm } from '../../src/lib/utils/terms'
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  // note, this will return the current term based on the servers current time.
   return {
     redirect: {
       permanent: false,
-      // TODO: make this the current term based on date.
-      destination: '/calendar/202205',
+      destination: '/calendar/' + getCurrentTerm(),
     },
   };
 };
 
 // placeholder for redirect
-export default () => {};
+export default () => { };
