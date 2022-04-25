@@ -9,3 +9,6 @@ for i in {2008..2022} ; do
     curl -s "http://localhost:3000/api/banner/v9/$i""09" -o "banner_$i""09".json    
 done
 
+jq -sr '[.[][]]' banner_*.json > banner_merged.json
+
+quicktype --just-types banner_merged.json -o utils/banner/interface.ts
