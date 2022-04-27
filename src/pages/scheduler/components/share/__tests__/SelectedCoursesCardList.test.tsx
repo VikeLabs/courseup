@@ -32,7 +32,7 @@ describe('SelectedCourseCardList', () => {
   describe('when no courses are passed in', () => {
     it('should show `Unable to find...` message', () => {
       render(<SelectedCoursesCardList term="202109" courses={[]} />);
-      expect(screen.getByText('No sections offered for')).toBeInTheDocument();
+      expect(screen.getByText('Unable to find saved courses for')).toBeInTheDocument();
     });
   });
 });
