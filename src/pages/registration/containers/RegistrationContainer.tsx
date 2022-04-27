@@ -1,5 +1,4 @@
-import { Center, Spinner } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
+import { Center, Spinner, Box } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
