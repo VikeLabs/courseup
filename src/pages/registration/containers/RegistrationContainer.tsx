@@ -1,12 +1,12 @@
-import { Box, Container, Divider, Heading } from '@chakra-ui/layout';
-import { Center, Spinner, Text } from '@chakra-ui/react';
+import { Center, Spinner } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
-import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Page } from 'common/layouts/Page';
+import { NotFound } from 'common/notfound/NotFound';
 
 import { RegistrationHeading } from '../components/RegistrationHeading';
 
@@ -15,7 +15,6 @@ import { CourseContainer } from './CourseContainer';
 export function RegistrationContainer(): JSX.Element | null {
   const { term } = useParams();
   const { courses } = useSavedCourses();
-  const mode = useDarkMode();
 
   // to avoid erroring out if term is not provided in URL
   // term is eventually filled in but need to avoid initial error
@@ -39,17 +38,7 @@ export function RegistrationContainer(): JSX.Element | null {
               return <CourseContainer course={course} />;
             })
         ) : (
-          <>
-            <Divider my="4" />
-            <Container alignItems="center" maxW="container.xl">
-              <Heading size="md" color={mode('gray', 'dark.header')}>
-                Unable to find saved courses for{' '}
-                <Text as="span" color={mode('black', 'white')}>
-                  {getReadableTerm(term)}
-                </Text>
-              </Heading>
-            </Container>
-          </>
+          <NotFound item="Unable to find saved courses from your" term={term} timetableButton timetable />
         )}
       </Box>
     </Page>
