@@ -45,13 +45,7 @@ export function TermSelect(): JSX.Element {
   // TODO: A "bug" in Firefox for macOS is preventing the `option` components
   // from inheriting the `Select` background color this leads to eligible text in the options.
   return (
-    <Select
-      borderColor={mode('green.500', 'green.300')}
-      defaultValue={selectedTerm}
-      value={selectedTerm}
-      onChange={onChange}
-      minW="150px"
-    >
+    <Select borderColor={mode('green.500', 'green.300')} value={selectedTerm} onChange={onChange} minW="150px">
       {terms.map((term, i) => {
         return (
           <option key={i} value={term}>
