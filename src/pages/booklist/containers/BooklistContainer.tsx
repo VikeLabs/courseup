@@ -52,7 +52,7 @@ export function BooklistContainer(): JSX.Element | null {
                 .map(({ sections, subject, code }) => {
                   return <TextbookCard key={`${subject}-${code}`} subject={subject} code={code} sections={sections} />;
                 })}
-              <Box as="footer" px="2" py="4" textAlign={{ base: 'center' }}>
+              <Box as="footer" px="2" py="4" pb="6" textAlign={{ base: 'center' }}>
                 <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
               </Box>
             </>

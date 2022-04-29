@@ -47,71 +47,70 @@ export function Textbook({
       alignItems="center"
       justifyContent="space-between"
       direction={{ base: 'column', md: 'row' }}
-      gap="4"
+      gap="8"
+      boxShadow="md"
+      borderRadius="lg"
+      p="4"
+      pt={{ base: '8', md: '4' }}
+      backgroundColor={mode('gray.100', 'gray.700')}
     >
       <Flex alignItems={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }} gap="4">
         <Image h="180px" w="120px" src={imageUrl} />
-        <VStack h="100%" alignItems={{ base: 'center', md: 'start' }}>
+        <VStack h="100%" alignItems={{ base: 'center', md: 'start' }} gap="0.5">
           <Badge colorScheme={required ? 'orange' : 'green'}>{required ? 'required' : 'optional'}</Badge>
           <HStack>
-            <Heading size="sm" textAlign={{ base: 'center', md: 'left' }}>
+            <Heading size="sm" maxW={{ base: '18rem', md: '100%' }} textAlign={{ base: 'center', md: 'left' }}>
               {title}
             </Heading>
           </HStack>
           <Text fontSize="sm" textAlign={{ base: 'center', md: 'left' }}>
             {authors?.join(', ')}
           </Text>
-          <Table w="fit-content" size="sm" variant="unstyled">
-            <Tbody>
+          <Table w="fit-content" size="sm" variant="unstyled" mt="2.25rem!important">
+            <Tbody display="flex" flexDirection="column" gap="2">
               {newCad && (
-                <Tr>
-                  <Td p="0" w="10px">
+                <Tr display="flex" gap="2">
+                  <Td p="0" w="5rem">
                     <Text as="strong">NEW</Text>
                   </Td>
                   <Td p="0">{newCad}</Td>
                 </Tr>
               )}
               {usedCad && (
-                <Tr>
-                  <Td p="0" w="10px">
+                <Tr display="flex" gap="2">
+                  <Td p="0" w="5rem">
                     <Text as="strong">USED</Text>
                   </Td>
                   <Td p="0">{usedCad}</Td>
                 </Tr>
               )}
               {newAndDigitalAccessCad && (
-                <Tr>
-                  <Td p="0" w="10px">
-                    <Text as="strong" mr="4">
-                      NEW & DIGITAL ACCESS
-                    </Text>
+                <Tr display="flex" gap="2">
+                  <Td p="0" w="5rem">
+                    <Text as="strong">NEW & DIGITAL ACCESS</Text>
                   </Td>
                   <Td p="0">{newAndDigitalAccessCad}</Td>
                 </Tr>
               )}
               {digitalAccessCad && (
-                <Tr>
-                  <Td p="0" w="10px">
-                    <Text as="strong" mr="4">
-                      DIGITAL ACCESS
-                    </Text>
+                <Tr display="flex" gap="2">
+                  <Td p="0" w="5rem">
+                    <Text as="strong">DIGITAL ACCESS</Text>
                   </Td>
                   <Td p="0">{digitalAccessCad}</Td>
                 </Tr>
               )}
-              <Tr>
-                <Td pl="0" pt="10">
-                  <Text as="strong">ISBN</Text>
+              <Tr display="flex" gap="2">
+                <Td p="0" w="5rem">
+                  <Text as="strong">ISBN-13</Text>
                 </Td>
-                <Td pl="0" pt="10">
-                  {isbn}
-                </Td>
+                <Td p="0">{isbn}</Td>
               </Tr>
             </Tbody>
           </Table>
         </VStack>
       </Flex>
-      <VStack w="10em">
+      <VStack w={{ base: '100%', md: '10em' }} gap={{ base: '2' }} py={{ base: '5', md: '0' }}>
         <Button
           w="100%"
           colorScheme="blue"
@@ -126,8 +125,11 @@ export function Textbook({
           UVic Bookstore
         </Button>
         <Button
-          tabIndex={0}
+          w="100%"
+          //tabIndex={0}
           size="fit-content"
+          boxShadow="md"
+          borderRadius="md"
           as="a"
           href={amazonUrl}
           target="_blank"
@@ -136,8 +138,6 @@ export function Textbook({
         >
           <Image
             loading="lazy"
-            boxShadow="md"
-            borderRadius="md"
             src={process.env.PUBLIC_URL + `/assets/brands/${mode('amazon_light.png', 'amazon_dark.png')}`}
             h="2.4em"
             p="2"
