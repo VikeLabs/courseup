@@ -1,5 +1,5 @@
 import { InfoIcon } from '@chakra-ui/icons';
-import { Container, Heading, Text } from '@chakra-ui/layout';
+import { Container, Box, Heading, Text } from '@chakra-ui/layout';
 import { Flex, HStack, VStack } from '@chakra-ui/react';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -9,7 +9,9 @@ import { Textbook as TextbookType } from '../shared/types';
 
 import { Textbook } from './Textbook';
 
-type Props = Omit<TextbookInfo, 'term'>;
+type Props = Omit<TextbookInfo, 'term'> & {
+  key: string;
+};
 
 export type CourseTextbooks = {
   subject: string;
@@ -23,8 +25,11 @@ export type CourseTextbooks = {
 export function TextbookCard({ subject, code, sections }: Props) {
   const mode = useDarkMode();
 
+  console.log(sections);
+
   return (
     <Container
+      key={`${subject}-${code}`}
       alignItems="center"
       maxW="container.xl"
       bgColor={mode('white', 'dark.background')}
@@ -35,27 +40,47 @@ export function TextbookCard({ subject, code, sections }: Props) {
       p="4"
       textAlign="left"
     >
-      <Heading size="lg">
-        {subject} {code}
-      </Heading>
       {sections.map(({ section, instructor, textbooks, additionalInfo }) => (
-        <>
-          <HStack justifyContent="space-between">
-            <Heading size="md">{section}</Heading>
+        <Box key={`${subject}-${code}-${section}`}>
+          <Heading size="lg">
+            {subject} {code}
+          </Heading>
+          <HStack justifyContent="space-between" pb="4">
+            <Heading size="md" color={mode('gray', 'dark.header')}>
+              {section}
+            </Heading>
             <Heading size="md" color={mode('gray', 'dark.header')}>
               {instructor}
             </Heading>
           </HStack>
-          {additionalInfo?.map((info) => (
-            <HStack bgColor={mode('blue.200', 'blue.800')} py="2" pl="2" my="1" borderRadius="md">
-              <InfoIcon mx="1" />
-              <Text px="1">{info}</Text>
-            </HStack>
-          ))}
-          <Flex alignItems="center" direction={{ base: 'column', md: 'row' }} mt="1">
-            <VStack w="100%" alignItems="left" spacing="1em">
+          {additionalInfo && additionalInfo.length > 0 ? (
+            <Box pb="4">
+              {additionalInfo?.map((info) => (
+                <HStack
+                  key={`${subject}-${code}-${section}-${info}`}
+                  bgColor={mode('blue.200', 'blue.800')}
+                  py="2"
+                  pl="2"
+                  my="1"
+                  borderRadius="md"
+                >
+                  <InfoIcon mx="1" />
+                  <Text px="1">{info}</Text>
+                </HStack>
+              ))}
+            </Box>
+          ) : null}
+          <Flex
+            alignItems="center"
+            direction={{ base: 'column', md: 'row' }}
+            p="4"
+            backgroundColor={mode('gray.50', 'gray.800')}
+            borderRadius="lg"
+          >
+            <VStack w="100%" alignItems="left" gap="1em">
               {textbooks.map(({ title, authors, price, isbn, bookstoreUrl, imageUrl, required, amazonUrl }) => (
                 <Textbook
+                  key={`${isbn}`}
                   title={title}
                   authors={authors}
                   price={price}
@@ -68,7 +93,7 @@ export function TextbookCard({ subject, code, sections }: Props) {
               ))}
             </VStack>
           </Flex>
-        </>
+        </Box>
       ))}
     </Container>
   );
