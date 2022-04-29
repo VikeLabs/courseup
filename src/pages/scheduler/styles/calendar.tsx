@@ -18,11 +18,11 @@ export const CalendarTheme = (colorMode: 'light' | 'dark'): CSSProperties => {
       color: '#f5f5f5',
     },
 
-    '.rbc-time-gutter .rbc-timeslot-group:nth-child(even)': {
+    '.rbc-time-gutter .rbc-timeslot-group:nth-of-type(even)': {
       bgColor: '#686868',
     },
 
-    '.rbc-time-gutter .rbc-timeslot-group:nth-child(odd)': {
+    '.rbc-time-gutter .rbc-timeslot-group:nth-of-type(odd)': {
       bgColor: '#4e4e4e',
     },
 
@@ -49,7 +49,7 @@ export const CalendarTheme = (colorMode: 'light' | 'dark'): CSSProperties => {
       borderLeft: mode('1px solid #ccc !important', '1px solid #525558 !important')(props),
     },
 
-    '.rbc-timeslot-group:nth-child(2n+1), .rbc-time-header.rbc-overflowing, .rbc-time-content': {
+    '.rbc-timeslot-group:nth-of-type(2n+1), .rbc-time-header.rbc-overflowing, .rbc-time-content': {
       borderTop: mode('1px solid #ccc', '1px solid #31363D')(props),
     },
 
