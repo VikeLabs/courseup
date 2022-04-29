@@ -1,23 +1,10 @@
 import { LinkIcon } from '@chakra-ui/icons';
-import {
-  Badge,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Spacer,
-  Table,
-  Td,
-  Text,
-  Tr,
-  VStack,
-  Image,
-} from '@chakra-ui/react';
-import { IoBook } from 'react-icons/io5';
+import { Badge, Button, Flex, Heading, HStack, Spacer, Table, Td, Text, Tr, VStack, Image } from '@chakra-ui/react';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { logEvent } from 'lib/utils/logEvent';
+
+const ISBN = require('simple-isbn').isbn;
 
 type Props = {
   title: string;
@@ -30,6 +17,7 @@ type Props = {
   };
   isbn?: string;
   bookstoreUrl?: string;
+  imageUrl?: string;
   required: boolean;
   amazonUrl?: string;
 };
@@ -40,6 +28,7 @@ export function Textbook({
   price: { newCad, usedCad, newAndDigitalAccessCad, digitalAccessCad },
   isbn,
   bookstoreUrl,
+  imageUrl,
   required,
   amazonUrl,
 }: Props) {
@@ -49,19 +38,11 @@ export function Textbook({
     url && logEvent('textbook_click', { url });
   };
 
+  amazonUrl = amazonUrl || `https://amazon.ca/dp/${ISBN.toIsbn10(isbn)}`;
+
   return (
     <Flex alignItems="center" direction={{ base: 'column', md: 'row' }} mt="1">
-      {/* TODO: Replace with image from API */}
-      {/* <Image src={textbook.textbooks[0].imageUrl} /> */}
-      <Center
-        h="167px"
-        w="120px"
-        bgColor={mode('rgba(114, 114, 114, 0.459)', 'rgba(58, 58, 58, 0.459)')}
-        mr="1"
-        borderRadius="5"
-      >
-        <IoBook size="3em" />
-      </Center>
+      <Image h="180px" w="120px" src={imageUrl} />
       <VStack ml="1" h="100%" alignItems={{ base: 'center', md: 'start' }}>
         <HStack>
           <Heading size="sm">{title}</Heading>

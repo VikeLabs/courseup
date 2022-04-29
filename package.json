@@ -29,6 +29,7 @@
     "restful-react": "^15.9.3",
     "rrule": "^2.6.4",
     "sass": "^1.49.7",
+    "simple-isbn": "^1.1.5",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
