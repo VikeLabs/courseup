@@ -13,7 +13,7 @@ type Props = {
   timetable?: boolean;
 };
 
-export function NotFound({ item, term, timetableButton, timetable }: Props) {
+export function NotFound({ item, term, timetable }: Props) {
   const mode = useDarkMode();
   var display: string = '';
   if (timetable) display = ' timetable';
@@ -29,7 +29,7 @@ export function NotFound({ item, term, timetableButton, timetable }: Props) {
             </Text>
             {display}
             <Box padding="4">
-              {timetableButton && (
+              {timetable && (
                 <Button
                   colorScheme="blue"
                   width="auto"

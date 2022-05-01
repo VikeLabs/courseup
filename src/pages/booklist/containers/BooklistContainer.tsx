@@ -50,14 +50,9 @@ export function BooklistContainer(): JSX.Element | null {
               })
           ) : textbooks.textbookInfo.filter((textbook) => textbook && textbook.term === term).length <= 0 &&
             textbooks.textbookInfo.length <= 0 ? (
-            <NotFound item="Unable to find saved courses from your" term={term} timetableButton timetable />
+            <NotFound item="Unable to find saved courses from your" term={term} timetable />
           ) : (
-            <NotFound
-              item="No textbooks found for your saved courses in"
-              term={term}
-              timetableButton={false}
-              timetable={false}
-            />
+            <NotFound item="No textbooks found for your saved courses in" term={term} timetable={false} />
           )}
         </Box>
         {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (

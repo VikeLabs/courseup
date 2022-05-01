@@ -37,7 +37,7 @@ export function RegistrationContainer(): JSX.Element | null {
               return <CourseContainer course={course} />;
             })
         ) : (
-          <NotFound item="Unable to find saved courses from your" term={term} timetableButton timetable />
+          <NotFound item="Unable to find saved courses from your" term={term} timetable />
         )}
       </Box>
     </Page>

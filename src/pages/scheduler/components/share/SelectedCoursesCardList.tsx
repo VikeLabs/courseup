@@ -43,7 +43,7 @@ export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableP
           return null;
         })
       ) : (
-        <NotFound item="Unable to find saved courses for" term={term} timetableButton={false} timetable={false} />
+        <NotFound item="Unable to find saved courses for" term={term} timetable={false} />
       )}
     </Wrap>
   );
