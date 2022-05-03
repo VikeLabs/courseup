@@ -2,7 +2,6 @@ import { BrowserRouter, Routes as ReactRouterRoutes, Route } from 'react-router-
 
 import { Booklist } from 'pages/booklist';
 import { Calendar } from 'pages/calendar';
-import { Contest } from 'pages/contest/Contest';
 import { Home } from 'pages/home';
 import { ImportTimetable } from 'pages/import';
 import { Registration } from 'pages/registration';
@@ -24,7 +23,6 @@ export function Routes(): JSX.Element {
         <Route path="/booklist" element={<Booklist />} />
         <Route path="/booklist/:term" element={<Booklist />} />
         <Route path="/s/:slug" element={<ImportTimetable />} />
-        <Route path="/contest" element={<Contest />} />
       </ReactRouterRoutes>
     </BrowserRouter>
   );
