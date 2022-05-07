@@ -1,5 +1,5 @@
 import { Section } from "./banner/interface";
-
+import fetch, { Response } from "node-fetch";
 const ROOT_URL = "https://banner.uvic.ca";
 const BANNER_SSB_URL = `${ROOT_URL}/StudentRegistrationSsb/ssb`;
 const BANNER_SSB_SEARCH_URL = `${BANNER_SSB_URL}/classSearch/`;
@@ -14,7 +14,7 @@ type TermsResponse = {
   }[];
 }
 
-export interface Response<T> {
+export interface BannerResponse<T> {
   success: boolean;
   totalCount: number;
   data: T;
@@ -45,14 +45,13 @@ export type SearchResultsParams = {
 export class BannerClient {
   // member variable
   cookies?: string;
-  private rootUrl: string;
   term?: string;
 
   constructor() {
 
   }
 
-  saveCookies(response?: globalThis.Response): string | undefined {
+  saveCookies(response?: Response): string | undefined {
     // we cookeis exist, return them
     if (this.cookies) return this.cookies
 
@@ -67,11 +66,14 @@ export class BannerClient {
     }
   }
 
-  defaultHeaders(init?: HeadersInit) {
-    return {
-      ...init,
-      'Cookie': this.saveCookies(),
-    }
+  defaultHeaders(init?: HeadersInit): HeadersInit {
+    const cookies: string | undefined = this.cookies
+    console.log(cookies)
+    return cookies === undefined ?
+      init : {
+        ...init,
+        'Cookie': cookies
+      }
   }
 
   async getTerms(offset: number, max: number): Promise<TermsResponse> {
@@ -151,18 +153,14 @@ export class BannerClient {
     const params = BannerClient.getSearchResultsParams({ subject, term: this.term, offset });
 
     const url = `${BANNER_SSD_SEARCH_RESULTS_URL}?${params}`;
+    const headers = this.defaultHeaders()
     const response = await fetch(url, {
       method: 'GET',
-      headers: this.defaultHeaders()
+      headers,
     });
     this.saveCookies(response);
 
-    // 
-    const result = await response.json() as Response<any[]>
-
-    console.log('pageMaxSize', result.pageMaxSize)
-    console.log('pageOffset', result.pageOffset)
-    console.log('count', result.sectionsFetchedCount)
+    const result = await response.json() as BannerResponse<any[]>
 
     return {
       response: result,
@@ -181,14 +179,12 @@ export class BannerClient {
     this.saveCookies(response);
 
     // parse initial response
-    const result = await response.json() as Response<any[]>
+    const result = await response.json() as BannerResponse<any[]>
 
     if (!result.success) throw new Error('')
 
-    console.log(result)
-
     // create offsets
-    let offsets: number[] = []
+    const offsets: number[] = []
     for (let offset = result.data.length; offset <= result.sectionsFetchedCount; offset += result.pageMaxSize) {
       offsets.push(offset)
     }
