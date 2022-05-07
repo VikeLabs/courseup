@@ -5,13 +5,15 @@ import { InstantSearch } from 'react-instantsearch-core';
 import { RestfulProvider } from 'restful-react';
 
 import { customTheme } from '../src/lib/theme';
-import { searchClient } from '../utils/algoliaClient';
+import { searchClient } from '../src/lib/algoliaClient';
+
+
 import { supabase } from '../utils/supabaseClient';
 
 // TODO: deprecate off banner 8 backend
 const API_URL = 'https://courseup.vikelabs.dev/api';
 // TODO: deprecate off "undocumented" algolia index
-const ALGOLIA_INDEX_NAME = "dev_uvic"
+const ALGOLIA_INDEX_NAME = 'dev_uvic';
 
 // TODO: extend Supabase UserProvider (allow things like useUser() into course crud actions)
 
