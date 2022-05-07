@@ -10,13 +10,12 @@ import { Helmet } from 'react-helmet';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { RestfulProvider } from 'restful-react';
 
+import { searchClient } from 'lib/algoliaClient';
 import { customTheme } from 'lib/theme';
 import { migrateLocalStorage } from 'lib/utils/localStorageMigration';
 import { logEvent } from 'lib/utils/logEvent';
 
 import { Feedback } from 'common/feedback';
-
-import { searchClient } from '../utils/algoliaClient';
 
 import reportWebVitals from './reportWebVitals';
 import { Routes } from './routes';
