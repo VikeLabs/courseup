@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
-import { getCurrentTerm } from '../../src/lib/utils/terms'
+
+import { getCurrentTerm } from '../../src/lib/utils/terms';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   // note, this will return the current term based on the servers current time.
@@ -12,4 +13,4 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 // placeholder for redirect
-export default () => { };
+export default () => {};
