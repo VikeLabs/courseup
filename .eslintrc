@@ -12,8 +12,18 @@
     "import/order": [
       "error",
       {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object"],
-        "pathGroupsExcludedImportTypes": ["builtin"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object"
+        ],
+        "pathGroupsExcludedImportTypes": [
+          "builtin"
+        ],
         "pathGroups": [
           {
             "pattern": "react",
@@ -48,10 +58,19 @@
         }
       }
     ],
-    "camelcase": [2, { "properties": "always" }],
+    "camelcase": [
+      2,
+      {
+        "properties": "always"
+      }
+    ],
     "import/no-unresolved": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"]
+    "@typescript-eslint/no-unused-vars": [
+      "error"
+    ]
   },
-  "ignorePatterns": ["functions/**"]
+  "ignorePatterns": [
+    "functions/**"
+  ]
 }
