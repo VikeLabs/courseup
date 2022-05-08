@@ -1,0 +1,143 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id      Int      @id @default(autoincrement())
+    email   String   @unique
+    name    String?
+    profile Profile?
+
+}
+
+model Profile {
+    id     Int     @id @default(autoincrement())
+    bio    String?
+    user   User    @relation(fields: [userId], references: [id])
+    userId Int     @unique
+}
+
+model Course {
+    term               String
+    subject            String
+    code               String
+    title              String
+    dateStart          String
+    description        String
+    pid                String?
+    formally           String?
+    credits            Json?
+    preAndCorequisites Json?
+    preOrCorequisites  Json?
+    hoursCatalog       Json?
+
+    @@id([term, subject, code])
+}
+
+// Banner v9 schemas
+model BannerSection {
+    id                             Int                     @id
+    term                           String
+    termDesc                       String
+    courseReferenceNumber          String
+    partOfTerm                     String?
+    courseNumber                   String
+    subject                        String
+    subjectDescription             String
+    sequenceNumber                 String
+    campusDescription              String
+    scheduleTypeDescription        String
+    courseTitle                    String
+    creditHours                    String?
+    seats                          BannerSeat[]
+    crossList                      String?
+    crossListCapacity              Int?
+    crossListCount                 Int?
+    crossListAvailable             Int?
+    creditHourHigh                 Int?
+    creditHourLow                  Int
+    creditHourIndicator            String
+    openSection                    Boolean
+    linkIdentifier                 String?
+    isSectionLinked                Boolean
+    subjectCourseTitle             String
+    faculty                        BannerFaculty[]
+    meetingsFaculty                BannerMeetingsFaculty[]
+    instructionalMethod            String?
+    instructionalMethodDescription String?
+    courseDescription              String?
+}
+
+model BannerSeat {
+    timestamp         DateTime       @default(now())
+    id                Int
+    maximumEnrollment Int
+    enrollment        Int
+    seatsAvailable    Int
+    waitCapacity      Int
+    waitCount         Int
+    waitAvailable     Int?
+    section           BannerSection? @relation(fields: [sectionId], references: [id])
+    sectionId         Int
+
+    @@id([timestamp, id])
+}
+
+model BannerFaculty {
+    bannerId              Int            @id
+    class                 String
+    courseReferenceNumber String
+    displayName           String
+    emailAddress          String?
+    primaryIndicator      Boolean
+    term                  String
+    section               BannerSection? @relation(fields: [sectionId], references: [id])
+    sectionId             Int?
+}
+
+model BannerMeetingsFaculty {
+    id                    Int                 @id
+    category              String
+    class                 String
+    courseReferenceNumber String
+    meetingTime           BannerMeetingTime[]
+    term                  String
+    section               BannerSection?      @relation(fields: [sectionId], references: [id])
+    sectionId             Int?
+}
+
+model BannerMeetingTime {
+    id                     Int                    @id
+    beginTime              String
+    building               String?
+    buildingDescription    String?
+    campus                 String?
+    campusDescription      String?
+    category               String
+    class                  String
+    courseReferenceNumber  String
+    creditHourSession      Int?
+    endDate                String
+    endTime                String?
+    hoursWeek              Int?
+    meetingScheduleType    String
+    meetingType            String
+    meetingTypeDescription String
+    monday                 Boolean
+    tuesday                Boolean
+    wednesday              Boolean
+    thursday               Boolean
+    friday                 Boolean
+    saturday               Boolean
+    sunday                 Boolean
+    room                   String?
+    startDate              String
+    term                   String
+    meetingsFaculty        BannerMeetingsFaculty? @relation(fields: [meetingsFacultyId], references: [id])
+    meetingsFacultyId      Int?
+}
