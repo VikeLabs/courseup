@@ -1,6 +1,6 @@
-import { Section } from './banner'
-import got, { Response } from "got"
-const ROOT_URL = "https://banner.uvic.ca";
+import { Section } from './banner';
+import got, { Response } from 'got';
+const ROOT_URL = 'https://banner.uvic.ca';
 const BANNER_SSB_URL = `${ROOT_URL}/StudentRegistrationSsb/ssb`;
 const BANNER_SSB_SEARCH_URL = `${BANNER_SSB_URL}/classSearch/`;
 const BANNER_SSB_SEARCH_GET_SUBJECTS = `${BANNER_SSB_SEARCH_URL}/get_subject`;
@@ -10,7 +10,7 @@ const BANNER_SSB_GET_TERMS = `${BANNER_SSB_URL}/classSearch/getTerms`;
 type TermsResponse = {
   code: string;
   description: string;
-}
+};
 
 export interface BannerResponse<T> {
   success: boolean;
@@ -47,9 +47,8 @@ export type SearchResultsParams = {
    */
   courseNumber?: string;
   offset?: number;
-  max?: number
-
-}
+  max?: number;
+};
 
 export class BannerClient {
   cookies: {
@@ -59,17 +58,17 @@ export class BannerClient {
   availableTerms: string[];
 
   constructor() {
-    this.cookies = {}
-    this.availableTerms = []
+    this.cookies = {};
+    this.availableTerms = [];
   }
 
   getCookie(term: string): string[] | undefined {
-    return this.cookies?.[term]
+    return this.cookies?.[term];
   }
 
   saveCookie(response: Response<string>, term: string): void {
     // get the cookies
-    const cookies = response.headers['set-cookie']
+    const cookies = response.headers['set-cookie'];
     // if there's no cookies, return
     if (cookies) {
       this.cookies = { ...this.cookies, [term]: cookies };
@@ -78,26 +77,26 @@ export class BannerClient {
 
   async init() {
     const termsResponse = await BannerClient.getTerms(1, 100);
-    console.log(termsResponse)
-    this.availableTerms = termsResponse.map(term => term.code);
-    // TODO: set term dynamically 
-    const currentTerms = [
-      '202109', '202201', '202205'
-    ]
+    console.log(termsResponse);
+    this.availableTerms = termsResponse.map((term) => term.code);
+    // TODO: set term dynamically
+    const currentTerms = ['202109', '202201', '202205'];
     // filter out terms that are availabe and set indepedent cookies for each term
-    const terms = this.availableTerms.filter(term => currentTerms.includes(term))
+    const terms = this.availableTerms.filter((term) =>
+      currentTerms.includes(term)
+    );
     // console.log(terms)
-    await Promise.all(terms.map(term => this.setTerm(term)))
-    console.log(this.cookies)
+    await Promise.all(terms.map((term) => this.setTerm(term)));
+    console.log(this.cookies);
   }
 
   async clear(term: string) {
-    const url = `${BANNER_SSB_URL}/classSearch/resetDataForm`
+    const url = `${BANNER_SSB_URL}/classSearch/resetDataForm`;
     await got.post(url, {
       headers: {
-        Cookie: this.cookies[term]
-      }
-    })
+        Cookie: this.cookies[term],
+      },
+    });
   }
 
   static async getTerms(offset: number, max: number): Promise<TermsResponse[]> {
@@ -120,7 +119,6 @@ export class BannerClient {
     const params = new URLSearchParams({ term });
     // post fetch request
 
-
     const response = await got.post(url, {
       headers: {
         // TODO: might need existing cookies set here
@@ -130,11 +128,16 @@ export class BannerClient {
     });
     // save cookies for term
     this.saveCookie(response, term);
-    if (response.statusCode !== 200) throw new Error()
+    if (response.statusCode !== 200) throw new Error();
   }
 
-  async getSubjects(searchTerm: string, term: string, offset: string, max: string) {
-    if (!this.cookies[term]) await this.init()
+  async getSubjects(
+    searchTerm: string,
+    term: string,
+    offset: string,
+    max: string
+  ) {
+    if (!this.cookies[term]) await this.init();
 
     const params = new URLSearchParams({
       searchTerm,
@@ -147,56 +150,68 @@ export class BannerClient {
     const cookies = this.cookies?.[term];
     const response = await got(url, {
       method: 'GET',
-      headers: cookies ? {
-        Cookie: cookies,
-      } : undefined
+      headers: cookies
+        ? {
+            Cookie: cookies,
+          }
+        : undefined,
     });
 
-
     return {
-      response: await response.body
-    }
-  };
+      response: await response.body,
+    };
+  }
 
-  static getSearchResultsParams({ subject, term, offset, max, courseNumber }: SearchResultsParams): URLSearchParams {
+  static getSearchResultsParams({
+    subject,
+    term,
+    offset,
+    max,
+    courseNumber,
+  }: SearchResultsParams): URLSearchParams {
     const params = new URLSearchParams({
       txt_subject: subject ?? '',
       txt_term: term ?? '',
       txt_courseNumber: courseNumber ?? '',
-      startDatepicker: "",
-      endDatepicker: "",
+      startDatepicker: '',
+      endDatepicker: '',
       pageOffset: offset?.toString() ?? '0',
       // has a limit of 500
       pageMaxSize: max?.toString() ?? '1000',
-      sortColumn: "subjectDescription",
-      sortDirection: "asc",
+      sortColumn: 'subjectDescription',
+      sortDirection: 'asc',
     });
     return params;
   }
 
-  async getSearchResults(p: SearchResultsParams): Promise<BannerResponse<Section[]>> {
+  async getSearchResults(
+    p: SearchResultsParams
+  ): Promise<BannerResponse<Section[]>> {
     if (!(p.term in this.cookies)) {
-      console.log('init')
-      await this.init()
+      console.log('init');
+      await this.init();
     }
     const params = BannerClient.getSearchResultsParams({
-      subject: p.subject, term: p.term,
+      subject: p.subject,
+      term: p.term,
     });
 
     const url = `${BANNER_SSD_SEARCH_RESULTS_URL}?${params.toString()}`;
-    console.log(url)
+    console.log(url);
     const cookies = this.cookies[p.term];
-    console.log(cookies)
+    console.log(cookies);
     const response = await got(url, {
       method: 'GET',
       headers: {
         Cookie: cookies,
-      }
+      },
     }).json<BannerResponse<Section[]>>();
-    await this.clear(p.term)
+    await this.clear(p.term);
     return {
       ...response,
-      data: response.data.filter(section => section.courseNumber === p.courseNumber),
-    }
+      data: response.data.filter(
+        (section) => section.courseNumber === p.courseNumber
+      ),
+    };
   }
-} 
+}

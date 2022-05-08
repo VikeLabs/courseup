@@ -378,7 +378,7 @@
 					"roomNumber": {
 						"type": "string"
 					},
-					"buildingAccronym": {
+					"buildingAbbreviation": {
 						"type": "string"
 					},
 					"building": {
@@ -1050,6 +1050,15 @@
 						"required": true,
 						"schema": {
 							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "v9",
+						"required": false,
+						"schema": {
+							"default": false,
+							"type": "boolean"
 						}
 					}
 				]

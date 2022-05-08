@@ -1,10 +1,24 @@
 import { Get, Controller, Route, Response, Path, Query } from 'tsoa';
 import { BannerClient } from '../banner/bannerClient';
-import { Term } from '../constants';
+import { MeetingTime } from '../banner/banner';
+import { Term, Buildings } from '../constants';
 import { Seat, Section } from './Section.model';
 import { getSections, getSectionSeats } from './Section.service';
+import { formatTime } from '../utils';
 
-const banner = new BannerClient()
+const banner = new BannerClient();
+
+const days = (meetingTime: MeetingTime): string => {
+  let days = '';
+  if (meetingTime.monday) days = days.concat('M');
+  if (meetingTime.tuesday) days = days.concat('T');
+  if (meetingTime.wednesday) days = days.concat('W');
+  if (meetingTime.thursday) days = days.concat('R');
+  if (meetingTime.friday) days = days.concat('F');
+  if (meetingTime.saturday) days = days.concat('S');
+
+  return days;
+};
 
 @Route('sections')
 export class SectionsController extends Controller {
@@ -23,47 +37,48 @@ export class SectionsController extends Controller {
       // this doesn't actually do much
       term: term,
       courseNumber: code,
-    })
+    });
 
-    const bannerSections: Section[] = bannerData.data.map(s => ({
-      meetingTimes: s.meetingsFaculty.map(m => ({
-        // TODO:
-        type: m.meetingTime.meetingScheduleType,
-        // TODO
-        time: m.meetingTime.beginTime + ' - ' + m.meetingTime.endTime,
-        // TODO: ex. "TWF"
-        days: "",
-        // TODO: ex. "Cornett Building B143"
-        where: "",
-        // TODO: ex. "May 04, 2022 - Jul 29, 2022"
-        dateRange: "",
-        // TODO: ex. "Lecture"
-        scheduleType: "",
-        // TODO: ex. ["John Smith (P)"]
-        instructors: s.faculty.map(f => f.displayName + `${f.primaryIndicator ? ' (P)' : ''}`),
-        // TODO: ex. "Cornett Building"
-        building: "",
-        // TODO: ex. "COR"
-        buildingAccronym: "",
-        // TODO: ex. "B143" 
-        roomNumber: ''
+    const bannerSections: Section[] = bannerData.data.map((s) => ({
+      meetingTimes: s.meetingsFaculty.map((m) => ({
+        type: m.meetingTime.meetingTypeDescription,
+        time:
+          m.meetingTime.beginTime && m.meetingTime.endTime
+            ? formatTime(m.meetingTime.beginTime) +
+              ' - ' +
+              formatTime(m.meetingTime.endTime)
+            : 'TBA',
+        days: days(m.meetingTime),
+        where: `${m.meetingTime.buildingDescription} ${m.meetingTime.room}`,
+        dateRange: `${m.meetingTime.startDate} - ${m.meetingTime.endDate}`,
+        scheduleType: s.scheduleTypeDescription,
+        instructors: s.faculty.map(
+          (f) => f.displayName + `${f.primaryIndicator ? ' (P)' : ''}`
+        ),
+        building: m.meetingTime.buildingDescription ?? undefined,
+        buildingAccronym: Buildings.get(
+          m.meetingTime.buildingDescription ?? ''
+        ),
+        roomNumber: m.meetingTime.room ?? undefined,
       })),
+      // TODO
       registrationDates: {
-        start: "",
-        end: ""
+        start: '',
+        end: '',
       },
-      // TODO: ex. "face-to-face"
-      instructionalMethod: "face-to-face",
+      instructionalMethod: s.instructionalMethodDescription ?? '',
       crn: s.courseReferenceNumber,
       associatedTerm: {
         // TODO: ex. "202205"
-        start: "",
+        start: '',
         // TODO: ex. "202208"
-        end: ""
+        end: '',
       },
       sectionCode: s.sequenceNumber,
-      // TODO: ex. "lecture"
-      sectionType: 'lecture',
+      sectionType: s.scheduleTypeDescription.toLowerCase() as
+        | 'lecture'
+        | 'lab'
+        | 'tutorial',
       title: s.courseTitle,
       levels: [],
       // TODO
@@ -72,10 +87,10 @@ export class SectionsController extends Controller {
       credits: s.creditHourLow.toString(),
       // TODO
       campus: 'in-person',
-    }))
+    }));
 
     this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
-    return v9 ? bannerSections : sections
+    return v9 ? bannerSections : sections;
   }
 
   @Response(404, 'Section Seats Not Found')

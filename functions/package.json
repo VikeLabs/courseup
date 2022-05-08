@@ -15,7 +15,8 @@
     "start:server": "node build/src/server.js",
     "db:populate": "ts-node scripts/populate-courses.ts",
     "db:textbooks": "ts-node scripts/populate-textbooks.ts",
-    "db:start": "firebase emulators:start --only firestore --project development --import=tmp/firestore --export-on-exit"
+    "db:start": "firebase emulators:start --only firestore --project development --import=tmp/firestore --export-on-exit",
+    "db:stop": "lsof -t -i:8080 | xargs kill -9"
   },
   "engines": {
     "node": "14"
