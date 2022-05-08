@@ -3,12 +3,14 @@ import { UserProvider } from '@supabase/supabase-auth-helpers/react';
 import type { AppProps /*, AppContext */ } from 'next/app';
 import { InstantSearch } from 'react-instantsearch-core';
 import { RestfulProvider } from 'restful-react';
+import { ApolloProvider } from '@apollo/client'
 
 import { customTheme } from '../src/lib/theme';
 import { searchClient } from '../src/lib/algoliaClient';
 
 
 import { supabase } from '../utils/supabaseClient';
+import { apolloClient } from '../utils/apolloClient';
 
 // TODO: deprecate off banner 8 backend
 const API_URL = 'https://courseup.vikelabs.dev/api';
@@ -22,9 +24,11 @@ function App({ Component, pageProps }: AppProps): JSX.Element {
     <UserProvider supabaseClient={supabase}>
       <ChakraProvider theme={customTheme}>
         <InstantSearch searchClient={searchClient} indexName={ALGOLIA_INDEX_NAME}>
-          <RestfulProvider base={API_URL}>
-            <Component {...pageProps} />
-          </RestfulProvider>
+          <ApolloProvider client={apolloClient}>
+            <RestfulProvider base={API_URL}>
+              <Component {...pageProps} />
+            </RestfulProvider>
+          </ApolloProvider>
         </InstantSearch>
       </ChakraProvider>
     </UserProvider>
