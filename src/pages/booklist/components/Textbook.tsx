@@ -43,7 +43,7 @@ export function Textbook({
 
   return (
     <Flex
-      key={`${isbn}`}
+      key={isbn}
       alignItems="center"
       justifyContent="space-between"
       direction={{ base: 'column', md: 'row' }}
