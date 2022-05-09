@@ -45,6 +45,7 @@ export interface TopBarProps {
   /**
    * Back button click handler
    */
+  filter: boolean;
   onFilter?: (filter: boolean) => void;
 }
 
@@ -53,7 +54,6 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const mode = useDarkMode();
-  const [filter] = useSessionStorage<boolean>('filter_courses', true);
 
   const subject = location.pathname.split('/')[3];
   const route = location.pathname.split('/')[1];
@@ -93,7 +93,7 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
             <Switch
               id="email-alerts"
               onChange={(e) => onFilter && onFilter(e.currentTarget.checked)}
-              isChecked={filter}
+              
             />
           </Flex>
         </FormControl>
@@ -131,7 +131,7 @@ export function Courses({ term }: Props): JSX.Element | null {
 
   return (
     <>
-      <CoursesTopBar onFilter={handleFilter} />
+      <CoursesTopBar onFilter={handleFilter} filter/>
       {!loading && sortedSubjects && courses ? (
         <Box h="100%" overflowY="auto">
           <Routes>
