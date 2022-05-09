@@ -52,7 +52,7 @@ export function Textbook({
       borderRadius="lg"
       p="4"
       pt={{ base: '8', md: '4' }}
-      backgroundColor={mode('gray.100', 'gray.700')}
+      backgroundColor={mode('white', 'dark.background')}
     >
       <Flex alignItems={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }} gap="4">
         <Image h="180px" w="120px" src={imageUrl} />

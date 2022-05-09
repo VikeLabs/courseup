@@ -72,13 +72,13 @@ export function TextbookCard({ subject, code, sections }: Props) {
             alignItems="center"
             direction={{ base: 'column', md: 'row' }}
             p="4"
-            backgroundColor={mode('gray.50', 'gray.800')}
+            backgroundColor={mode('gray.100', 'gray.700')}
             borderRadius="lg"
           >
             <VStack w="100%" alignItems="left" gap="1em">
               {textbooks.map(({ title, authors, price, isbn, bookstoreUrl, imageUrl, required, amazonUrl }) => (
                 <Textbook
-                  key={isbn}
+                  key={`${isbn}`}
                   title={title}
                   authors={authors}
                   price={price}
