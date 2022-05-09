@@ -79,7 +79,7 @@ export function TextbookCard({ subject, code, sections }: Props) {
             <VStack w="100%" alignItems="left" gap="1em">
               {textbooks.map(({ title, authors, price, isbn, bookstoreUrl, imageUrl, required, amazonUrl }) => (
                 <Textbook
-                  key={`${isbn}`}
+                  key={isbn}
                   title={title}
                   authors={authors}
                   price={price}
