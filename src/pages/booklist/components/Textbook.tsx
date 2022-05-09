@@ -126,7 +126,6 @@ export function Textbook({
         </Button>
         <Button
           w="100%"
-          //tabIndex={0}
           size="fit-content"
           boxShadow="md"
           borderRadius="md"
