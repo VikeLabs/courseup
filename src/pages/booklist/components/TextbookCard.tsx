@@ -25,7 +25,6 @@ export type CourseTextbooks = {
 export function TextbookCard({ subject, code, sections }: Props) {
   const mode = useDarkMode();
 
-  console.log(sections);
 
   return (
     <Container
