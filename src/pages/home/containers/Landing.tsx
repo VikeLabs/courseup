@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { Image } from '@chakra-ui/image';
 import { Container, Grid, GridItem, Heading, Text } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/react';
-import { MdHowToVote } from 'react-icons/md';
+import { Flex } from '@chakra-ui/react';
+
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 export function Landing() {
   const [handIndex, setHandIndex] = useState(0);
@@ -19,6 +20,7 @@ export function Landing() {
     };
   }, [handIndex, hands.length]);
 
+  const mode = useDarkMode();
   return (
     <Grid
       templateColumns={{ xl: 'repeat(2, 1fr)', lg: 'repeat(1, 1fr)' }}
@@ -31,29 +33,32 @@ export function Landing() {
       <GridItem colSpan={1}>
         <Container>
           <Heading fontSize="4.75em" lineHeight="1.25" mb="1.75rem">
-            Logo contest voting
+            Explore UVic Courses
           </Heading>
-          <Text fontSize="1.6em">
-            Vote for your favourite logo! Click the button below to view submissions and cast your vote.
-          </Text>
-          <Button
-            mt="1em !important"
+          <Text fontSize="1.6em">CourseUp makes it simple to browse and schedule UVic Courses</Text>
+          <Flex
+            alignItems="center"
+            mt="1rem"
             as="a"
-            href="https://docs.google.com/forms/d/e/1FAIpQLSc5EWpm5ItckY1aIvfF8jyrDvmBhRzbRwhM8EtrZ-GKscZgXw/viewform?usp=sf_link"
-            colorScheme="pink"
-            rightIcon={<MdHowToVote />}
-            size="lg"
+            w={{ base: '100%', xl: 'fit-content' }}
             target="_blank"
+            href="https://www.vikelabs.ca"
+            direction={{ base: 'column', xl: 'row' }}
           >
-            Vote now!
-          </Button>
+            <Text fontSize={{ base: '1em', md: '1.5em' }} color={mode('light.caption', 'dark.caption')}>
+              <span>{hands[handIndex]}</span> Built by students @
+            </Text>
+            <Text fontWeight="bolder" fontSize="1.75em" color={mode('light.brand', 'dark.brand')} ml="1">
+              VIKE LABS
+            </Text>
+          </Flex>
         </Container>
       </GridItem>
       <GridItem display={{ base: 'none', xl: 'initial' }} colSpan={1}>
         <Container>
           <Image
             alt="cartoon image of computer"
-            src={process.env.PUBLIC_URL + '/assets/contest/voting.svg'}
+            src={process.env.PUBLIC_URL + '/assets/computer.svg'}
             sx={{
               filter: 'drop-shadow( 1.5rem 1rem 1.75rem rgba(0, 0, 0, .25) )',
             }}
