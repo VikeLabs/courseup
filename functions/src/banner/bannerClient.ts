@@ -1,5 +1,6 @@
 import { Section } from './banner';
 import got, { Response } from 'got';
+import { load } from 'cheerio';
 const ROOT_URL = 'https://banner.uvic.ca';
 const BANNER_SSB_URL = `${ROOT_URL}/StudentRegistrationSsb/ssb`;
 const BANNER_SSB_SEARCH_URL = `${BANNER_SSB_URL}/classSearch/`;
@@ -77,7 +78,6 @@ export class BannerClient {
 
   async init() {
     const termsResponse = await BannerClient.getTerms(1, 100);
-    console.log(termsResponse);
     this.availableTerms = termsResponse.map((term) => term.code);
     // TODO: set term dynamically
     const currentTerms = ['202109', '202201', '202205'];
@@ -85,9 +85,7 @@ export class BannerClient {
     const terms = this.availableTerms.filter((term) =>
       currentTerms.includes(term)
     );
-    // console.log(terms)
     await Promise.all(terms.map((term) => this.setTerm(term)));
-    console.log(this.cookies);
   }
 
   async clear(term: string) {
@@ -188,7 +186,6 @@ export class BannerClient {
     p: SearchResultsParams
   ): Promise<BannerResponse<Section[]>> {
     if (!(p.term in this.cookies)) {
-      console.log('init');
       await this.init();
     }
     const params = BannerClient.getSearchResultsParams({
@@ -197,21 +194,41 @@ export class BannerClient {
     });
 
     const url = `${BANNER_SSD_SEARCH_RESULTS_URL}?${params.toString()}`;
-    console.log(url);
     const cookies = this.cookies[p.term];
-    console.log(cookies);
     const response = await got(url, {
       method: 'GET',
       headers: {
         Cookie: cookies,
       },
     }).json<BannerResponse<Section[]>>();
-    await this.clear(p.term);
+
     return {
       ...response,
       data: response.data.filter(
         (section) => section.courseNumber === p.courseNumber
       ),
     };
+  }
+
+  async getCourseDescription(
+    term: string,
+    crn: string
+  ): Promise<string | null> {
+    if (!this.cookies) throw new Error('cookies not set');
+    const url = `${BANNER_SSB_URL}/searchResults/getCourseDescription`;
+
+    const params = new URLSearchParams({ term, courseReferenceNumber: crn });
+    const cookies = this.cookies[term];
+    // post fetch request
+    const response = await got.post(url, {
+      headers: {
+        Cookie: cookies,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    });
+
+    const body = load(response.body);
+    return body.text();
   }
 }
