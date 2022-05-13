@@ -95,7 +95,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Section": {
         "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"ref":"Omit_ClassScheduleListing.meetingTimes_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"meetingTimes":{"dataType":"array","array":{"dataType":"refAlias","ref":"MeetingTimes"},"required":true}}}],"validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Omit_ClassScheduleListing.meetingTimes_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"seats":{"dataType":"nestedObjectLiteral","nestedProperties":{"waitAvailable":{"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}],"required":true},"waitCount":{"dataType":"double","required":true},"waitCapacity":{"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}],"required":true},"seatsAvailable":{"dataType":"double","required":true},"enrollment":{"dataType":"double","required":true},"maxEnrollment":{"dataType":"double","required":true}}},"meetingTimes":{"dataType":"array","array":{"dataType":"refAlias","ref":"MeetingTimes"},"required":true}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Seating": {

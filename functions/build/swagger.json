@@ -427,6 +427,45 @@
 					},
 					{
 						"properties": {
+							"seats": {
+								"properties": {
+									"waitAvailable": {
+										"type": "number",
+										"format": "double",
+										"nullable": true
+									},
+									"waitCount": {
+										"type": "number",
+										"format": "double"
+									},
+									"waitCapacity": {
+										"type": "number",
+										"format": "double",
+										"nullable": true
+									},
+									"seatsAvailable": {
+										"type": "number",
+										"format": "double"
+									},
+									"enrollment": {
+										"type": "number",
+										"format": "double"
+									},
+									"maxEnrollment": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"waitAvailable",
+									"waitCount",
+									"waitCapacity",
+									"seatsAvailable",
+									"enrollment",
+									"maxEnrollment"
+								],
+								"type": "object"
+							},
 							"meetingTimes": {
 								"items": {
 									"$ref": "#/components/schemas/MeetingTimes"
