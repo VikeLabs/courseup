@@ -18,6 +18,14 @@ export type MeetingTimes = {
 
 export type Section = Omit<ClassScheduleListing, 'meetingTimes'> & {
   meetingTimes: MeetingTimes[];
+  seats?: {
+    maxEnrollment: number;
+    enrollment: number;
+    seatsAvailable: number;
+    waitCapacity: number | null;
+    waitCount: number;
+    waitAvailable: number | null;
+  };
 };
 
 export interface Seat extends DetailedClassInformation {
