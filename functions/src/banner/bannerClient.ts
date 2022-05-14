@@ -76,7 +76,7 @@ export class BannerClient {
     }
   }
 
-  async init() {
+  async init(): Promise<void> {
     const termsResponse = await BannerClient.getTerms(1, 100);
     this.availableTerms = termsResponse.map((term) => term.code);
     // TODO: set term dynamically
@@ -86,6 +86,7 @@ export class BannerClient {
       currentTerms.includes(term)
     );
     await Promise.all(terms.map((term) => this.setTerm(term)));
+    return;
   }
 
   async clear(term: string) {
@@ -107,7 +108,6 @@ export class BannerClient {
     const url = `${BANNER_SSB_GET_TERMS}?${urlParams}`;
 
     const response = await got(url).json<TermsResponse[]>();
-    // console.log(response)
     return response;
   }
 
