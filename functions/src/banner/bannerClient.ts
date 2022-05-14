@@ -111,7 +111,7 @@ export class BannerClient {
     return response;
   }
 
-  async setTerm(term: string) {
+  async setTerm(term: string): Promise<void> {
     const url = `${BANNER_SSB_URL}/term/search?mode=search`;
     // build params
     const params = new URLSearchParams({ term });
@@ -134,7 +134,7 @@ export class BannerClient {
     term: string,
     offset: string,
     max: string
-  ) {
+  ): Promise<{ response: string }> {
     if (!this.cookies[term]) await this.init();
 
     const params = new URLSearchParams({
@@ -156,7 +156,7 @@ export class BannerClient {
     });
 
     return {
-      response: await response.body,
+      response: response.body,
     };
   }
 
