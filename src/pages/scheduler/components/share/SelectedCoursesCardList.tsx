@@ -3,7 +3,7 @@ import { Flex, Heading, HStack, VStack, Wrap, WrapItem } from '@chakra-ui/react'
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
-import { NotFound } from 'common/notfound/NotFound';
+import { NotFound } from 'common/notFound/NotFound';
 
 export const ShareCourseCard = ({ subject, code, color, lecture, lab, tutorial }: SavedCourse) => {
   const mode = useDarkMode();
@@ -43,7 +43,7 @@ export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableP
           return null;
         })
       ) : (
-        <NotFound item="Unable to find saved courses for" term={term} timetable={false} />
+        <NotFound term={term}> Unable to find saved courses for</NotFound>
       )}
     </Wrap>
   );

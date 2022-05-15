@@ -9,7 +9,7 @@ import { logEvent } from 'lib/utils/logEvent';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Page } from 'common/layouts/Page';
-import { NotFound } from 'common/notfound/NotFound';
+import { NotFound } from 'common/notFound/NotFound';
 
 import { BooklistHeading } from '../components/BooklistHeading';
 import { TextbookCard } from '../components/TextbookCard';
@@ -50,9 +50,11 @@ export function BooklistContainer(): JSX.Element | null {
               })
           ) : textbooks.textbookInfo.filter((textbook) => textbook && textbook.term === term).length <= 0 &&
             textbooks.textbookInfo.length <= 0 ? (
-            <NotFound item="Unable to find saved courses from your" term={term} timetable />
+            <NotFound term={term} timetable>
+              Unable to find saved courses from your timetable for
+            </NotFound>
           ) : (
-            <NotFound item="No textbooks found for your saved courses in" term={term} timetable={false} />
+            <NotFound term={term}>No textbooks found for your saved courses in </NotFound>
           )}
         </Box>
         {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (

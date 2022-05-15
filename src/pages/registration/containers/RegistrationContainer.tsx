@@ -5,7 +5,7 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Page } from 'common/layouts/Page';
-import { NotFound } from 'common/notfound/NotFound';
+import { NotFound } from 'common/notFound/NotFound';
 
 import { RegistrationHeading } from '../components/RegistrationHeading';
 
@@ -37,7 +37,9 @@ export function RegistrationContainer(): JSX.Element | null {
               return <CourseContainer course={course} />;
             })
         ) : (
-          <NotFound item="Unable to find saved courses from your" term={term} timetable />
+          <NotFound term={term} timetable>
+            Unable to find saved courses from your timetable for
+          </NotFound>
         )}
       </Box>
     </Page>

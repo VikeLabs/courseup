@@ -3,7 +3,7 @@ import { Box, Center, Divider, Heading, Spinner } from '@chakra-ui/react';
 import { Section, Seat, Term, useSeats, useSections } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
-import { NotFound } from 'common/notfound/NotFound';
+import { NotFound } from 'common/notFound/NotFound';
 
 import { SectionInfo } from '../components/Section';
 
@@ -47,7 +47,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
 
   // we can't just look at sectionsError since it returns an empty array upon "not finding" any sections.
   if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
-    return <NotFound item="No sections offered for" term={term} timetableButton={false} timetable={false} />;
+    return <NotFound term={term}>No sections offered for</NotFound>;
   }
 
   const sectionTypes: { sn: string; pl: string; type: string }[] = [
