@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): JSX.Element {
   return (
@@ -28,41 +30,31 @@ function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): 
 export function Banner(): JSX.Element {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   const [tipIndex, setTipIndex] = useState(0);
+  const mode = useDarkMode();
 
   const tips: Array<JSX.Element> = [
     <Text>
-      💡 Press the{' '}
+      📅 The{' '}
       <Text
-        as="span"
-        mx="1"
-        mb="-4"
-        bgColor="#3182CE"
-        px="2"
-        borderRadius="5"
-        display="inline-flex"
-        fontSize="11"
-        fontWeight="bold"
+        as={Link}
+        to="/calendar/202209"
+        textDecoration="underline"
+        color={mode('purple.200', 'purple.600')}
+        _hover={{ color: mode('purple.300', 'purple.800') }}
       >
-        Download
+        Fall 2022
       </Text>{' '}
-      button while viewing your timetable to download your current timetable!
-    </Text>,
-    <Text>💡 Your courses and sections are saved between sessions, no need to leave the tab open!</Text>,
-    <Text>
-      💡 See something you don't like or think might be a bug? Send feedback to the team via the button at the bottom
-      right!
-    </Text>,
-    <Text>
-      💡 Courses that appear transparent on your timetable mean that section happens during that time, but not during
-      the week you are viewing.
-    </Text>,
-    <Text>⚠️ We're in beta right now so expect things to be a bit rocky.</Text>,
-    <Text>
-      💬 Join in on the discussion or ask questions on the{' '}
-      <Text as="a" href="https://discord.com/invite/ZhpnafrxKQ" fontWeight="bold" textDecoration="underline">
-        VikeLabs Discord channel
-      </Text>
-      !
+      and{' '}
+      <Text
+        as={Link}
+        to="/calendar/202301"
+        textDecoration="underline"
+        color={mode('purple.200', 'purple.600')}
+        _hover={{ color: mode('purple.300', 'purple.800') }}
+      >
+        Spring 2023
+      </Text>{' '}
+      calendars are now available. Happy scheduling!
     </Text>,
   ];
 
@@ -75,7 +67,6 @@ export function Banner(): JSX.Element {
       clearTimeout(timeout);
     };
   }, [tipIndex, tips.length]);
-
   const back = () => {
     tipIndex - 1 < 0 ? setTipIndex(tips.length - 1) : setTipIndex(tipIndex - 1);
   };
@@ -86,12 +77,12 @@ export function Banner(): JSX.Element {
 
   return (
     <Collapse in={banner} animateOpacity>
-      <Alert status="success" alignItems="center" justifyContent="center" variant="solid">
-        <TipNav onClick={back} icon={<ChevronLeftIcon />} />
+      <Alert status="info" alignItems="center" justifyContent="center" variant="solid">
+        {tips.length > 1 && <TipNav onClick={back} icon={<ChevronLeftIcon />} />}
         <Center w="1100px">
           <AlertDescription>{tips[tipIndex]}</AlertDescription>
         </Center>
-        <TipNav onClick={forward} icon={<ChevronRightIcon />} />
+        {tips.length > 1 && <TipNav onClick={forward} icon={<ChevronRightIcon />} />}
         <CloseButton
           position="absolute"
           right="8px"
