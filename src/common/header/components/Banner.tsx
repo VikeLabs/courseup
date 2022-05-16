@@ -39,8 +39,8 @@ export function Banner(): JSX.Element {
         as={Link}
         to="/calendar/202209"
         textDecoration="underline"
-        color={mode('green.200', 'green.600')}
-        _hover={{ color: mode('green.400', 'green.800') }}
+        color={mode('purple.200', 'purple.600')}
+        _hover={{ color: mode('purple.400', 'purple.800') }}
       >
         Fall 2022
       </Text>{' '}
@@ -49,8 +49,8 @@ export function Banner(): JSX.Element {
         as={Link}
         to="/calendar/202301"
         textDecoration="underline"
-        color={mode('green.200', 'green.600')}
-        _hover={{ color: mode('green.400', 'green.800') }}
+        color={mode('purple.200', 'purple.600')}
+        _hover={{ color: mode('purple.400', 'purple.800') }}
       >
         Spring 2023
       </Text>{' '}
