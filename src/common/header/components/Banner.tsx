@@ -54,7 +54,7 @@ export function Banner(): JSX.Element {
       >
         Spring 2023
       </Text>{' '}
-      are now available. Happy scheduling!
+      calendars are now available. Happy scheduling!
     </Text>,
   ];
 
