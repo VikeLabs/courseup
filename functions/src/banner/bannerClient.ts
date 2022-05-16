@@ -80,7 +80,7 @@ export class BannerClient {
     const termsResponse = await BannerClient.getTerms(1, 100);
     this.availableTerms = termsResponse.map((term) => term.code);
     // TODO: set term dynamically
-    const currentTerms = ['202109', '202201', '202205'];
+    const currentTerms = ['202109', '202201', '202205', '202209', '202301'];
     // filter out terms that are availabe and set indepedent cookies for each term
     const terms = this.availableTerms.filter((term) =>
       currentTerms.includes(term)

@@ -9,7 +9,17 @@ export interface Course {
   code: string;
 }
 
-export type Term = '202001' | '202005' | '202009' | '202101' | '202105' | '202109' | '202201' | '202205';
+export type Term =
+  | '202001'
+  | '202005'
+  | '202009'
+  | '202101'
+  | '202105'
+  | '202109'
+  | '202201'
+  | '202205'
+  | '202209'
+  | '202301';
 
 export interface NestedPreCoRequisites {
   reqList?: (NestedPreCoRequisites | KualiCourse | string)[];
@@ -114,6 +124,14 @@ export interface MeetingTimes {
 }
 
 export type Section = OmitClassScheduleListingMeetingTimes & {
+  seats?: {
+    waitAvailable: number | null;
+    waitCount: number;
+    waitCapacity: number | null;
+    seatsAvailable: number;
+    enrollment: number;
+    maxEnrollment: number;
+  };
   meetingTimes: MeetingTimes[];
 };
 
