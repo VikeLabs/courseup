@@ -23,7 +23,7 @@
   "main": "lib/src/index.js",
   "dependencies": {
     "@vikelabs/uvic-course-scraper": "^1.0.0-alpha.6",
-    "async": "^3.2.1",
+    "async": "^3.2.2",
     "express": "^4.17.2",
     "firebase-admin": "^10.0.1",
     "firebase-functions": "^3.16.0",
