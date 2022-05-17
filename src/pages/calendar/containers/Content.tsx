@@ -10,6 +10,7 @@ import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import { CourseInfo } from '../components/Course';
+import { Requisites } from '../components/Requisites';
 
 import { SectionsContainer } from './Section';
 
@@ -49,7 +50,6 @@ export function Content({ term }: ContentProps): JSX.Element {
   return (
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
-
       <Box p={4} zIndex={60}>
         {error && (
           <Alert status="error" my="5">
@@ -99,6 +99,7 @@ export function Content({ term }: ContentProps): JSX.Element {
                 pid={data.pid}
                 term={term}
               />
+              <Requisites preAndCorequisites={data.preAndCorequisites} preOrCorequisites={data.preOrCorequisites} />
               <SectionsContainer term={term} subject={data.subject} code={data.code} />
             </>
           )}
