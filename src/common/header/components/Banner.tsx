@@ -5,7 +5,6 @@ import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton, Tex
 import { Link } from 'react-router-dom';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
-import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): JSX.Element {
   return (
@@ -30,28 +29,15 @@ function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): 
 export function Banner(): JSX.Element {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   const [tipIndex, setTipIndex] = useState(0);
-  const mode = useDarkMode();
 
   const tips: Array<JSX.Element> = [
     <Text>
       📅 The{' '}
-      <Text
-        as={Link}
-        to="/calendar/202209"
-        textDecoration="underline"
-        color={mode('purple.200', 'purple.600')}
-        _hover={{ color: mode('purple.300', 'purple.800') }}
-      >
+      <Text as={Link} to="/calendar/202209" textDecoration="underline">
         Fall 2022
       </Text>{' '}
       and{' '}
-      <Text
-        as={Link}
-        to="/calendar/202301"
-        textDecoration="underline"
-        color={mode('purple.200', 'purple.600')}
-        _hover={{ color: mode('purple.300', 'purple.800') }}
-      >
+      <Text as={Link} to="/calendar/202301" textDecoration="underline">
         Spring 2023
       </Text>{' '}
       calendars are now available. Happy scheduling!
@@ -77,7 +63,7 @@ export function Banner(): JSX.Element {
 
   return (
     <Collapse in={banner} animateOpacity>
-      <Alert status="info" alignItems="center" justifyContent="center" variant="solid">
+      <Alert status="info" alignItems="center" justifyContent="center" variant="solid" color="black">
         {tips.length > 1 && <TipNav onClick={back} icon={<ChevronLeftIcon />} />}
         <Center w="1100px">
           <AlertDescription>{tips[tipIndex]}</AlertDescription>
