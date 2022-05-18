@@ -20,14 +20,14 @@ import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 // Return input if it is of type string
 export function myFunction(
   req: string | NestedPreCoRequisites | KualiCourse | Element
-): string | NestedPreCoRequisites | Element {
+): string | NestedPreCoRequisites {
   if (typeof req === 'string') {
     return req;
   } else if (req.code != null || false) {
     // If it has the reqList property, call the function
     return;
   }
-  return <div>"test"</div>;
+  return "test"; // return kuali course info here
 }
 
 export type RequisiteProp = {
@@ -39,11 +39,9 @@ export function Requisites({ preAndCorequisites, preOrCorequisites }: RequisiteP
   return (
     <div>
       {preAndCorequisites?.map((req) => {
-        console.log(req);
         return myFunction(req);
       })}
       {preOrCorequisites?.map((req) => {
-        console.log(req);
         return myFunction(req);
       })}
     </div>
