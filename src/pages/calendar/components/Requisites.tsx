@@ -9,12 +9,12 @@ import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 //     if (req.reqList) {
 //       return myFunction(req.reqList[0]);
 //     } else {
-//       <div>req.quantity + " of the following:"</div>;
+//       req.quantity + " of the following:";
 //     }
 //   } else if (req === 'KualiCourse') {
-//     return <div>req.subject</div>;
+//     return req.subject;
 //   }
-//   return <div>{'Hey ' + req}</div>;
+//   return {'Hey ' + req};
 // }
 
 // Return input if it is of type string
