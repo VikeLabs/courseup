@@ -51,6 +51,8 @@ const models: TsoaRoute.Models = {
         { dataType: 'enum', enums: ['202109'] },
         { dataType: 'enum', enums: ['202201'] },
         { dataType: 'enum', enums: ['202205'] },
+        { dataType: 'enum', enums: ['202209'] },
+        { dataType: 'enum', enums: ['202301'] },
       ],
       validators: {},
     },
@@ -277,7 +279,7 @@ const models: TsoaRoute.Models = {
       dataType: 'nestedObjectLiteral',
       nestedProperties: {
         roomNumber: { dataType: 'string' },
-        buildingAccronym: { dataType: 'string' },
+        buildingAbbreviation: { dataType: 'string' },
         building: { dataType: 'string' },
         instructors: {
           dataType: 'array',
@@ -304,6 +306,31 @@ const models: TsoaRoute.Models = {
         {
           dataType: 'nestedObjectLiteral',
           nestedProperties: {
+            seats: {
+              dataType: 'nestedObjectLiteral',
+              nestedProperties: {
+                waitAvailable: {
+                  dataType: 'union',
+                  subSchemas: [
+                    { dataType: 'double' },
+                    { dataType: 'enum', enums: [null] },
+                  ],
+                  required: true,
+                },
+                waitCount: { dataType: 'double', required: true },
+                waitCapacity: {
+                  dataType: 'union',
+                  subSchemas: [
+                    { dataType: 'double' },
+                    { dataType: 'enum', enums: [null] },
+                  ],
+                  required: true,
+                },
+                seatsAvailable: { dataType: 'double', required: true },
+                enrollment: { dataType: 'double', required: true },
+                maxEnrollment: { dataType: 'double', required: true },
+              },
+            },
             meetingTimes: {
               dataType: 'array',
               array: { dataType: 'refAlias', ref: 'MeetingTimes' },
@@ -726,6 +753,7 @@ export function RegisterRoutes(app: express.Router) {
           dataType: 'string',
         },
         code: { in: 'query', name: 'code', required: true, dataType: 'string' },
+        v9: { default: false, in: 'query', name: 'v9', dataType: 'boolean' },
       };
 
       // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

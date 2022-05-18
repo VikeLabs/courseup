@@ -22,7 +22,7 @@
   },
   "main": "lib/src/index.js",
   "dependencies": {
-    "@vikelabs/uvic-course-scraper": "^1.0.0-alpha.5",
+    "@vikelabs/uvic-course-scraper": "^1.0.0-alpha.6",
     "async": "^3.2.1",
     "express": "^4.17.2",
     "firebase-admin": "^10.0.1",
