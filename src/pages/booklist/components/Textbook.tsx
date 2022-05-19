@@ -4,8 +4,6 @@ import { Badge, Button, Flex, Heading, HStack, Table, Td, Text, Tr, VStack, Imag
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { logEvent } from 'lib/utils/logEvent';
 
-const ISBN = require('simple-isbn').isbn;
-
 type Props = {
   key: string;
   title: string;
@@ -38,8 +36,6 @@ export function Textbook({
   const handleTextbookClick = (url?: string) => {
     url && logEvent('textbook_click', { url });
   };
-
-  amazonUrl = amazonUrl || `https://amazon.ca/dp/${ISBN.toIsbn10(isbn)}`;
 
   return (
     <Flex
@@ -129,11 +125,11 @@ export function Textbook({
           size="fit-content"
           boxShadow="md"
           borderRadius="md"
+          disabled={amazonUrl === undefined}
+          onClick={() => handleTextbookClick(amazonUrl)}
           as="a"
           href={amazonUrl}
           target="_blank"
-          disabled={amazonUrl === undefined}
-          onClick={() => handleTextbookClick(amazonUrl)}
         >
           <Image
             loading="lazy"
