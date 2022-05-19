@@ -2,32 +2,22 @@ import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 
 // If stuff is string, return it
 // If not, get string of NestedPreCoRequisites or KualiCourse
-// export function (string | NestedPreCoRequisites | KualiCourse) myFunction(req: string | NestedPreCoRequisites | KualiCourse) {
-//   if (typeof req === 'string') {
-//     return req;
-//   } else if (req === 'NestedPreCoRequisites') {
-//     if (req.reqList) {
-//       return myFunction(req.reqList[0]);
-//     } else {
-//       req.quantity + " of the following:";
-//     }
-//   } else if (req === 'KualiCourse') {
-//     return req.subject;
-//   }
-//   return {'Hey ' + req};
-// }
-
-// Return input if it is of type string
 export function myFunction(
-  req: string | NestedPreCoRequisites | KualiCourse | Element
-): string | NestedPreCoRequisites {
+  req: string | NestedPreCoRequisites | KualiCourse
+): string | NestedPreCoRequisites | KualiCourse {
   if (typeof req === 'string') {
     return req;
-  } else if (req.code != null || false) {
-    // If it has the reqList property, call the function
-    return;
   }
-  return "test"; // return kuali course info here
+  // } else if (req === 'NestedPreCoRequisites') {
+  //   if (req.reqList) {
+  //     return myFunction(req.reqList[0]);
+  //   } else {
+  //     req.quantity + ' of the following:';
+  //   }
+  // } else if (req === 'KualiCourse') {
+  //   return req.subject;
+  // }
+  return 'Hey ' + req;
 }
 
 export type RequisiteProp = {
