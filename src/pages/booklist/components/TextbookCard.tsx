@@ -53,9 +53,9 @@ export function TextbookCard({ subject, code, sections }: Props) {
           </HStack>
           {additionalInfo && additionalInfo.length > 0 ? (
             <Box pb="4">
-              {additionalInfo?.map((info) => (
+              {additionalInfo?.map((info, index) => (
                 <HStack
-                  key={`${subject}-${code}-${section}-${info}`}
+                  key={`${subject}-${code}-${section}-${index}`}
                   bgColor={mode('blue.200', 'blue.800')}
                   py="2"
                   pl="2"
