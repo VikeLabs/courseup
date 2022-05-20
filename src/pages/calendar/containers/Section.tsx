@@ -32,7 +32,11 @@ export interface SectionsContainerProps {
 }
 
 export function SectionsContainer({ term, subject, code }: SectionsContainerProps): JSX.Element {
-  const { data: sections, loading, error: sectionsError } = useSections({ term, queryParams: { subject, code } });
+  const {
+    data: sections,
+    loading,
+    error: sectionsError,
+  } = useSections({ term, queryParams: { subject, code, v9: true } });
   const { data: seats, error: seatsError } = useSeats({ term, queryParams: { subject, code } });
   const mode = useDarkMode();
 
