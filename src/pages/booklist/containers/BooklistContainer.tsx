@@ -43,11 +43,16 @@ export function BooklistContainer(): JSX.Element | null {
               <Spinner size="xl" />
             </Center>
           ) : textbooks.textbookInfo.filter((textbook) => textbook && textbook.term === term).length > 0 ? (
-            textbooks.textbookInfo
-              .filter((textbook) => textbook && textbook.term === term)
-              .map(({ sections, subject, code }) => {
-                return <TextbookCard key={`${subject}-${code}`} subject={subject} code={code} sections={sections} />;
-              })
+            <>
+              {textbooks.textbookInfo
+                .filter((textbook) => textbook && textbook.term === term)
+                .map(({ sections, subject, code }) => {
+                  return <TextbookCard key={`${subject}-${code}`} subject={subject} code={code} sections={sections} />;
+                })}
+              <Box as="footer" px="2" py="4" pb="6" textAlign={{ base: 'center' }}>
+                <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+              </Box>
+            </>
           ) : textbooks.textbookInfo.filter((textbook) => textbook && textbook.term === term).length <= 0 &&
             textbooks.textbookInfo.length <= 0 ? (
             <NotFound term={term} timetable>
@@ -57,11 +62,6 @@ export function BooklistContainer(): JSX.Element | null {
             <NotFound term={term}>No textbooks found for your saved courses in </NotFound>
           )}
         </Box>
-        {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
-          <Box as="footer" px="2" py="4" pb="6" textAlign={{ base: 'center' }}>
-            <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
-          </Box>
-        )}
       </VStack>
     </Page>
   );
