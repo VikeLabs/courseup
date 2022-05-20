@@ -1,12 +1,12 @@
-import { Flex, Heading, HStack, VStack, Wrap, WrapItem, Text } from '@chakra-ui/react';
+import { Flex, Heading, HStack, VStack, Wrap, WrapItem } from '@chakra-ui/react';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
-import { getReadableTerm } from 'lib/utils/terms';
+
+import { NotFound } from 'common/notFound/NotFound';
 
 export const ShareCourseCard = ({ subject, code, color, lecture, lab, tutorial }: SavedCourse) => {
   const mode = useDarkMode();
-
   return (
     <Flex height="100%" direction="column" data-testid="card">
       <HStack w="100%" bg={mode('gray.100', 'gray.600')} justifyContent="center" p="0.3em" borderTopRadius="4px">
@@ -43,9 +43,7 @@ export function SelectedCoursesCardList({ courses, term }: SelectedCoursesTableP
           return null;
         })
       ) : (
-        <Text>
-          Unable to find saved courses for <Text as="strong"> {getReadableTerm(term || '')} </Text>
-        </Text>
+        <NotFound term={term}> Unable to find saved courses for</NotFound>
       )}
     </Wrap>
   );
