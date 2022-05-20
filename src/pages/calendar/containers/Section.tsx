@@ -1,9 +1,8 @@
-import { Box, Center, Divider, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Center, Divider, Heading, Spinner, Text } from '@chakra-ui/react';
 
 import { Section, Seat, Term, useSeats, useSections } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-
-import { NotFound } from 'common/notFound/NotFound';
+import { getReadableTerm } from 'lib/utils/terms';
 
 import { SectionInfo } from '../components/Section';
 
@@ -47,7 +46,16 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
 
   // we can't just look at sectionsError since it returns an empty array upon "not finding" any sections.
   if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
-    return <NotFound term={term}>No sections offered for</NotFound>;
+    return (
+      <Center>
+        <Heading size="md" color={mode('gray', 'dark.header')}>
+          Unable to find sections for{' '}
+          <Text as="span" color={mode('black', 'white')}>
+            {getReadableTerm(term)}
+          </Text>
+        </Heading>
+      </Center>
+    );
   }
 
   const sectionTypes: { sn: string; pl: string; type: string }[] = [
