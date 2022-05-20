@@ -1,6 +1,22 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
 
-import { Flex, useMediaQuery } from '@chakra-ui/react';
+import {
+  Flex,
+  //HStack,
+  useMediaQuery,
+  //VStack,
+  // Drawer,
+  // DrawerBody,
+  // DrawerFooter,
+  // DrawerHeader,
+  // DrawerOverlay,
+  // DrawerContent,
+  // DrawerCloseButton,
+  // useDisclosure,
+} from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useMatch, useNavigate, useParams } from 'react-router';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -12,8 +28,6 @@ import { Header } from 'common/header';
 import { Sidebar } from 'common/layouts/sidebar/containers/Sidebar';
 import { SearchResults } from 'common/layouts/sidebar/variants/SearchResults';
 import { Mobile } from 'common/mobile';
-
-import 'swiper/css';
 
 type Props = {
   title?: string;
@@ -29,8 +43,15 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   const location = useLocation();
   const [isMobile] = useMediaQuery('(max-width: 1020px)');
   const { term, slug } = useParams();
+  //const { isOpen, onOpen, onClose } = useDisclosure();
 
   const route = location.pathname.split('/')[1];
+
+  const pagination = {
+    el: 'swiper-pagination',
+    clickable: true,
+    renderBullet: () => <span>' + (index + 1) + '</span>,
+  };
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
@@ -47,13 +68,48 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
 
   return (
     <>
+      {!mobileSupport && <Mobile />}
       <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
-        {!mobileSupport && <Mobile />}
-
         <Helmet>
           <title>{title}</title>
         </Helmet>
         <Header onSearchChange={handleSearchChange} />
+
+        {/* <Flex overflowY="auto" h="100%">
+          {!isMobile ? (
+            <>
+              {query.length > 0 ? (
+                <Sidebar side="left">
+                  <SearchResults />
+                </Sidebar>
+              ) : (
+                leftSidebar && <Sidebar side="left">{leftSidebar}</Sidebar>
+              )}
+              <Flex overflowY="auto" zIndex={56} w="100%" justifyContent="center" boxShadow="md">
+                {children}
+              </Flex>
+              {rightSidebar && <Sidebar side="right">{rightSidebar}</Sidebar>}
+            </>
+          ) : (
+            <>
+              <VStack w="100%" spacing={5} pt={5} minH="100vh">
+                <HStack px={5} w="100%" justify="space-between">
+                  {query.length > 0 ? (
+                    <Sidebar side="left" title="Search Results">
+                      <SearchResults />
+                    </Sidebar>
+                  ) : (
+                    leftSidebar && <Sidebar side="left">{leftSidebar}</Sidebar>
+                  )}
+                  {rightSidebar && <Sidebar side="right">{rightSidebar}</Sidebar>}
+                </HStack>
+                <Flex overflowY="auto" zIndex={56} w="100%" justifyContent="center" boxShadow="md">
+                  {children}
+                </Flex>
+              </VStack>
+            </>
+          )}
+        </Flex> */}
 
         {/* No mobile support */}
         {/* {!isMobile && query.length > 0 ? (
@@ -120,12 +176,18 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
         </Flex> */}
 
         {/* Swiper mobile support */}
-        <Flex overflowY="auto" h="100%">
+        <Flex overflowY="auto" h="100%" w="100%">
           {isMobile ? (
-            <Swiper initialSlide={1}>
-              {leftSidebar ? <SwiperSlide>{leftSidebar}</SwiperSlide> : null}
-              <SwiperSlide>{children}</SwiperSlide>
-              {rightSidebar ? <SwiperSlide>{rightSidebar}</SwiperSlide> : null}
+            <Swiper pagination={pagination} initialSlide={1}>
+              {query.length > 0 ? (
+                <SwiperSlide>
+                  <SearchResults />
+                </SwiperSlide>
+              ) : (
+                leftSidebar && <SwiperSlide>{leftSidebar}</SwiperSlide>
+              )}
+              <SwiperSlide style={{ width: '100%' }}>{children}</SwiperSlide>
+              {rightSidebar && <SwiperSlide>{rightSidebar}</SwiperSlide>}
             </Swiper>
           ) : (
             <>
