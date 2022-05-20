@@ -35,13 +35,7 @@ export function Calendar(): JSX.Element {
 
   return (
     <Page title="Calendar" leftSidebar={<Courses term={term as Term} />}>
-      {pid ? (
-        <Content term={term as Term} />
-      ) : (
-        <Center h="100%" w="100%" bgImg={process.env.PUBLIC_URL + '/assets/contest/background.svg'} bgSize="cover">
-          <Landing />
-        </Center>
-      )}
+      {pid ? <Content term={term as Term} /> : <Landing />}
     </Page>
   );
 }

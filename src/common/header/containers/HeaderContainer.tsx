@@ -62,12 +62,26 @@ export interface HeaderProps {
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const smallScreen = useSmallScreen();
-
+  const tips: Array<JSX.Element> = smallScreen
+    ? [<Text>⚠️ Mobile is currently in beta.</Text>]
+    : [
+        <Text>
+          📅 The{' '}
+          <Text as={Link} to="/calendar/202209" textDecoration="underline">
+            Fall 2022
+          </Text>{' '}
+          and{' '}
+          <Text as={Link} to="/calendar/202301" textDecoration="underline">
+            Spring 2023
+          </Text>{' '}
+          calendars are now available. Happy scheduling!
+        </Text>,
+      ];
   return (
     <>
       {smallScreen ? (
         <>
-          <Banner />
+          <Banner tips={tips} />
           <MobileHeaderContainer onSearchChange={onSearchChange} />
         </>
       ) : (

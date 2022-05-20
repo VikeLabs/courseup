@@ -30,8 +30,6 @@ jobs:
             npm-
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit --no-progress
-      - name: Lint
-        run: npm run lint
   npm-run:
     name: Execute Script
     needs: [lint]
@@ -56,7 +54,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0
         with:
           service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           export_default_credentials: true

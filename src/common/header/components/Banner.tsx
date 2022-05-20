@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton, Text } from '@chakra-ui/react';
+import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton } from '@chakra-ui/react';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 
@@ -25,11 +25,13 @@ function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): 
   );
 }
 
-export function Banner(): JSX.Element {
+type Props = {
+  tips: JSX.Element[];
+};
+
+export function Banner({ tips }: Props): JSX.Element {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   const [tipIndex, setTipIndex] = useState(0);
-
-  const tips: Array<JSX.Element> = [<Text>⚠️ Mobile is currently in beta.</Text>];
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -40,7 +42,6 @@ export function Banner(): JSX.Element {
       clearTimeout(timeout);
     };
   }, [tipIndex, tips.length]);
-
   const back = () => {
     tipIndex - 1 < 0 ? setTipIndex(tips.length - 1) : setTipIndex(tipIndex - 1);
   };
@@ -51,7 +52,7 @@ export function Banner(): JSX.Element {
 
   return (
     <Collapse in={banner} animateOpacity>
-      <Alert status="success" alignItems="center" justifyContent="center" variant="solid">
+      <Alert status="info" alignItems="center" justifyContent="center" variant="solid" color="black">
         {tips.length > 1 && <TipNav onClick={back} icon={<ChevronLeftIcon />} />}
         <Center w="1100px">
           <AlertDescription>{tips[tipIndex]}</AlertDescription>

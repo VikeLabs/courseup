@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { renderWithRouter } from 'lib/utils/jest';
 
 import { Banner } from '../Banner';
 
@@ -14,14 +15,14 @@ const mockSetBanner = jest.fn();
 describe('Banner', () => {
   it('should be visible when session storage is true', () => {
     mockUseSessionStorage.mockReturnValue([true, mockSetBanner]);
-    render(<Banner />);
+    renderWithRouter(<Banner />);
 
     expect(screen.getByRole('alert')).toBeInTheDocument();
   });
 
   it('should call setBanner when close button pressed', () => {
     mockUseSessionStorage.mockReturnValue([true, mockSetBanner]);
-    render(<Banner />);
+    renderWithRouter(<Banner />);
 
     const closeButton = screen.getAllByRole('button')[0];
     fireEvent.click(closeButton);
@@ -30,7 +31,7 @@ describe('Banner', () => {
 
   it('should not be visible when session storage is false', () => {
     mockUseSessionStorage.mockReturnValue([false, mockSetBanner]);
-    render(<Banner />);
+    renderWithRouter(<Banner />);
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });

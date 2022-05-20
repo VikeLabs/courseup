@@ -29,10 +29,26 @@ const models: TsoaRoute.Models = {
         },
         "additionalProperties": false,
     },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Term": {
-        "dataType": "refAlias",
-        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["202001"]},{"dataType":"enum","enums":["202005"]},{"dataType":"enum","enums":["202009"]},{"dataType":"enum","enums":["202101"]},{"dataType":"enum","enums":["202105"]},{"dataType":"enum","enums":["202109"]},{"dataType":"enum","enums":["202201"]},{"dataType":"enum","enums":["202205"]}],"validators":{}},
+    additionalProperties: false,
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  Term: {
+    dataType: 'refAlias',
+    type: {
+      dataType: 'union',
+      subSchemas: [
+        { dataType: 'enum', enums: ['202001'] },
+        { dataType: 'enum', enums: ['202005'] },
+        { dataType: 'enum', enums: ['202009'] },
+        { dataType: 'enum', enums: ['202101'] },
+        { dataType: 'enum', enums: ['202105'] },
+        { dataType: 'enum', enums: ['202109'] },
+        { dataType: 'enum', enums: ['202201'] },
+        { dataType: 'enum', enums: ['202205'] },
+        { dataType: 'enum', enums: ['202209'] },
+        { dataType: 'enum', enums: ['202301'] },
+      ],
+      validators: {},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "NestedPreCoRequisites": {
@@ -87,23 +103,72 @@ const models: TsoaRoute.Models = {
         "dataType": "refAlias",
         "type": {"ref":"Pick_ClassScheduleListing.Exclude_keyofClassScheduleListing.meetingTimes__","validators":{}},
     },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "MeetingTimes": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"roomNumber":{"dataType":"string"},"buildingAbbreviation":{"dataType":"string"},"building":{"dataType":"string"},"instructors":{"dataType":"array","array":{"dataType":"string"},"required":true},"scheduleType":{"dataType":"string","required":true},"dateRange":{"dataType":"string","required":true},"where":{"dataType":"string","required":true},"days":{"dataType":"string","required":true},"time":{"dataType":"string","required":true},"type":{"dataType":"string","required":true}},"validators":{}},
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  MeetingTimes: {
+    dataType: 'refAlias',
+    type: {
+      dataType: 'nestedObjectLiteral',
+      nestedProperties: {
+        roomNumber: { dataType: 'string' },
+        buildingAbbreviation: { dataType: 'string' },
+        building: { dataType: 'string' },
+        instructors: {
+          dataType: 'array',
+          array: { dataType: 'string' },
+          required: true,
+        },
+        scheduleType: { dataType: 'string', required: true },
+        dateRange: { dataType: 'string', required: true },
+        where: { dataType: 'string', required: true },
+        days: { dataType: 'string', required: true },
+        time: { dataType: 'string', required: true },
+        type: { dataType: 'string', required: true },
+      },
+      validators: {},
     },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Section": {
-        "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"ref":"Omit_ClassScheduleListing.meetingTimes_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"meetingTimes":{"dataType":"array","array":{"dataType":"refAlias","ref":"MeetingTimes"},"required":true}}}],"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Seating": {
-        "dataType": "refObject",
-        "properties": {
-            "capacity": {"dataType":"double","required":true},
-            "actual": {"dataType":"double","required":true},
-            "remaining": {"dataType":"double","required":true},
+  },
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  Section: {
+    dataType: 'refAlias',
+    type: {
+      dataType: 'intersection',
+      subSchemas: [
+        { ref: 'Omit_ClassScheduleListing.meetingTimes_' },
+        {
+          dataType: 'nestedObjectLiteral',
+          nestedProperties: {
+            seats: {
+              dataType: 'nestedObjectLiteral',
+              nestedProperties: {
+                waitAvailable: {
+                  dataType: 'union',
+                  subSchemas: [
+                    { dataType: 'double' },
+                    { dataType: 'enum', enums: [null] },
+                  ],
+                  required: true,
+                },
+                waitCount: { dataType: 'double', required: true },
+                waitCapacity: {
+                  dataType: 'union',
+                  subSchemas: [
+                    { dataType: 'double' },
+                    { dataType: 'enum', enums: [null] },
+                  ],
+                  required: true,
+                },
+                seatsAvailable: { dataType: 'double', required: true },
+                enrollment: { dataType: 'double', required: true },
+                maxEnrollment: { dataType: 'double', required: true },
+              },
+            },
+            meetingTimes: {
+              dataType: 'array',
+              array: { dataType: 'refAlias', ref: 'MeetingTimes' },
+              required: true,
+            },
+          },
         },
         "additionalProperties": false,
     },
@@ -273,14 +338,36 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new CoursesController();
 
 
-              const promise = controller.getCourse.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/courses/:term/:subject/:code',
+        const promise = controller.postEvent.apply(
+          controller,
+          validatedArgs as any
+        );
+        promiseHandler(controller, promise, response, undefined, next);
+      } catch (err) {
+        return next(err);
+      }
+    }
+  );
+  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+  app.get(
+    '/sections/:term',
+
+    function SectionsController_sections(
+      request: any,
+      response: any,
+      next: any
+    ) {
+      const args = {
+        term: { in: 'path', name: 'term', required: true, ref: 'Term' },
+        subject: {
+          in: 'query',
+          name: 'subject',
+          required: true,
+          dataType: 'string',
+        },
+        code: { in: 'query', name: 'code', required: true, dataType: 'string' },
+        v9: { default: false, in: 'query', name: 'v9', dataType: 'boolean' },
+      };
 
             function CoursesController_getCourseDetails(request: any, response: any, next: any) {
             const args = {
