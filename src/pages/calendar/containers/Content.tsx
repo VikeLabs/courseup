@@ -73,7 +73,7 @@ export function Content({ term }: ContentProps): JSX.Element {
             <pre>{error.message}</pre>
           </Alert>
         )}
-        <Flex gap="1" alignItems="start" direction="column">
+        <Flex gap="1" alignItems="start" direction="column" mx="1">
           <Skeleton isLoaded={!loading} display="flex" justifyContent="space-between" alignItems="center" w="100%">
             {data && (
               <>
