@@ -47,9 +47,9 @@ export interface CourseInfoProps {
    */
   credits?: { credits: { max: string; min: string }; chosen: string; value: {} };
   /**
-   * course addtional notes
+   * course additional notes
    */
-  addtionalNotes?: string;
+  additionalNotes?: string;
   /**
    * course units
    */
@@ -64,7 +64,7 @@ export interface CourseInfoProps {
   term: string;
 }
 
-export function CourseInfo({ description, hours, addtionalNotes, credits, units }: CourseInfoProps): JSX.Element {
+export function CourseInfo({ description, hours, additionalNotes, credits, units }: CourseInfoProps): JSX.Element {
   return (
     <Box as="section">
       <Divider my="3" />
@@ -88,15 +88,14 @@ export function CourseInfo({ description, hours, addtionalNotes, credits, units 
         )}
       </Flex>
       <Text as="article">{description}</Text>
-      {addtionalNotes && (
+      {additionalNotes && (
         <Box my="3">
           <Heading as="h4" size="md">
-            Addtional Notes
+            Additional Notes
           </Heading>
-          <Text>{addtionalNotes}</Text>
+          <Text>{additionalNotes}</Text>
         </Box>
       )}
-      <Divider my="5" />
     </Box>
   );
 }
