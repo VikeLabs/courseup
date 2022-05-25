@@ -28,6 +28,7 @@ export function BooklistHeading() {
           Purchases made through store links may provide compensation to CourseUp and VikeLabs. This helps keep the
           platform free of ads and supports development.
         </Text>
+        <Divider my="4" />
       </Flex>
     </Container>
   );
