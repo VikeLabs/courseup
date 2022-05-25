@@ -42,6 +42,7 @@ export type TimetableDoc = {
 };
 export interface ExtendedTextbook extends Textbook {
   amazonUrl?: string;
+  isbn10?: string;
 }
 
 type CourseTextbooks = Omit<
