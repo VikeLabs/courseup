@@ -676,6 +676,9 @@
 					},
 					"amazonUrl": {
 						"type": "string"
+					},
+					"isbn10": {
+						"type": "string"
 					}
 				},
 				"required": [
