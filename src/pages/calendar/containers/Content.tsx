@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { Box, Center, Flex, Heading, Skeleton, Spacer, Text, Button, Alert, useToast } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Skeleton, Spacer, Text, Button, Alert, useToast, Divider } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { MdDelete, MdAdd } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
@@ -49,7 +49,6 @@ export function Content({ term }: ContentProps): JSX.Element {
   return (
     <Flex width={['container.md', 'container.lg', 'container.xl']} flexDirection="column">
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
-
       <Box p={4} zIndex={60}>
         {error && (
           <Alert status="error" my="5">
@@ -99,6 +98,7 @@ export function Content({ term }: ContentProps): JSX.Element {
                 pid={data.pid}
                 term={term}
               />
+              <Divider my="4" />
               <SectionsContainer term={term} subject={data.subject} code={data.code} />
             </>
           )}
