@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Box, Divider } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/layout';
 import { Center, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
