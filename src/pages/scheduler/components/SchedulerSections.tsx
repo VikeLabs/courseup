@@ -175,9 +175,9 @@ export const Option = forwardRef<OptionsProps, 'div'>(
                 <Box w="47%">
                   {isMobile && m.roomNumber && m.buildingAbbreviation ? (
                     <Tooltip label={m.where}>
-                      <Text>
+                      <>
                         {m.buildingAbbreviation} {m.roomNumber}
-                      </Text>
+                      </>
                     </Tooltip>
                   ) : (
                     m.where
