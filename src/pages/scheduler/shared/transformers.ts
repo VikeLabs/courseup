@@ -20,11 +20,7 @@ export const courseCalEventToResource = (course: CourseCalendarEvent, opacity = 
   dashedBorder: course.dashedBorder,
   sectionCode: course.sectionCode,
   location: course.meetingTime.where,
-  locationAbbreviation:
-    course.meetingTime &&
-    course.meetingTime.buildingAbbreviation &&
-    course.meetingTime.roomNumber &&
-    course.meetingTime.buildingAbbreviation + ' ' + course.meetingTime.roomNumber,
+  locationAbbreviation: course.meetingTime.buildingAbbreviation + ' ' + course.meetingTime.roomNumber,
   opacity,
 });
 
