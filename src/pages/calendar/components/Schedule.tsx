@@ -1,4 +1,4 @@
-import { Badge, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Badge, Table, Tbody, Td, Th, Thead, Tooltip, Tr, useMediaQuery, Text } from '@chakra-ui/react';
 
 import { MeetingTimes } from 'lib/fetchers';
 
@@ -11,6 +11,8 @@ export interface ScheduleProps {
 }
 
 export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
+  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+
   return (
     <Table variant="striped" size="sm">
       <Thead>
@@ -34,7 +36,17 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
             <Td>{m.time}</Td>
             {/* TODO: verify if we can safely exclude this for most cases */}
             {/* <Td>{m.scheduleType}</Td> */}
-            <Td>{m.where}</Td>
+            <Td>
+              {isMobile ? (
+                <Tooltip label={m.where}>
+                  <Text>
+                    {m.buildingAbbreviation} {m.roomNumber}
+                  </Text>
+                </Tooltip>
+              ) : (
+                m.where
+              )}
+            </Td>
             <Td>{m.instructors.join(', ')}</Td>
           </Tr>
         ))}
