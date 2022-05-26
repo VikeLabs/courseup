@@ -1,4 +1,4 @@
-import { Flex, Heading, HStack, VStack } from '@chakra-ui/react';
+import { Flex, Heading, HStack, Tooltip, VStack } from '@chakra-ui/react';
 import { EventProps as BaseEventProps } from 'react-big-calendar';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -30,7 +30,11 @@ export const CalendarEvent = ({ title, event: { resource } }: EventProps) => {
       </HStack>
       <VStack flex={1} justifyContent="center">
         <Heading color={resource.textColor ? resource.textColor : 'black'} justifyContent="center" size="sm">
-          {resource && resource.location}
+          {resource.locationAbbreviation ? (
+            <Tooltip label={resource.location}>{resource.locationAbbreviation}</Tooltip>
+          ) : (
+            resource.location
+          )}
         </Heading>
       </VStack>
     </Flex>
