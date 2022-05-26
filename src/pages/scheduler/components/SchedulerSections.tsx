@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef } from '@chakra-ui/react';
+import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef, useMediaQuery } from '@chakra-ui/react';
 
 import { MeetingTimes, Section } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -134,6 +134,7 @@ const maxAdditionalNotesLength = 200;
 export const Option = forwardRef<OptionsProps, 'div'>(
   ({ meetingTimes, sectionCode, additionalNotes }: OptionsProps, ref): JSX.Element => {
     const mode = useDarkMode();
+    const [isMobile] = useMediaQuery('(max-width: 1250px)');
 
     const truncAdditionalNotes =
       (additionalNotes?.length ?? 0) > maxAdditionalNotesLength
@@ -171,7 +172,17 @@ export const Option = forwardRef<OptionsProps, 'div'>(
                 <Box w="20%" minW="13%">
                   {m.days}
                 </Box>
-                <Box w="47%">{m.where}</Box>
+                <Box w="47%">
+                  {isMobile && m.roomNumber && m.buildingAbbreviation ? (
+                    <Tooltip label={m.where}>
+                      <Text>
+                        {m.buildingAbbreviation} {m.roomNumber}
+                      </Text>
+                    </Tooltip>
+                  ) : (
+                    m.where
+                  )}
+                </Box>
               </HStack>
             ))}
           </VStack>
