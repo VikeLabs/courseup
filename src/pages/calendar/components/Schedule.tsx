@@ -2,6 +2,8 @@ import { Badge, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 import { MeetingTimes } from 'lib/fetchers';
 
+import Location from 'common/location/Location';
+
 export interface ScheduleProps {
   /**
    * Array of MeetingTimes, which hold meeting time like every monday at 12:30 pm
@@ -34,7 +36,9 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
             <Td>{m.time}</Td>
             {/* TODO: verify if we can safely exclude this for most cases */}
             {/* <Td>{m.scheduleType}</Td> */}
-            <Td>{m.where}</Td>
+            <Td>
+              <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
+            </Td>
             <Td>{m.instructors.join(', ')}</Td>
           </Tr>
         ))}
