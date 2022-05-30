@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef, useMediaQuery } from '@chakra-ui/react';
+import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef } from '@chakra-ui/react';
 
 import { MeetingTimes, Section } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
+
+import Location from 'common/location/Location';
 
 export function SectionsCardContainer({
   course,
@@ -134,7 +136,6 @@ const maxAdditionalNotesLength = 200;
 export const Option = forwardRef<OptionsProps, 'div'>(
   ({ meetingTimes, sectionCode, additionalNotes }: OptionsProps, ref): JSX.Element => {
     const mode = useDarkMode();
-    const [isMobile] = useMediaQuery('(max-width: 1250px)');
 
     const truncAdditionalNotes =
       (additionalNotes?.length ?? 0) > maxAdditionalNotesLength
@@ -173,15 +174,7 @@ export const Option = forwardRef<OptionsProps, 'div'>(
                   {m.days}
                 </Box>
                 <Box w="47%">
-                  {isMobile && m.roomNumber && m.buildingAbbreviation ? (
-                    <Tooltip label={m.where}>
-                      <Text>
-                        {m.buildingAbbreviation} {m.roomNumber}
-                      </Text>
-                    </Tooltip>
-                  ) : (
-                    m.where
-                  )}
+                  <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} alwaysShort={false} />
                 </Box>
               </HStack>
             ))}

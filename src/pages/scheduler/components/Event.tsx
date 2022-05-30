@@ -1,7 +1,9 @@
-import { Flex, Heading, HStack, Tooltip, VStack } from '@chakra-ui/react';
+import { Flex, Heading, HStack, VStack } from '@chakra-ui/react';
 import { EventProps as BaseEventProps } from 'react-big-calendar';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+
+import Location from 'common/location/Location';
 
 import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
 
@@ -30,11 +32,7 @@ export const CalendarEvent = ({ title, event: { resource } }: EventProps) => {
       </HStack>
       <VStack flex={1} justifyContent="center">
         <Heading color={resource.textColor ? resource.textColor : 'black'} justifyContent="center" size="sm">
-          {resource.locationAbbreviation ? (
-            <Tooltip label={resource.location}>{resource.locationAbbreviation}</Tooltip>
-          ) : (
-            resource.location
-          )}
+          <Location short={resource.locationAbbreviation} long={resource.location!} alwaysShort={true} />
         </Heading>
       </VStack>
     </Flex>
