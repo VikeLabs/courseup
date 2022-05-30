@@ -32,7 +32,7 @@ export const CalendarEvent = ({ title, event: { resource } }: EventProps) => {
       </HStack>
       <VStack flex={1} justifyContent="center">
         <Heading color={resource.textColor ? resource.textColor : 'black'} justifyContent="center" size="sm">
-          <Location short={resource.locationAbbreviation} long={resource.location!} alwaysShort={true} />
+          <Location short={resource.locationAbbreviation} long={resource.location!} alwaysShort />
         </Heading>
       </VStack>
     </Flex>

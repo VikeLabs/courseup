@@ -7,7 +7,7 @@ export default function Location({
 }: {
   short?: String;
   long: String;
-  alwaysShort: boolean;
+  alwaysShort?: boolean;
 }): JSX.Element {
   const [isMobile] = useMediaQuery('(max-width: 1020px)');
   return short && (alwaysShort || isMobile) ? (

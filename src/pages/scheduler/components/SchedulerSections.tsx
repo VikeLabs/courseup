@@ -174,7 +174,7 @@ export const Option = forwardRef<OptionsProps, 'div'>(
                   {m.days}
                 </Box>
                 <Box w="47%">
-                  <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} alwaysShort={false} />
+                  <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
                 </Box>
               </HStack>
             ))}

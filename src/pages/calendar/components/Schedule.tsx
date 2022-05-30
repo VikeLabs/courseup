@@ -37,7 +37,7 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
             {/* TODO: verify if we can safely exclude this for most cases */}
             {/* <Td>{m.scheduleType}</Td> */}
             <Td>
-              <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} alwaysShort={false} />
+              <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
             </Td>
             <Td>{m.instructors.join(', ')}</Td>
           </Tr>
