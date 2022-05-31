@@ -1,0 +1,24 @@
+name: "Security"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 7 * * 0'
+
+jobs:
+  CodeQL:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
