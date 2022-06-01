@@ -22,9 +22,13 @@ export function BooklistHeading() {
           The following is a booklist for the <Text as="strong">{readableTerm} </Text>term compiled from the saved
           courses on your timetable. Please note that this feature is still in <Text as="strong">beta</Text>. Please
           feel free to provide any feedback or report bugs via the <Text as="strong">Feedback Button</Text> at the
-          bottom right of your screen! Purchases made through store links may provide compensation to CourseUp and
-          VikeLabs. This helps keep the platform free of ads and supports development.
+          bottom right of your screen!
         </Text>
+        <Text w="100%" textAlign="left" pt="4">
+          Purchases made through store links may provide compensation to CourseUp and VikeLabs. This helps keep the
+          platform free of ads and supports development.
+        </Text>
+        <Divider my="4" />
       </Flex>
     </Container>
   );

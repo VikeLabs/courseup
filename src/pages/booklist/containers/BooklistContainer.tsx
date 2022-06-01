@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 
-import { Box, Container, Divider, Heading } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/layout';
 import { Center, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
 import { Term } from 'lib/fetchers';
-import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { logEvent } from 'lib/utils/logEvent';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Page } from 'common/layouts/Page';
+import { NotFound } from 'common/notFound/NotFound';
 
 import { BooklistHeading } from '../components/BooklistHeading';
 import { TextbookCard } from '../components/TextbookCard';
@@ -17,10 +17,7 @@ import { useTextbooks } from '../hooks/useTextbooks';
 
 export function BooklistContainer(): JSX.Element | null {
   const { term } = useParams();
-  const mode = useDarkMode();
-
   const textbooks = useTextbooks(term as Term);
-
   useEffect(() => {
     logEvent('textbooks_view', { term });
   }, [term]);
@@ -46,30 +43,25 @@ export function BooklistContainer(): JSX.Element | null {
               <Spinner size="xl" />
             </Center>
           ) : textbooks.textbookInfo.filter((textbook) => textbook && textbook.term === term).length > 0 ? (
-            textbooks.textbookInfo
-              .filter((textbook) => textbook && textbook.term === term)
-              .map(({ sections, subject, code }) => {
-                return <TextbookCard subject={subject} code={code} sections={sections} />;
-              })
-          ) : (
             <>
-              <Divider my="4" />
-              <Container alignItems="center" maxW="container.xl">
-                <Heading size="md" color={mode('gray', 'dark.header')}>
-                  Unable to find saved courses or textbooks for{' '}
-                  <Text as="span" color={mode('black', 'white')}>
-                    {getReadableTerm(term)}
-                  </Text>
-                </Heading>
-              </Container>
+              {textbooks.textbookInfo
+                .filter((textbook) => textbook && textbook.term === term)
+                .map(({ sections, subject, code }) => {
+                  return <TextbookCard key={`${subject}-${code}`} subject={subject} code={code} sections={sections} />;
+                })}
+              <Box as="footer" px="2" py="4" pb="6" textAlign={{ base: 'center' }}>
+                <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
+              </Box>
             </>
+          ) : textbooks.textbookInfo.filter((textbook) => textbook && textbook.term === term).length <= 0 &&
+            textbooks.textbookInfo.length <= 0 ? (
+            <NotFound term={term} timetable>
+              Unable to find saved courses from your timetable for
+            </NotFound>
+          ) : (
+            <NotFound term={term}>No textbooks found for your saved courses in </NotFound>
           )}
         </Box>
-        {textbooks.status === 'loaded' && textbooks.textbookInfo.length > 0 && (
-          <Box as="footer" px="2" textAlign={{ base: 'center', md: 'left' }}>
-            <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>
-          </Box>
-        )}
       </VStack>
     </Page>
   );

@@ -3,6 +3,8 @@ import { EventProps as BaseEventProps } from 'react-big-calendar';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
+import Location from 'common/location/Location';
+
 import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
 
 export type EventProps = BaseEventProps<{ resource: Omit<CourseCalendarEvent, 'meetingTime' | 'term'> }>;
@@ -30,7 +32,7 @@ export const CalendarEvent = ({ title, event: { resource } }: EventProps) => {
       </HStack>
       <VStack flex={1} justifyContent="center">
         <Heading color={resource.textColor ? resource.textColor : 'black'} justifyContent="center" size="sm">
-          {resource && resource.location}
+          <Location short={resource.locationAbbreviation} long={resource.location!} alwaysShort />
         </Heading>
       </VStack>
     </Flex>

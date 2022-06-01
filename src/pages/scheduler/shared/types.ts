@@ -18,6 +18,7 @@ export type CourseCalendarEvent = {
   textColor?: string;
   term: string;
   location?: string;
+  locationAbbreviation?: string;
   opacity?: boolean;
   dashedBorder?: boolean;
 };

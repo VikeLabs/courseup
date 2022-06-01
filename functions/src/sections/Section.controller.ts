@@ -49,14 +49,16 @@ export class SectionsController extends Controller {
                 formatTime(m.meetingTime.endTime)
               : 'TBA',
           days: days(m.meetingTime),
-          where: `${m.meetingTime.buildingDescription} ${m.meetingTime.room}`,
+          where: m.meetingTime.buildingDescription
+            ? `${m.meetingTime.buildingDescription} ${m.meetingTime.room}`
+            : 'TBA',
           dateRange: `${m.meetingTime.startDate} - ${m.meetingTime.endDate}`,
           scheduleType: s.scheduleTypeDescription,
           instructors: s.faculty.map(
             (f) => f.displayName + `${f.primaryIndicator ? ' (P)' : ''}`
           ),
           building: m.meetingTime.buildingDescription ?? undefined,
-          buildingAccronym: Buildings.get(
+          buildingAbbreviation: Buildings.get(
             m.meetingTime.buildingDescription ?? ''
           ),
           roomNumber: m.meetingTime.room ?? undefined,

@@ -6,6 +6,8 @@ import { MeetingTimes, Section } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
+import Location from 'common/location/Location';
+
 export function SectionsCardContainer({
   course,
   courses,
@@ -171,7 +173,9 @@ export const Option = forwardRef<OptionsProps, 'div'>(
                 <Box w="20%" minW="13%">
                   {m.days}
                 </Box>
-                <Box w="47%">{m.where}</Box>
+                <Box w="47%">
+                  <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
+                </Box>
               </HStack>
             ))}
           </VStack>

@@ -101,6 +101,7 @@ export function RegistrationHeading() {
         <AlertIcon />
         Make sure to review all course prerequisites in the UVic Calendar before registering.
       </Alert>
+      <Divider my="4" />
     </Container>
   );
 }

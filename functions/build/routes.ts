@@ -234,7 +234,15 @@ const models: TsoaRoute.Models = {
             "bookstoreUrl": {"dataType":"string"},
             "amazonUrl": {"dataType":"string"},
         },
-        "additionalProperties": false,
+        required: true,
+      },
+      required: { dataType: 'boolean', required: true },
+      authors: { dataType: 'array', array: { dataType: 'string' } },
+      title: { dataType: 'string', required: true },
+      imageUrl: { dataType: 'string' },
+      bookstoreUrl: { dataType: 'string' },
+      amazonUrl: { dataType: 'string' },
+      isbn10: { dataType: 'string' },
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CourseTextbook": {

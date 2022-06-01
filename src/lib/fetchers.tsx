@@ -186,6 +186,7 @@ export interface ExtendedTextbook {
   imageUrl?: string;
   bookstoreUrl?: string;
   amazonUrl?: string;
+  isbn10?: string;
 }
 
 export interface CourseTextbook {

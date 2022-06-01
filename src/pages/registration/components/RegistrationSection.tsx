@@ -66,7 +66,7 @@ export function RegistrationSection({ section, crn, seats, additionalNotes, sele
             <Heading as="h2">
               <AccordionButton>
                 <Box flex="1" textAlign="left">
-                  Addtional Notes
+                  Additional Notes
                 </Box>
                 <AccordionIcon />
               </AccordionButton>

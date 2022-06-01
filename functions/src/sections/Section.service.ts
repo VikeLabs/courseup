@@ -26,12 +26,12 @@ export async function getSections(
       const building = results?.groups?.building;
       const roomNumber = results?.groups?.number;
 
-      const buildingAccronym = Buildings.get(building ?? '');
+      const buildingAbbreviation = Buildings.get(building ?? '');
 
       return {
         ...meetingTime,
         building,
-        buildingAccronym,
+        buildingAbbreviation,
         roomNumber,
       };
     });

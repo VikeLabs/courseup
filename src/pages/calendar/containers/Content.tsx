@@ -130,6 +130,7 @@ export function Content({ term }: ContentProps): JSX.Element {
                 pid={data.pid}
                 term={term}
               />
+              <Divider my="4" />
               <SectionsContainer term={term} subject={data.subject} code={data.code} />
             </>
           )}

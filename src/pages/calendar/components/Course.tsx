@@ -51,7 +51,7 @@ export interface CourseInfoProps {
    */
   credits?: { credits: { max: string; min: string }; chosen: string; value: {} };
   /**
-   * course addtional notes
+   * course additional notes
    */
   additionalNotes?: string;
   /**
