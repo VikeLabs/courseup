@@ -12,6 +12,7 @@ import {
   Alert,
   useToast,
   IconButton,
+  Divider,
 } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { MdDelete, MdAdd } from 'react-icons/md';
