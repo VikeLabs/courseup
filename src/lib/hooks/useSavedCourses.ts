@@ -104,13 +104,14 @@ export const useSavedCourses = (): SavedCourses => {
   const updateCourseColor = useCallback(
     (pid: string, term: string, color: string) => {
       data.map((item) => {
-        if (item.term == term && item.pid == pid) {
+        if (item.term === term && item.pid === pid) {
           item.color = color;
         }
+        return data;
       });
       setData(data);
     },
-    [data]
+    [data, setData]
   );
   /**
    * Checks the equality of two courses

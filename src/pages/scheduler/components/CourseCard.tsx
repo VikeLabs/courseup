@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { ChevronDownIcon, ChevronUpIcon, CloseIcon, CopyIcon, EditIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, CloseIcon, EditIcon } from '@chakra-ui/icons';
 import {
   Box,
   Text,
@@ -96,7 +96,7 @@ export function CourseCard({
     (color: string) => {
       handleColorChange({ term, code, subject, pid, color });
     },
-    [code, handleDelete, pid, subject, term, color]
+    [code, handleColorChange, pid, subject, term]
   );
 
   const onShowSections = useCallback(() => {
@@ -150,11 +150,7 @@ export function CourseCard({
                     <MenuList>
                       {colorList.map((colorOption) => {
                         return (
-                          <MenuItem
-                            icon={<CopyIcon />}
-                            key={colorOption.color}
-                            onClick={() => onColorChange(colorOption.color)}
-                          >
+                          <MenuItem key={colorOption.color} onClick={() => onColorChange(colorOption.color)}>
                             {colorOption.name}
                           </MenuItem>
                         );
