@@ -1,7 +1,20 @@
 import { useCallback } from 'react';
 
-import { ChevronDownIcon, ChevronUpIcon, CloseIcon } from '@chakra-ui/icons';
-import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton } from '@chakra-ui/react';
+import { ChevronDownIcon, ChevronUpIcon, CloseIcon, CopyIcon, EditIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Text,
+  Flex,
+  VStack,
+  Checkbox,
+  IconButton,
+  BackgroundProps,
+  Skeleton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { Term, useGetCourse } from 'lib/fetchers';
@@ -30,6 +43,19 @@ export type CourseCardProps = {
     selected?: boolean;
   }) => void;
   handleDelete: ({ code, pid, subject, term }: { code: string; pid: string; subject: string; term: string }) => void;
+  handleColorChange: ({
+    code,
+    pid,
+    subject,
+    term,
+    color,
+  }: {
+    code: string;
+    pid: string;
+    subject: string;
+    term: string;
+    color: string;
+  }) => void;
   handleShowSections: ({
     code,
     pid,
@@ -43,6 +69,7 @@ export type CourseCardProps = {
     term: string;
     showSections?: boolean;
   }) => void;
+  colorList: { color: string; name: string }[];
 };
 
 export function CourseCard({
@@ -57,11 +84,20 @@ export function CourseCard({
   handleSelection,
   handleShowSections,
   handleDelete,
+  handleColorChange,
+  colorList,
 }: CourseCardProps): JSX.Element {
   const mode = useDarkMode();
   const onChange = useCallback(() => {
     handleSelection({ term, code, subject, pid, selected });
   }, [code, handleSelection, pid, selected, subject, term]);
+
+  const onColorChange = useCallback(
+    (color: string) => {
+      handleColorChange({ term, code, subject, pid, color });
+    },
+    [code, handleDelete, pid, subject, term, color]
+  );
 
   const onShowSections = useCallback(() => {
     handleShowSections({ term, code, subject, pid, showSections });
@@ -87,18 +123,47 @@ export function CourseCard({
       <Flex direction="row">
         <Flex background={color} alignItems="center" justifyContent="center" mr="10px">
           {hasSections ? (
-            <Flex>
-              <Checkbox
-                backgroundColor="whiteAlpha.600"
-                colorScheme="whiteAlpha"
-                iconColor="black"
-                id={`checkbox-${pid}-${term}-${subject}-${code}`}
-                size="lg"
-                mx="7px"
-                isChecked={selected}
-                onChange={onChange}
-              />
-            </Flex>
+            <>
+              <Flex direction="column" gap="1" w="100%">
+                <Box pt={3} alignItems="center" justifyContent="center" ml="3px" mr="3px">
+                  <Checkbox
+                    backgroundColor="whiteAlpha.600"
+                    colorScheme="whiteAlpha"
+                    iconColor="black"
+                    id={`checkbox-${pid}-${term}-${subject}-${code}`}
+                    size="lg"
+                    mx="7px"
+                    isChecked={selected}
+                    onChange={onChange}
+                  />
+                </Box>
+                <Box>
+                  <Menu>
+                    <MenuButton
+                      size="md"
+                      as={IconButton}
+                      variant="ghost"
+                      isRound={true}
+                      aria-label="Options"
+                      icon={<EditIcon />}
+                    />
+                    <MenuList>
+                      {colorList.map((colorOption) => {
+                        return (
+                          <MenuItem
+                            icon={<CopyIcon />}
+                            key={colorOption.color}
+                            onClick={() => onColorChange(colorOption.color)}
+                          >
+                            {colorOption.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </MenuList>
+                  </Menu>
+                </Box>
+              </Flex>
+            </>
           ) : (
             <VStack mx="7px" width="5" />
           )}
