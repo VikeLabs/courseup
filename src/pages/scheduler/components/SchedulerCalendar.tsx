@@ -44,6 +44,8 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   const [isMobile] = useMediaQuery('(max-width: 1020px)');
   // initialize selected date
   const [selectedDate, setSelectedDate] = useState(today);
+  // initialize initial view
+  const [view, setView] = useState<'day' | 'work_week'>('work_week');
   // determine what date to position the calendar on.
   const initialSelectedDate = useInitialDateTime(term);
 
@@ -69,7 +71,8 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
 
   useEffect(() => {
     setSelectedDate(initialSelectedDate);
-  }, [initialSelectedDate, courseCalendarEvents.length]);
+    setView(isMobile ? 'day' : 'work_week');
+  }, [initialSelectedDate, isMobile, courseCalendarEvents.length]);
 
   return (
     <Calendar<CustomEvent>
@@ -78,7 +81,9 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       min={set(today, { hours: 8, minutes: 0 })}
       max={set(today, { hours: maxTime.hours, minutes: maxTime.minutes })}
       views={['work_week', 'day']}
-      view={isMobile ? 'day' : 'work_week'}
+      onView={() => (isMobile ? setView('day') : setView('work_week'))}
+      view={view}
+      onNavigate={(date) => setSelectedDate(date)}
       date={selectedDate}
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
@@ -87,6 +92,10 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"
+      formats={{
+        dayFormat: (date: Date, culture: any, localizer: any) => localizer.format(date, 'EEEE', culture),
+        dayHeaderFormat: (date: Date, culture: any, localizer: any) => localizer.format(date, 'EE MMM do', culture),
+      }}
     />
   );
 };
