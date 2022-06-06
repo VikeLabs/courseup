@@ -81,7 +81,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       min={set(today, { hours: 8, minutes: 0 })}
       max={set(today, { hours: maxTime.hours, minutes: maxTime.minutes })}
       views={['work_week', 'day']}
-      onView={() => (isMobile ? setView('day') : setView('work_week'))}
+      onView={(view) => view}
       view={view}
       onNavigate={(date) => setSelectedDate(date)}
       date={selectedDate}
