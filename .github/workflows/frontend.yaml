@@ -66,27 +66,3 @@ jobs:
         env:
           REACT_APP_SENTRY_RELEASE: ${{ github.sha }}
         run: npm run build
-      - name: Share artifact inside workflow
-        uses: actions/upload-artifact@v2
-        with:
-          name: create-react-app-build
-          path: build
-  deploy-preview:
-    name: Deploy to Firebase Hosting Preview
-    if: '!github.event.pull_request.head.repo.fork'
-    runs-on: ubuntu-latest
-    needs: [lint, test, build]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Get artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: create-react-app-build
-          path: build
-      - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          expires: 7d
-          projectId: staging-clockwork

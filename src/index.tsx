@@ -61,12 +61,14 @@ if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_ANALYTICS) {
 
 const searchClient = algoliasearch('CR92D3S394', '5477854d63b676fe021f8f83f5839a3a');
 
+const baseApiUrl = process.env.REACT_APP_API_URL;
+
 migrateLocalStorage();
 
 ReactDOM.render(
   <React.StrictMode>
     <Sentry.ErrorBoundary fallback={<>'An error has occurred'</>}>
-      <RestfulProvider base={'/api'}>
+      <RestfulProvider base={baseApiUrl ?? '/api'}>
         <InstantSearch searchClient={searchClient} indexName="dev_uvic">
           <ChakraProvider portalZIndex={999} theme={customTheme}>
             <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
