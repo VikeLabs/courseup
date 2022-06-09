@@ -116,7 +116,6 @@ export function CourseInfo({ description, hours, additionalNotes, credits, units
           <Text>{additionalNotes}</Text>
         </Box>
       )}
-      <Divider my={{ base: 2, md: 5 }} />
     </Box>
   );
 }

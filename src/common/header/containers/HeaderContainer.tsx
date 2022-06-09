@@ -79,9 +79,9 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
       ];
   return (
     <>
+      <Banner tips={tips} />
       {smallScreen ? (
         <>
-          <Banner tips={tips} />
           <MobileHeaderContainer onSearchChange={onSearchChange} />
         </>
       ) : (
