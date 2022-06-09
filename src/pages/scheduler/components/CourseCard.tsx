@@ -104,7 +104,7 @@ export function CourseCard({
           )}
         </Flex>
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
-          <Flex grow={1}>
+          <Flex flexGrow={1}>
             <VStack
               alignItems="start"
               spacing="0"

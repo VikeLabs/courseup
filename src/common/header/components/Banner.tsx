@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton } from '@chakra-ui/react';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 
@@ -26,23 +25,13 @@ function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): 
   );
 }
 
-export function Banner(): JSX.Element {
+type Props = {
+  tips: JSX.Element[];
+};
+
+export function Banner({ tips }: Props): JSX.Element {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   const [tipIndex, setTipIndex] = useState(0);
-
-  const tips: Array<JSX.Element> = [
-    <Text>
-      📅 The{' '}
-      <Text as={Link} to="/calendar/202209" textDecoration="underline">
-        Fall 2022
-      </Text>{' '}
-      and{' '}
-      <Text as={Link} to="/calendar/202301" textDecoration="underline">
-        Spring 2023
-      </Text>{' '}
-      calendars are now available. Happy scheduling!
-    </Text>,
-  ];
 
   useEffect(() => {
     const timeout = setTimeout(() => {

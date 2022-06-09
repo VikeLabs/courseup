@@ -1,17 +1,8 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  LinkBox,
-  HStack,
-  Spacer,
-  useMediaQuery,
-  Collapse,
-  useDisclosure,
-  VStack,
-  IconButton,
-  Text,
-} from '@chakra-ui/react';
+import { Box, LinkBox, HStack, Spacer, Collapse, useDisclosure, VStack, IconButton, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { Banner } from '../components/Banner';
 import { MiscHeaderButtons } from '../components/MiscHeaderButtons';
@@ -70,13 +61,29 @@ export interface HeaderProps {
  * Primary UI component for content
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
-
+  const smallScreen = useSmallScreen();
+  const tips: Array<JSX.Element> = smallScreen
+    ? [<Text>⚠️ Mobile is currently in beta.</Text>]
+    : [
+        <Text>
+          📅 The{' '}
+          <Text as={Link} to="/calendar/202209" textDecoration="underline">
+            Fall 2022
+          </Text>{' '}
+          and{' '}
+          <Text as={Link} to="/calendar/202301" textDecoration="underline">
+            Spring 2023
+          </Text>{' '}
+          calendars are now available. Happy scheduling!
+        </Text>,
+      ];
   return (
     <>
-      <Banner />
-      {isMobile ? (
-        <MobileHeaderContainer onSearchChange={onSearchChange} />
+      <Banner tips={tips} />
+      {smallScreen ? (
+        <>
+          <MobileHeaderContainer onSearchChange={onSearchChange} />
+        </>
       ) : (
         <Box position="sticky" top={0} data-testid="desktop-header">
           <HStack as="header" px="8" boxShadow="md" minH="56px">

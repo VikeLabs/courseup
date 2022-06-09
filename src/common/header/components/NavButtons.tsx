@@ -1,10 +1,11 @@
-import { Button, ButtonGroup, useMediaQuery, VStack, Divider } from '@chakra-ui/react';
+import { Button, ButtonGroup, VStack, Divider } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router';
 
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 export function NavButtons(): JSX.Element {
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+  const smallScreen = useSmallScreen();
   const { term } = useParams();
 
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export function NavButtons(): JSX.Element {
 
   return (
     <>
-      {isMobile ? (
+      {smallScreen ? (
         <ButtonGroup isAttached variant="ghost" w="100%" data-testid="mobile-nav">
           <VStack w="100%">
             <Button onClick={onClick} name="calendar" w="100%">
