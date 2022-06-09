@@ -24,7 +24,7 @@ export function migrateLocalStorage() {
     const item = window.localStorage.getItem('user:saved_courses');
     if (item) {
       const parsedItem = JSON.parse(item) as OldCourse[];
-      if (parsedItem.some((c) => c.sections && c.sections.length > 0)) {
+      if (parsedItem.some((c) => c.sections.length > 0)) {
         logEvent('local_storage_migration', { coursesLength: parsedItem.length });
         localStorage.setItem(
           'user:saved_courses',
