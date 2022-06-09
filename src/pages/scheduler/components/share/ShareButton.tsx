@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
+import { Button, Icon, IconButton, useDisclosure } from '@chakra-ui/react';
 import html2canvas from 'html2canvas';
 import { FiCamera } from 'react-icons/fi';
-import { Button, Icon, IconButton, useDisclosure } from '@chakra-ui/react';
 import { IoShareOutline } from 'react-icons/io5';
 import { useMatch } from 'react-router';
 

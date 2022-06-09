@@ -72,7 +72,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   useEffect(() => {
     setSelectedDate(initialSelectedDate);
     setView(smallScreen ? 'day' : 'work_week');
-  }, [initialSelectedDate, isMobile, courseCalendarEvents.length]);
+  }, [initialSelectedDate, smallScreen, courseCalendarEvents.length]);
 
   return (
     <Calendar<CustomEvent>
