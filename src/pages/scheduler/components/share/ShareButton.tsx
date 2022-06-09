@@ -6,7 +6,7 @@ import { FiCamera } from 'react-icons/fi';
 import { IoShareOutline } from 'react-icons/io5';
 import { useMatch } from 'react-router';
 
-import { CreateTimetableResponse, Term, TimetableCourse, useCreateTimetable } from 'lib/fetchers';
+import { CreateTimetableResponse, Term, TimetableCourse, TimetableReturn, useCreateTimetable } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 
 import ShareTimetableModal from './ShareTimetableModal';
@@ -51,29 +51,41 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
   };
 
   const handleScreenshot = () => {
-    // target the calendar container exclusively
-    const calendarHTMLElement: HTMLElement = document.getElementsByClassName('rbc-time-view')[0] as HTMLElement;
-    // select the screenshot footer and clone for manipulation
-    const footerHTMLElement: HTMLElement = document.getElementById('screenshotFooter') as HTMLElement;
-    const footerHTMLElementClone = footerHTMLElement.cloneNode(true) as HTMLElement;
+    mutate({ term: term as Term, courses: timetableCourses }).then((data) => {
+      setTimetable(data);
 
-    footerHTMLElementClone.style.visibility = 'visible';
-    calendarHTMLElement.appendChild(footerHTMLElementClone);
+      // target the calendar container exclusively
+      const calendarHTMLElement: HTMLElement = document.getElementsByClassName('rbc-time-view')[0] as HTMLElement;
+      // select the screenshot footer and clone for manipulation
+      const footerHTMLElement: HTMLElement = document.getElementById('screenshotFooter') as HTMLElement;
+      const footerShareURL: HTMLAnchorElement = document.getElementById(
+        'screenshotFooterShareURL'
+      ) as HTMLAnchorElement;
 
-    // on mobile the screenshot is of the day view
-    // on desktop the screenshot is of the week view
-    html2canvas(calendarHTMLElement, {
-      windowHeight: isMobile ? 1080 : 1080,
-      windowWidth: isMobile ? 360 : 1920,
-    })
-      .then((canvas) => {
-        downloadCalendarScreenshot(canvas.toDataURL(), `${term}_calendar.png`);
-        calendarHTMLElement.removeChild(footerHTMLElementClone);
+      const { slug } = data as TimetableReturn;
+      footerShareURL.href = `${window.location.origin}/s/${slug}`;
+      footerShareURL.textContent = `${window.location.origin}/s/${slug}`;
+
+      const footerHTMLElementClone = footerHTMLElement.cloneNode(true) as HTMLElement;
+
+      footerHTMLElementClone.style.visibility = 'visible';
+      calendarHTMLElement.appendChild(footerHTMLElementClone);
+
+      // on mobile the screenshot is of the day view
+      // on desktop the screenshot is of the week view
+      html2canvas(calendarHTMLElement, {
+        windowHeight: isMobile ? 1080 : 1080,
+        windowWidth: isMobile ? 360 : 1920,
       })
-      .then(() => {
-        // open share modal to encourage sharing
-        handleShare();
-      });
+        .then((canvas) => {
+          downloadCalendarScreenshot(canvas.toDataURL(), `${term}_calendar.png`);
+          calendarHTMLElement.removeChild(footerHTMLElementClone);
+        })
+        .then(() => {
+          // open share modal to encourage sharing
+          handleShare();
+        });
+    });
   };
 
   const downloadCalendarScreenshot = (uri: string, filename: string) => {

@@ -27,7 +27,7 @@ export function ScreenshotFooter(): JSX.Element {
         </Text>
       </Flex>
       <Text fontSize={'sm'}>
-        <a href="https://courseup.vikelabs.ca" target={'_blank'} rel="noreferrer">
+        <a id="screenshotFooterShareURL" href="https://courseup.vikelabs.ca" target={'_blank'} rel="noreferrer">
           https://courseup.vikelabs.ca
         </a>
       </Text>
