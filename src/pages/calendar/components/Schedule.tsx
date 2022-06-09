@@ -1,6 +1,7 @@
-import { Badge, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Badge, Box, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 import { MeetingTimes } from 'lib/fetchers';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import Location from 'common/location/Location';
 
@@ -12,7 +13,60 @@ export interface ScheduleProps {
   meetingTimes: MeetingTimes[];
 }
 
+function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
+  return (
+    <Box overflowX="auto" textAlign="left">
+      <Table variant="striped" size="sm" w="100%">
+        <Tr maxW="100px">
+          <Th scope="row" pl={2}>
+            Days
+          </Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>
+              <Badge>{m.days}</Badge>
+            </Td>
+          ))}
+        </Tr>
+        <Tr>
+          <Th scope="row" pl={2}>
+            Dates
+          </Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>{m.dateRange}</Td>
+          ))}
+        </Tr>
+        <Tr>
+          <Th scope="row" pl={2}>
+            Time
+          </Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>{m.time}</Td>
+          ))}
+        </Tr>
+        <Tr>
+          <Th scope="row" pl={2}>
+            Location
+          </Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>{m.where}</Td>
+          ))}
+        </Tr>
+        <Tr>
+          <Th scope="row" pl={2}>
+            Instructors
+          </Th>
+          {meetingTimes.map((m, i) => (
+            <Td key={i}>{m.instructors}</Td>
+          ))}
+        </Tr>
+      </Table>
+    </Box>
+  );
+}
+
 export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
+  const smallScreen = useSmallScreen();
+  if (smallScreen) return <MobileSchedule meetingTimes={meetingTimes} />;
   return (
     <Table variant="striped" size="sm">
       <Thead>

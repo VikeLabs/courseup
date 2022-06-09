@@ -2,12 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 
 import 'react-big-calendar/lib/sass/styles.scss';
 
-import { useMediaQuery } from '@chakra-ui/react';
 import { format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { CalendarEvent } from 'pages/scheduler/components/Event';
 import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
@@ -41,7 +41,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   // for darkmode
   const mode = useDarkMode();
   const today = useMemo(() => new Date(), []);
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+  const smallScreen = useSmallScreen();
   // initialize selected date
   const [selectedDate, setSelectedDate] = useState(today);
   // initialize initial view
@@ -71,7 +71,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
 
   useEffect(() => {
     setSelectedDate(initialSelectedDate);
-    setView(isMobile ? 'day' : 'work_week');
+    setView(smallScreen ? 'day' : 'work_week');
   }, [initialSelectedDate, isMobile, courseCalendarEvents.length]);
 
   return (
@@ -88,7 +88,7 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
       eventPropGetter={eventPropGetter}
       slotPropGetter={slotPropGetter(mode)}
       components={{
-        toolbar: CalendarToolBar(setSelectedDate, term, isMobile, vCalendar),
+        toolbar: CalendarToolBar(setSelectedDate, term, smallScreen, vCalendar),
         event: CalendarEvent,
       }}
       dayLayoutAlgorithm="no-overlap"

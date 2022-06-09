@@ -1,19 +1,20 @@
 import { useState } from 'react';
 
-import { Button, Icon, IconButton, useDisclosure, useMediaQuery } from '@chakra-ui/react';
 import html2canvas from 'html2canvas';
 import { FiCamera } from 'react-icons/fi';
+import { Button, Icon, IconButton, useDisclosure } from '@chakra-ui/react';
 import { IoShareOutline } from 'react-icons/io5';
 import { useMatch } from 'react-router';
 
 import { CreateTimetableResponse, Term, TimetableCourse, TimetableReturn, useCreateTimetable } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import ShareTimetableModal from './ShareTimetableModal';
 
 export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element | null {
   const importPage = useMatch('/s/:slug');
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
+  const smallScreen = useSmallScreen();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // gets saved courses in session to enable/disable share button accordingly
@@ -74,8 +75,8 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
       // on mobile the screenshot is of the day view
       // on desktop the screenshot is of the week view
       html2canvas(calendarHTMLElement, {
-        windowHeight: isMobile ? 1080 : 1080,
-        windowWidth: isMobile ? 360 : 1920,
+        windowHeight: smallScreen ? 1080 : 1080,
+        windowWidth: smallScreen ? 360 : 1920,
       })
         .then((canvas) => {
           downloadCalendarScreenshot(canvas.toDataURL(), `${term}_calendar.png`);
@@ -106,7 +107,7 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
     <></>
   ) : (
     <>
-      {isMobile ? (
+      {smallScreen ? (
         <>
           <IconButton
             aria-label="Share timetable"

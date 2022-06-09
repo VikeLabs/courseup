@@ -1,10 +1,12 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 
-import { Flex, useMediaQuery } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useMatch, useNavigate, useParams } from 'react-router';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
+import { isMobile } from 'lib/utils/mobile';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
@@ -24,8 +26,8 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
   const { term, slug } = useParams();
+  const smallScreen = useSmallScreen();
 
   const route = location.pathname.split('/')[1];
 
@@ -45,21 +47,21 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   return (
     <>
       {!mobileSupport && <Mobile />}
-      <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
+      <Flex h={isMobile ? window.innerHeight : '100vh'} direction="column" overflowX="hidden" overflowY="hidden">
         <Helmet>
           <title>{title}</title>
         </Helmet>
         <Header onSearchChange={handleSearchChange} />
         <Flex overflowY="auto" h="100%">
-          {!isMobile && query.length > 0 ? (
+          {!smallScreen && query.length > 0 ? (
             <Sidebar>
               <SearchResults />
             </Sidebar>
           ) : (
-            leftSidebar && !isMobile && <Sidebar>{leftSidebar}</Sidebar>
+            leftSidebar && !smallScreen && <Sidebar>{leftSidebar}</Sidebar>
           )}
           <Flex overflowY="auto" zIndex={56} w="100%" justifyContent="center" overflowX="hidden" boxShadow="md">
-            {isMobile && query.length > 0 ? (
+            {smallScreen && query.length > 0 ? (
               <Sidebar>
                 <SearchResults />
               </Sidebar>
@@ -67,7 +69,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
               children
             )}
           </Flex>
-          {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>}
+          {rightSidebar && !smallScreen && <Sidebar>{rightSidebar}</Sidebar>}
         </Flex>
       </Flex>
     </>
