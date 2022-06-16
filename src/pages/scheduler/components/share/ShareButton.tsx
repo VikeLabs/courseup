@@ -10,12 +10,27 @@ import { CreateTimetableResponse, Term, TimetableCourse, TimetableReturn, useCre
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
+import ScreenshotModal from '../ScreenshotModal';
+
 import ShareTimetableModal from './ShareTimetableModal';
 
 export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element | null {
   const importPage = useMatch('/s/:slug');
   const smallScreen = useSmallScreen();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // opens the share timetable modal
+  const {
+    isOpen: isOpenShareTimetableModal,
+    onOpen: onOpenShareTimetableModal,
+    onClose: onCloseShareTimetableModal,
+  } = useDisclosure();
+
+  // opens the screenshot modal
+  const {
+    isOpen: isOpenScreenshotModal,
+    onOpen: onOpenScreenshotModal,
+    onClose: onCloseScreenshotModal,
+  } = useDisclosure();
 
   // gets saved courses in session to enable/disable share button accordingly
   const { courses } = useSavedCourses();
@@ -44,11 +59,14 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
     }
   );
 
+  const [screenshotUrl, setScreenshotUrl] = useState('' as string);
+  const [filename, setFilename] = useState('' as string);
+
   const handleShare = () => {
     mutate({ term: term as Term, courses: timetableCourses }).then((data) => {
       setTimetable(data);
     });
-    onOpen();
+    onOpenShareTimetableModal();
   };
 
   const handleScreenshot = () => {
@@ -78,29 +96,15 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
         windowHeight: smallScreen ? 1080 : 1080,
         windowWidth: smallScreen ? 360 : 1920,
       })
-        .then((canvas) => {
-          downloadCalendarScreenshot(canvas.toDataURL(), `${term}_calendar.png`);
+        .then((canvas: any) => {
+          setFilename(`${term}_calendar.png`);
+          setScreenshotUrl(canvas.toDataURL('image/png'));
           calendarHTMLElement.removeChild(footerHTMLElementClone);
         })
         .then(() => {
-          // open share modal to encourage sharing
-          handleShare();
+          onOpenScreenshotModal();
         });
     });
-  };
-
-  const downloadCalendarScreenshot = (uri: string, filename: string) => {
-    const downloadLink = document.createElement('a');
-
-    if (typeof downloadLink.download === 'string') {
-      downloadLink.href = uri;
-      downloadLink.download = filename;
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    } else {
-      window.open(uri);
-    }
   };
 
   return importPage ? (
@@ -142,12 +146,19 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
           </Button>
         </>
       )}
+      <ScreenshotModal
+        filename={filename}
+        screenshotUrl={screenshotUrl}
+        term={term}
+        onClose={onCloseScreenshotModal}
+        isOpen={isOpenScreenshotModal}
+      />
       <ShareTimetableModal
         term={term}
         loading={loading}
         timetable={timetable}
-        onClose={onClose}
-        isOpen={isOpen}
+        onClose={onCloseShareTimetableModal}
+        isOpen={isOpenShareTimetableModal}
         inSessionSavedCourses={filteredCourses}
       />
     </>
