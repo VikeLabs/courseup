@@ -73,6 +73,11 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
     mutate({ term: term as Term, courses: timetableCourses }).then((data) => {
       setTimetable(data);
 
+      // add screenshot styling to prevent squishing
+      document
+        .querySelectorAll('.rbc-event-content')
+        .forEach((element) => element.classList.add('rbc-event-content-screenshot'));
+
       // target the calendar container exclusively
       const calendarHTMLElement: HTMLElement = document.getElementsByClassName('rbc-time-view')[0] as HTMLElement;
       // select the screenshot footer and clone for manipulation
@@ -100,6 +105,9 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
           setFilename(`${term}_calendar.png`);
           setScreenshotUrl(canvas.toDataURL('image/png'));
           calendarHTMLElement.removeChild(footerHTMLElementClone);
+          document
+            .querySelectorAll('.rbc-event-content')
+            .forEach((element) => element.classList.remove('rbc-event-content-screenshot'));
         })
         .then(() => {
           onOpenScreenshotModal();
