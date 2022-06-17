@@ -5,6 +5,17 @@ import { mode } from '@chakra-ui/theme-tools';
 export const CalendarTheme = (colorMode: 'light' | 'dark'): CSSProperties => {
   const props = { colorMode };
   return {
+    // conditional styles for timetable screenshot
+    '.rbc-event-content-screenshot.rbc-event-content > div > div': {
+      paddingTop: 0,
+      paddingBottom: '0.90rem',
+    },
+    '.rbc-event-content-screenshot.rbc-event-content > div > div:last-child': {
+      marginTop: '-0.25rem',
+      paddingTop: 0,
+      paddingBottom: '0.90rem',
+    },
+
     '.rbc-header': {
       bgColor: mode('#eff6ff', '#31363D')(props),
       padding: '1em',

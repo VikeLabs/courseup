@@ -31,7 +31,9 @@ export default function ShareTimetableModal({
       <Modal size={isSmallScreen ? 'full' : '2xl'} onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent alignItems="center">
-          <ModalHeader>Share your {getReadableTerm(term || '')} timetable</ModalHeader>
+          <ModalHeader textAlign="center" width={isSmallScreen ? '20rem' : 'full'}>
+            Share your {getReadableTerm(term || '')} timetable
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb="20px">
             <ShareModalContent

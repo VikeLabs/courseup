@@ -7,6 +7,7 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 import { SchedulerCalendar } from '../components/SchedulerCalendar';
+import { ScreenshotFooter } from '../components/ScreenshotFooter';
 import { useGetCourseSections } from '../hooks/useCalendarEvents';
 import { denormalizeCourseEvents } from '../hooks/useTransformedCalendarEvents';
 
@@ -23,9 +24,10 @@ export function SchedulerContainer(): JSX.Element {
   );
 
   return (
-    <Flex flexGrow={1} height="100%" overflow="hidden">
+    <Flex flexGrow={1} height="100%" overflow="hidden" direction={'column'}>
       <Box w="100%" height="100%" px="3" py="2">
         <SchedulerCalendar term={term || getCurrentTerm()} courseCalendarEvents={calendarEvents} />
+        <ScreenshotFooter />
       </Box>
     </Flex>
   );

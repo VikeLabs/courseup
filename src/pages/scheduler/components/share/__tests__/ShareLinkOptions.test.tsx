@@ -20,7 +20,7 @@ describe('ShareLinkOptions', () => {
   describe('when sending a slug', () => {
     it('should correctly render the display link', () => {
       render(<ShareLinkOptions slug={slug} isSmallScreen={false} loading={false} />);
-      expect(screen.getByDisplayValue('https://' + window.location.hostname + '/s/xGIvxVgsvCYa')).toBeInTheDocument();
+      expect(screen.getByDisplayValue(window.location.origin + '/s/xGIvxVgsvCYa')).toBeInTheDocument();
     });
 
     it('should show five React social media buttons and one copy button', () => {

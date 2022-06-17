@@ -118,9 +118,11 @@ export function CourseCard({
               <Text fontSize="lg" fontWeight="bold" tabIndex={0}>
                 {subject} {code}
               </Text>
-              <Text fontSize="sm" fontWeight="normal">
-                <Skeleton isLoaded={!loading}>{data?.title ?? ''}</Skeleton>
-              </Text>
+              <Skeleton isLoaded={!loading}>
+                <Text fontSize="sm" fontWeight="normal">
+                  {data?.title ?? ''}
+                </Text>
+              </Skeleton>
             </VStack>
           </Flex>
           <VStack alignContent="right" pr="3" py="5px">
