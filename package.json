@@ -30,6 +30,7 @@
     "restful-react": "^15.9.3",
     "rrule": "^2.6.4",
     "sass": "^1.49.7",
+    "swiper": "^8.2.4",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
