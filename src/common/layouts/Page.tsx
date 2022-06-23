@@ -26,49 +26,6 @@ type Props = {
   mobileSupport?: boolean;
 };
 
-const MobilePage = ({
-  query,
-  leftSidebar,
-  rightSidebar,
-  children,
-}: {
-  query: string;
-  leftSidebar?: JSX.Element;
-  rightSidebar?: JSX.Element;
-  children?: React.ReactNode;
-}): JSX.Element => {
-  const [swiper, setSwiper] = useState(null);
-
-  useEffect(() => {
-    if (query.length > 0 && swiper) {
-      //@ts-ignore
-      swiper.slideTo(0);
-    }
-  }, [query, swiper]);
-
-  return (
-    <Swiper
-      modules={[Pagination]}
-      pagination={{
-        clickable: true,
-      }}
-      initialSlide={1}
-      //@ts-ignore
-      onSwiper={(swiper) => setSwiper(swiper)}
-    >
-      {query.length > 0 ? (
-        <SwiperSlide>
-          <SearchResults />
-        </SwiperSlide>
-      ) : (
-        leftSidebar && <SwiperSlide>{leftSidebar}</SwiperSlide>
-      )}
-      <SwiperSlide style={{ overflowY: 'scroll', width: '100vw' }}>{children}</SwiperSlide>
-      {rightSidebar && <SwiperSlide>{rightSidebar}</SwiperSlide>}
-    </Swiper>
-  );
-};
-
 export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children }: PropsWithChildren<Props>) {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
@@ -82,6 +39,14 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   const handleSearchChange = (q: string) => {
     setQuery(q);
   };
+
+  const [swiper, setSwiper] = useState<any>(null);
+
+  useEffect(() => {
+    if (query.length > 0 && swiper) {
+      swiper.slideTo(0);
+    }
+  }, [query, swiper]);
 
   const contest = useMatch('/contest');
   useEffect(() => {
@@ -102,7 +67,26 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
         <Header onSearchChange={handleSearchChange} />
         <Flex overflowY="auto" h="100%">
           {smallScreen ? (
-            <MobilePage query={query} leftSidebar={leftSidebar} rightSidebar={rightSidebar} children={children} />
+            <Swiper
+              modules={[Pagination]}
+              pagination={{
+                clickable: true,
+              }}
+              initialSlide={1}
+              onSwiper={(swiper) => {
+                setSwiper(swiper);
+              }}
+            >
+              {query.length > 0 ? (
+                <SwiperSlide>
+                  <SearchResults />
+                </SwiperSlide>
+              ) : (
+                leftSidebar && <SwiperSlide>{leftSidebar}</SwiperSlide>
+              )}
+              <SwiperSlide style={{ overflowY: 'scroll', width: '100vw' }}>{children}</SwiperSlide>
+              {rightSidebar && <SwiperSlide>{rightSidebar}</SwiperSlide>}
+            </Swiper>
           ) : (
             <>
               {query.length > 0 ? (
