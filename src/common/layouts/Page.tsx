@@ -7,7 +7,6 @@ import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import '../../index.css';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
