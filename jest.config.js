@@ -23,6 +23,7 @@ const config = {
   modulePaths: ['<rootDir>/src/'],
   moduleNameMapper: {
     '^.+\\.(css|scss)$': '<rootDir>/src/lib/utils/jest/__mocks__/styleMock.js',
+    '^swiper.*$': '<rootDir>/src/lib/utils/jest/__mocks__/moduleMock.js',
   },
 };
 
