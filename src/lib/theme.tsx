@@ -24,7 +24,7 @@ export const customTheme = extendTheme({
         boxShadow: 'none !important',
       },
       ...CalendarTheme(props.colorMode),
-      ...SwiperPaginationTheme(),
+      ...SwiperPaginationTheme(props.colorMode),
     }),
   },
 });
