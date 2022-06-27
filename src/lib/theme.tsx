@@ -1,5 +1,7 @@
 import { extendTheme, ThemeConfig } from '@chakra-ui/react';
 
+import { SwiperPaginationTheme } from 'common/layouts/styles/swiperPagination';
+
 import { CalendarTheme } from 'pages/scheduler/styles/calendar';
 
 const config: ThemeConfig = {
@@ -22,6 +24,7 @@ export const customTheme = extendTheme({
         boxShadow: 'none !important',
       },
       ...CalendarTheme(props.colorMode),
+      ...SwiperPaginationTheme(props.colorMode),
     }),
   },
 });
