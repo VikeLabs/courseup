@@ -27,7 +27,7 @@ export function SchedulerContainer(): JSX.Element {
 
   return (
     <Flex flexGrow={1} height="100%" overflow="hidden" direction={'column'}>
-      <Box w="100%" height="100%" px={smallScreen ? '0' : '3'} py={smallScreen ? '1' : '2'}>
+      <Box w="100%" height="100%" px={smallScreen ? '1' : '3'} pt={'2'} pb={smallScreen ? '0' : '2'}>
         <SchedulerCalendar term={term || getCurrentTerm()} courseCalendarEvents={calendarEvents} />
         <ScreenshotFooter />
       </Box>
