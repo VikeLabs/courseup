@@ -35,7 +35,8 @@ type BadgeProps = {
 
 const courseTags = {
   'Reserved for BSENG students': 'SENG Only',
-  'Computer Science program.': 'CSC Only',
+  'Reserved for Software Engineering students': 'SENG Only',
+  'Computer Science program': 'CSC Only',
   'BEng students': 'ENGR Only',
   'Faculty of Engineering': 'ENGR/CSC Only',
   'SCIENCE students': 'SCI only',
