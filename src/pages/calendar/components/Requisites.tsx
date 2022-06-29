@@ -2,12 +2,12 @@ import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 
 // If stuff is string, return it
 // If not, get string of NestedPreCoRequisites or KualiCourse
-export function myFunction(req: string | NestedPreCoRequisites | KualiCourse): String {
+export function myFunction(req: string | NestedPreCoRequisites | KualiCourse): string {
   if (typeof req === 'string') {
     return req;
     // It's nested
   } else if ('reqList' in req) {
-    return nestedReq(req);
+    return req.quantity?.toString() + ' of the following: ' /*need to indent*/ + nestedReq(req);
   } else if ('code' in req) {
     return req.subject + req.code;
   }
@@ -23,7 +23,7 @@ export function nestedReq(req: NestedPreCoRequisites): String {
   var out = '';
   if (req.reqList !== undefined) {
     while (req.reqList[i] !== undefined) {
-      out += myFunction(req.reqList[i]) + ' ';
+      out = out + '<li>' + myFunction(req.reqList[i]) + '</li>';
       i += 1;
     }
   }
@@ -35,24 +35,31 @@ export type RequisiteProp = {
   preOrCorequisites?: (string | NestedPreCoRequisites | KualiCourse)[];
 };
 
+//"Complete {quantity} of the following:"
+//If its of type kualicourse, then its a course object with a code, subject and sometimes required grade
 export function Requisites({ preAndCorequisites, preOrCorequisites }: RequisiteProp) {
+  //console.log(preAndCorequisites);
+  //console.log(preOrCorequisites);
   return (
     <div>
-      <p>Requisites</p>
-      <li>
+      <ul>
+        {preAndCorequisites ? <p>Prerequisites</p> : null}
         {preAndCorequisites?.map((req) => {
           if (typeof req === 'string') {
-            return req;
+            return <li>{req}</li>;
           }
-          return myFunction(req);
+          return <div className="Container" dangerouslySetInnerHTML={{ __html: myFunction(req) }}></div>;
         })}
+      </ul>
+      <ul>
+        {preOrCorequisites ? <p>Pre or Corequisites</p> : null}
         {preOrCorequisites?.map((req) => {
           if (typeof req === 'string') {
-            return req;
+            return <li>{req}</li>;
           }
-          return myFunction(req);
+          return <div className="Container" dangerouslySetInnerHTML={{ __html: myFunction(req) }}></div>;
         })}
-      </li>
+      </ul>
     </div>
   );
 }
