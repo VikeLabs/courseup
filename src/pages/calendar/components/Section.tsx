@@ -38,6 +38,7 @@ const courseTags = {
   'Reserved for Software Engineering students': 'SENG Only',
   'Reserved for students in a Computer Science program': 'CSC Only',
   'Computer Science program.': 'CSC Only',
+  'Reserved for CSC, Music students': 'CSC/MUSIC Only',
   'BEng students': 'ENGR Only',
   'Faculty of Engineering': 'ENGR/CSC Only',
   'SCIENCE students': 'SCI only',
