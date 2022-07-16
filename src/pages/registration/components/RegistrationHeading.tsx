@@ -30,7 +30,7 @@ export function RegistrationHeading() {
         <Text w="100%" textAlign="left">
           UVic offers a quick and easy way to register for a course using the Course Reference Number (CRN). Follow the
           given steps below to register in your chosen course sections:{' '}
-          <OrderedList mt="1" ml="6" mb="1">
+          <OrderedList mt="1" ml="8" mb="1" lineHeight={30}>
             <ListItem>
               Click the{' '}
               <Text as="span" fontWeight="bold">
