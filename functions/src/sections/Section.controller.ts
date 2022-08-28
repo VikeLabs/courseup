@@ -4,7 +4,7 @@ import { MeetingTime } from '../banner/banner';
 import { Term, Buildings } from '../constants';
 import { Seat, Section } from './Section.model';
 import { getSections, getSectionSeats } from './Section.service';
-import { formatTime } from '../utils';
+import { formatTime, formatBuilding } from '../utils';
 
 const banner = new BannerClient();
 
@@ -50,16 +50,16 @@ export class SectionsController extends Controller {
               : 'TBA',
           days: days(m.meetingTime),
           where: m.meetingTime.buildingDescription
-            ? `${m.meetingTime.buildingDescription} ${m.meetingTime.room}`
+            ? `${formatBuilding(m.meetingTime.buildingDescription)} ${m.meetingTime.room}`
             : 'TBA',
           dateRange: `${m.meetingTime.startDate} - ${m.meetingTime.endDate}`,
           scheduleType: s.scheduleTypeDescription,
           instructors: s.faculty.map(
             (f) => f.displayName + `${f.primaryIndicator ? ' (P)' : ''}`
           ),
-          building: m.meetingTime.buildingDescription ?? undefined,
+          building: formatBuilding(m.meetingTime.buildingDescription) ?? undefined,
           buildingAbbreviation: Buildings.get(
-            m.meetingTime.buildingDescription ?? ''
+            formatBuilding(m.meetingTime.buildingDescription) ?? ''
           ),
           roomNumber: m.meetingTime.room ?? undefined,
         })),
@@ -107,6 +107,7 @@ export class SectionsController extends Controller {
     this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
     return bannerSections;
   }
+
 
   @Response(404, 'Section Seats Not Found')
   @Get('{term}/seats')

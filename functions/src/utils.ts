@@ -22,3 +22,7 @@ export function formatTime(time: string): string {
 
   return `${hour}:${minute} ${meridiem}`;
 }
+
+export function formatBuilding(building: string | null): string | undefined {
+  return building?.replace('&amp;','&');
+}
