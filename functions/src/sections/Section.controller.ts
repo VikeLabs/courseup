@@ -50,14 +50,17 @@ export class SectionsController extends Controller {
               : 'TBA',
           days: days(m.meetingTime),
           where: m.meetingTime.buildingDescription
-            ? `${formatBuilding(m.meetingTime.buildingDescription)} ${m.meetingTime.room}`
+            ? `${formatBuilding(m.meetingTime.buildingDescription)} ${
+                m.meetingTime.room
+              }`
             : 'TBA',
           dateRange: `${m.meetingTime.startDate} - ${m.meetingTime.endDate}`,
           scheduleType: s.scheduleTypeDescription,
           instructors: s.faculty.map(
             (f) => f.displayName + `${f.primaryIndicator ? ' (P)' : ''}`
           ),
-          building: formatBuilding(m.meetingTime.buildingDescription) ?? undefined,
+          building:
+            formatBuilding(m.meetingTime.buildingDescription) ?? undefined,
           buildingAbbreviation: Buildings.get(
             formatBuilding(m.meetingTime.buildingDescription) ?? ''
           ),
@@ -107,7 +110,6 @@ export class SectionsController extends Controller {
     this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
     return bannerSections;
   }
-
 
   @Response(404, 'Section Seats Not Found')
   @Get('{term}/seats')

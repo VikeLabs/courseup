@@ -25,5 +25,5 @@ export function formatTime(time: string): string {
 
 //Used in Section.controller.ts to replace &amp; with &
 export function formatBuilding(building: string | null): string | undefined {
-  return building?.replace('&amp;','&');
+  return building?.replace('&amp;', '&');
 }
