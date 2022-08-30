@@ -1,29 +1,45 @@
 import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 
+function flatten(arr: any[]): string {
+  return arr.reduce((acc, cur) => acc.concat(Array.isArray(cur) ? flatten(cur) : cur), []);
+}
+
 // If stuff is string, return it
 // If not, get string of NestedPreCoRequisites or KualiCourse
-export function myFunction(req: string | NestedPreCoRequisites | KualiCourse): string {
+export function myFunction(req: string | NestedPreCoRequisites | KualiCourse): string[] {
+  var out: string[] = [];
   if (typeof req === 'string') {
-    return req;
+    out.push(req);
+    return out;
     // It's nested
   } else if ('reqList' in req) {
-    return req.quantity?.toString() + ' of the following: ' /*need to indent*/ + nestedReq(req);
+    out.push('Complete ' + req.quantity?.toString() + ' of the following: ');
+    nestedReq(req).forEach((element) => {
+      out.push(flatten(element));
+    });
+    return out;
   } else if ('code' in req) {
-    return req.subject + req.code;
+    out.push(req.subject + req.code);
+    return out;
   }
-  return 'Failed';
+  return out;
 }
 
 // TODO: Figure out how to display the individual items one by one. Returning just cuts it off and shows once
 // Once that is done, can add a case for when coreq == true
 // Add some stuff for quantity
 // Hyperlinks for the courses
-export function nestedReq(req: NestedPreCoRequisites): String {
+export function nestedReq(req: NestedPreCoRequisites): string[][] {
   var i = 0;
-  var out = '';
+  var out = [];
   if (req.reqList !== undefined) {
     while (req.reqList[i] !== undefined) {
-      out = out + '<li>' + myFunction(req.reqList[i]) + '</li>';
+      // var nested = myFunction(req.reqList[i]);
+      // while (i <= nested.length) {
+      //   out[i] = nested[i - 1];
+      //   i += 1;
+      // }
+      out[i] = myFunction(req.reqList[i]);
       i += 1;
     }
   }
@@ -42,24 +58,49 @@ export function Requisites({ preAndCorequisites, preOrCorequisites }: RequisiteP
   //console.log(preOrCorequisites);
   return (
     <div>
-      <ul>
+      <p>
         {preAndCorequisites ? <p>Prerequisites</p> : null}
         {preAndCorequisites?.map((req) => {
           if (typeof req === 'string') {
             return <li>{req}</li>;
+          } else {
+            // var list = myFunction(req);
+            // var str = document.createElement('ul');
+            // for (var i in list) {
+            //   var anchor = document.createElement('a');
+            //   anchor.href = '#';
+            //   anchor.innerText = list[i];
+
+            //   var elem = document.createElement('li');
+            //   elem.appendChild(anchor);
+            //   str.appendChild(elem);
+            // }
+            return req;
           }
-          return <div className="Container" dangerouslySetInnerHTML={{ __html: myFunction(req) }}></div>;
+          // return <li className="Container" dangerouslySetInnerHTML={{ __html: myFunction(req) }}></li>;
         })}
-      </ul>
-      <ul>
+      </p>
+      <p>
         {preOrCorequisites ? <p>Pre or Corequisites</p> : null}
         {preOrCorequisites?.map((req) => {
           if (typeof req === 'string') {
             return <li>{req}</li>;
+          } else {
+            // var list = myFunction(req);
+            // var str = document.createElement('ul');
+            // for (var i in list) {
+            //   var anchor = document.createElement('a');
+            //   anchor.href = '#';
+            //   anchor.innerText = list[i];
+
+            //   var elem = document.createElement('li');
+            //   elem.appendChild(anchor);
+            //   str.appendChild(elem);
+            // }
+            return req;
           }
-          return <div className="Container" dangerouslySetInnerHTML={{ __html: myFunction(req) }}></div>;
         })}
-      </ul>
+      </p>
     </div>
   );
 }
