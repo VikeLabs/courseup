@@ -1,17 +1,19 @@
 import { useEffect } from 'react';
 
-import { Modal, ModalBody, ModalContent, ModalOverlay, Text, useDisclosure, useMediaQuery } from '@chakra-ui/react';
+import { Modal, ModalBody, ModalContent, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
+
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 // TODO: real mobile functionality
 export function Mobile(): JSX.Element | null {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isMobile] = useMediaQuery('(max-width: 1030px)');
+  const smallScreen = useSmallScreen();
 
   useEffect(() => {
     onOpen();
   }, [onOpen]);
 
-  if (!isMobile) return null;
+  if (!smallScreen) return null;
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />

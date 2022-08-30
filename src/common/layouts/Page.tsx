@@ -1,10 +1,16 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 
-import { Flex, useMediaQuery } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useMatch, useNavigate, useParams } from 'react-router';
+import { Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
+import { isMobile } from 'lib/utils/mobile';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
@@ -24,14 +30,22 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMobile] = useMediaQuery('(max-width: 1020px)');
   const { term, slug } = useParams();
+  const smallScreen = useSmallScreen();
 
   const route = location.pathname.split('/')[1];
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
   };
+
+  const [swiper, setSwiper] = useState<any>(null);
+
+  useEffect(() => {
+    if (query.length > 0 && swiper) {
+      swiper.slideTo(0);
+    }
+  }, [query, swiper]);
 
   const contest = useMatch('/contest');
   useEffect(() => {
@@ -45,29 +59,48 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   return (
     <>
       {!mobileSupport && <Mobile />}
-      <Flex h="100vh" direction="column" overflowX="hidden" overflowY="hidden">
+      <Flex h={smallScreen ? window.innerHeight : '100vh'} direction="column" overflowX="hidden" overflowY="hidden">
         <Helmet>
           <title>{title}</title>
         </Helmet>
         <Header onSearchChange={handleSearchChange} />
         <Flex overflowY="auto" h="100%">
-          {!isMobile && query.length > 0 ? (
-            <Sidebar>
-              <SearchResults />
-            </Sidebar>
+          {smallScreen ? (
+            <Swiper
+              modules={[Pagination]}
+              pagination={{
+                clickable: true,
+              }}
+              initialSlide={1}
+              onSwiper={(swiper) => {
+                setSwiper(swiper);
+              }}
+            >
+              {query.length > 0 ? (
+                <SwiperSlide>
+                  <SearchResults />
+                </SwiperSlide>
+              ) : (
+                leftSidebar && <SwiperSlide>{leftSidebar}</SwiperSlide>
+              )}
+              <SwiperSlide style={{ overflowY: 'scroll', width: '100vw' }}>{children}</SwiperSlide>
+              {rightSidebar && <SwiperSlide>{rightSidebar}</SwiperSlide>}
+            </Swiper>
           ) : (
-            leftSidebar && !isMobile && <Sidebar>{leftSidebar}</Sidebar>
+            <>
+              {query.length > 0 ? (
+                <Sidebar>
+                  <SearchResults />
+                </Sidebar>
+              ) : (
+                leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
+              )}
+              <Flex overflowY="auto" zIndex={56} w="100%" justifyContent="center" boxShadow="md">
+                {children}
+              </Flex>
+              {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>}
+            </>
           )}
-          <Flex overflowY="auto" zIndex={56} w="100%" justifyContent="center" overflowX="hidden" boxShadow="md">
-            {isMobile && query.length > 0 ? (
-              <Sidebar>
-                <SearchResults />
-              </Sidebar>
-            ) : (
-              children
-            )}
-          </Flex>
-          {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>}
         </Flex>
       </Flex>
     </>

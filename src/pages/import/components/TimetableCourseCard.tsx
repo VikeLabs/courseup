@@ -96,7 +96,7 @@ function TopRow({
       <Flex direction="row">
         <Box w="20%" background={color} mr="10px" />
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
-          <Flex grow={1}>
+          <Flex flexGrow={1}>
             <VStack
               alignItems="start"
               spacing="0"

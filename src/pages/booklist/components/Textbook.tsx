@@ -1,25 +1,11 @@
 import { LinkIcon } from '@chakra-ui/icons';
-import {
-  Badge,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Spacer,
-  Table,
-  Td,
-  Text,
-  Tr,
-  VStack,
-  Image,
-} from '@chakra-ui/react';
-import { IoBook } from 'react-icons/io5';
+import { Badge, Button, Flex, Heading, HStack, Table, Td, Text, Tr, VStack, Image, Tbody } from '@chakra-ui/react';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { logEvent } from 'lib/utils/logEvent';
 
 type Props = {
+  key: string;
   title: string;
   authors?: string[];
   price: {
@@ -30,6 +16,7 @@ type Props = {
   };
   isbn?: string;
   bookstoreUrl?: string;
+  imageUrl?: string;
   required: boolean;
   amazonUrl?: string;
 };
@@ -40,6 +27,7 @@ export function Textbook({
   price: { newCad, usedCad, newAndDigitalAccessCad, digitalAccessCad },
   isbn,
   bookstoreUrl,
+  imageUrl,
   required,
   amazonUrl,
 }: Props) {
@@ -50,76 +38,79 @@ export function Textbook({
   };
 
   return (
-    <Flex alignItems="center" direction={{ base: 'column', md: 'row' }} mt="1">
-      {/* TODO: Replace with image from API */}
-      {/* <Image src={textbook.textbooks[0].imageUrl} /> */}
-      <Center
-        h="167px"
-        w="120px"
-        bgColor={mode('rgba(114, 114, 114, 0.459)', 'rgba(58, 58, 58, 0.459)')}
-        mr="1"
-        borderRadius="5"
-      >
-        <IoBook size="3em" />
-      </Center>
-      <VStack ml="1" h="100%" alignItems={{ base: 'center', md: 'start' }}>
-        <HStack>
-          <Heading size="sm">{title}</Heading>
+    <Flex
+      key={isbn}
+      alignItems="center"
+      justifyContent="space-between"
+      direction={{ base: 'column', md: 'row' }}
+      gap="8"
+      boxShadow="md"
+      borderRadius="lg"
+      p="4"
+      pt={{ base: '8', md: '4' }}
+      backgroundColor={mode('white', 'dark.background')}
+    >
+      <Flex alignItems={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }} gap="4">
+        <Image h="180px" w="120px" src={imageUrl} />
+        <VStack h="100%" alignItems={{ base: 'center', md: 'start' }} gap="0.5">
           <Badge colorScheme={required ? 'orange' : 'green'}>{required ? 'required' : 'optional'}</Badge>
-        </HStack>
-        <Text>{authors?.join(', ')}</Text>
-        <Table w="fit-content" size="sm" variant="unstyled">
-          {newCad && (
-            <Tr>
-              <Td p="0" w="10px">
-                <Text as="strong">NEW</Text>
-              </Td>{' '}
-              <Td p="0">{newCad}</Td>
-            </Tr>
-          )}
-          {usedCad && (
-            <Tr>
-              <Td p="0" w="10px">
-                <Text as="strong">USED</Text>
-              </Td>
-              <Td p="0">{usedCad}</Td>
-            </Tr>
-          )}
-          {newAndDigitalAccessCad && (
-            <Tr>
-              <Td p="0" w="10px">
-                <Text as="strong" mr="4">
-                  NEW & DIGITAL ACCESS
-                </Text>
-              </Td>
-              <Td p="0">{newAndDigitalAccessCad}</Td>
-            </Tr>
-          )}
-          {digitalAccessCad && (
-            <Tr>
-              <Td p="0" w="10px">
-                <Text as="strong" mr="4">
-                  DIGITAL ACCESS
-                </Text>
-              </Td>
-              <Td p="0">{digitalAccessCad}</Td>
-            </Tr>
-          )}
-          <Tr>
-            <Td pl="0" pt="10">
-              <Text as="strong">ISBN</Text>
-            </Td>
-            <Td pl="0" pt="10">
-              {isbn}
-            </Td>
-          </Tr>
-        </Table>
-      </VStack>
-      <Spacer />
-      <VStack ml="3" w="10em">
+          <HStack>
+            <Heading size="sm" maxW={{ base: '18rem', md: '100%' }} textAlign={{ base: 'center', md: 'left' }}>
+              {title}
+            </Heading>
+          </HStack>
+          <Text fontSize="sm" textAlign={{ base: 'center', md: 'left' }}>
+            {authors?.join(', ')}
+          </Text>
+          <Table w="fit-content" size="sm" variant="unstyled" mt="2.25rem!important">
+            <Tbody display="flex" flexDirection="column" gap="2">
+              {newCad && (
+                <Tr display="flex" gap="2">
+                  <Td p="0" w="5rem">
+                    <Text as="strong">NEW</Text>
+                  </Td>
+                  <Td p="0">{newCad}</Td>
+                </Tr>
+              )}
+              {usedCad && (
+                <Tr display="flex" gap="2">
+                  <Td p="0" w="5rem">
+                    <Text as="strong">USED</Text>
+                  </Td>
+                  <Td p="0">{usedCad}</Td>
+                </Tr>
+              )}
+              {newAndDigitalAccessCad && (
+                <Tr display="flex" gap="2">
+                  <Td p="0" w="5rem">
+                    <Text as="strong">NEW & DIGITAL ACCESS</Text>
+                  </Td>
+                  <Td p="0">{newAndDigitalAccessCad}</Td>
+                </Tr>
+              )}
+              {digitalAccessCad && (
+                <Tr display="flex" gap="2">
+                  <Td p="0" w="5rem">
+                    <Text as="strong">DIGITAL ACCESS</Text>
+                  </Td>
+                  <Td p="0">{digitalAccessCad}</Td>
+                </Tr>
+              )}
+              <Tr display="flex" gap="2">
+                <Td p="0" w="5rem">
+                  <Text as="strong">ISBN-13</Text>
+                </Td>
+                <Td p="0">{isbn}</Td>
+              </Tr>
+            </Tbody>
+          </Table>
+        </VStack>
+      </Flex>
+      <VStack w={{ base: '100%', md: '10em' }} gap={{ base: '2' }} py={{ base: '5', md: '0' }}>
         <Button
           w="100%"
           colorScheme="blue"
+          color="black"
           rightIcon={<LinkIcon />}
           disabled={bookstoreUrl === undefined}
           onClick={() => handleTextbookClick(bookstoreUrl)}
@@ -129,20 +120,19 @@ export function Textbook({
         >
           UVic Bookstore
         </Button>
-
         <Button
-          tabIndex={0}
+          w="100%"
           size="fit-content"
+          boxShadow="md"
+          borderRadius="md"
+          disabled={amazonUrl === undefined}
+          onClick={() => handleTextbookClick(amazonUrl)}
           as="a"
           href={amazonUrl}
           target="_blank"
-          disabled={amazonUrl === undefined}
-          onClick={() => handleTextbookClick(amazonUrl)}
         >
           <Image
             loading="lazy"
-            boxShadow="md"
-            borderRadius="md"
             src={process.env.PUBLIC_URL + `/assets/brands/${mode('amazon_light.png', 'amazon_dark.png')}`}
             h="2.4em"
             p="2"

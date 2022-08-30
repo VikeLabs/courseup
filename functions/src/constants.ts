@@ -7,7 +7,9 @@ export type Term =
   | '202105'
   | '202109'
   | '202201'
-  | '202205';
+  | '202205'
+  | '202209'
+  | '202301';
 
 // add some code?
 const buildings: { [key: string]: string } = {

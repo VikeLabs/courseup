@@ -1,8 +1,8 @@
 import { MeetingTimes } from 'lib/fetchers';
 
 import { clearTimezone } from 'pages/scheduler/shared/parsers';
-import { courseCalEventToCustomEvents } from 'pages/scheduler/shared/transformers';
-import { CourseCalendarEvent } from 'pages/scheduler/shared/types';
+import { courseCalEventToCustomEvents, courseCalEventToResource } from 'pages/scheduler/shared/transformers';
+import { CourseCalendarEvent, Resource } from 'pages/scheduler/shared/types';
 
 describe('transformers', () => {
   describe('courseCalEventToCustomEvents', () => {
@@ -181,6 +181,44 @@ describe('transformers', () => {
           opacity: false,
         },
       });
+    });
+  });
+
+  describe('courseCalEventToResource', () => {
+    const baseResource: Resource = {
+      code: '130',
+      color: undefined,
+      location: 'MacLaurin Building A144',
+      opacity: false,
+      sectionCode: 'A01',
+      subject: 'ENGR',
+      textColor: undefined,
+      locationAbbreviation: 'MAC A144',
+    };
+
+    const baseMeetingTime: MeetingTimes = {
+      dateRange: 'Sep 08, 2021 - Sep 08, 2021',
+      days: 'MR',
+      time: '9:00 am - 9:50 am',
+      instructors: [],
+      scheduleType: '',
+      type: 'Every Week',
+      where: 'MacLaurin Building A144',
+      buildingAbbreviation: 'MAC',
+      roomNumber: 'A144',
+    };
+
+    const baseEvent: CourseCalendarEvent = {
+      subject: 'ENGR',
+      code: '130',
+      sectionCode: 'A01',
+      term: '202109',
+      meetingTime: baseMeetingTime,
+    };
+
+    it('should contain the correct locationAbbreviation when available', () => {
+      const result = courseCalEventToResource(baseEvent);
+      expect(result).toEqual(baseResource);
     });
   });
 });

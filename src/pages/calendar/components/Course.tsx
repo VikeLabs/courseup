@@ -1,5 +1,9 @@
+import { useState } from 'react';
+
 import { Box, Heading, Text } from '@chakra-ui/layout';
-import { BackgroundProps, Divider, Flex } from '@chakra-ui/react';
+import { BackgroundProps, Button, Center, Divider, Flex } from '@chakra-ui/react';
+
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { HoursShield } from 'pages/calendar/components/Hours';
 import { CourseHours } from 'pages/calendar/shared/types';
@@ -47,9 +51,9 @@ export interface CourseInfoProps {
    */
   credits?: { credits: { max: string; min: string }; chosen: string; value: {} };
   /**
-   * course addtional notes
+   * course additional notes
    */
-  addtionalNotes?: string;
+  additionalNotes?: string;
   /**
    * course units
    */
@@ -64,11 +68,18 @@ export interface CourseInfoProps {
   term: string;
 }
 
-export function CourseInfo({ description, hours, addtionalNotes, credits, units }: CourseInfoProps): JSX.Element {
+export function CourseInfo({ description, hours, additionalNotes, credits, units }: CourseInfoProps): JSX.Element {
+  const smallScreen = useSmallScreen();
+  const [fullDesc, setFullDesc] = useState(false);
+
+  const handleClick = () => {
+    setFullDesc(!fullDesc);
+  };
+
   return (
-    <Box as="section">
-      <Divider my="3" />
-      <Flex my="3" flexWrap="wrap">
+    <Box as="section" px={{ base: 2, md: 0 }}>
+      <Divider my={{ base: 2, md: 3 }} />
+      <Flex my="3" flexWrap={{ base: 'nowrap', md: 'wrap' }} w="100%" justifyContent="left">
         {hours && <HoursShield hours={hours} />}
         {credits && (
           <Shield bg="purple.200" title="Credits">
@@ -87,16 +98,24 @@ export function CourseInfo({ description, hours, addtionalNotes, credits, units 
           </Shield>
         )}
       </Flex>
-      <Text as="article">{description}</Text>
-      {addtionalNotes && (
+      <Text as="article" isTruncated={smallScreen && !fullDesc}>
+        {description}
+      </Text>
+      {smallScreen && (
+        <Center>
+          <Button onClick={handleClick} variant="link" colorScheme="blue" size="sm">
+            {fullDesc ? 'Show less' : 'Read more'}
+          </Button>
+        </Center>
+      )}
+      {additionalNotes && (
         <Box my="3">
           <Heading as="h4" size="md">
-            Addtional Notes
+            Additional Notes
           </Heading>
-          <Text>{addtionalNotes}</Text>
+          <Text>{additionalNotes}</Text>
         </Box>
       )}
-      <Divider my="5" />
     </Box>
   );
 }

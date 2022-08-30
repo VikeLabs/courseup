@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton, Text } from '@chakra-ui/react';
+import { Alert, AlertDescription, Center, CloseButton, Collapse, IconButton } from '@chakra-ui/react';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 
@@ -25,46 +25,13 @@ function TipNav({ onClick, icon }: { onClick: () => void; icon: JSX.Element }): 
   );
 }
 
-export function Banner(): JSX.Element {
+type Props = {
+  tips: JSX.Element[];
+};
+
+export function Banner({ tips }: Props): JSX.Element {
   const [banner, setBanner] = useSessionStorage('user:banner', true);
   const [tipIndex, setTipIndex] = useState(0);
-
-  const tips: Array<JSX.Element> = [
-    <Text>
-      💡 Press the{' '}
-      <Text
-        as="span"
-        mx="1"
-        mb="-4"
-        bgColor="#3182CE"
-        px="2"
-        borderRadius="5"
-        display="inline-flex"
-        fontSize="11"
-        fontWeight="bold"
-      >
-        Download
-      </Text>{' '}
-      button while viewing your timetable to download your current timetable!
-    </Text>,
-    <Text>💡 Your courses and sections are saved between sessions, no need to leave the tab open!</Text>,
-    <Text>
-      💡 See something you don't like or think might be a bug? Send feedback to the team via the button at the bottom
-      right!
-    </Text>,
-    <Text>
-      💡 Courses that appear transparent on your timetable mean that section happens during that time, but not during
-      the week you are viewing.
-    </Text>,
-    <Text>⚠️ We're in beta right now so expect things to be a bit rocky.</Text>,
-    <Text>
-      💬 Join in on the discussion or ask questions on the{' '}
-      <Text as="a" href="https://discord.com/invite/ZhpnafrxKQ" fontWeight="bold" textDecoration="underline">
-        VikeLabs Discord channel
-      </Text>
-      !
-    </Text>,
-  ];
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -75,7 +42,6 @@ export function Banner(): JSX.Element {
       clearTimeout(timeout);
     };
   }, [tipIndex, tips.length]);
-
   const back = () => {
     tipIndex - 1 < 0 ? setTipIndex(tips.length - 1) : setTipIndex(tipIndex - 1);
   };
@@ -86,12 +52,12 @@ export function Banner(): JSX.Element {
 
   return (
     <Collapse in={banner} animateOpacity>
-      <Alert status="success" alignItems="center" justifyContent="center" variant="solid">
-        <TipNav onClick={back} icon={<ChevronLeftIcon />} />
+      <Alert status="info" alignItems="center" justifyContent="center" variant="solid" color="black">
+        {tips.length > 1 && <TipNav onClick={back} icon={<ChevronLeftIcon />} />}
         <Center w="1100px">
           <AlertDescription>{tips[tipIndex]}</AlertDescription>
         </Center>
-        <TipNav onClick={forward} icon={<ChevronRightIcon />} />
+        {tips.length > 1 && <TipNav onClick={forward} icon={<ChevronRightIcon />} />}
         <CloseButton
           position="absolute"
           right="8px"

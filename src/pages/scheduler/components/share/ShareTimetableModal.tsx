@@ -1,15 +1,8 @@
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useMediaQuery,
-} from '@chakra-ui/react';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/react';
 
 import { CreateTimetableResponse, Term } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { ShareModalContent } from './ShareModalContent';
@@ -31,14 +24,16 @@ export default function ShareTimetableModal({
   loading,
   timetable,
 }: Props) {
-  const [isSmallScreen] = useMediaQuery('(min-width:680px)');
+  const isSmallScreen = useSmallScreen();
 
   return (
     <>
-      <Modal size={isSmallScreen ? '2xl' : 'full'} onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal size={isSmallScreen ? 'full' : '2xl'} onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent alignItems="center">
-          <ModalHeader>Share your {getReadableTerm(term || '')} timetable</ModalHeader>
+          <ModalHeader textAlign="center" width={isSmallScreen ? '20rem' : 'full'}>
+            Share your {getReadableTerm(term || '')} timetable
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb="20px">
             <ShareModalContent

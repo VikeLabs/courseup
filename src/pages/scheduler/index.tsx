@@ -16,6 +16,7 @@ export function Scheduler(): JSX.Element {
       title="Scheduler"
       leftSidebar={<Courses term={term as Term} />}
       rightSidebar={<SchedulerSidebar term={term} />}
+      mobileSupport
     >
       <SchedulerContainer />
     </Page>
