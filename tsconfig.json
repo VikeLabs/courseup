@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
+    "paths": {
+      "@courseup/lib/*": [
+        "../lib/*"
+      ]
+    },
     "target": "es5",
     "lib": [
       "dom",
@@ -22,10 +27,13 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": [
-    "src"
-  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "functions"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }
