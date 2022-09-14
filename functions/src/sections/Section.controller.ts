@@ -62,7 +62,7 @@ export class SectionsController extends Controller {
           building:
             formatBuilding(m.meetingTime.buildingDescription) ?? undefined,
           buildingAbbreviation: Buildings.get(
-            formatBuilding(m.meetingTime.buildingDescription) ?? ''
+            m.meetingTime.buildingDescription ?? ''
           ),
           roomNumber: m.meetingTime.room ?? undefined,
         })),
