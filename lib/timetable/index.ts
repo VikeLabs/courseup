@@ -1,7 +1,7 @@
-import { Prisma } from '@prisma/client';
 import hash from 'object-hash';
 import { z } from 'zod';
 
+import { getCourseIds } from '../courses';
 import { prisma } from '../prisma';
 
 import { Timetable } from './types';
@@ -58,25 +58,9 @@ export async function addTimetable(courses: Courses, term: string): Promise<stri
   // if it does then return the existing timetable slug
   if (existingTimetable) return existingTimetable.ref;
 
-  // create a set of keys in which we're interested in checking if they exist in the database
-  const keys = courses.map(({ subject, code }) => [subject, code]);
-  // woo sql~ :D
-  const result = await prisma.$queryRaw<
-    {
-      id: string;
-      subject: string;
-      code: string;
-    }[]
-  >`
-    SELECT id,subject,code FROM "Course" WHERE term = ${term} AND (subject,code) IN (${Prisma.join(keys)})`;
-  // Prisma.join safely joins an array of strings to a comma-separated string for SQL
-  // In this query we look for courses that match the keys in the keys array and return them
-  // This makes sure we only send one query to check for courses.
+  const result = await getCourseIds(courses, term);
 
-  if (result.length !== courses.length) return null;
-
-  // map for hash join (map the db course id to input courses)
-  const m = new Map<string, string>(result.map(({ id, subject, code }) => [`${subject}${code}`, id]));
+  if (result.size !== courses.length) return null;
 
   const slug = randomString(12);
 
@@ -89,7 +73,7 @@ export async function addTimetable(courses: Courses, term: string): Promise<stri
       courses: {
         createMany: {
           data: courses.map((course) => {
-            const id = m.get(`${course.subject}${course.code}`);
+            const id = result.get(`${course.subject}${course.code}`);
             if (!id) throw new Error('course not found');
             return {
               courseId: id,
