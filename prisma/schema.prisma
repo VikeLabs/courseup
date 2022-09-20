@@ -89,12 +89,14 @@ model SectionCapacity {
 }
 
 model MeetingTime {
-  id                     String   @id @default(cuid())
+  id                     String    @id @default(cuid())
   term                   String
-  startDate              String
-  beginTime              String?
-  endDate                String
-  endTime                String?
+  startDate              DateTime  @db.Date() // eg. "Apr 06, 2023" => "2023-04-06"
+  startTime              DateTime? @db.Time() // eg. "1330" => 1:30pm
+  endDate                DateTime  @db.Date() // eg. "Apr 06, 2023" => "2023-04-06"
+  endTime                DateTime? @db.Time() // eg. "1420" => 2:20pm
+  startDateTime          DateTime?
+  endDateTime            DateTime?
   building               String?
   buildingDescription    String?
   campus                 String?
@@ -114,10 +116,10 @@ model MeetingTime {
   friday                 Boolean
   saturday               Boolean
   sunday                 Boolean
-  section                Section  @relation(fields: [sectionId], references: [id])
+  section                Section   @relation(fields: [sectionId], references: [id])
   sectionId              String
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
 
   // crns are only unique within a term, so we need to index them
 }
@@ -163,6 +165,7 @@ model TimetablesOnCourses {
   course      Course    @relation(fields: [courseId], references: [id])
   courseId    String
   pid         String
+  // TODO: fix
   lectures    String[]
   labs        String[]
   tutorials   String[]
