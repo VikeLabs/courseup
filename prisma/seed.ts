@@ -1,17 +1,19 @@
 import { getSearchResults, setTerm } from '@courseup/lib/banner';
+import { Fetch } from '@courseup/lib/banner/fetch';
 import { upsertCourses } from '@courseup/lib/courses';
 import { range } from '@courseup/lib/fn';
 import { upsertSections } from '@courseup/lib/sections';
+import { Term } from '@courseup/lib/term';
 import makeFetchCookie from 'fetch-cookie';
 
+const term = process.env.TERM ?? new Term().toString();
+
 export const main = async () => {
-  console.log('seed');
-  const term = '202209';
   console.log('upserting courses for term', term);
   await upsertCourses(term);
 
   // establish a session for each request
-  const fc = makeFetchCookie(fetch) as any;
+  const fc = makeFetchCookie(fetch) as Fetch;
   console.log('setting term for banner to', term);
   await setTerm(fc, term);
 
@@ -21,7 +23,6 @@ export const main = async () => {
   console.log('total count', totalCount);
 
   const offsets = range(init.data.length, totalCount, init.pageMaxSize);
-  console.log(init.data);
   await upsertSections(fc, term, [...init.data]);
 
   for (const offset of offsets) {
