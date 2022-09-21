@@ -1,9 +1,10 @@
 import { z } from 'zod';
 
-import { Term } from '../validation/term';
+import { Term } from '../term';
+import { Term as TermEnum } from '../validation/term';
 
 export const Timetable = z.object({
-  term: Term,
+  term: TermEnum.transform((term) => Term.fromString(term)),
   courses: z
     .array(
       z.object({
