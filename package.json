@@ -54,7 +54,7 @@
     "next:lint": "next lint"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "ts-node prisma/seed.ts"
   },
   "browserslist": {
     "production": [
