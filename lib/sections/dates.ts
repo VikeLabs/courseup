@@ -1,6 +1,8 @@
 import { MeetingTime } from '@prisma/client';
 import { format, parse } from 'date-fns';
 
+const resetDate = (date: Date): Date => new Date(date.toISOString().replace('Z', ''));
+
 /**
  * Transforms a collection of booleans representing days to a single string
  * @param meetingTime
@@ -44,15 +46,15 @@ export function formatTime(m: MeetingTime): string {
   if (!m.startTime || !m.endTime) {
     return 'TBA';
   }
-  const startTime = new Date(m.startTime.toISOString().replace('Z', ''));
-  const endTime = new Date(m.endTime.toISOString().replace('Z', ''));
+  const startTime = resetDate(m.startTime);
+  const endTime = resetDate(m.endTime);
 
   return `${format(startTime, timeFormat)} - ${format(endTime, timeFormat)}`;
 }
 
 export function formatDateRange(m: MeetingTime): string {
-  const startDate = new Date(m.startDate.toISOString().replace('Z', ''));
-  const endDate = new Date(m.endDate.toISOString().replace('Z', ''));
+  const startDate = resetDate(m.startDate);
+  const endDate = resetDate(m.endDate);
 
   return `${formatDate(startDate)} - ${formatDate(endDate)}`;
 }
