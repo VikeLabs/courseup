@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Course {
-  id                 String                @id @default(cuid())
+  id                 String    @id @default(cuid())
   pid                String
-  level              Level                 @default(Undergraduate)
+  level              Level     @default(Undergraduate)
   subject            String
   subjectDescription String
   code               String
@@ -21,13 +21,12 @@ model Course {
   title              String
   description        String
   dateStart          String
-  credits            Json // strangely structured
+  credits            Json // strangely structuredx`
   hoursCatalog       Json?
   preAndCorequisites Json?
   preOrCorequisites  Json?
   formally           String?
   sections           Section[]
-  timetables         TimetablesOnCourses[]
 
   @@unique([term, subject, code])
   @@index([term, subject, code])
@@ -61,14 +60,15 @@ model Section {
   isSectionLinked                Boolean
   instructionalMethod            String?
   instructionalMethodDescription String?
-  course                         Course               @relation(fields: [courseId], references: [id])
+  course                         Course                @relation(fields: [courseId], references: [id])
   courseId                       String
   meetingTimes                   MeetingTime[]
   faculty                        FacultiesOnSection[]
   capacities                     SectionCapacity[]
-  createdAt                      DateTime             @updatedAt
-  updatedAt                      DateTime             @updatedAt
+  createdAt                      DateTime              @updatedAt
+  updatedAt                      DateTime              @updatedAt
   textbooks                      TextbookList?
+  TimetablesOnCourses            TimetablesOnCourses[]
 
   @@unique([courseId, courseReferenceNumber])
 }
@@ -162,18 +162,13 @@ model Timetable {
 model TimetablesOnCourses {
   timetable   Timetable @relation(fields: [timetableId], references: [id])
   timetableId String
-  course      Course    @relation(fields: [courseId], references: [id])
-  courseId    String
-  pid         String
-  // TODO: fix
-  lectures    String[]
-  labs        String[]
-  tutorials   String[]
+  section     Section   @relation(fields: [sectionId], references: [id])
+  sectionId   String
   color       String?
   createdAt   DateTime  @updatedAt
   updatedAt   DateTime  @updatedAt
 
-  @@id([timetableId, courseId])
+  @@id([timetableId, sectionId])
 }
 
 model TimetableTemplate {

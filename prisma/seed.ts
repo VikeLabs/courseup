@@ -6,7 +6,7 @@ import { upsertSections } from '@courseup/lib/sections';
 import { Term } from '@courseup/lib/term';
 import makeFetchCookie from 'fetch-cookie';
 
-const term = process.env.TERM ?? new Term().toString();
+const term = new Term().toString();
 
 export const main = async () => {
   console.log('upserting courses for term', term);
