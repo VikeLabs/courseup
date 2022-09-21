@@ -1,12 +1,11 @@
 import { getCourseByPid } from '@courseup/lib/courses';
-import { SubjectEnum } from '@courseup/lib/validation/subject';
 import { Term } from '@courseup/lib/validation/term';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import z from 'zod';
 
 const RequestParams = z.object({
   term: Term,
-  subject: SubjectEnum,
+  subject: z.string(),
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
