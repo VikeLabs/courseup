@@ -1,13 +1,9 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps /*, AppContext */ } from 'next/app';
-
-import { customTheme } from '../src/lib/theme';
+// React Big Calendar
+import 'react-big-calendar/lib/sass/styles.scss';
+import '../src/index.css';
 
 function App({ Component, pageProps }: AppProps): JSX.Element {
-  return (
-    <ChakraProvider theme={customTheme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
-  );
+  return <Component {...pageProps} />;
 }
 export default App;

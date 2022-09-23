@@ -39,19 +39,15 @@
     "zod": "^3.18.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "next:lint": "next lint",
     "test": "jest",
     "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/lib/fetchers.tsx",
     "lint": "eslint \"src/**/*.{t,j}s{x,}\"",
     "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
-    "format": "prettier --write \"src/**/*.{t,j}s{x,}\"",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "next:dev": "next dev",
-    "next:build": "next build",
-    "next:start": "next start",
-    "next:lint": "next lint"
+    "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -88,17 +84,13 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
-    "http-proxy-middleware": "^2.0.1",
     "jest": "^29.0.1",
     "jest-axe": "^5.0.1",
     "jest-environment-jsdom": "^29.0.2",
     "node-fetch": "^2.6.7",
     "prettier": "^2.5.1",
     "prisma": "^4.3.1",
-    "react-scripts": "^5.0.1",
     "react-share": "^4.4.0",
-    "sass": "^1.54.7",
-    "source-map-explorer": "^2.5.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.1.0",
     "typescript": "^4.6.2"

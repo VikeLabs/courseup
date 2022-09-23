@@ -58,7 +58,7 @@ export function Landing() {
         <Container>
           <Image
             alt="cartoon image of computer"
-            src={process.env.PUBLIC_URL + '/assets/computer.svg'}
+            src={'/assets/computer.svg'}
             sx={{
               filter: 'drop-shadow( 1.5rem 1rem 1.75rem rgba(0, 0, 0, .25) )',
             }}

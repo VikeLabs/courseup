@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
 
-import 'react-big-calendar/lib/sass/styles.scss';
-
 import { Box } from '@chakra-ui/layout';
 
 import { Timetable } from 'lib/fetchers';
