@@ -22,21 +22,3 @@ export function formatTime(time: string): string {
 
   return `${hour}:${minute} ${meridiem}`;
 }
-
-/**
- * Fetches the current term given a date.
- *
- * @param {Date} date
- * @return {string} current term i.e. '202101'
- */
-export function getCurrentTerm(date: Date = new Date()): string {
-  const year = date.getFullYear().toString();
-  const currMonth = date.getMonth();
-  let month = '';
-
-  if (0 <= currMonth && currMonth < 4) month = '01';
-  else if (4 <= currMonth && currMonth < 8) month = '05';
-  else month = '09';
-
-  return `${year}${month}`;
-}

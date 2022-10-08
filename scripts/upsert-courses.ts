@@ -1,5 +1,5 @@
+import { getCurrentTerm } from 'lib/utils/terms';
 import { Term } from '../functions/src/constants';
-import { getCurrentTerm } from '../functions/src/utils';
 import { upsertCourses } from '../lib/courses';
 import { findLatestTask, createTask } from '../lib/task';
 
