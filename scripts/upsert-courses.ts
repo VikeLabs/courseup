@@ -1,28 +1,17 @@
-import * as admin from 'firebase-admin';
-import { Term } from '../src/constants';
-import { getCurrentTerm } from '../src/utils';
-import { upsertCourses } from '../../lib/courses';
-import { findLatestTask, createTask } from '../../lib/task';
+import { Term } from '../functions/src/constants';
+import { getCurrentTerm } from '../functions/src/utils';
+import { upsertCourses } from '../lib/courses';
+import { findLatestTask, createTask } from '../lib/task';
 
 const seconds = 1000;
 const minutes = 60 * seconds;
 const hours = 60 * minutes;
 const days = 24 * hours;
 
-// to allow this script to run locally without fudging things around
-if (process.env.FIRESTORE_EMULATOR_HOST) {
-  admin.initializeApp({
-    projectId: 'development',
-  });
-} else {
-  admin.initializeApp({ credential: admin.credential.applicationDefault() });
-}
-
 const today = new Date();
 const term = getCurrentTerm(today);
 
-if (!/20\d{2}0[1,5,9]/.test(term.trim()))
-  throw Error('Invalid term argument format');
+if (!/20\d{2}0[1,5,9]/.test(term.trim())) throw Error('Invalid term argument format');
 
 let registrationDay = new Date('2022-09-01');
 // Replace registration day with CLI parameter if provided
@@ -36,17 +25,15 @@ if (process.argv[3]) {
   dropDate = new Date(process.argv[3]);
 }
 
-const daysUntilRegistration = Math.floor(
-  (registrationDay.getTime() - today.getTime()) / days
-);
-
-const lastUpdated = await findLatestTask(`upsertCourses-${term}`);
-
-const minutesSinceLastUpdate = lastUpdated
-  ? Math.floor((today.getTime() - lastUpdated.startedAt.getTime()) / minutes)
-  : null;
+const daysUntilRegistration = Math.floor((registrationDay.getTime() - today.getTime()) / days);
 
 export const upsertCoursesScript = async () => {
+  const lastUpdated = await findLatestTask(`upsertCourses-${term}`);
+
+  const minutesSinceLastUpdate = lastUpdated
+    ? Math.floor((today.getTime() - lastUpdated.startedAt.getTime()) / minutes)
+    : null;
+
   // If within a week of registration day, run the task every 30min
   if (daysUntilRegistration <= 7) {
     await createTask(`upsertCourses-${term}`, upsertCourses(term as Term), {});
