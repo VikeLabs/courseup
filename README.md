@@ -6,13 +6,29 @@
 [![Website][website-staging-shield]][website-staging-link]
 [![Website][website-prod-shield]][website-prod-link]
 
-CourseUp is a website built to simplify the experience of searching courses and building timetables for the [University of Victoria](https://uvic.ca) (UVic). The website is a TypeScript app which uses React on the front-end and Firebase on the back-end.
+CourseUp is a website built to simplify the experience of searching courses and building timetables for the [University of Victoria](https://uvic.ca) (UVic). The website is a TypeScript app which uses React with Next.js for the frontend and backend. The database is a PostgreSQL database.
 
 ## Develop
 
 If you're interested developing this application, follow these steps to get running a local version of the application.
 
-**Note**: These instructions are for developing the frontend (React). If you wish to develop the backend, please refer to the [README](./functions/README.md) located in `functions` directory in this repository.
+### Requirements
+
+You will require the following to run this application locally:
+
+- [Node.js](https://nodejs.org/en/)
+  - Tip: use something like [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to manage your Node.js versions.
+- [npm](https://www.npmjs.com/get-npm)
+  - This should be installed with Node.js, but if not, you can install it with `npm install -g npm`
+- [Docker](https://www.docker.com/products/docker-desktop)
+  - It is suggested to use Docker Desktop for Mac or Windows, as it provides a GUI for managing containers. If you are using Linux, you can use the [Docker Engine](https://docs.docker.com/engine/install/)
+  - As long as you can run containers, you should be fine whatever you use.
+- [Docker Compose](https://docs.docker.com/compose/install/)
+  - Docker Compose is included in Docker Desktop for Mac and Windows. If you are using Linux, you can install it using `pip` or `pip3`:
+    - `pip install docker-compose`
+    - `pip3 install docker-compose`
+
+### Setup
 
 1. Fork the repository.
 2. Clone your forked repository:
@@ -21,28 +37,25 @@ If you're interested developing this application, follow these steps to get runn
    ```
 3. Run `npm ci`
    - Tip: Avoid using `npm install` unless you're installing a package.
-4. Start the frontend using `npm start`
-   - This will start the [Create React App](https://create-react-app.dev/) development server.
-   - All requests to the backend will be routed to the **staging** environment of CourseUp. This can be overrode using the `proxy` property located within `package.json`.
+4. Start the PostgreSQL database from the `docker-compose.yml` file in the root directory.
+   ```
+   docker-compose up -d
+   ```
+5. Run migrations and seed the database with the latest course data.
+   ```
+   npx prisma migrate
+   ```
+   - This will run migrations to apply the latest schema changes to the database as well as seed the database with the latest course data.
+6. Start the application using `npm run dev` (or `yarn dev`)
+   - This will start the Next.js server.
 
-You will now be able to develop the frontend React application. Any changes made to the code will hot-reload upon save.
+You will now be able to develop the application. Any changes made to the code will hot-reload upon save.
+
+### Troubleshooting
 
 Note: If the above is failing to compile on a Windows machine, you will first need to run `git config --global core.autocrlf false`, then `git fetch --all` and then `git reset --hard`. After successfully running these two commands, you can then retry step 4 (`npm start`).
 
 If you get stuck setting up the development environment, try Google **then** if you're still stuck drop a question in our [GitHub Discussions](https://github.com/VikeLabs/courseup/discussions/categories/q-a).
-
-### Next.js
-
-CourseUp is migrating to [Next.js](https://nextjs.org/) and thus the project is configured to be dual-stack as there's a create-react-app and Next.js project within the same repository.
-
-During the migration, the Next.js related scripts are prefixed with `next`:
-
-- `npm run next:dev` - Starts Next.js in development mode
-- `npm run next:build` - Builds the application for production usage
-- `npm run next:start` - Starts a Next.js production server
-- `npm run next:lint` - Sets up Next.js' built-in ESLint configuration
-
-These prefixed scripts will be removed when create-react-app is removed.
 
 ### Directory Structure
 
