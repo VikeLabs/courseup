@@ -42,10 +42,13 @@ You will require the following to run this application locally:
    docker-compose up -d
    ```
 5. Run migrations and seed the database with the latest course data.
+
    ```
-   npx prisma migrate
+   npx prisma migrate deploy && npx prisma db seed
    ```
+
    - This will run migrations to apply the latest schema changes to the database as well as seed the database with the latest course data.
+
 6. Start the application using `npm run dev` (or `yarn dev`)
    - This will start the Next.js server.
 
