@@ -1,6 +1,5 @@
-import { upsertCoursesScript } from '../upsert-courses';
-import { createTask } from '../../lib/task';
-import { upsertCourses } from '../../lib/courses';
+import { upsertCoursesScript } from '../courses';
+import { createTask } from '../../../lib/task';
 import { differenceInDays, differenceInMinutes } from 'date-fns';
 
 jest.mock('date-fns', () => ({
@@ -8,9 +7,13 @@ jest.mock('date-fns', () => ({
   differenceInDays: jest.fn(),
 }));
 
-jest.mock('../../lib/task', () => ({
+jest.mock('../../../lib/task', () => ({
   findLatestTask: jest.fn(),
   createTask: jest.fn(),
+}));
+
+jest.mock('../../../lib/courses', () => ({
+  upsertCourses: jest.fn(),
 }));
 
 describe('upsert-courses', () => {
