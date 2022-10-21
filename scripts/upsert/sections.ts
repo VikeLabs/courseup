@@ -8,9 +8,7 @@ import { getSearchResults } from '../../lib/banner';
 import { range } from '../../lib/fn';
 import fetch from 'node-fetch';
 
-export const upsertSectionsScript = async (term: string, registrationDay: Date, dropDate: Date) => {
-  const today = new Date();
-
+export const upsertSectionsScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {
   const lastUpdated = await findLatestTask(`upsertSections-${term}`);
 
   const minutesSinceLastUpdate = differenceInMinutes(today, lastUpdated?.startedAt ?? -1);
@@ -48,6 +46,6 @@ if (process.env[2] && process.env[3]) {
   const terms = new Term().sessionTerms();
 
   terms.forEach(async (term) => {
-    await upsertSectionsScript(term.toString(), registrationDate, dropDate);
+    await upsertSectionsScript(term.toString(), registrationDate, dropDate, new Date());
   });
 }

@@ -3,9 +3,7 @@ import { differenceInDays, differenceInMinutes } from 'date-fns';
 import { upsertTextbooks } from '../../lib/textbooks';
 import { findLatestTask, createTask } from '../../lib/task';
 
-export const upsertTextbooksScript = async (term: string, registrationDay: Date, dropDate: Date) => {
-  const today = new Date();
-
+export const upsertTextbooksScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {
   const daysUntilRegistration = differenceInDays(registrationDay, today);
 
   const lastUpdated = await findLatestTask(`upsertTextbooks-${term}`);
@@ -30,5 +28,5 @@ if (process.env[2] && process.env[3]) {
 
   const term = new Term();
 
-  upsertTextbooksScript(term.toString(), registrationDate, dropDate);
+  upsertTextbooksScript(term.toString(), registrationDate, dropDate, new Date());
 }

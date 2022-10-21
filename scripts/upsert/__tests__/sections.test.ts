@@ -24,15 +24,6 @@ jest.mock('../../../lib/banner', () => ({
 }));
 
 describe('upsert-sections', () => {
-  beforeAll(() => {
-    jest.useFakeTimers('modern');
-    jest.setSystemTime(new Date(2020, 8, 21));
-  });
-
-  afterAll(() => {
-    jest.useRealTimers();
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -41,7 +32,7 @@ describe('upsert-sections', () => {
     const registrationDate = new Date(2020, 9, 1);
     const dropDate = new Date(2020, 10, 31);
     jest.setSystemTime(new Date(2020, 9, 16));
-    await upsertSectionsScript('202009', registrationDate, dropDate);
+    await upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 8, 21));
     expect(createTask).toBeCalledTimes(1);
   });
 
@@ -49,25 +40,16 @@ describe('upsert-sections', () => {
     const registrationDate = new Date(2020, 9, 1);
     const dropDate = new Date(2020, 10, 31);
     jest.setSystemTime(new Date(2020, 10, 31));
-    await upsertSectionsScript('202009', registrationDate, dropDate);
+    await upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 8, 21));
     expect(createTask).toBeCalledTimes(1);
   });
 
   describe('run task less frequently if drop date has passed', () => {
-    beforeAll(() => {
-      jest.useFakeTimers('modern');
-      jest.setSystemTime(new Date(2020, 11, 5));
-    });
-
-    afterAll(() => {
-      jest.useRealTimers();
-    });
-
     it('should run the task if after drop date and courses have not been updated within the last 12 hours', async () => {
       const registrationDate = new Date(2020, 9, 1);
       const dropDate = new Date(2020, 10, 31);
       (differenceInMinutes as jest.Mock).mockReturnValue(730);
-      await upsertSectionsScript('202009', registrationDate, dropDate);
+      await upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 11, 5));
       expect(createTask).toBeCalledTimes(1);
     });
 
@@ -75,7 +57,7 @@ describe('upsert-sections', () => {
       const registrationDate = new Date(2020, 9, 1);
       const dropDate = new Date(2020, 10, 31);
       (differenceInMinutes as jest.Mock).mockReturnValue(300);
-      await upsertSectionsScript('202009', registrationDate, dropDate);
+      await upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 11, 5));
       expect(createTask).toBeCalledTimes(0);
     });
   });

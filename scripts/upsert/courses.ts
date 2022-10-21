@@ -3,9 +3,7 @@ import { differenceInDays, differenceInMinutes } from 'date-fns';
 import { upsertCourses } from '../../lib/courses';
 import { findLatestTask, createTask } from '../../lib/task';
 
-export const upsertCoursesScript = async (term: string, registrationDay: Date, dropDate: Date) => {
-  const today = new Date();
-
+export const upsertCoursesScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {
   const daysUntilRegistration = differenceInDays(registrationDay, today);
 
   const lastUpdated = await findLatestTask(`upsertCourses-${term}`);
@@ -31,6 +29,6 @@ if (process.env[2] && process.env[3]) {
   const terms = new Term().sessionTerms();
 
   terms.forEach(async (term) => {
-    await upsertCoursesScript(term.toString(), registrationDate, dropDate);
+    await upsertCoursesScript(term.toString(), registrationDate, dropDate, new Date());
   });
 }
