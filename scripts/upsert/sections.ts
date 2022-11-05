@@ -6,7 +6,6 @@ import { Fetch } from '../../lib/banner/fetch';
 import makeFetchCookie from 'fetch-cookie';
 import { getSearchResults } from '../../lib/banner';
 import { range } from '../../lib/fn';
-import fetch from 'node-fetch';
 
 export const upsertSectionsScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {
   const lastUpdated = await findLatestTask(`upsertSections-${term}`);
