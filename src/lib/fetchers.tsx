@@ -393,30 +393,6 @@ export const useSections = ({ term, ...props }: UseSectionsProps) =>
     { pathParams: { term }, ...props }
   );
 
-export interface SeatsQueryParams {
-  subject: string;
-  code: string;
-}
-
-export interface SeatsPathParams {
-  term: Term;
-}
-
-export type SeatsProps = Omit<GetProps<Seat[], void, SeatsQueryParams, SeatsPathParams>, 'path'> & SeatsPathParams;
-
-export const Seats = ({ term, ...props }: SeatsProps) => (
-  <Get<Seat[], void, SeatsQueryParams, SeatsPathParams> path={`/sections/${term}/seats`} {...props} />
-);
-
-export type UseSeatsProps = Omit<UseGetProps<Seat[], void, SeatsQueryParams, SeatsPathParams>, 'path'> &
-  SeatsPathParams;
-
-export const useSeats = ({ term, ...props }: UseSeatsProps) =>
-  useGet<Seat[], void, SeatsQueryParams, SeatsPathParams>(
-    (paramsInPath: SeatsPathParams) => `/sections/${paramsInPath.term}/seats`,
-    { pathParams: { term }, ...props }
-  );
-
 export interface SubjectsPathParams {
   term: Term;
 }
