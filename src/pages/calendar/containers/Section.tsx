@@ -1,6 +1,6 @@
 import { Box, Center, Divider, Heading, Spinner } from '@chakra-ui/react';
 
-import { Section, Seat, Term, useSeats, useSections } from 'lib/fetchers';
+import { Section, Seat, Term, useSections } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 import { NotFound } from 'common/notFound/NotFound';
@@ -38,7 +38,27 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
     loading,
     error: sectionsError,
   } = useSections({ term, queryParams: { subject, code, v9: true } });
-  const { data: seats, error: seatsError } = useSeats({ term, queryParams: { subject, code } });
+
+  const seats = sections
+    ?.filter((e) => e.seats !== undefined)
+    .map(
+      (e) =>
+        ({
+          title: e.sectionType,
+          seats: {
+            capacity: e.seats?.maxEnrollment,
+            actual: e.seats?.enrollment,
+            remaining: e.seats?.seatsAvailable,
+          },
+          waitListSeats: {
+            capacity: e.seats?.waitCapacity,
+            actual: e.seats?.waitCount,
+            remaining: e.seats?.waitAvailable,
+          },
+          crn: e.crn,
+        } as Seat)
+    );
+
   const mode = useDarkMode();
 
   if (loading) {
@@ -50,7 +70,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   }
 
   // we can't just look at sectionsError since it returns an empty array upon "not finding" any sections.
-  if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
+  if (sectionsError || sections?.length === 0 || seats?.length === 0) {
     return <NotFound term={term}>No sections offered for</NotFound>;
   }
 
