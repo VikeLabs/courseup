@@ -65,19 +65,11 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const tips: Array<JSX.Element> = smallScreen
     ? [
         <Text>
-          ⚠️ UVic has a planned outage on Sunday, Nov. 13th, from 8:30am to 6pm. CourseUp functionality will be
-          unavailable during this time.
-        </Text>,
-        <Text>
           ⚠️ CourseUp is currently going through technical difficulties. Please bear with us while we fix things
         </Text>,
         <Text>⚠️ Mobile is currently in beta.</Text>,
       ]
     : [
-        <Text>
-          ⚠️ UVic has a planned outage on Sunday, Nov. 13th, from 8:30am to 6pm. CourseUp functionality will be
-          unavailable during this time.
-        </Text>,
         <Text>
           ⚠️ CourseUp is currently going through technical difficulties. Please bear with us while we fix things
         </Text>,
