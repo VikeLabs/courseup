@@ -63,8 +63,16 @@ export interface HeaderProps {
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const smallScreen = useSmallScreen();
   const tips: Array<JSX.Element> = smallScreen
-    ? [<Text>⚠️ Mobile is currently in beta.</Text>]
+    ? [
+        <Text>
+          ⚠️ CourseUp is currently going through technical difficulties. Please bear with us while we fix things
+        </Text>,
+        <Text>⚠️ Mobile is currently in beta.</Text>,
+      ]
     : [
+        <Text>
+          ⚠️ CourseUp is currently going through technical difficulties. Please bear with us while we fix things
+        </Text>,
         <Text>
           📅 The{' '}
           <Text as={Link} to="/calendar/202209" textDecoration="underline">

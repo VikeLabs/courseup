@@ -22,3 +22,8 @@ export function formatTime(time: string): string {
 
   return `${hour}:${minute} ${meridiem}`;
 }
+
+//Used in Section.controller.ts to replace &amp; with &
+export function formatBuilding(building: string | null): string | undefined {
+  return building?.replace('&amp;', '&');
+}
