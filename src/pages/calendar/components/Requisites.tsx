@@ -52,7 +52,7 @@ export function myFunction(
     const nestedReqs = nestedReq(req, 0);
     return <div>{nestedReqs}</div>; // Displays the list of requisites
   } else if ('code' in req) {
-    return <li style={{ marginLeft: `${indentationLevel * 40}px` }}>{req.subject + req.code}</li>; // Display the course and code
+    return <li style={{ marginLeft: `${indentationLevel * 40}px` }}>{req.subject + ' ' + req.code}</li>; // Display the course and code
   }
   return <></>;
 }
