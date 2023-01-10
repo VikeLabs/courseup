@@ -68,8 +68,7 @@ export function Content({ term }: ContentProps): JSX.Element {
       flexDirection="column"
     >
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
-      <Box p={4} zIndex={60}>
-
+      <Box p={4} zIndex={60}></Box>
       <Box zIndex={60} pt={{ base: 0, sm: 4 }}>
         {error && (
           <Alert status="error" my="5">
