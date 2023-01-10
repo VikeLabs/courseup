@@ -34,7 +34,7 @@ export function myFunction(
     }
     return (
       <div>
-        {req.quantity !== 'ALL' && ( // If all are required, it doesn't get displayed
+        {req.quantity && ( // If all are required, it doesn't get displayed
           <li style={{ marginLeft: `${indentationLevel * 40}px` }}>Complete {req.quantity} of the following: </li>
         )}
         {req.grade && (
