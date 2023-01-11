@@ -50,7 +50,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
   }
 
   // we can't just look at sectionsError since it returns an empty array upon "not finding" any sections.
-  if (seatsError || sectionsError || sections?.length === 0 || seats?.length === 0) {
+  if (sectionsError || sections?.length === 0) {
     return <NotFound term={term}>No sections offered for</NotFound>;
   }
 
@@ -76,7 +76,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
               <Heading size="xl" my={{ base: 0, md: 2 }} px={{ base: 2, md: 0 }}>
                 {c.sections.length > 1 ? c.plural : c.singular}
               </Heading>
-              <Sections sections={c.sections} seats={seats} />
+              <Sections sections={c.sections} seats={seatsError || seats?.length === 0 ? undefined : seats} />
               <Divider />
             </Box>
           );
