@@ -32,7 +32,7 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
     <>
       {coursesResult.status === 'loaded' && coursesResult.data && (
         <Box bgColor={mode('white', 'dark.main')}>
-          {sharedSections.map((s) => {
+          {sharedSections.map((s, idx) => {
             return (
               <HStack
                 px="3"
@@ -41,6 +41,7 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
                 borderTop={mode('light.background', 'dark.background')}
                 borderTopWidth="2"
                 borderTopStyle="solid"
+                key={idx}
               >
                 <Text as="strong">{s.sectionCode}</Text>
                 <VStack flexGrow={1} py="1.5">
