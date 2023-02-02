@@ -33,9 +33,9 @@ export function Landing() {
       <GridItem colSpan={1}>
         <Container>
           <Heading fontSize="4.75em" lineHeight="1.25" mb="1.75rem">
-            Explore UBC Courses
+            Explore UVic Courses
           </Heading>
-          <Text fontSize="1.6em">CourseUp makes it simple to browse and schedule UBC Courses</Text>
+          <Text fontSize="1.6em">CourseUp makes it simple to browse and schedule UVic Courses</Text>
           <Flex
             alignItems="center"
             mt="1rem"
