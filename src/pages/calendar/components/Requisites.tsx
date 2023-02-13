@@ -77,8 +77,6 @@ export type RequisiteProp = {
 
 // Renders the prerequisites and corequisites as a JSX element
 export function Requisites({ preAndCorequisites, preOrCorequisites }: RequisiteProp) {
-  console.log(preAndCorequisites);
-  console.log(preOrCorequisites);
   return (
     <div>
       {/* if preAndCorequisites are provided, render them with a heading */}
