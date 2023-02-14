@@ -58,8 +58,7 @@ export function myFunction(
 }
 
 // Get nested reqs from NestedPreCoRequisites object
-export function nestedReq(req: NestedPreCoRequisites
-): Array<string | NestedPreCoRequisites | KualiCourse> {
+export function nestedReq(req: NestedPreCoRequisites): Array<string | NestedPreCoRequisites | KualiCourse> {
   if (req.reqList !== undefined) {
     return req.reqList;
   }
