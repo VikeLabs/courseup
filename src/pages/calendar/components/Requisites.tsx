@@ -34,8 +34,8 @@ export function myFunction(
     } else {
       return (
         <div>
-          {req.quantity && // All reqs are length 1, so only display if its greater than one and has stuff to display
-            reqs.length > 1 && ( // If all are required, the following line doesn't get displayed
+          {req.quantity &&
+            !req.grade && ( // Displays this only when its not a grade requirement, and is a list of items
               <li style={{ marginLeft: `${indentationLevel * 40}px` }}>Complete {req.quantity} of the following: </li>
             )}
           {req.grade && (
