@@ -1,50 +1,59 @@
-import { Term } from '../../lib/term';
 import { differenceInMinutes } from 'date-fns';
-import { upsertSections } from '../../lib/sections';
-import { findLatestTask, createTask } from '../../lib/task';
-import { Fetch } from '../../lib/banner/fetch';
 import makeFetchCookie from 'fetch-cookie';
-import { getSearchResults } from '../../lib/banner';
-import { range } from '../../lib/fn';
 
-export const upsertSectionsScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {
-  const lastUpdated = await findLatestTask(`upsertSections-${term}`);
+import { getSearchResults, setTerm } from '../../lib/banner';
+import { Fetch } from '../../lib/banner/fetch';
+import { range } from '../../lib/fn';
+import { upsertSections } from '../../lib/sections';
+import { findLatestTask, createTask, findLatestTaskByTerm } from '../../lib/task';
+import { Term } from '../../lib/term';
+
+const upsertSectionsScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {
+  const lastUpdated = await findLatestTaskByTerm('upsertSections', term);
 
   const minutesSinceLastUpdate = differenceInMinutes(today, lastUpdated?.startedAt ?? -1);
 
   // If after drop date and courses have been updated within the last 12 hours, return
-  if (today > dropDate && minutesSinceLastUpdate <= 720) return;
+  if (today > dropDate && minutesSinceLastUpdate <= 720) {
+    console.log('Sections have been updated within the last 12 hours');
+    return;
+  }
 
   // Else, run the task
 
-  // Establish a session for each request
+  // Establish a session for each request and set the term
   const fc = makeFetchCookie(fetch) as unknown as Fetch;
+  await setTerm(fc, term);
 
   // Get sections
   const init = await getSearchResults(fc, { term, max: 500 });
-  let sectionsCount = 0;
   const { totalCount } = init;
 
-  sectionsCount += init.data.length;
   const offsets = range(init.data.length, totalCount, init.pageMaxSize);
 
   const data = [...init.data];
+
   for (const offset of offsets) {
     const { data } = await getSearchResults(fc, { term, max: init.pageMaxSize, offset });
     data.concat(data);
-    sectionsCount += data.length;
   }
 
-  await createTask(`upsertSections-${term}`, upsertSections(fc, term, data), {});
+  await createTask('upsertSections', upsertSections(fc, term, data), {}, term);
 };
 
-if (process.env[2] && process.env[3]) {
-  const registrationDate = new Date(process.argv[2]);
-  const dropDate = new Date(process.argv[3]);
-
-  const terms = new Term().sessionTerms();
-
-  terms.forEach(async (term) => {
+const upsertTermsSections = async (terms: Term[], registrationDate: Date, dropDate: Date) => {
+  for (const term of terms) {
+    console.log('Upserting sections for term', term.toString());
     await upsertSectionsScript(term.toString(), registrationDate, dropDate, new Date());
-  });
-}
+  }
+};
+
+const registrationDate = process.env[2] ? new Date(process.argv[2]) : new Date();
+const dropDate = process.env[3] ? new Date(process.argv[3]) : new Date();
+const currTerm = new Term();
+const terms = [currTerm, currTerm.next(), currTerm.next().next()];
+
+upsertTermsSections(terms, registrationDate, dropDate).then(() => {
+  console.log('Done');
+  process.exit(0);
+});

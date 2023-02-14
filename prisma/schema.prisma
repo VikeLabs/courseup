@@ -260,4 +260,5 @@ model Task {
   user      String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  term     String?
 }

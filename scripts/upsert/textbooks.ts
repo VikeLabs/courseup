@@ -1,12 +1,12 @@
 import { Term } from '../../lib/term';
 import { differenceInDays, differenceInMinutes } from 'date-fns';
 import { upsertTextbooks } from '../../lib/textbooks';
-import { findLatestTask, createTask } from '../../lib/task';
+import { findLatestTask, createTask, findLatestTaskByTerm } from '../../lib/task';
 
 export const upsertTextbooksScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {
   const daysUntilRegistration = differenceInDays(registrationDay, today);
 
-  const lastUpdated = await findLatestTask(`upsertTextbooks-${term}`);
+  const lastUpdated = await findLatestTaskByTerm('upsertTextbooks', term);
 
   const minutesSinceLastUpdate = differenceInMinutes(today, lastUpdated?.startedAt ?? -1);
 
@@ -19,14 +19,14 @@ export const upsertTextbooksScript = async (term: string, registrationDay: Date,
   }
 
   // Else, run the task
-  await createTask(`upsertTextbooks-${term}`, upsertTextbooks(term), {});
+  await createTask('upsertTextbooks', upsertTextbooks(term), {}, term);
 };
 
-if (process.env[2] && process.env[3]) {
-  const registrationDate = new Date(process.argv[2]);
-  const dropDate = new Date(process.argv[3]);
+const registrationDate = process.env[2] ? new Date(process.argv[2]) : new Date();
+const dropDate = process.env[3] ? new Date(process.argv[3]) : new Date();
+const term = new Term();
 
-  const term = new Term();
-
-  upsertTextbooksScript(term.toString(), registrationDate, dropDate, new Date());
-}
+upsertTextbooksScript(term.toString(), registrationDate, dropDate, new Date()).then(() => {
+  console.log('Done');
+  process.exit(0);
+});
