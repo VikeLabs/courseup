@@ -12,7 +12,7 @@ export function myFunction(
     // If there's a quanity, then we have a list of requisites to display
   } else if ('quantity' in req) {
     const reqs = nestedReq(req);
-    if (req.coreq && req.coreq === true) {
+    if (req.coreq) {
       return (
         <div>
           {req.quantity && ( // If all are required, it doesn't get displayed
@@ -31,23 +31,25 @@ export function myFunction(
           {/* Ensure to increase the indentation level for nested elements */}
         </div>
       );
+    } else {
+      return (
+        <div>
+          {req.quantity && // All reqs are length 1, so only display if its greater than one and has stuff to display
+            reqs.length > 1 && ( // If all are required, the following line doesn't get displayed
+              <li style={{ marginLeft: `${indentationLevel * 40}px` }}>Complete {req.quantity} of the following: </li>
+            )}
+          {req.grade && (
+            <>
+              <li style={{ marginLeft: `${indentationLevel * 40}px` }}>
+                Earn a minimum grade of {req.grade} in each of the following:
+              </li>
+            </>
+          )}
+          {reqs.map((r) => myFunction(r, indentationLevel + 1))}{' '}
+          {/* Ensure to increase the indentation level for nested elements */}
+        </div>
+      );
     }
-    return (
-      <div>
-        {req.quantity && ( // If all are required, it doesn't get displayed
-          <li style={{ marginLeft: `${indentationLevel * 40}px` }}>Complete {req.quantity} of the following: </li>
-        )}
-        {req.grade && (
-          <>
-            <li style={{ marginLeft: `${indentationLevel * 40}px` }}>
-              Earn a minimum grade of {req.grade} in each of the following:
-            </li>
-          </>
-        )}
-        {reqs.map((r) => myFunction(r, indentationLevel + 1))}{' '}
-        {/* Ensure to increase the indentation level for nested elements */}
-      </div>
-    );
   } else if ('reqList' in req) {
     const nestedReqs = nestedReq(req);
     return <div>{nestedReqs}</div>; // Displays the list of requisites
