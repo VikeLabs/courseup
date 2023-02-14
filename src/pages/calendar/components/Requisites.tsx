@@ -59,8 +59,7 @@ export function myFunction(
 
 // Get nested reqs from NestedPreCoRequisites object
 export function nestedReq(
-  req: NestedPreCoRequisites,
-  indentationLevel: number // Indentation level is used to display the requisites correctly
+  req: NestedPreCoRequisites
 ): Array<string | NestedPreCoRequisites | KualiCourse> {
   if (req.reqList !== undefined) {
     return req.reqList;
