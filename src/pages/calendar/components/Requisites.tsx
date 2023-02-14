@@ -11,7 +11,7 @@ export function myFunction(
     return <li style={{ marginLeft: `${indentationLevel * 40}px` }}>{req}</li>;
     // If there's a quanity, then we have a list of requisites to display
   } else if ('quantity' in req) {
-    const reqs = nestedReq(req, 0); // 0 indicates there are no indentation levels
+    const reqs = nestedReq(req);
     if (req.coreq && req.coreq === true) {
       return (
         <div>
@@ -49,7 +49,7 @@ export function myFunction(
       </div>
     );
   } else if ('reqList' in req) {
-    const nestedReqs = nestedReq(req, 0);
+    const nestedReqs = nestedReq(req);
     return <div>{nestedReqs}</div>; // Displays the list of requisites
   } else if ('code' in req) {
     return <li style={{ marginLeft: `${indentationLevel * 40}px` }}>{req.subject + ' ' + req.code}</li>; // Display the course and code
