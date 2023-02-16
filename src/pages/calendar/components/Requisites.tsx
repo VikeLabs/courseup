@@ -1,3 +1,5 @@
+import { Box, Divider, ListItem, UnorderedList } from '@chakra-ui/react';
+
 import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 import './requisites.css';
 
@@ -8,53 +10,55 @@ export function displayRequirement(
 ): JSX.Element {
   // If its just a string, display it. Eg. "or permission from the department"
   if (typeof req === 'string') {
-    return <li style={{ marginLeft: `${indentationLevel * 40}px` }}>{req}</li>;
-    // If there's a quantity, then we have a list of requisites to display
+    return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{req}</ListItem>;
+    // If there's a quantity, then we have a ListItemst of requisites to display
   } else if ('quantity' in req) {
     const reqs = nestedReq(req);
     if (req.coreq) {
       return (
-        <div>
+        <Box>
           {req.quantity && ( // If all are required, it doesn't get displayed
-            <li style={{ marginLeft: `${indentationLevel * 40}px` }}>
+            <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
               Completed or currently enrolled in {req.quantity} of the following:{' '}
-            </li>
+            </ListItem>
           )}
           {req.grade && (
             <>
-              <li style={{ marginLeft: `${indentationLevel * 40}px` }}>
+              <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
                 Earn a minimum grade of {req.grade} in each of the following:
-              </li>
+              </ListItem>
             </>
           )}
           {reqs.map((r) => displayRequirement(r, indentationLevel + 1))}{' '}
           {/* Ensure to increase the indentation level for nested elements */}
-        </div>
+        </Box>
       );
     } else {
       return (
-        <div>
+        <Box>
           {req.quantity &&
-            !req.grade && ( // Displays this only when its not a grade requirement, and is a list of items
-              <li style={{ marginLeft: `${indentationLevel * 40}px` }}>Complete {req.quantity} of the following: </li>
+            !req.grade && ( // Displays this only when its not a grade requirement, and is a ListItemst of items
+              <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
+                Complete {req.quantity} of the following:{' '}
+              </ListItem>
             )}
           {req.grade && (
             <>
-              <li style={{ marginLeft: `${indentationLevel * 40}px` }}>
+              <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
                 Earn a minimum grade of {req.grade} in each of the following:
-              </li>
+              </ListItem>
             </>
           )}
           {reqs.map((r) => displayRequirement(r, indentationLevel + 1))}{' '}
           {/* Ensure to increase the indentation level for nested elements */}
-        </div>
+        </Box>
       );
     }
-  } else if ('reqList' in req) {
+  } else if ('reqListItemst' in req) {
     const nestedReqs = nestedReq(req);
-    return <div>{nestedReqs}</div>; // Displays the list of requisites
+    return <Box>{nestedReqs}</Box>; // Displays the ListItemst of requisites
   } else if ('code' in req) {
-    return <li style={{ marginLeft: `${indentationLevel * 40}px` }}>{req.subject + ' ' + req.code}</li>; // Display the course and code
+    return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{req.subject + ' ' + req.code}</ListItem>; // Display the course and code
   }
   return <></>;
 }
@@ -77,29 +81,33 @@ export type RequisiteProp = {
 // Renders the prerequisites and corequisites as a JSX element
 export function Requisites({ preAndCorequisites, preOrCorequisites }: RequisiteProp) {
   return (
-    <div>
+    <Box>
       {/* if preAndCorequisites are provided, render them with a heading */}
       {preAndCorequisites && (
-        <div>
-          <p>Prerequisites</p>
-          <hr />
+        <Box>
+          Prerequisites
+          <Divider />
           {/* call the displayRequirement for each prerequisite */}
           {preAndCorequisites.map((req) => (
-            <div>{displayRequirement(req)}</div>
+            <Box>
+              <UnorderedList>{displayRequirement(req)}</UnorderedList>
+            </Box>
           ))}
-        </div>
+        </Box>
       )}
       {/* if preOrCorequisites are provided, render them with a heading */}
       {preOrCorequisites && (
-        <div>
-          <p>Pre Or Corequisites</p>
-          <hr />
+        <Box>
+          Pre Or Corequisites
+          <Divider />
           {/* call the displayRequirement for each prerequisite */}
           {preOrCorequisites.map((req) => (
-            <div>{displayRequirement(req)}</div>
+            <Box>
+              <UnorderedList>{displayRequirement(req)}</UnorderedList>
+            </Box>
           ))}
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
