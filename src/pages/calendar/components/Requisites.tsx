@@ -2,14 +2,14 @@ import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 import './requisites.css';
 
 // Based on the nested info in the requisite, display the element necessary
-export function myFunction(
+export function displayRequirement(
   req: string | NestedPreCoRequisites | KualiCourse,
   indentationLevel: number = 1
 ): JSX.Element {
   // If its just a string, display it. Eg. "or permission from the department"
   if (typeof req === 'string') {
     return <li style={{ marginLeft: `${indentationLevel * 40}px` }}>{req}</li>;
-    // If there's a quanity, then we have a list of requisites to display
+    // If there's a quantity, then we have a list of requisites to display
   } else if ('quantity' in req) {
     const reqs = nestedReq(req);
     if (req.coreq) {
@@ -27,7 +27,7 @@ export function myFunction(
               </li>
             </>
           )}
-          {reqs.map((r) => myFunction(r, indentationLevel + 1))}{' '}
+          {reqs.map((r) => displayRequirement(r, indentationLevel + 1))}{' '}
           {/* Ensure to increase the indentation level for nested elements */}
         </div>
       );
@@ -45,7 +45,7 @@ export function myFunction(
               </li>
             </>
           )}
-          {reqs.map((r) => myFunction(r, indentationLevel + 1))}{' '}
+          {reqs.map((r) => displayRequirement(r, indentationLevel + 1))}{' '}
           {/* Ensure to increase the indentation level for nested elements */}
         </div>
       );
@@ -83,9 +83,9 @@ export function Requisites({ preAndCorequisites, preOrCorequisites }: RequisiteP
         <div>
           <p>Prerequisites</p>
           <hr />
-          {/* call the myFunction for each prerequisite */}
+          {/* call the displayRequirement for each prerequisite */}
           {preAndCorequisites.map((req) => (
-            <div>{myFunction(req)}</div>
+            <div>{displayRequirement(req)}</div>
           ))}
         </div>
       )}
@@ -94,9 +94,9 @@ export function Requisites({ preAndCorequisites, preOrCorequisites }: RequisiteP
         <div>
           <p>Pre Or Corequisites</p>
           <hr />
-          {/* call the myFunction for each prerequisite */}
+          {/* call the displayRequirement for each prerequisite */}
           {preOrCorequisites.map((req) => (
-            <div>{myFunction(req)}</div>
+            <div>{displayRequirement(req)}</div>
           ))}
         </div>
       )}
