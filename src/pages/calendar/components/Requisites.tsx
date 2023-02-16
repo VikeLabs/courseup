@@ -1,7 +1,6 @@
 import { Box, Divider, ListItem, UnorderedList } from '@chakra-ui/react';
 
 import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
-import './requisites.css';
 
 // Based on the nested info in the requisite, display the element necessary
 export function displayRequirement(
