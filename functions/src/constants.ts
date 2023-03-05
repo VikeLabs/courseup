@@ -12,6 +12,21 @@ export type Term =
   | '202301'
   | '202305';
 
+// make const array of terms from above
+export const terms: Term[] = [
+  '202001',
+  '202005',
+  '202009',
+  '202101',
+  '202105',
+  '202109',
+  '202201',
+  '202205',
+  '202209',
+  '202301',
+  '202305'
+];
+
 // add some code?
 const buildings: { [key: string]: string } = {
   'Alice Ravenhill Hall': 'RRA',
