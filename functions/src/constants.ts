@@ -24,7 +24,7 @@ export const terms: Term[] = [
   '202205',
   '202209',
   '202301',
-  '202305'
+  '202305',
 ];
 
 // add some code?
