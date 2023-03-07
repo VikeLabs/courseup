@@ -1,4 +1,4 @@
-import { Box, Divider, ListItem, UnorderedList } from '@chakra-ui/react';
+import { Box, Divider, ListItem, Link, UnorderedList } from '@chakra-ui/react';
 
 import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 
@@ -10,21 +10,22 @@ export function displayRequirement(
   // If its just a string, display it. Eg. "or permission from the department"
   if (typeof req === 'string') {
     return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{req}</ListItem>;
-    // If there's a quantity, then we have a ListItemst of requisites to display
+    // If there's a quantity, then we have a list of requisites to display
   } else if ('quantity' in req) {
+    //Then it is a NestedPreCoRequisite
     const reqs = nestedReq(req);
     if (req.coreq) {
       return (
         <Box>
           {req.quantity && ( // If all are required, it doesn't get displayed
             <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
-              Completed or currently enrolled in {req.quantity} of the following:{' '}
+              Completed or currently enrolled in {req.quantity} of:{' '}
             </ListItem>
           )}
           {req.grade && (
             <>
               <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
-                Earn a minimum grade of {req.grade} in each of the following:
+                Earn a minimum grade of {req.grade} in each of:
               </ListItem>
             </>
           )}
@@ -36,10 +37,16 @@ export function displayRequirement(
       return (
         <Box>
           {req.quantity &&
-            !req.grade && ( // Displays this only when its not a grade requirement, and is a ListItemst of items
+            !req.grade &&
+            indentationLevel === 1 && ( // Displays this only when its not a grade requirement, and is at the lowest indentation level
               <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
                 Complete {req.quantity} of the following:{' '}
               </ListItem>
+            )}
+          {req.quantity &&
+            !req.grade &&
+            indentationLevel !== 1 && ( // Displays this only when its not a grade requirement
+              <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>Complete {req.quantity} of: </ListItem>
             )}
           {req.grade && (
             <>
@@ -55,9 +62,23 @@ export function displayRequirement(
     }
   } else if ('reqListItemst' in req) {
     const nestedReqs = nestedReq(req);
-    return <Box>{nestedReqs}</Box>; // Displays the ListItemst of requisites
+    return <Box>{nestedReqs}</Box>; // Displays the list of requisites
   } else if ('code' in req) {
-    return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{req.subject + ' ' + req.code}</ListItem>; // Display the course and code
+    // Display the course and code, and a link assuming it has a pid
+    if (req.pid) {
+      let courseLink = window.location.href.split('?pid=') + '?pid' + req.pid;
+      return (
+        <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
+          {
+            <Link color="blue.500" href={courseLink}>
+              {req.subject + ' ' + req.code}
+            </Link>
+          }
+        </ListItem>
+      );
+    } else {
+      return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{req.subject + ' ' + req.code}</ListItem>; // Display the course and code
+    }
   }
   return <></>;
 }
