@@ -65,20 +65,15 @@ export function displayRequirement(
     return <Box>{nestedReqs}</Box>; // Displays the list of requisites
   } else if ('code' in req) {
     // Display the course and code, and a link assuming it has a pid
-    if (req.pid) {
-      let courseLink = window.location.href.split('?pid=') + '?pid' + req.pid;
-      return (
-        <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
-          {
-            <Link color="blue.500" href={courseLink}>
-              {req.subject + ' ' + req.code}
-            </Link>
-          }
-        </ListItem>
-      );
-    } else {
-      return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{req.subject + ' ' + req.code}</ListItem>; // Display the course and code
-    }
+    const courseLink = req.pid ? `${window.location.href.split('?pid=')[0]}?pid=${req.pid}` : undefined;
+    const courseText = req.pid ? (
+      <Link color="blue.500" href={courseLink}>
+        {`${req.subject} ${req.code}`}
+      </Link>
+    ) : (
+      `${req.subject} ${req.code}`
+    );
+    return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{courseText}</ListItem>;
   }
   return <></>;
 }
