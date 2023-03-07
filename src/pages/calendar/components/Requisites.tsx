@@ -1,4 +1,6 @@
-import { Box, Divider, ListItem, Link, UnorderedList } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+
+import { Box, Divider, ListItem, Link, Text, UnorderedList } from '@chakra-ui/react';
 
 import { KualiCourse, NestedPreCoRequisites } from 'lib/fetchers';
 
@@ -64,18 +66,85 @@ export function displayRequirement(
     const nestedReqs = nestedReq(req);
     return <Box>{nestedReqs}</Box>; // Displays the list of requisites
   } else if ('code' in req) {
-    // Display the course and code, and a link assuming it has a pid
-    const courseLink = req.pid ? `${window.location.href.split('?pid=')[0]}?pid=${req.pid}` : undefined;
-    const courseText = req.pid ? (
-      <Link color="blue.500" href={courseLink}>
-        {`${req.subject} ${req.code}`}
-      </Link>
-    ) : (
-      `${req.subject} ${req.code}`
-    );
-    return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{courseText}</ListItem>;
+    // Get the current term and the URL
+    const url = window.location.href;
+    const currTerm = url.split('calendar/')[1].split('/')[0];
+
+    // Get course details from the backend
+    const courseDetails = GetCourseDetails(currTerm, req.subject, req.code) as unknown as {
+      pid: string;
+      title: string;
+      credits: {
+        chosen: string;
+        value:
+          | string
+          | {
+              max: string;
+              min: string;
+            };
+        credits: {
+          max: string;
+          min: string;
+        };
+      };
+    };
+
+    // If course details are not available, return basic info
+    if (!courseDetails) {
+      return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{`${req.subject} ${req.code}`}</ListItem>;
+    } else {
+      // Extract course details and format credits
+      const pid = courseDetails.pid;
+      const link = `${url.split('?pid=')[0]}?pid=${pid}`;
+      const credits = courseDetails.credits.credits;
+      const creditsVisual = credits.min === credits.max ? `(${credits.max})` : `(${credits.min} - ${credits.max})`;
+
+      // Render course details with a hyperlink to requisite course page
+      // Unsure how to do this like the other components linking to different pages smoothly
+      return (
+        <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
+          <Text>
+            <Link color="blue.500" href={link}>
+              {`${req.subject} ${req.code}`}
+            </Link>
+            {` - ${courseDetails.title} `}
+            {`${creditsVisual}`}
+          </Text>
+        </ListItem>
+      );
+    }
   }
   return <></>;
+}
+
+// Used to fetch course details necessary for requisites (pid, title, credits)
+// Should (probably) be moved elsewhere
+function GetCourseDetails(term: string, subject: string, code: string) {
+  // Use state to store course details
+  const [courseDetails, setCourseDetails] = useState(null);
+
+  // Use effect to fetch course details from the API when the component mounts
+  useEffect(() => {
+    async function fetchCourseDetails() {
+      try {
+        // Fetch course details from the backend
+        const response = await fetch(`https://courseup.vikelabs.dev/api/courses/${term}/${subject}/${code}`);
+        if (!response.ok) {
+          console.log('Failed to fetch course details');
+          return null;
+        }
+        // Parse the response as JSON and set course details in state
+        const data = await response.json();
+        setCourseDetails(data);
+      } catch (error) {
+        console.log('Failed to fetch course details');
+        return null;
+      }
+    }
+    fetchCourseDetails();
+  }, [code, subject, term]);
+
+  return courseDetails;
 }
 
 // Get nested reqs from NestedPreCoRequisites object
