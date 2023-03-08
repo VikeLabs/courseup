@@ -1,11 +1,11 @@
-import { isValidAccessKey } from '@courseup/lib/auth/key';
-import { setTerm, getSearchResults } from '@courseup/lib/banner';
-
-import { range } from '@courseup/lib/fn';
-import { upsertSections } from '@courseup/lib/sections';
 import makeFetchCookie from 'fetch-cookie';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
+
+import { isValidAccessKey } from '@courseup/lib/auth/key';
+import { setTerm, getSearchResults } from '@courseup/lib/banner';
+import { range } from '@courseup/lib/fn';
+import { upsertSections } from '@courseup/lib/sections';
 
 const RequestParams = z.object({
   term: z.string(),

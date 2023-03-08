@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import type { AppProps /*, AppContext */ } from 'next/app';
+import Head from 'next/head';
 
 import { App as CreateReactApp } from '../src/App';
-import Head from 'next/head';
 
 const Metadata = () => (
   <Head>

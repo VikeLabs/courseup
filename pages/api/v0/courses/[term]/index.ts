@@ -1,7 +1,8 @@
-import { getCourses, getCoursesInSession } from '@courseup/lib/courses';
-import { Term } from '@courseup/lib/validation/term';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
+
+import { getCourses, getCoursesInSession } from '@courseup/lib/courses';
+import { Term } from '@courseup/lib/validation/term';
 
 const RequestParams = z.object({
   term: Term,

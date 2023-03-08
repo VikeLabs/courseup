@@ -1,9 +1,10 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
+
 import { verifyKey } from '@courseup/lib/api/middleware/auth';
 import { method } from '@courseup/lib/api/middleware/method';
 import { createTask } from '@courseup/lib/task';
 import { upsertTextbooks } from '@courseup/lib/textbooks';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { z } from 'zod';
 
 const RequestParams = z.object({
   term: z.string(),

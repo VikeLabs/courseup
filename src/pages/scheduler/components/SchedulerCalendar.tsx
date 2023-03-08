@@ -12,11 +12,9 @@ import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
 import { useInitialDateTime } from 'pages/scheduler/hooks/useInitialDatetime';
 import { coursesToVCalendar } from 'pages/scheduler/shared/exporter';
 import { courseCalEventsToCustomEvents } from 'pages/scheduler/shared/transformers';
-import { CustomEvent } from 'pages/scheduler/shared/types';
+import { CustomEvent, CourseCalendarEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
-
-import { CourseCalendarEvent } from '../shared/types';
 
 const localizer = dateFnsLocalizer({
   format,

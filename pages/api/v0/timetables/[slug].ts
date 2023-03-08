@@ -1,6 +1,7 @@
-import { getTimetable } from '@courseup/lib/timetable';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
+
+import { getTimetable } from '@courseup/lib/timetable';
 
 const RequestParams = z.object({
   slug: z.string(),

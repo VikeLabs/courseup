@@ -1,7 +1,8 @@
-import { getSubjects } from '@courseup/lib/subjects';
-import { Term } from '@courseup/lib/validation/term';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
+
+import { getSubjects } from '@courseup/lib/subjects';
+import { Term } from '@courseup/lib/validation/term';
 
 const RequestParams = z.object({
   term: Term,
