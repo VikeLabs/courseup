@@ -18,7 +18,8 @@ describe('HeaderContainer', () => {
     renderWithSearchAndRouter(<HeaderContainer />);
 
     expect(screen.getByTestId('desktop-header')).toBeInTheDocument();
-    expect(screen.getAllByRole('button')).toHaveLength(8);
+    // Since this value changes depending on how many tips there are (=== 1 has 6, > 1 has 8)
+    expect(screen.getAllByRole('button').length === 6 || screen.getAllByRole('button').length === 8).toBeTruthy();
     expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 });

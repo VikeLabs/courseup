@@ -1,6 +1,7 @@
 import { Section } from './banner';
 import got, { Response } from 'got';
 import { load } from 'cheerio';
+import { terms as currentTerms } from '../constants';
 const ROOT_URL = 'https://banner.uvic.ca';
 const BANNER_SSB_URL = `${ROOT_URL}/StudentRegistrationSsb/ssb`;
 const BANNER_SSB_SEARCH_URL = `${BANNER_SSB_URL}/classSearch/`;
@@ -80,10 +81,9 @@ export class BannerClient {
     const termsResponse = await BannerClient.getTerms(1, 100);
     this.availableTerms = termsResponse.map((term) => term.code);
     // TODO: set term dynamically
-    const currentTerms = ['202109', '202201', '202205', '202209', '202301'];
     // filter out terms that are availabe and set indepedent cookies for each term
     const terms = this.availableTerms.filter((term) =>
-      currentTerms.includes(term)
+      currentTerms.includes(term as any)
     );
     await Promise.all(terms.map((term) => this.setTerm(term)));
     return;
