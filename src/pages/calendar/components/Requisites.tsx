@@ -11,13 +11,13 @@ export function DisplayRequirement(
   indentationLevel: number = 1
 ): JSX.Element {
   // Grab the current term
-  const currTerm = useSessionStorage('user:term', getCurrentTerm())[0];
+  const currTerm = useSessionStorage('user:term', getCurrentTerm())[0] as Term;
 
   // If its just a string, display it. Eg. "or permission from the department"
   if (typeof req === 'string') {
     return (
       <UnorderedList>
-        <ListItem title="string req" style={{ marginLeft: `${indentationLevel * 40}px` }}>
+        <ListItem title="Requisite" style={{ marginLeft: `${indentationLevel * 40}px` }}>
           {req}
         </ListItem>
       </UnorderedList>
@@ -88,10 +88,19 @@ export function DisplayRequirement(
 
     // Get course details from the backend
     return (
-      <GetCourseDetails term={currTerm as Term} subject={req.subject} code={req.code}>
+      <GetCourseDetails term={currTerm} subject={req.subject} code={req.code}>
         {(courseDetails, isLoading) => {
-          if (isLoading) {
-            return <Skeleton>.</Skeleton>;
+          // If its loading then render a skeleton
+          if (isLoading.loading) {
+            return (
+              <UnorderedList>
+                <ListItem style={{ marginLeft: `${indentationLevel * 40}px`, marginRight: `100px` }}>
+                  <Skeleton>
+                    <Text>Loading course details...</Text>
+                  </Skeleton>
+                </ListItem>
+              </UnorderedList>
+            );
           } else if (courseDetails) {
             // Extract course details and format credits
             const pid = courseDetails.pid;
