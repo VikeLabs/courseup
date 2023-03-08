@@ -8,9 +8,14 @@ export function displayRequirement(
   req: string | NestedPreCoRequisites | KualiCourse,
   indentationLevel: number = 1
 ): JSX.Element {
+  console.log(req);
   // If its just a string, display it. Eg. "or permission from the department"
   if (typeof req === 'string') {
-    return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{req}</ListItem>;
+    return (
+      <ListItem title="string req" style={{ marginLeft: `${indentationLevel * 40}px` }}>
+        {req}
+      </ListItem>
+    );
     // If there's a quantity, then we have a list of requisites to display
   } else if ('quantity' in req) {
     //Then it is a NestedPreCoRequisite
@@ -61,7 +66,7 @@ export function displayRequirement(
         </Box>
       );
     }
-  } else if ('reqListItemst' in req) {
+  } else if ('reqListItems' in req) {
     const nestedReqs = nestedReq(req);
     return <Box>{nestedReqs}</Box>; // Displays the list of requisites
   } else if ('code' in req) {
@@ -83,7 +88,7 @@ export function displayRequirement(
 
             // Render course details with a hyperlink to requisite course page on courseup
             return (
-              <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
+              <ListItem title="course req" style={{ marginLeft: `${indentationLevel * 40}px` }}>
                 <Text _hover={{ color: 'blue.600' }} color="blue.400" as="span">
                   <Link to={`/calendar/${currTerm}/${subject}?pid=${pid}`}>{`${subject} ${code}`}</Link>
                 </Text>
@@ -92,7 +97,12 @@ export function displayRequirement(
             );
           } else {
             // Render default state
-            return <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>{`${subject} ${code}`}</ListItem>;
+            return (
+              <ListItem
+                title="course req"
+                style={{ marginLeft: `${indentationLevel * 40}px` }}
+              >{`${subject} ${code}`}</ListItem>
+            );
           }
         }}
       </GetCourseDetails>
