@@ -1,6 +1,7 @@
-import { prisma } from '@courseup/lib/prisma';
 import { Task } from '@prisma/client';
 import { differenceInMilliseconds } from 'date-fns';
+
+import { prisma } from '@courseup/lib/prisma';
 
 export async function createTask(type: string, fn: Promise<any>, metadata: any): Promise<Task> {
   const task = await prisma.task.create({

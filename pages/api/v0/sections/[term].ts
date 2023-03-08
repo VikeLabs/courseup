@@ -1,8 +1,9 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
+
 import { getSections } from '@courseup/lib/sections';
 import { SubjectEnum } from '@courseup/lib/validation/subject';
 import { Term } from '@courseup/lib/validation/term';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { z } from 'zod';
 
 const RequestParams = z.object({
   term: Term,
