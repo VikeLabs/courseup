@@ -24,7 +24,7 @@ describe('DisplayRequirement', () => {
   it('should render the string requirement', () => {
     mockUseSessionStorage.mockReturnValue([true, mockSetTerm]);
     render(DisplayRequirement(reqString, 1));
-    expect(screen.getByTitle('string req')).toHaveTextContent('with a minimum GPA of 3.0 over all courses');
+    expect(screen.getByTitle('Requisite')).toHaveTextContent('with a minimum GPA of 3.0 over all courses');
   });
 
   it('should render the course requirement', () => {
@@ -38,14 +38,20 @@ describe('DisplayRequirement', () => {
         1
       )
     );
-    expect(screen.getByTitle('course req')).toHaveTextContent('PHYS 216');
+    expect(screen.getByTitle(`${course.subject} ${course.code}`)).toHaveTextContent('PHYS 216');
   });
 
   it('should render the nested requirement', () => {
     mockUseSessionStorage.mockReturnValue([true, mockSetTerm]);
     render(DisplayRequirement(reqNested, 1));
-    expect(screen.getAllByTitle('course req')[0]).toHaveTextContent('PHYS 111');
-    expect(screen.getAllByTitle('course req')[1]).toHaveTextContent('PHYS 125');
-    expect(screen.getAllByTitle('course req')[2]).toHaveTextContent('PHYS 130');
+    expect(screen.getByTitle(`${reqNested.reqList[0].subject} ${reqNested.reqList[0].code}`)).toHaveTextContent(
+      'PHYS 111'
+    );
+    expect(screen.getByTitle(`${reqNested.reqList[1].subject} ${reqNested.reqList[1].code}`)).toHaveTextContent(
+      'PHYS 125'
+    );
+    expect(screen.getByTitle(`${reqNested.reqList[2].subject} ${reqNested.reqList[2].code}`)).toHaveTextContent(
+      'PHYS 130'
+    );
   });
 });

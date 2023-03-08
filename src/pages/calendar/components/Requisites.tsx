@@ -1,4 +1,4 @@
-import { Box, Text, Divider, ListItem, UnorderedList } from '@chakra-ui/react';
+import { Box, Text, Divider, ListItem, Skeleton, UnorderedList } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { KualiCourse, NestedPreCoRequisites, GetCourseDetails, Term } from 'lib/fetchers';
@@ -89,8 +89,10 @@ export function DisplayRequirement(
     // Get course details from the backend
     return (
       <GetCourseDetails term={currTerm as Term} subject={req.subject} code={req.code}>
-        {(courseDetails) => {
-          if (courseDetails) {
+        {(courseDetails, isLoading) => {
+          if (isLoading) {
+            return <Skeleton>.</Skeleton>;
+          } else if (courseDetails) {
             // Extract course details and format credits
             const pid = courseDetails.pid;
             const credits = courseDetails.credits.credits;
@@ -100,7 +102,7 @@ export function DisplayRequirement(
             // Render course details with a hyperlink to requisite course page on courseup
             return (
               <UnorderedList>
-                <ListItem title="course req" style={{ marginLeft: `${indentationLevel * 40}px` }}>
+                <ListItem title={`${subject} ${code}`} style={{ marginLeft: `${indentationLevel * 40}px` }}>
                   <Text _hover={{ color: 'blue.600' }} color="blue.400" as="span">
                     <Link to={`/calendar/${currTerm}/${subject}?pid=${pid}`}>{`${subject} ${code}`}</Link>
                   </Text>
@@ -113,7 +115,7 @@ export function DisplayRequirement(
             return (
               <UnorderedList>
                 <ListItem
-                  title="course req"
+                  title={`${subject} ${code}`}
                   style={{ marginLeft: `${indentationLevel * 40}px` }}
                 >{`${subject} ${code}`}</ListItem>
               </UnorderedList>
