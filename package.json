@@ -42,6 +42,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "postinstall": "prisma generate",
     "next:lint": "next lint",
     "test": "jest",
     "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/lib/fetchers.tsx",
