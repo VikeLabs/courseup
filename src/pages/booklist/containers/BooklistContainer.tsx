@@ -17,6 +17,7 @@ import { useTextbooks } from '../hooks/useTextbooks';
 
 export function BooklistContainer(): JSX.Element | null {
   const { term } = useParams();
+
   const textbooks = useTextbooks(term as Term);
   useEffect(() => {
     logEvent('textbooks_view', { term });

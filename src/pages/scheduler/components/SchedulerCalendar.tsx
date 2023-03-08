@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import 'react-big-calendar/lib/sass/styles.scss';
-
 import { format, getDay, parse, set, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
@@ -14,11 +12,9 @@ import { CalendarToolBar } from 'pages/scheduler/components/Toolbar';
 import { useInitialDateTime } from 'pages/scheduler/hooks/useInitialDatetime';
 import { coursesToVCalendar } from 'pages/scheduler/shared/exporter';
 import { courseCalEventsToCustomEvents } from 'pages/scheduler/shared/transformers';
-import { CustomEvent } from 'pages/scheduler/shared/types';
+import { CustomEvent, CourseCalendarEvent } from 'pages/scheduler/shared/types';
 import { eventPropGetter } from 'pages/scheduler/styles/eventPropGetter';
 import { slotPropGetter } from 'pages/scheduler/styles/slotPropGetter';
-
-import { CourseCalendarEvent } from '../shared/types';
 
 const localizer = dateFnsLocalizer({
   format,

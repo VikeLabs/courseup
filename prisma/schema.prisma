@@ -1,0 +1,263 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id                 String    @id @default(cuid())
+  pid                String
+  level              Level     @default(Undergraduate)
+  subject            String
+  subjectDescription String
+  code               String
+  term               String
+  title              String
+  description        String
+  dateStart          String
+  credits            Json // strangely structuredx`
+  hoursCatalog       Json?
+  preAndCorequisites Json?
+  preOrCorequisites  Json?
+  formally           String?
+  sections           Section[]
+
+  @@unique([term, subject, code])
+  @@index([term, subject, code])
+}
+
+enum Level {
+  Undergraduate
+  Graduate
+}
+
+model Section {
+  id                      String  @id @default(cuid())
+  courseReferenceNumber   String
+  partOfTerm              String?
+  sequenceNumber          String
+  campusDescription       String
+  additionalInformation   String?
+  scheduleTypeDescription String
+  title                   String
+  crossList               String?
+  crossListCapacity       Int?
+  crossListAvailable      Int?
+
+  creditHours         String?
+  creditHourHigh      String?
+  creditHourLow       String?
+  creditHourIndicator String?
+
+  openSection                    Boolean
+  linkIdentifier                 String?
+  isSectionLinked                Boolean
+  instructionalMethod            String?
+  instructionalMethodDescription String?
+  course                         Course                @relation(fields: [courseId], references: [id])
+  courseId                       String
+  meetingTimes                   MeetingTime[]
+  faculty                        FacultiesOnSection[]
+  capacities                     SectionCapacity[]
+  createdAt                      DateTime              @updatedAt
+  updatedAt                      DateTime              @updatedAt
+  textbooks                      TextbookList?
+  TimetablesOnCourses            TimetablesOnCourses[]
+
+  @@unique([courseId, courseReferenceNumber])
+}
+
+model SectionCapacity {
+  id                String   @id @default(cuid())
+  enrollment        Int
+  seatsAvailable    Int
+  maximumEnrollment Int
+  waitCapacity      Int?
+  waitCount         Int
+  waitAvailable     Int?
+  section           Section  @relation(fields: [sectionId], references: [id])
+  sectionId         String
+  createdAt         DateTime @default(now())
+
+  @@index([sectionId, createdAt])
+}
+
+model MeetingTime {
+  id                     String    @id @default(cuid())
+  term                   String
+  startDate              DateTime  @db.Date() // eg. "Apr 06, 2023" => "2023-04-06"
+  startTime              DateTime? @db.Time() // eg. "1330" => 1:30pm
+  endDate                DateTime  @db.Date() // eg. "Apr 06, 2023" => "2023-04-06"
+  endTime                DateTime? @db.Time() // eg. "1420" => 2:20pm
+  startDateTime          DateTime?
+  endDateTime            DateTime?
+  building               String?
+  buildingDescription    String?
+  campus                 String?
+  campusDescription      String?
+  category               String?
+  courseReferenceNumber  String
+  creditHourSession      String?
+  hoursWeek              String?
+  meetingScheduleType    String
+  meetingType            String
+  meetingTypeDescription String
+  room                   String?
+  monday                 Boolean
+  tuesday                Boolean
+  wednesday              Boolean
+  thursday               Boolean
+  friday                 Boolean
+  saturday               Boolean
+  sunday                 Boolean
+  section                Section   @relation(fields: [sectionId], references: [id])
+  sectionId              String
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  // crns are only unique within a term, so we need to index them
+}
+
+model Faculty {
+  id         String               @id @default(cuid())
+  name       String
+  department String?
+  email      String               @unique
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime             @updatedAt
+  entries    FacultiesOnSection[]
+}
+
+model FacultiesOnSection {
+  primary   Boolean  @default(false)
+  faculty   Faculty  @relation(fields: [facultyId], references: [id])
+  facultyId String
+  section   Section  @relation(fields: [sectionId], references: [id])
+  sectionId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([facultyId, sectionId])
+}
+
+model Timetable {
+  id        String                @id @default(cuid())
+  ref       String                @unique
+  hash      String                @unique
+  term      String
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  courses   TimetablesOnCourses[]
+
+  // create a unique index on ref because the shareable link uses the ref value
+  @@index([ref])
+}
+
+model TimetablesOnCourses {
+  timetable   Timetable @relation(fields: [timetableId], references: [id])
+  timetableId String
+  section     Section   @relation(fields: [sectionId], references: [id])
+  sectionId   String
+  color       String?
+  createdAt   DateTime  @updatedAt
+  updatedAt   DateTime  @updatedAt
+
+  @@id([timetableId, sectionId])
+}
+
+model TimetableTemplate {
+  id          String                    @id @default(cuid())
+  ref         String                    @unique
+  title       String
+  description String?
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
+  courses     TimetableTemplateCourse[]
+}
+
+model TimetableTemplateCourse {
+  id          String            @id @default(cuid())
+  term        String
+  subject     String
+  code        String
+  description String? // for adding comments to the template course
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  template    TimetableTemplate @relation(fields: [templateId], references: [id])
+  templateId  String
+}
+
+// Textbook defines a book or any other text that is associated with a course.
+model Textbook {
+  id        String                     @id @default(cuid())
+  title     String
+  author    String[]
+  isbn      String?                    @unique
+  isbn10    String?                    @unique
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @updatedAt
+  lists     TextbooksOnTextbookLists[]
+  sources   TextbookSource[]
+}
+
+// TextbookSource defines a source in which a textbook is available.
+// For example, a textbook can be obtained from the university bookstore or online retailers etc.
+model TextbookSource {
+  id         String   @id @default(cuid())
+  textbook   Textbook @relation(fields: [textbookId], references: [id])
+  textbookId String
+  url        String
+  org        String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  price      Int? // defined in CAD cents at the moment
+  condition  String?
+  format     String?
+}
+
+// BookList defines a list of textbooks associated with a given course section.
+model TextbookList {
+  id                   String                     @id @default(cuid())
+  textbooks            TextbooksOnTextbookLists[]
+  section              Section                    @relation(fields: [sectionId], references: [id])
+  sectionId            String
+  addtionalInformation String?
+  createdAt            DateTime                   @default(now())
+  updatedAt            DateTime                   @updatedAt
+
+  @@unique([sectionId]) // only one list per section
+}
+
+// TextbooksOnLists defines a relationship between a textbook and a book list a an n-m relationship.
+// This defines a explict many-to-many relationship between a textbook and a book list.
+// https://www.prisma.io/docs/concepts/components/prisma-schema/relations/many-to-many-relations
+model TextbooksOnTextbookLists {
+  required              Boolean      @default(false)
+  additionalInformation String?
+  textbook              Textbook     @relation(fields: [textbookId], references: [id])
+  textbookId            String // relation scalar field (used in the `@relation` attribute above)
+  list                  TextbookList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  listId                String // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([textbookId, listId])
+}
+
+// Job is for tracking any job that is run by the server like scraping data etc.
+// This should not be exposed to the end-user and meant for internal use only.
+model Task {
+  id        String    @id @default(cuid())
+  type      String
+  metadata  Json?
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  duration  Int?
+  user      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}

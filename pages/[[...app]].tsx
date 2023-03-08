@@ -1,6 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+import { useEffect, useState } from 'react';
+
+import type { AppProps /*, AppContext */ } from 'next/app';
+import Head from 'next/head';
+
+import { App as CreateReactApp } from '../src/App';
+
+const Metadata = () => (
+  <Head>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
     <link rel="manifest" href="/assets/favicon/site.webmanifest" />
@@ -9,30 +15,38 @@
     <meta name="msapplication-TileColor" content="#2d89ef" />
     <meta name="msapplication-config" content="/public/assets/favicon/browserconfig.xml" />
     <meta name="theme-color" content="#ffffff" />
-    <meta charset="utf-8" />
+    <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!--open graph link preview-->
     <meta property="og:title" content="CourseUp" />
     <meta property="og:description" content="Browse and schedule UVic courses, simply." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://courseup.vikelabs.ca/" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image" content="https://courseup.vikelabs.dev/assets/laptop.png" />
-    <!--prevent input from zooming in on focus on mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  </Head>
+);
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+function App({ Component, pageProps }: AppProps): JSX.Element {
+  const [isMounted, setIsMounted] = useState(false);
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
-</html>
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div>
+        <Metadata />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Metadata />
+      <CreateReactApp />
+    </>
+  );
+}
+export default App;

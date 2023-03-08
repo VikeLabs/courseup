@@ -1,12 +1,10 @@
 {
   "extends": [
-    // "next/core-web-vitals",
-    "react-app",
-    "react-app/jest",
+    "next/core-web-vitals",
+    "prettier",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:prettier/recommended"
+    "plugin:import/typescript"
   ],
   "rules": {
     "import/order": [
@@ -49,9 +47,6 @@
       }
     ],
     "camelcase": [2, { "properties": "always" }],
-    "import/no-unresolved": "off",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"]
-  },
-  "ignorePatterns": ["functions/**"]
+    "import/no-unresolved": "off"
+  }
 }
