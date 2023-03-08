@@ -17,12 +17,16 @@ describe('NotFound Component', () => {
   });
 
   it('has no a11y violations', async () => {
-    const { container } = renderWithSearch(<NotFound children="" term="202204" timetable />);
+    const { container } = renderWithSearch(<NotFound term="202204" timetable />);
     expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should render the text correctly', () => {
-    const { container } = render(<NotFound children="Not found" term="202204" timetable />);
+    const { container } = render(
+      <NotFound term="202204" timetable>
+        Not found
+      </NotFound>
+    );
     expect(container.textContent).toContain('Not found');
     expect(container.textContent).toContain('Timetable');
   });

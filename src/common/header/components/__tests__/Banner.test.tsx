@@ -10,6 +10,7 @@ jest.mock('lib/hooks/storage/useSessionStorage');
 const mockUseSessionStorage = jest.mocked(useSessionStorage);
 const mockSetBanner = jest.fn();
 
+// eslint-disable-next-line react/jsx-key
 const tips = [<p>hello</p>];
 
 // I chose to not test the forward and back buttons as the content of the banner

@@ -35,6 +35,7 @@ function SectionInfoRow({ term, courses }: { term: Term; courses: SavedCourse[] 
           {sharedSections.map((s) => {
             return (
               <HStack
+                key={s.crn}
                 px="3"
                 my="0.5"
                 fontSize="12px"

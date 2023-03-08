@@ -51,7 +51,7 @@ export function Textbook({
       backgroundColor={mode('white', 'dark.background')}
     >
       <Flex alignItems={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }} gap="4">
-        <Image h="180px" w="120px" src={imageUrl} />
+        <Image h="180px" w="120px" src={imageUrl} alt="Textbook Cover Image" />
         <VStack h="100%" alignItems={{ base: 'center', md: 'start' }} gap="0.5">
           <Badge colorScheme={required ? 'orange' : 'green'}>{required ? 'required' : 'optional'}</Badge>
           <HStack>
@@ -136,6 +136,7 @@ export function Textbook({
             src={process.env.PUBLIC_URL + `/assets/brands/${mode('amazon_light.png', 'amazon_dark.png')}`}
             h="2.4em"
             p="2"
+            alt="Amazon Logo"
           />
         </Button>
       </VStack>

@@ -87,11 +87,11 @@ export function RegistrationHeading() {
             <Text as="span" fontWeight="bold">
               Submit
             </Text>{' '}
-            button on the bottom right of the page, and you're registered!
+            button on the bottom right of the page, and you&apos;re registered!
           </ListItem>
         </OrderedList>
         <Text w="100%" textAlign="left">
-          For more information, visit UVic's guide on "
+          For more information, visit UVic&apos;s guide on &quot;
           <Text as="span" color="blue.500" fontWeight="light">
             <Text
               as="a"
@@ -102,7 +102,7 @@ export function RegistrationHeading() {
               Course registration
             </Text>
           </Text>
-          ."
+          .&quot;
         </Text>
       </Flex>
       <Alert status="warning" borderRadius="10px" my={2} textAlign="left">

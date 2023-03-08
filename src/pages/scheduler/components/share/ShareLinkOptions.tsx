@@ -25,11 +25,21 @@ type SocialMediaButtonsProps = {
 const SocialMediaButtons = ({ shareLink }: SocialMediaButtonsProps) => {
   return (
     <HStack justify="center">
-      <EmailShareButton children={<EmailIcon size={50} round />} url={shareLink} />
-      <FacebookShareButton children={<FacebookIcon size={50} round />} url={shareLink} />
-      <TelegramShareButton children={<TelegramIcon size={50} round />} url={shareLink} />
-      <WhatsappShareButton children={<WhatsappIcon size={50} round />} url={shareLink} />
-      <TwitterShareButton children={<TwitterIcon size={50} round />} url={shareLink} />
+      <EmailShareButton url={shareLink}>
+        <EmailIcon size={50} round />
+      </EmailShareButton>
+      <FacebookShareButton url={shareLink}>
+        <FacebookIcon size={50} round />
+      </FacebookShareButton>
+      <TelegramShareButton url={shareLink}>
+        <TelegramIcon size={50} round />
+      </TelegramShareButton>
+      <WhatsappShareButton url={shareLink}>
+        <WhatsappIcon size={50} round />
+      </WhatsappShareButton>
+      <TwitterShareButton url={shareLink}>
+        <TwitterIcon size={50} round />
+      </TwitterShareButton>
     </HStack>
   );
 };
