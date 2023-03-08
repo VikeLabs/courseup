@@ -45,8 +45,8 @@
     "next:lint": "next lint",
     "test": "jest",
     "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/lib/fetchers.tsx",
-    "lint": "eslint \"src/**/*.{t,j}s{x,}\"",
-    "lint:fix": "eslint --fix \"src/**/*.{t,j}s{x,}\"",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
   },
   "prisma": {
@@ -65,6 +65,7 @@
     ]
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^13.2.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^7.0.1",
@@ -81,14 +82,15 @@
     "@types/react-helmet": "^6.1.5",
     "@types/react-instantsearch-core": "^6.10.5",
     "@types/react-instantsearch-dom": "^6.12.1",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint": "^8.35.0",
+    "eslint-config-next": "13.2.3",
+    "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-prettier": "^4.0.0",
     "jest": "^29.0.1",
     "jest-axe": "^5.0.1",
     "jest-environment-jsdom": "^29.0.2",
     "node-fetch": "^2.6.7",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.4",
     "prisma": "^4.3.1",
     "react-share": "^4.4.0",
     "ts-node-dev": "^2.0.0",
