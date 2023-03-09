@@ -94,9 +94,14 @@ export function DisplayRequirement(
           if (isLoading.loading) {
             return (
               <UnorderedList>
-                <ListItem style={{ marginLeft: `${indentationLevel * 40}px`, marginRight: `100px` }}>
+                <ListItem
+                  title={`${subject} ${code}`}
+                  style={{ marginLeft: `${indentationLevel * 40}px`, marginRight: `100px` }}
+                >
                   <Skeleton>
-                    <Text>Loading course details...</Text>
+                    <Text>
+                      Loading course details of {req.subject} {req.code}
+                    </Text>
                   </Skeleton>
                 </ListItem>
               </UnorderedList>
