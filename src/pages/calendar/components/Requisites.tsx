@@ -25,7 +25,7 @@ export function DisplayRequirement(
     // If there's a quantity, then we have a list of requisites to display
   } else if ('quantity' in req) {
     //Then it is a NestedPreCoRequisite
-    const reqs = nestedReq(req);
+    const reqs = req.reqList ? req.reqList : [];
     const { quantity, grade } = req;
     if (req.coreq) {
       return (
@@ -79,9 +79,6 @@ export function DisplayRequirement(
         </Box>
       );
     }
-  } else if ('reqListItems' in req) {
-    const nestedReqs = nestedReq(req);
-    return <Box>{nestedReqs}</Box>; // Displays the list of requisites
   } else if ('code' in req) {
     // Get the current term and requisite details
     const { subject, code } = req;
@@ -144,14 +141,6 @@ export function DisplayRequirement(
     );
   }
   return <></>;
-}
-
-// Get nested reqs from NestedPreCoRequisites object
-export function nestedReq(req: NestedPreCoRequisites): Array<string | NestedPreCoRequisites | KualiCourse> {
-  if (req.reqList !== undefined) {
-    return req.reqList;
-  }
-  return [];
 }
 
 // Defines the properties of the Requisites component;
