@@ -26,54 +26,55 @@ export function DisplayRequirement(
   } else if ('quantity' in req) {
     //Then it is a NestedPreCoRequisite
     const reqs = nestedReq(req);
+    const { quantity, grade } = req;
     if (req.coreq) {
       return (
         <Box>
-          {req.quantity && ( // If all are required, it doesn't get displayed
+          {quantity && ( // If all are required, it doesn't get displayed
             <UnorderedList>
               <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
-                Completed or currently enrolled in {req.quantity} of:{' '}
+                Completed or currently enrolled in {quantity} of:
               </ListItem>
             </UnorderedList>
           )}
-          {req.grade && (
+          {grade && (
             <UnorderedList>
               <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
-                Earn a minimum grade of {req.grade} in each of:
+                Earn a minimum grade of {grade} in each of:
               </ListItem>
             </UnorderedList>
           )}
-          {reqs.map((r) => DisplayRequirement(r, indentationLevel + 1))}{' '}
+          {reqs.map((r) => DisplayRequirement(r, indentationLevel + 1))}
           {/* Ensure to increase the indentation level for nested elements */}
         </Box>
       );
     } else {
       return (
         <Box>
-          {req.quantity &&
-            !req.grade &&
+          {quantity &&
+            !grade &&
             indentationLevel === 1 && ( // Displays this only when its not a grade requirement, and is at the lowest indentation level
               <UnorderedList>
                 <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
-                  Complete {req.quantity} of the following:{' '}
+                  Complete {quantity} of the following:
                 </ListItem>
               </UnorderedList>
             )}
-          {req.quantity &&
-            !req.grade &&
+          {quantity &&
+            !grade &&
             indentationLevel !== 1 && ( // Displays this only when its not a grade requirement
               <UnorderedList>
-                <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>Complete {req.quantity} of: </ListItem>
+                <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>Complete {quantity} of: </ListItem>
               </UnorderedList>
             )}
-          {req.grade && (
+          {grade && (
             <UnorderedList>
               <ListItem style={{ marginLeft: `${indentationLevel * 40}px` }}>
-                Earn a minimum grade of {req.grade} in each of the following:
+                Earn a minimum grade of {grade} in each of the following:
               </ListItem>
             </UnorderedList>
           )}
-          {reqs.map((r) => DisplayRequirement(r, indentationLevel + 1))}{' '}
+          {reqs.map((r) => DisplayRequirement(r, indentationLevel + 1))}
           {/* Ensure to increase the indentation level for nested elements */}
         </Box>
       );
@@ -83,12 +84,11 @@ export function DisplayRequirement(
     return <Box>{nestedReqs}</Box>; // Displays the list of requisites
   } else if ('code' in req) {
     // Get the current term and requisite details
-    const subject = req.subject;
-    const code = req.code;
+    const { subject, code } = req;
 
     // Get course details from the backend
     return (
-      <GetCourseDetails term={currTerm} subject={req.subject} code={req.code}>
+      <GetCourseDetails term={currTerm} subject={subject} code={code}>
         {(courseDetails, isLoading) => {
           // If its loading then render a skeleton
           if (isLoading.loading) {
@@ -100,18 +100,22 @@ export function DisplayRequirement(
                 >
                   <Skeleton>
                     <Text>
-                      Loading course details of {req.subject} {req.code}
+                      Loading course details of {subject} {code}
                     </Text>
                   </Skeleton>
                 </ListItem>
               </UnorderedList>
             );
           } else if (courseDetails) {
-            // Extract course details and format credits
-            const pid = courseDetails.pid;
-            const credits = courseDetails.credits.credits;
-            const creditsVisual =
-              credits.min === credits.max ? `(${credits.max})` : `(${credits.min} - ${credits.max})`;
+            // Extract course details
+            const {
+              pid,
+              credits: {
+                credits: { min, max },
+              },
+            } = courseDetails;
+
+            const credits = min === max ? `(${max})` : `(${min} - ${max})`;
 
             // Render course details with a hyperlink to requisite course page on courseup
             return (
@@ -120,7 +124,7 @@ export function DisplayRequirement(
                   <Text _hover={{ color: 'blue.600' }} color="blue.400" as="span">
                     <Link to={`/calendar/${currTerm}/${subject}?pid=${pid}`}>{`${subject} ${code}`}</Link>
                   </Text>
-                  {` - ${courseDetails.title} ${creditsVisual}`}
+                  {` - ${courseDetails.title} ${credits}`}
                 </ListItem>
               </UnorderedList>
             );
