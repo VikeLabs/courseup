@@ -25,7 +25,7 @@ export function DisplayRequirement(
     // If there's a quantity, then we have a list of requisites to display
   } else if ('quantity' in req) {
     //Then it is a NestedPreCoRequisite
-    const reqs = req.reqList ? req.reqList : [];
+    const reqs = req.reqList ?? [];
     const { quantity, grade } = req;
     if (req.coreq) {
       return (
