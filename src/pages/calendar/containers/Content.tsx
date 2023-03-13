@@ -24,6 +24,7 @@ import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { CourseInfo } from '../components/Course';
+import { Requisites } from '../components/Requisites';
 
 import { SectionsContainer } from './Section';
 
@@ -67,8 +68,7 @@ export function Content({ term }: ContentProps): JSX.Element {
       flexDirection="column"
     >
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
-
-      <Box zIndex={60} pt={{ base: 0, sm: 4 }}>
+      <Box zIndex={60} pt={{ base: 0, sm: 4, md: 8, lg: 12 }}>
         {error && (
           <Alert status="error" my="5">
             <pre>{error.message}</pre>
@@ -131,6 +131,8 @@ export function Content({ term }: ContentProps): JSX.Element {
                 pid={data.pid}
                 term={term}
               />
+              <Spacer mt={4} />
+              <Requisites preAndCorequisites={data.preAndCorequisites} preOrCorequisites={data.preOrCorequisites} />
               <Divider my="4" />
               <SectionsContainer term={term} subject={data.subject} code={data.code} />
             </>

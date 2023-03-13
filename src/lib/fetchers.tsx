@@ -32,6 +32,24 @@ export interface NestedPreCoRequisites {
   quantity?: number | 'ALL';
 }
 
+export interface ReqCourseDetails {
+  pid: string;
+  title: string;
+  credits: {
+    chosen: string;
+    value:
+      | string
+      | {
+          max: string;
+          min: string;
+        };
+    credits: {
+      max: string;
+      min: string;
+    };
+  };
+}
+
 export interface KualiCourse {
   pid?: string;
   code: string;
