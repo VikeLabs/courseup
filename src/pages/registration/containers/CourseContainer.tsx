@@ -29,29 +29,31 @@ export function CourseContainer({ course }: Props) {
   const termType = term as Term;
   const mode = useDarkMode();
 
-  const { data: sections, loading } = useSections({
+  let { data: sections, loading } = useSections({
     term: termType,
     queryParams: { subject: course.subject, code: course.code, v9: true },
   });
-  const seats = sections
-    ?.filter((e) => e.seats !== undefined)
-    .map(
-      (e) =>
-        ({
-          title: e.sectionType,
-          seats: {
-            capacity: e.seats?.maxEnrollment,
-            actual: e.seats?.enrollment,
-            remaining: e.seats?.seatsAvailable,
-          },
-          waitListSeats: {
-            capacity: e.seats?.waitCapacity,
-            actual: e.seats?.waitCount,
-            remaining: e.seats?.waitAvailable,
-          },
-          crn: e.crn,
-        } as Seat)
-    );
+  const seats = useMemo(() => {
+    return sections
+      ?.filter((e) => e.seats !== undefined)
+      .map(
+        (e) =>
+          ({
+            title: e.sectionType,
+            seats: {
+              capacity: e.seats?.maxEnrollment,
+              actual: e.seats?.enrollment,
+              remaining: e.seats?.seatsAvailable,
+            },
+            waitListSeats: {
+              capacity: e.seats?.waitCapacity,
+              actual: e.seats?.waitCount,
+              remaining: e.seats?.waitAvailable,
+            },
+            crn: e.crn,
+          } as Seat)
+      );
+  }, [sections]);
 
   useEffect(() => {
     if (!loading) {
