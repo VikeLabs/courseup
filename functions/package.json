@@ -27,7 +27,7 @@
     "express": "^4.17.2",
     "firebase-admin": "^10.0.1",
     "firebase-functions": "^3.21.2",
-    "got": "^11.8.2",
+    "got": "^11.8.5",
     "ioredis": "^4.28.3",
     "object-hash": "^2.2.0",
     "rate-limiter-flexible": "^2.2.4",
