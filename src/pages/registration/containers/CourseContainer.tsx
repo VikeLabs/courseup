@@ -29,7 +29,7 @@ export function CourseContainer({ course }: Props) {
   const termType = term as Term;
   const mode = useDarkMode();
 
-  let { data: sections, loading } = useSections({
+  const { data: sections, loading } = useSections({
     term: termType,
     queryParams: { subject: course.subject, code: course.code, v9: true },
   });
