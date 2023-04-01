@@ -11,6 +11,7 @@
     "@sentry/tracing": "^6.16.1",
     "algoliasearch": "^4.11.0",
     "date-fns": "^2.27.0",
+    "date-fns-tz": "^2.0.0",
     "firebase": "^8.9.1",
     "framer-motion": "^6.2.8",
     "history": "^5.0.0",

@@ -2,6 +2,7 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, LinkBox, HStack, Spacer, Collapse, useDisclosure, VStack, IconButton, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { Banner } from '../components/Banner';
@@ -23,17 +24,6 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
     >
       <HStack justifyContent="space-between" minH="48px">
         <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
-          {/*
-          LOGO WILL GO HERE
-          <Image
-            src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
-            maxH="55px"
-            minW="7em"
-            alt="CourseUp"
-            color="transparent"
-            loading="lazy"
-            mr="2"
-          /> */}
           <Text fontSize="xl" fontWeight="bold" mr="2">
             CourseUp
           </Text>
@@ -62,6 +52,7 @@ export interface HeaderProps {
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const smallScreen = useSmallScreen();
+  const darkMode = useDarkMode();
   const tips: Array<JSX.Element> = smallScreen
     ? [<Text>⚠️ Mobile is currently in beta.</Text>]
     : [
@@ -84,20 +75,14 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
         <Box position="sticky" top={0} data-testid="desktop-header">
           <HStack as="header" px="8" boxShadow="md" minH="56px">
             <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
-              {/*
-              LOGO WILL GO HERE
-              <Image
-                src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
-                maxH="55px"
-                minW="7em"
-                alt="CourseUp"
-                color="transparent"
-                loading="lazy"
-                mr="2"
-              /> */}
-              <Text fontSize="xl" fontWeight="bold" mr="2">
-                CourseUp
-              </Text>
+              <Box
+                bgGradient={darkMode('linear(to-r, #2c587a, #096a7d)', 'linear(to-r, #5ab2f7, #12cff3)')}
+                bgClip="text"
+              >
+                <Text fontSize="xl" fontWeight="bold" mr="2">
+                  CourseUp
+                </Text>
+              </Box>
             </LinkBox>
             <Search onChange={onSearchChange} />
             <NavButtons />
