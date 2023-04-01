@@ -35,7 +35,7 @@ export function ImportTimetable(): JSX.Element {
         {!loading && data && (
           <VStack>
             {(data as Timetable).courses.map((course) => (
-              <TimetableCourseCard course={course} term={(data as Timetable).term} />
+              <TimetableCourseCard course={course} term={(data as Timetable).term} key={course.pid} />
             ))}
           </VStack>
         )}
@@ -50,7 +50,7 @@ export function ImportTimetable(): JSX.Element {
         {!loading &&
           data &&
           (data as Timetable).courses.map((course) => (
-            <TimetableCourseCard course={course} term={(data as Timetable).term} />
+            <TimetableCourseCard course={course} term={(data as Timetable).term} key={course.pid} />
           ))}
       </VStack>
     </Sidebar>

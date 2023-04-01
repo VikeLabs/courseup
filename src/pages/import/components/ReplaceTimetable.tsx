@@ -94,7 +94,7 @@ export function ReplaceTimetable({ loading, data }: { loading: boolean; data: Ti
                 {isSmallScreen ? <AlertIcon /> : null}
                 <Text>
                   This action will <Text as="strong">DELETE ALL</Text> the current courses you have saved for this term,
-                  and replace them with this timetable's courses.
+                  and replace them with this timetable&apos;s courses.
                 </Text>
               </Alert>
               <Text as="strong">Do you wish to continue?</Text>

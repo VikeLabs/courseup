@@ -34,7 +34,7 @@ export function RegistrationContainer(): JSX.Element | null {
           courses
             .filter((course) => course.term === term)
             .map((course) => {
-              return <CourseContainer course={course} />;
+              return <CourseContainer course={course} key={course.pid} />;
             })
         ) : (
           <NotFound term={term} timetable>

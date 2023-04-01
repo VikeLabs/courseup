@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { ChevronLeftIcon, ChevronRightIcon, DownloadIcon } from '@chakra-ui/icons';
 import { Button, Flex, HStack, IconButton, Text } from '@chakra-ui/react';
 import { ToolbarProps } from 'react-big-calendar';

@@ -25,7 +25,7 @@ const SearchResults = ({ hits, term }: Props) => {
     <>
       {hits.map(({ objectID, pid, subject, code, title }) =>
         scheduleMatch ? (
-          <Card subject={subject} title={title} pid={pid} code={code} schedule />
+          <Card key={objectID} subject={subject} title={title} pid={pid} code={code} schedule />
         ) : (
           <Box
             // to={`/calendar/${term}/${subject}?pid=${pid}`}
