@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import 'react-big-calendar/lib/sass/styles.scss';
 
 import { format, getDay, parse, set, startOfWeek } from 'date-fns';
+import { convertToTimeZone } from 'date-fns-timezone';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 
@@ -77,7 +78,11 @@ export const SchedulerCalendar = ({ term, courseCalendarEvents = [] }: Scheduler
   return (
     <Calendar<CustomEvent>
       localizer={localizer}
-      events={events}
+      events={events.map((event) => ({
+        ...event,
+        start: convertToTimeZone(event.start ?? new Date(), { timeZone: 'America/Vancouver' }),
+        end: convertToTimeZone(event.end ?? new Date(), { timeZone: 'America/Vancouver' }),
+      }))}
       min={set(today, { hours: 8, minutes: 0 })}
       max={set(today, { hours: maxTime.hours, minutes: maxTime.minutes })}
       views={['work_week', 'day']}
