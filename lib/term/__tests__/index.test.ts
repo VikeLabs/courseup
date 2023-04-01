@@ -4,7 +4,7 @@ describe('class Term', () => {
   describe('constructor without args', () => {
     it('should work', () => {
       const term = new Term();
-      expect(term.toString()).toEqual('202209');
+      expect(term.toString()).toEqual('202301');
     });
   });
 

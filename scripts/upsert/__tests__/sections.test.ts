@@ -1,7 +1,9 @@
+import { waitFor } from '@testing-library/react';
+
 import { differenceInMinutes } from 'date-fns';
 
 import { createTask } from '../../../lib/task';
-import { upsertSectionsScript } from '../sections';
+import { upsertSectionsScript } from '../functions/upsertSections';
 
 jest.mock('date-fns', () => ({
   differenceInMinutes: jest.fn(),
@@ -9,6 +11,7 @@ jest.mock('date-fns', () => ({
 
 jest.mock('../../../lib/task', () => ({
   findLatestTask: jest.fn(),
+  findLatestTaskByTerm: jest.fn(),
   createTask: jest.fn(),
 }));
 
@@ -22,9 +25,14 @@ jest.mock('../../../lib/banner', () => ({
     totalCount: 0,
     pageMaxSize: 0,
   }),
+  setTerm: jest.fn(),
 }));
 
 describe('upsert-sections', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -33,7 +41,7 @@ describe('upsert-sections', () => {
     const registrationDate = new Date(2020, 9, 1);
     const dropDate = new Date(2020, 10, 31);
     jest.setSystemTime(new Date(2020, 9, 16));
-    await upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 8, 21));
+    await waitFor(() => upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 8, 21)));
     expect(createTask).toBeCalledTimes(1);
   });
 
@@ -41,7 +49,7 @@ describe('upsert-sections', () => {
     const registrationDate = new Date(2020, 9, 1);
     const dropDate = new Date(2020, 10, 31);
     jest.setSystemTime(new Date(2020, 10, 31));
-    await upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 8, 21));
+    await waitFor(() => upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 8, 21)));
     expect(createTask).toBeCalledTimes(1);
   });
 
@@ -50,7 +58,7 @@ describe('upsert-sections', () => {
       const registrationDate = new Date(2020, 9, 1);
       const dropDate = new Date(2020, 10, 31);
       (differenceInMinutes as jest.Mock).mockReturnValue(730);
-      await upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 11, 5));
+      await waitFor(() => upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 11, 5)));
       expect(createTask).toBeCalledTimes(1);
     });
 
@@ -58,7 +66,7 @@ describe('upsert-sections', () => {
       const registrationDate = new Date(2020, 9, 1);
       const dropDate = new Date(2020, 10, 31);
       (differenceInMinutes as jest.Mock).mockReturnValue(300);
-      await upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 11, 5));
+      await waitFor(() => upsertSectionsScript('202009', registrationDate, dropDate, new Date(2020, 11, 5)));
       expect(createTask).toBeCalledTimes(0);
     });
   });
