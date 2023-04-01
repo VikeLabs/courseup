@@ -33,6 +33,7 @@
     "react-router-dom": "^6.0.0-beta.0",
     "restful-react": "^15.9.3",
     "rrule": "^2.6.4",
+    "sass": "^1.60.0",
     "simple-isbn": "^1.1.5",
     "swiper": "^8.2.4",
     "web-vitals": "^2.1.2",
