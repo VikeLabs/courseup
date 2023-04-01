@@ -1,5 +1,4 @@
 import { differenceInMinutes, parse } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
 import { Weekday, RRule } from 'rrule';
 
 import { MeetingTimes } from 'lib/fetchers';
@@ -66,14 +65,9 @@ export const parseDatetimeRange = (meetingTime: MeetingTimes): ParseDatetimeRang
   // ie. Sep 08 2021 1:00 pm
 
   // parse as GMT
-  const startDatetimeGmt = parse(`${startEndDates[0]} ${startEndTimes[0]} +00`, parseFormat, ref);
+  const startDatetime = parse(`${startEndDates[0]} ${startEndTimes[0]} +00`, parseFormat, ref);
   // for calculating the duration of event in minutes
-  const diffDatetimeGmt = parse(`${startEndDates[0]} ${startEndTimes[1]} +00`, parseFormat, ref);
-
-  const timeZone = 'America/Los_Angeles';
-
-  const startDatetime = utcToZonedTime(startDatetimeGmt, timeZone);
-  const diffDatetime = utcToZonedTime(diffDatetimeGmt, timeZone);
+  const diffDatetime = parse(`${startEndDates[0]} ${startEndTimes[1]} +00`, parseFormat, ref);
 
   const endDatetime = parse(`${startEndDates[1]} ${startEndTimes[1]} +00`, parseFormat, ref);
 
