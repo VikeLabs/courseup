@@ -1,18 +1,15 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
   Center,
   Box,
   Spinner,
-  useDisclosure,
   Flex,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Text,
-  Button,
-  Collapse,
   FormControl,
   FormLabel,
   Switch,
@@ -22,6 +19,7 @@ import { Route, Routes, useLocation, useParams } from 'react-router';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import { Course, Term, useGetCourse, useGetCourses, useSubjects } from 'lib/fetchers';
+import useLocalStorage from 'lib/hooks/storage/useLocalStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 import { getCurrentTerm } from 'lib/utils/terms';
@@ -47,14 +45,11 @@ function computeParsedCourses(courses: Course[] | null) {
 }
 
 export interface TopBarProps {
-  /**
-   * Back button click handler
-   */
+  filter: boolean;
   onFilter?: (filter: boolean) => void;
 }
 
-export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
-  const { isOpen, onToggle } = useDisclosure();
+export function CoursesTopBar({ onFilter, filter }: TopBarProps): JSX.Element {
   const { term } = useParams();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -116,25 +111,21 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
             </BreadcrumbItem>
           )}
         </Breadcrumb>
-        <Box>
-          <Button onClick={onToggle} size="xs" disabled={!!(smallScreen && pid)}>
-            Filters
-          </Button>
-        </Box>
       </Flex>
-      {/* Filter button is disabled when viewing courses on mobile, make sure it's not open if that's the case */}
-      <Collapse in={isOpen && (!smallScreen || !pid)} animateOpacity>
-        <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
-          <FormControl>
-            <Flex justifyContent="space-between" w="100%">
-              <FormLabel htmlFor="email-alerts" mb="0" fontSize="sm">
-                Only Show Courses in Session
-              </FormLabel>
-              <Switch id="email-alerts" onChange={(e) => onFilter && onFilter(e.currentTarget.checked)} />
-            </Flex>
-          </FormControl>
-        </Box>
-      </Collapse>
+      <Box p="3" shadow="md" borderTopWidth="2px" borderTopStyle="solid">
+        <FormControl>
+          <Flex justifyContent="space-between" w="100%">
+            <FormLabel htmlFor="email-alerts" mb="0" fontSize="sm">
+              Only Show Courses in Session
+            </FormLabel>
+            <Switch
+              id="email-alerts"
+              onChange={(e) => onFilter && onFilter(e.currentTarget.checked)}
+              isChecked={filter}
+            />
+          </Flex>
+        </FormControl>
+      </Box>
     </Box>
   );
 }
@@ -148,20 +139,20 @@ type Props = {
 };
 
 export function Courses({ term }: Props): JSX.Element | null {
-  const [filter, setFilter] = useState(false);
+  const [filter, setFilter] = useLocalStorage<boolean>('user:filter_courses', true);
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
     term: term as Term,
     // eslint-disable-next-line camelcase
     queryParams: { in_session: filter },
   });
+  const smallScreen = useSmallScreen();
 
   const loading = subjectsLoading || coursesLoading;
 
   // sorts the list of subjects alphabetically
   const sortedSubjects = useMemo(() => subjects?.sort((a, b) => (a.subject > b.subject ? 1 : -1)), [subjects]);
   const parsedCourses = useMemo(() => computeParsedCourses(courses), [courses]);
-  const smallScreen = useSmallScreen();
 
   const handleFilter = (s: boolean) => {
     setFilter(s);
@@ -169,7 +160,7 @@ export function Courses({ term }: Props): JSX.Element | null {
 
   return (
     <>
-      {!smallScreen && <CoursesTopBar onFilter={handleFilter} />}
+      {!smallScreen && <CoursesTopBar onFilter={handleFilter} filter={filter} />}
       {!loading && sortedSubjects && courses ? (
         <Box h="100%" overflowY="auto" w="100%">
           <Routes>
