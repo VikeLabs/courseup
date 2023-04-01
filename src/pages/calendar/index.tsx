@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import { Term } from 'lib/fetchers';
+import useLocalStorage from 'lib/hooks/storage/useLocalStorage';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import { Page } from 'common/layouts/Page';
@@ -16,6 +17,7 @@ export function Calendar(): JSX.Element {
   const { term } = useParams();
   const [searchParams] = useSearchParams();
   const smallScreen = useSmallScreen();
+  const [filter] = useLocalStorage<boolean>('user:filter_courses', true);
 
   const pid = searchParams.get('pid');
 
@@ -24,7 +26,7 @@ export function Calendar(): JSX.Element {
       <Page title="Calendar" mobileSupport>
         <VStack w="100%">
           <Box w="100%" position="sticky">
-            <CoursesTopBar />
+            <CoursesTopBar filter={filter} />
           </Box>
           <Center w="100%" overflowY="auto" h="100%">
             {pid ? <Content term={term as Term} /> : <Courses term={term as Term} />}
