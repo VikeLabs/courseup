@@ -1,6 +1,6 @@
 import { Event } from 'react-big-calendar';
 
-import { MeetingTimes, ClassScheduleListing } from 'lib/fetchers';
+import { MeetingTimes, Section } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
 export type Resource = Omit<CourseCalendarEvent, 'meetingTime' | 'term'>;
@@ -18,11 +18,12 @@ export type CourseCalendarEvent = {
   textColor?: string;
   term: string;
   location?: string;
+  locationAbbreviation?: string;
   opacity?: boolean;
   dashedBorder?: boolean;
 };
 
 export type SavedCourseWithSections = SavedCourse & {
-  sections: ClassScheduleListing[];
+  sections: Section[];
   events?: CourseCalendarEvent[];
 };

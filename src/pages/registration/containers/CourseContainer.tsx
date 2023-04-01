@@ -5,7 +5,7 @@ import { Skeleton } from '@chakra-ui/skeleton';
 import { Collapse } from '@chakra-ui/transition';
 import { useParams } from 'react-router';
 
-import { useSeats, useSections, Term, Seat } from 'lib/fetchers';
+import { useSections, Term, Seat } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
@@ -31,12 +31,29 @@ export function CourseContainer({ course }: Props) {
 
   const { data: sections, loading } = useSections({
     term: termType,
-    queryParams: { subject: course.subject, code: course.code },
+    queryParams: { subject: course.subject, code: course.code, v9: true },
   });
-  const { data: seats } = useSeats({
-    term: termType,
-    queryParams: { subject: course.subject, code: course.code },
-  });
+  const seats = useMemo(() => {
+    return sections
+      ?.filter((e) => e.seats !== undefined)
+      .map(
+        (e) =>
+          ({
+            title: e.sectionType,
+            seats: {
+              capacity: e.seats?.maxEnrollment,
+              actual: e.seats?.enrollment,
+              remaining: e.seats?.seatsAvailable,
+            },
+            waitListSeats: {
+              capacity: e.seats?.waitCapacity,
+              actual: e.seats?.waitCount,
+              remaining: e.seats?.waitAvailable,
+            },
+            crn: e.crn,
+          } as Seat)
+      );
+  }, [sections]);
 
   useEffect(() => {
     if (!loading) {

@@ -13,13 +13,16 @@ import {
   FormControl,
   FormLabel,
   Switch,
+  Skeleton,
 } from '@chakra-ui/react';
 import { Route, Routes, useLocation, useParams } from 'react-router';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import { Course, Term, useGetCourses, useSubjects } from 'lib/fetchers';
-import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { Course, Term, useGetCourse, useGetCourses, useSubjects } from 'lib/fetchers';
+import useLocalStorage from 'lib/hooks/storage/useLocalStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
+import { getCurrentTerm } from 'lib/utils/terms';
 
 import { CoursesList } from '../components/CoursesList';
 import { SubjectsList } from '../components/SubjectsList';
@@ -42,23 +45,26 @@ function computeParsedCourses(courses: Course[] | null) {
 }
 
 export interface TopBarProps {
-  /**
-   * Back button click handler
-   */
   filter: boolean;
   onFilter?: (filter: boolean) => void;
 }
 
-export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
+export function CoursesTopBar({ onFilter, filter }: TopBarProps): JSX.Element {
   const { term } = useParams();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const mode = useDarkMode();
+  const smallScreen = useSmallScreen();
 
   const subject = location.pathname.split('/')[3];
   const route = location.pathname.split('/')[1];
 
   const pid = searchParams.get('pid');
+
+  const { data, loading } = useGetCourse({
+    term: (term || getCurrentTerm()) as Term,
+    pid: searchParams.get('pid') || '',
+  });
 
   return (
     <Box
@@ -73,13 +79,35 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
       <Flex justifyContent="space-between" alignItems="center" p="3">
         <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
           <BreadcrumbItem>
-            <BreadcrumbLink as={Link} to={{ pathname: `/${route}/${term}/`, search: pid ? `?pid=${pid}` : undefined }}>
+            <BreadcrumbLink
+              as={Link}
+              // Persisting the PID messes with the mobile flow
+              // Since we can't show the sidebar and course info at the same time on mobile, only persist PID on large screens
+              to={{ pathname: `/${route}/${term}/`, search: pid && !smallScreen ? `?pid=${pid}` : undefined }}
+            >
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {subject && (
+          {smallScreen && pid && subject ? (
             <BreadcrumbItem>
-              <Text fontWeight="semibold">{subject}</Text>
+              <BreadcrumbLink as={Link} to={{ pathname: `/${route}/${term}/${subject}` }}>
+                {subject}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          ) : (
+            subject && (
+              <BreadcrumbItem>
+                <Text fontWeight="semibold">{subject}</Text>
+              </BreadcrumbItem>
+            )
+          )}
+          {smallScreen && pid && (
+            <BreadcrumbItem>
+              <Skeleton isLoaded={!loading}>
+                <Text fontWeight="semibold">
+                  {data?.subject} {data?.code}
+                </Text>
+              </Skeleton>
             </BreadcrumbItem>
           )}
         </Breadcrumb>
@@ -93,7 +121,7 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
             <Switch
               id="email-alerts"
               onChange={(e) => onFilter && onFilter(e.currentTarget.checked)}
-              
+              isChecked={filter}
             />
           </Flex>
         </FormControl>
@@ -111,7 +139,7 @@ type Props = {
 };
 
 export function Courses({ term }: Props): JSX.Element | null {
-  const [filter, setFilter] = useSessionStorage<boolean>('filter_courses', true);
+  const [filter, setFilter] = useLocalStorage<boolean>('user:filter_courses', true);
   const { data: subjects, loading: subjectsLoading } = useSubjects({ term: term as Term });
   const { data: courses, loading: coursesLoading } = useGetCourses({
     term: term as Term,
@@ -131,9 +159,9 @@ export function Courses({ term }: Props): JSX.Element | null {
 
   return (
     <>
-      <CoursesTopBar onFilter={handleFilter} filter/>
+      <CoursesTopBar onFilter={handleFilter} filter={filter} />
       {!loading && sortedSubjects && courses ? (
-        <Box h="100%" overflowY="auto">
+        <Box h="100%" overflowY="auto" w="100%">
           <Routes>
             <Route path="/">
               <SubjectsList term={term} subjects={sortedSubjects} />

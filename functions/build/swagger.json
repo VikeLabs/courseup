@@ -40,7 +40,10 @@
 					"202105",
 					"202109",
 					"202201",
-					"202205"
+					"202205",
+					"202209",
+					"202301",
+					"202305"
 				]
 			},
 			"NestedPreCoRequisites": {
@@ -287,46 +290,7 @@
 					"lecture topic"
 				]
 			},
-			"MeetingTimes": {
-				"properties": {
-					"type": {
-						"type": "string"
-					},
-					"time": {
-						"type": "string"
-					},
-					"days": {
-						"type": "string"
-					},
-					"where": {
-						"type": "string"
-					},
-					"dateRange": {
-						"type": "string"
-					},
-					"scheduleType": {
-						"type": "string"
-					},
-					"instructors": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"type",
-					"time",
-					"days",
-					"where",
-					"dateRange",
-					"scheduleType",
-					"instructors"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ClassScheduleListing": {
+			"Pick_ClassScheduleListing.Exclude_keyofClassScheduleListing.meetingTimes__": {
 				"properties": {
 					"title": {
 						"type": "string"
@@ -391,12 +355,6 @@
 					},
 					"credits": {
 						"type": "string"
-					},
-					"meetingTimes": {
-						"items": {
-							"$ref": "#/components/schemas/MeetingTimes"
-						},
-						"type": "array"
 					}
 				},
 				"required": [
@@ -409,14 +367,121 @@
 					"campus",
 					"sectionType",
 					"instructionalMethod",
-					"credits",
-					"meetingTimes"
+					"credits"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_ClassScheduleListing.meetingTimes_": {
+				"$ref": "#/components/schemas/Pick_ClassScheduleListing.Exclude_keyofClassScheduleListing.meetingTimes__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"MeetingTimes": {
+				"properties": {
+					"roomNumber": {
+						"type": "string"
+					},
+					"buildingAbbreviation": {
+						"type": "string"
+					},
+					"building": {
+						"type": "string"
+					},
+					"instructors": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"scheduleType": {
+						"type": "string"
+					},
+					"dateRange": {
+						"type": "string"
+					},
+					"where": {
+						"type": "string"
+					},
+					"days": {
+						"type": "string"
+					},
+					"time": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"instructors",
+					"scheduleType",
+					"dateRange",
+					"where",
+					"days",
+					"time",
+					"type"
+				],
+				"type": "object"
 			},
 			"Section": {
-				"$ref": "#/components/schemas/ClassScheduleListing"
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Omit_ClassScheduleListing.meetingTimes_"
+					},
+					{
+						"properties": {
+							"seats": {
+								"properties": {
+									"waitAvailable": {
+										"type": "number",
+										"format": "double",
+										"nullable": true
+									},
+									"waitCount": {
+										"type": "number",
+										"format": "double"
+									},
+									"waitCapacity": {
+										"type": "number",
+										"format": "double",
+										"nullable": true
+									},
+									"seatsAvailable": {
+										"type": "number",
+										"format": "double"
+									},
+									"enrollment": {
+										"type": "number",
+										"format": "double"
+									},
+									"maxEnrollment": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"waitAvailable",
+									"waitCount",
+									"waitCapacity",
+									"seatsAvailable",
+									"enrollment",
+									"maxEnrollment"
+								],
+								"type": "object"
+							},
+							"meetingTimes": {
+								"items": {
+									"$ref": "#/components/schemas/MeetingTimes"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"meetingTimes"
+						],
+						"type": "object"
+					}
+				]
 			},
 			"Seating": {
 				"properties": {
@@ -611,6 +676,9 @@
 						"type": "string"
 					},
 					"amazonUrl": {
+						"type": "string"
+					},
+					"isbn10": {
 						"type": "string"
 					}
 				},
@@ -1027,6 +1095,15 @@
 						"required": true,
 						"schema": {
 							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "v9",
+						"required": false,
+						"schema": {
+							"default": false,
+							"type": "boolean"
 						}
 					}
 				]

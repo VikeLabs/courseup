@@ -75,7 +75,7 @@ type ShareLinkOptionsProps = {
 };
 
 export function ShareLinkOptions({ isSmallScreen, slug, loading }: ShareLinkOptionsProps): JSX.Element {
-  const shareLink = 'https://' + window.location.hostname + '/s/' + slug;
+  const shareLink = window.location.origin + '/s/' + slug;
 
   return (
     <>

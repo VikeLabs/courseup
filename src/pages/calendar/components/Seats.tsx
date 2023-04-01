@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, Progress } from '@chakra-ui/react';
 
 import { Seat } from 'lib/fetchers';
+import { useDarkMode } from 'lib/hooks/useDarkMode';
 
 export interface SeatsProps {
   seat?: Seat;
@@ -10,6 +11,17 @@ export function SeatInfo({ seat }: SeatsProps): JSX.Element {
   const seatsPercent = seat === undefined ? undefined : (seat.seats.actual / seat.seats.capacity) * 100;
   const waitlistPercent =
     seat === undefined ? undefined : (seat.waitListSeats.actual / seat.waitListSeats.capacity) * 100;
+
+  const mode = useDarkMode();
+
+  if (!seat) {
+    return (
+      <Heading size="md" color={mode('gray', 'dark.header')} mx="auto">
+        Seat information not available
+      </Heading>
+    );
+  }
+
   return (
     <Flex my="2" direction={{ base: 'column', md: 'row' }}>
       <Box width={{ base: '100%', md: '50%' }}>
@@ -27,7 +39,7 @@ export function SeatInfo({ seat }: SeatsProps): JSX.Element {
           <Progress isIndeterminate />
         )}
       </Box>
-      <Box width={{ base: '100%', md: '50%' }} ml={{ base: '0', md: '5' }}>
+      <Box width={{ base: '100%', md: '50%' }} ml={{ base: '0', md: '5' }} mt={{ base: 2, md: 0 }}>
         <Flex justifyContent="space-between" my="1">
           <Heading as="h6" size="sm">
             Waitlist Seats

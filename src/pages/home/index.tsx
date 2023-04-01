@@ -7,7 +7,7 @@ import { Landing } from './containers/Landing';
 export function Home(): JSX.Element {
   return (
     <Page mobileSupport>
-      <Center h="100%" w="100%" bgImg={process.env.PUBLIC_URL + '/assets/contest/background.svg'} bgSize="cover">
+      <Center h="100%" w="100%">
         <Landing />
       </Center>
     </Page>

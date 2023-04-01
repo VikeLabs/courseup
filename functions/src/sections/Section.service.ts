@@ -1,6 +1,6 @@
 import { Seat, Section } from './Section.model';
 import { UVicCourseScraper } from '@vikelabs/uvic-course-scraper/dist/index';
-import { Term } from '../constants';
+import { Buildings, Term } from '../constants';
 import { getCourse } from '../courses/Course.service';
 
 export async function getSections(
@@ -14,7 +14,33 @@ export async function getSections(
     code
   );
 
-  return sections;
+  return sections.map((section) => {
+    const meetingTimes = section.meetingTimes.map((meetingTime) => {
+      // i.e. where = 'Bob Wright Centre 123"
+      const { where } = meetingTime;
+
+      const buildingRegex = /(?<building>.+)\s(?<number>\S{3,6})/;
+
+      const results = buildingRegex.exec(where);
+
+      const building = results?.groups?.building;
+      const roomNumber = results?.groups?.number;
+
+      const buildingAbbreviation = Buildings.get(building ?? '');
+
+      return {
+        ...meetingTime,
+        building,
+        buildingAbbreviation,
+        roomNumber,
+      };
+    });
+
+    return {
+      ...section,
+      meetingTimes,
+    };
+  });
 }
 
 export async function getSectionSeats(

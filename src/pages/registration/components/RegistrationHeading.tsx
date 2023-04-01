@@ -26,63 +26,71 @@ export function RegistrationHeading() {
         </Button>
       </Flex>
       <Divider my="4" />
-      <Flex>
+      <Flex flexDirection="column">
         <Text w="100%" textAlign="left">
           UVic offers a quick and easy way to register for a course using the Course Reference Number (CRN). Follow the
           given steps below to register in your chosen course sections:{' '}
-          <OrderedList mt="1" ml="6" mb="1">
-            <ListItem>
-              Click the{' '}
-              <Text as="span" fontWeight="bold">
-                UVic Registration Page
-              </Text>{' '}
-              button.
-            </ListItem>
-            <ListItem>
-              Select the{' '}
-              <Text as="span" fontWeight="bold">
-                Manage registration
-              </Text>{' '}
-              page.
-            </ListItem>
-            <ListItem>Sign in to UVic with your NetLink ID.</ListItem>
-            <ListItem>
-              Select the appropriate term and hit{' '}
-              <Text as="span" fontWeight="bold">
-                Continue
-              </Text>
-              .
-            </ListItem>
-            <ListItem>
-              Select the{' '}
-              <Text as="span" fontWeight="bold">
-                Enter CRNs
-              </Text>{' '}
-              tab.
-            </ListItem>
-            <ListItem>
-              <Text as="span" fontWeight="bold">
-                {' '}
-                Copy <Icon as={IoCopyOutline} />{' '}
-              </Text>{' '}
-              and paste the CRNs into the input fields on the page, pressing{' '}
-              <Text as="span" fontWeight="bold">
-                Add Another CRN
-              </Text>{' '}
-              to add each of your courses.
-            </ListItem>
-            <ListItem>
-              Hit{' '}
-              <Text as="span" fontWeight="bold">
-                Add to Summary
-              </Text>{' '}
-              and then press the{' '}
-              <Text as="span" fontWeight="bold">
-                Submit
-              </Text>{' '}
-              button on the bottom right of the page, and you're registered!
-            </ListItem>
-          </OrderedList>
+        </Text>
+        <OrderedList
+          textAlign="left"
+          mt="2"
+          ml={{ base: '10', md: '12' }}
+          mb="2"
+          lineHeight={{ base: '24px', md: '30px' }}
+        >
+          <ListItem>
+            Click the{' '}
+            <Text as="span" fontWeight="bold">
+              UVic Registration Page
+            </Text>{' '}
+            button.
+          </ListItem>
+          <ListItem>
+            Select the{' '}
+            <Text as="span" fontWeight="bold">
+              Manage registration
+            </Text>{' '}
+            page.
+          </ListItem>
+          <ListItem>Sign in to UVic with your NetLink ID.</ListItem>
+          <ListItem>
+            Select the appropriate term and hit{' '}
+            <Text as="span" fontWeight="bold">
+              Continue
+            </Text>
+            .
+          </ListItem>
+          <ListItem>
+            Select the{' '}
+            <Text as="span" fontWeight="bold">
+              Enter CRNs
+            </Text>{' '}
+            tab.
+          </ListItem>
+          <ListItem>
+            <Text as="span" fontWeight="bold">
+              {' '}
+              Copy <Icon as={IoCopyOutline} />{' '}
+            </Text>{' '}
+            and paste the CRNs into the input fields on the page, pressing{' '}
+            <Text as="span" fontWeight="bold">
+              Add Another CRN
+            </Text>{' '}
+            to add each of your courses.
+          </ListItem>
+          <ListItem>
+            Hit{' '}
+            <Text as="span" fontWeight="bold">
+              Add to Summary
+            </Text>{' '}
+            and then press the{' '}
+            <Text as="span" fontWeight="bold">
+              Submit
+            </Text>{' '}
+            button on the bottom right of the page, and you're registered!
+          </ListItem>
+        </OrderedList>
+        <Text w="100%" textAlign="left">
           For more information, visit UVic's guide on "
           <Text as="span" color="blue.500" fontWeight="light">
             <Text
@@ -97,10 +105,11 @@ export function RegistrationHeading() {
           ."
         </Text>
       </Flex>
-      <Alert status="warning" borderRadius="10px" my={2}>
+      <Alert status="warning" borderRadius="10px" my={2} textAlign="left">
         <AlertIcon />
         Make sure to review all course prerequisites in the UVic Calendar before registering.
       </Alert>
+      <Divider my="4" />
     </Container>
   );
 }
