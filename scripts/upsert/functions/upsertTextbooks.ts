@@ -1,7 +1,6 @@
 import { differenceInDays, differenceInMinutes } from 'date-fns';
 
-import { findLatestTask, createTask, findLatestTaskByTerm } from '../../../lib/task';
-import { Term } from '../../../lib/term';
+import { createTask, findLatestTaskByTerm } from '../../../lib/task';
 import { upsertTextbooks } from '../../../lib/textbooks';
 
 export const upsertTextbooksScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {

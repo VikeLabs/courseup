@@ -5,7 +5,7 @@ import { getSearchResults, setTerm } from '../../../lib/banner';
 import { Fetch } from '../../../lib/banner/fetch';
 import { range } from '../../../lib/fn';
 import { upsertSections } from '../../../lib/sections';
-import { findLatestTask, createTask, findLatestTaskByTerm } from '../../../lib/task';
+import { createTask, findLatestTaskByTerm } from '../../../lib/task';
 import { Term } from '../../../lib/term';
 
 export const upsertSectionsScript = async (term: string, registrationDay: Date, dropDate: Date, today: Date) => {
