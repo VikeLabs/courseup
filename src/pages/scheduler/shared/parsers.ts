@@ -1,4 +1,5 @@
 import { differenceInMinutes, parse } from 'date-fns';
+import { convertToTimeZone } from 'date-fns-timezone';
 import { Weekday, RRule } from 'rrule';
 
 import { MeetingTimes } from 'lib/fetchers';
@@ -12,7 +13,8 @@ export const toUTC = (date: Date) =>
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes())
   );
 
-export const clearTimezone = (date: Date) => new Date(date.toUTCString().replace('GMT', ''));
+export const clearTimezone = (date: Date) =>
+  convertToTimeZone(new Date(date.toUTCString().replace('GMT', '')), { timeZone: 'America/Vancouver' });
 
 export const assertMeetingTime = (meetingTime: MeetingTimes) => {
   return meetingTime.time.indexOf('TBA') !== -1;

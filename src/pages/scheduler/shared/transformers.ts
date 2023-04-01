@@ -1,5 +1,4 @@
 import { addMinutes, subWeeks } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
 import { RRule } from 'rrule';
 
 import {
@@ -70,16 +69,14 @@ export const courseCalEventToCustomEvents = (course: CourseCalendarEvent): Calen
     };
   }
 
-  const timeZone = 'America/Vancouver';
-
   // https://github.com/jakubroztocil/rrule#timezone-support
   const rrule = new RRule({
     // TODO: make sure freq gets set correctly based on event data
     freq: RRule.WEEKLY,
     byweekday: days,
-    dtstart: utcToZonedTime(toUTC(startDatetime), timeZone),
-    until: utcToZonedTime(toUTC(endDatetime), timeZone),
-    tzid: timeZone,
+    dtstart: toUTC(startDatetime),
+    until: toUTC(endDatetime),
+    tzid: 'America/Vancouver',
   });
 
   const events: CustomEvent[] = [];
