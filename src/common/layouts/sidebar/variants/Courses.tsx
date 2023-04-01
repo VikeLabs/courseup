@@ -146,6 +146,7 @@ export function Courses({ term }: Props): JSX.Element | null {
     // eslint-disable-next-line camelcase
     queryParams: { in_session: filter },
   });
+  const smallScreen = useSmallScreen();
 
   const loading = subjectsLoading || coursesLoading;
 
@@ -159,7 +160,7 @@ export function Courses({ term }: Props): JSX.Element | null {
 
   return (
     <>
-      <CoursesTopBar onFilter={handleFilter} filter={filter} />
+      {!smallScreen && <CoursesTopBar onFilter={handleFilter} filter={filter} />}
       {!loading && sortedSubjects && courses ? (
         <Box h="100%" overflowY="auto" w="100%">
           <Routes>
