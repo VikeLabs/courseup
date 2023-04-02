@@ -1,19 +1,5 @@
 name: Script - npm run db:populate
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: Application environment to execute in.
-        required: true
-      term:
-        description: Academic term to execute the script with. ie 202009, 202001
-        required: false
-      registrationDate:
-        description: Registration date to execute the script with. ie 2020-09-01
-        required: false
-      dropDate:
-        description: Drop date to execute the script with. ie 2020-09-01
-        required: false
   pull_request:
 jobs:
   lint:
