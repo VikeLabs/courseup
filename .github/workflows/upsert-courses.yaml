@@ -1,6 +1,19 @@
-name: Testing
+name: Script - npm run db:populate
 on:
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Application environment to execute in.
+        required: true
+      term:
+        description: Academic term to execute the script with. ie 202009, 202001
+        required: false
+      registrationDate:
+        description: Registration date to execute the script with. ie 2020-09-01
+        required: false
+      dropDate:
+        description: Drop date to execute the script with. ie 2020-09-01
+        required: false
 jobs:
   lint:
     name: Lint
@@ -12,7 +25,7 @@ jobs:
         with:
           node-version: 14
       - name: Cache npm dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           key: npm-${{ hashFiles('package-lock.json') }}
           path: ~/.npm
@@ -22,9 +35,11 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-progress
       - name: Lint
         run: npm run lint
-  test:
-    name: Test
+  npm-run:
+    name: Execute Script
+    needs: [lint]
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node.js
@@ -32,7 +47,7 @@ jobs:
         with:
           node-version: 14
       - name: Cache npm dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           key: npm-${{ hashFiles('package-lock.json') }}
           path: ~/.npm
@@ -40,29 +55,5 @@ jobs:
             npm-
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit --no-progress
-      - name: Test
-        run: npm test
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - name: Cache npm dependencies
-        uses: actions/cache@v1
-        with:
-          key: npm-${{ hashFiles('package-lock.json') }}
-          path: ~/.npm
-          restore-keys: |
-            npm-
-      - name: Install dependencies
-        run: npm ci --ignore-scripts --no-audit --no-progress
-      - name: Add version
-        run: echo ${{ github.sha }} > public/version
-      - name: Build
-        env:
-          REACT_APP_SENTRY_RELEASE: ${{ github.sha }}
-        run: npm run build
+      - name: Execute Script
+        run: ts-node ./scripts/upsert/courses.ts ${{ github.event.inputs.term }} ${{ github.event.inputs.registrationDate }} ${{ github.event.inputs.dropDate }}
