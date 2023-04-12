@@ -67,6 +67,9 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
         <Flex overflowY="auto" h="100%">
           {smallScreen ? (
             <Swiper
+              style={{
+                width: '100%',
+              }}
               modules={[Pagination]}
               pagination={{
                 clickable: true,
@@ -83,7 +86,9 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
               ) : (
                 leftSidebar && <SwiperSlide>{leftSidebar}</SwiperSlide>
               )}
-              <SwiperSlide style={{ overflowY: 'scroll', width: '100vw' }}>{children}</SwiperSlide>
+              <SwiperSlide style={{ overflowY: 'scroll', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                {children}
+              </SwiperSlide>
               {rightSidebar && <SwiperSlide>{rightSidebar}</SwiperSlide>}
             </Swiper>
           ) : (

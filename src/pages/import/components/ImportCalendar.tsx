@@ -6,6 +6,7 @@ import { Box } from '@chakra-ui/layout';
 
 import { Timetable } from 'lib/fetchers';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
+import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 import { SchedulerCalendar } from 'pages/scheduler/components/SchedulerCalendar';
@@ -14,6 +15,7 @@ import { denormalizeCourseEvents } from 'pages/scheduler/hooks/useTransformedCal
 
 export const ImportCalendar = ({ timetableCourses }: { timetableCourses: Timetable }): JSX.Element => {
   const { courses, term } = timetableCourses;
+  const smallScreen = useSmallScreen();
 
   const parsedCourses: SavedCourse[] = useMemo(
     () =>
@@ -43,7 +45,7 @@ export const ImportCalendar = ({ timetableCourses }: { timetableCourses: Timetab
   );
 
   return (
-    <Box w="100%" px="3" pb="14" h="100%">
+    <Box w="100%" px={smallScreen ? 1 : 3} pb="14" h="100%">
       <SchedulerCalendar term={term || getCurrentTerm()} courseCalendarEvents={calendarEvents} />
     </Box>
   );
