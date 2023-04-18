@@ -1,6 +1,5 @@
-import { useParams } from 'react-router';
-
 import { Term } from 'lib/fetchers';
+import { useTerm } from 'lib/hooks/useTerm';
 
 import { Page } from 'common/layouts/Page';
 import { Courses } from 'common/layouts/sidebar/variants/Courses';
@@ -9,7 +8,7 @@ import { SchedulerSidebar } from './components/SchedulerSidebar';
 import { SchedulerContainer } from './containers/SchedulerContainer';
 
 export function Scheduler(): JSX.Element {
-  const { term } = useParams();
+  const [term] = useTerm();
 
   return (
     <Page

@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 
-import { useSavedTerm } from 'lib/hooks/useSavedTerm';
+import { useTerm } from 'lib/hooks/useTerm';
 
 import { DisplayRequirement } from '../Requisites';
 
 jest.mock('lib/hooks/useSavedTerm');
 
-const mockUseSessionStorage = jest.mocked(useSavedTerm);
+const mockUseSessionStorage = jest.mocked(useTerm);
 const mockSetTerm = jest.fn();
 
 const reqString = 'with a minimum GPA of 3.0 over all courses.';

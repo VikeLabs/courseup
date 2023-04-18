@@ -1,26 +1,25 @@
 import { Button, ButtonGroup, VStack, Divider } from '@chakra-ui/react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 
-import { useSavedTerm } from 'lib/hooks/useSavedTerm';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
+import { useTerm } from 'lib/hooks/useTerm';
 
 export function NavButtons(): JSX.Element {
   const smallScreen = useSmallScreen();
-  const { term } = useParams();
-  const [currentTerm] = useSavedTerm();
+  const [term] = useTerm();
 
   const navigate = useNavigate();
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
     if (name === 'calendar') {
-      navigate(`/calendar/${term || currentTerm}`);
+      navigate(`/calendar/${term}`);
     } else if (name === 'scheduler') {
-      navigate(`/scheduler/${term || currentTerm}`);
+      navigate(`/scheduler/${term}`);
     } else if (name === 'register') {
-      navigate(`/registration/${term || currentTerm}`);
+      navigate(`/registration/${term}`);
     } else if (name === 'booklist') {
-      navigate(`/booklist/${term || currentTerm}`);
+      navigate(`/booklist/${term}`);
     }
   };
 

@@ -2,10 +2,11 @@ import { PropsWithChildren, useCallback } from 'react';
 
 import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
+import { useTerm } from 'lib/hooks/useTerm';
 
 export interface CardProps {
   /**
@@ -45,7 +46,7 @@ export interface CardProps {
 }
 
 export function Card({ subject, title, code, selected, schedule, pid }: PropsWithChildren<CardProps>): JSX.Element {
-  let { term } = useParams();
+  const [term] = useTerm();
   const mode = useDarkMode();
 
   const { addCourse, deleteCourse, contains } = useSavedCourses();

@@ -5,14 +5,14 @@ import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { useSavedTerm } from 'lib/hooks/useSavedTerm';
+import { useTerm } from 'lib/hooks/useTerm';
 import { getReadableTerm } from 'lib/utils/terms';
 
 const terms = ['202209', '202301', '202305'];
 
 export function TermSelect(): JSX.Element {
   const { subject } = useParams();
-  const [selectedTerm, setTerm] = useSavedTerm();
+  const [selectedTerm, setTerm] = useTerm();
   const [searchParams] = useSearchParams();
   const pid = searchParams.get('pid');
   const mode = useDarkMode();

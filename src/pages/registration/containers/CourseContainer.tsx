@@ -3,11 +3,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Container, Heading, VStack } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/skeleton';
 import { Collapse } from '@chakra-ui/transition';
-import { useParams } from 'react-router';
 
 import { useSections, Term, Seat } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { SavedCourse } from 'lib/hooks/useSavedCourses';
+import { useTerm } from 'lib/hooks/useTerm';
 
 import { RegistrationMinimized } from '../components/RegistrationMinimized';
 import { RegistrationSection } from '../components/RegistrationSection';
@@ -24,7 +24,7 @@ type Data = {
 };
 
 export function CourseContainer({ course }: Props) {
-  const { term } = useParams();
+  const [term] = useTerm();
   const [data, setData] = useState<{ lab?: Data; lecture?: Data; tutorial?: Data }>({});
   const termType = term as Term;
   const mode = useDarkMode();

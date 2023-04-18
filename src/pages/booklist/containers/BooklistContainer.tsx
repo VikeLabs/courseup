@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 
 import { Box } from '@chakra-ui/layout';
 import { Center, Spinner, Text, VStack } from '@chakra-ui/react';
-import { useParams } from 'react-router';
 
-import { Term } from 'lib/fetchers';
+import { useTerm } from 'lib/hooks/useTerm';
 import { logEvent } from 'lib/utils/logEvent';
 import { getReadableTerm } from 'lib/utils/terms';
 
@@ -16,8 +15,8 @@ import { TextbookCard } from '../components/TextbookCard';
 import { useTextbooks } from '../hooks/useTextbooks';
 
 export function BooklistContainer(): JSX.Element | null {
-  const { term } = useParams();
-  const textbooks = useTextbooks(term as Term);
+  const [term] = useTerm();
+  const textbooks = useTextbooks(term);
   useEffect(() => {
     logEvent('textbooks_view', { term });
   }, [term]);

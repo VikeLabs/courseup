@@ -2,7 +2,7 @@ import { Box, Text, Divider, ListItem, Skeleton, UnorderedList } from '@chakra-u
 import { Link } from 'react-router-dom';
 
 import { KualiCourse, NestedPreCoRequisites, GetCourseDetails } from 'lib/fetchers';
-import { useSavedTerm } from 'lib/hooks/useSavedTerm';
+import { useTerm } from 'lib/hooks/useTerm';
 
 // Based on the nested info in the requisite, display the element necessary
 export function DisplayRequirement(
@@ -10,7 +10,7 @@ export function DisplayRequirement(
   indentationLevel: number = 1
 ): JSX.Element {
   // Grab the current term
-  const [currentTerm] = useSavedTerm();
+  const [currentTerm] = useTerm();
 
   // If its just a string, display it. Eg. "or permission from the department"
   if (typeof req === 'string') {
