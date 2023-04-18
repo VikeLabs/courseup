@@ -8,10 +8,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { useSavedTerm } from 'lib/hooks/useSavedTerm';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 import { isMobile } from 'lib/utils/mobile';
-import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 import { Sidebar } from 'common/layouts/sidebar/containers/Sidebar';
@@ -27,7 +26,7 @@ type Props = {
 
 export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children }: PropsWithChildren<Props>) {
   const [query, setQuery] = useState('');
-  const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
+  const [savedTerm, setSavedTerm] = useSavedTerm();
   const navigate = useNavigate();
   const location = useLocation();
   const { term, slug } = useParams();

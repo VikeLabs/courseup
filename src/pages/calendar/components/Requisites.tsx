@@ -1,9 +1,8 @@
 import { Box, Text, Divider, ListItem, Skeleton, UnorderedList } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-import { KualiCourse, NestedPreCoRequisites, GetCourseDetails, Term } from 'lib/fetchers';
-import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
-import { getCurrentTerm } from 'lib/utils/terms';
+import { KualiCourse, NestedPreCoRequisites, GetCourseDetails } from 'lib/fetchers';
+import { useSavedTerm } from 'lib/hooks/useSavedTerm';
 
 // Based on the nested info in the requisite, display the element necessary
 export function DisplayRequirement(
@@ -11,7 +10,7 @@ export function DisplayRequirement(
   indentationLevel: number = 1
 ): JSX.Element {
   // Grab the current term
-  const currTerm = useSessionStorage('user:term', getCurrentTerm())[0] as Term;
+  const [currentTerm] = useSavedTerm();
 
   // If its just a string, display it. Eg. "or permission from the department"
   if (typeof req === 'string') {
@@ -85,7 +84,7 @@ export function DisplayRequirement(
 
     // Get course details from the backend
     return (
-      <GetCourseDetails term={currTerm} subject={subject} code={code}>
+      <GetCourseDetails term={currentTerm} subject={subject} code={code}>
         {(courseDetails, isLoading) => {
           // If its loading then render a skeleton
           if (isLoading.loading) {
@@ -119,7 +118,7 @@ export function DisplayRequirement(
               <UnorderedList>
                 <ListItem title={`${subject} ${code}`} style={{ marginLeft: `${indentationLevel * 40}px` }}>
                   <Text _hover={{ color: 'blue.600' }} color="blue.400" as="span">
-                    <Link to={`/calendar/${currTerm}/${subject}?pid=${pid}`}>{`${subject} ${code}`}</Link>
+                    <Link to={`/calendar/${currentTerm}/${subject}?pid=${pid}`}>{`${subject} ${code}`}</Link>
                   </Text>
                   {` - ${courseDetails.title} ${credits}`}
                 </ListItem>

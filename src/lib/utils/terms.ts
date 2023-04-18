@@ -22,7 +22,7 @@ export function getReadableTerm(term: string): string {
  * @param {Date} date
  * @return {string} current term i.e. '202101'
  */
-export function getCurrentTerm(date: Date = new Date()): string {
+export function getCurrentTerm(date = new Date()): string {
   const year = date.getFullYear().toString();
   const currMonth = date.getMonth();
   let month = '';

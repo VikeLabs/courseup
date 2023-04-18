@@ -21,8 +21,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Course, Term, useGetCourse, useGetCourses, useSubjects } from 'lib/fetchers';
 import useLocalStorage from 'lib/hooks/storage/useLocalStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { useSavedTerm } from 'lib/hooks/useSavedTerm';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
-import { getCurrentTerm } from 'lib/utils/terms';
 
 import { CoursesList } from '../components/CoursesList';
 import { SubjectsList } from '../components/SubjectsList';
@@ -51,6 +51,7 @@ export interface TopBarProps {
 
 export function CoursesTopBar({ onFilter, filter }: TopBarProps): JSX.Element {
   const { term } = useParams();
+  const [currentTerm] = useSavedTerm();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const mode = useDarkMode();
@@ -62,7 +63,7 @@ export function CoursesTopBar({ onFilter, filter }: TopBarProps): JSX.Element {
   const pid = searchParams.get('pid');
 
   const { data, loading } = useGetCourse({
-    term: (term || getCurrentTerm()) as Term,
+    term: (term || currentTerm) as Term,
     pid: searchParams.get('pid') || '',
   });
 

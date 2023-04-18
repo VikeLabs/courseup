@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 
-import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
+import { useSavedTerm } from 'lib/hooks/useSavedTerm';
 
 import { DisplayRequirement } from '../Requisites';
 
-jest.mock('lib/hooks/storage/useSessionStorage');
+jest.mock('lib/hooks/useSavedTerm');
 
-const mockUseSessionStorage = jest.mocked(useSessionStorage);
+const mockUseSessionStorage = jest.mocked(useSavedTerm);
 const mockSetTerm = jest.fn();
 
 const reqString = 'with a minimum GPA of 3.0 over all courses.';
@@ -22,13 +22,13 @@ const reqNested = {
 
 describe('DisplayRequirement', () => {
   it('should render the string requirement', () => {
-    mockUseSessionStorage.mockReturnValue([true, mockSetTerm]);
+    mockUseSessionStorage.mockReturnValue(['202305', mockSetTerm]);
     render(DisplayRequirement(reqString, 1));
     expect(screen.getByTitle('Requisite')).toHaveTextContent('with a minimum GPA of 3.0 over all courses');
   });
 
   it('should render the course requirement', () => {
-    mockUseSessionStorage.mockReturnValue([true, mockSetTerm]);
+    mockUseSessionStorage.mockReturnValue(['202305', mockSetTerm]);
     render(
       DisplayRequirement(
         {
@@ -42,7 +42,7 @@ describe('DisplayRequirement', () => {
   });
 
   it('should render the nested requirement', () => {
-    mockUseSessionStorage.mockReturnValue([true, mockSetTerm]);
+    mockUseSessionStorage.mockReturnValue(['202305', mockSetTerm]);
     render(DisplayRequirement(reqNested, 1));
     expect(screen.getByTitle(`${reqNested.reqList[0].subject} ${reqNested.reqList[0].code}`)).toHaveTextContent(
       'PHYS 111'

@@ -4,15 +4,15 @@ import { Select } from '@chakra-ui/react';
 import { useMatch, useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
-import { getCurrentTerm, getReadableTerm } from 'lib/utils/terms';
+import { useSavedTerm } from 'lib/hooks/useSavedTerm';
+import { getReadableTerm } from 'lib/utils/terms';
 
 const terms = ['202209', '202301', '202305'];
 
 export function TermSelect(): JSX.Element {
   const { subject } = useParams();
-  const [selectedTerm, setTerm] = useSessionStorage('user:term', getCurrentTerm());
+  const [selectedTerm, setTerm] = useSavedTerm();
   const [searchParams] = useSearchParams();
   const pid = searchParams.get('pid');
   const mode = useDarkMode();
