@@ -28,7 +28,7 @@ export function useSessionStorage<T>(key: string, initialValue: T): [T, (value: 
   // ... persists the new value to sessionStorage.
   const setValue = (value: T) => {
     // Prevent build error "window is undefined" but keeps working
-    if (typeof window == 'undefined') {
+    if (typeof window === 'undefined') {
       console.warn(`Tried setting sessionStorage key “${key}” even though environment is not a client`);
     }
 
