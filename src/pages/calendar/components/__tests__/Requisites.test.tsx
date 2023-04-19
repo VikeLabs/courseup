@@ -4,7 +4,7 @@ import { useTerm } from 'lib/hooks/useTerm';
 
 import { DisplayRequirement } from '../Requisites';
 
-jest.mock('lib/hooks/useSavedTerm');
+jest.mock('lib/hooks/useTerm');
 
 const mockUseSessionStorage = jest.mocked(useTerm);
 const mockSetTerm = jest.fn();
