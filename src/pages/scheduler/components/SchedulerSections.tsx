@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef } from '@chakra-ui/react';
+import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef, Badge, Flex } from '@chakra-ui/react';
 
 import { MeetingTimes, Section } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -102,12 +102,15 @@ export function SectionGroup({ sections, type, course, courses, handleChange }: 
 
   return (
     <RadioGroup onChange={onChange} value={section} name={type}>
-      {filteredSections.map(({ sectionCode, meetingTimes, additionalNotes }) => (
+      {filteredSections.map(({ sectionCode, meetingTimes, additionalNotes, seats }) => (
         <Option
-          sectionCode={sectionCode}
-          meetingTimes={meetingTimes}
-          additionalNotes={additionalNotes}
-          key={sectionCode}
+          {...{
+            sectionCode,
+            meetingTimes,
+            additionalNotes,
+            seats: seats,
+            key: sectionCode,
+          }}
         />
       ))}
     </RadioGroup>
@@ -129,18 +132,23 @@ export interface OptionsProps {
    * Additional info like section restrictions, etc
    */
   additionalNotes?: string;
+
+  seats: Section['seats'];
 }
 
 const maxAdditionalNotesLength = 200;
 
 export const Option = forwardRef<OptionsProps, 'div'>(
-  ({ meetingTimes, sectionCode, additionalNotes }: OptionsProps, ref): JSX.Element => {
+  ({ meetingTimes, sectionCode, additionalNotes, seats }: OptionsProps, ref): JSX.Element => {
     const mode = useDarkMode();
 
     const truncAdditionalNotes =
       (additionalNotes?.length ?? 0) > maxAdditionalNotesLength
         ? additionalNotes?.substring(0, maxAdditionalNotesLength).trim() + '…'
         : additionalNotes;
+
+    const sectionFull = seats?.enrollment === seats?.maxEnrollment;
+    const waitlistFull = seats?.waitCount === seats?.waitCapacity;
 
     return (
       <Tooltip label={truncAdditionalNotes} isDisabled={!additionalNotes} placement="left">
@@ -164,16 +172,30 @@ export const Option = forwardRef<OptionsProps, 'div'>(
           </HStack>
           <VStack flexGrow={1} py="1.5">
             {meetingTimes.map((m, key) => (
-              <HStack key={key} w="100%" px="5">
-                <Box w="33%" minW="27%">
+              <HStack key={key} w="100%" px="1">
+                {seats && (
+                  <Box w="20%" minW="10%">
+                    <Flex flexWrap={'wrap'} justify={'center'}>
+                      <Badge as="b" colorScheme={sectionFull ? 'red' : 'green'}>
+                        {seats.enrollment}/{seats.maxEnrollment}
+                      </Badge>
+                      {sectionFull && (
+                        <Badge as="b" colorScheme={waitlistFull ? 'red' : 'green'}>
+                          ({seats.waitCount}/{seats.waitCapacity})
+                        </Badge>
+                      )}
+                    </Flex>
+                  </Box>
+                )}
+                <Box w="20%" minW="20%">
                   {m.time.split('-').map((time) => (
                     <Text key={time}>{time}</Text>
                   ))}
                 </Box>
-                <Box w="20%" minW="13%">
+                <Box w="10%" minW="7.5%">
                   {m.days}
                 </Box>
-                <Box w="47%">
+                <Box w="40%">
                   <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
                 </Box>
               </HStack>
