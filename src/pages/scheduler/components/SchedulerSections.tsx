@@ -187,16 +187,16 @@ export const Option = forwardRef<OptionsProps, 'div'>(
                     </Flex>
                   </Box>
                 )}
-                <Box w="20%" minW="20%">
+                <Box w="20%" minW="25%">
                   {m.time.split('-').map((time) => (
                     <Text key={time}>{time}</Text>
                   ))}
                 </Box>
-                <Box w="10%" minW="7.5%">
+                <Box w="12.5%" minW="10%">
                   {m.days}
                 </Box>
-                <Box w="40%">
-                  <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
+                <Box w="30%">
+                  <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
                 </Box>
               </HStack>
             ))}
