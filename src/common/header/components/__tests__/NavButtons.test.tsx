@@ -1,18 +1,21 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
+
+import { useTerm } from 'lib/hooks/useTerm';
 
 import { NavButtons } from '../NavButtons';
 
 jest.mock('react-router');
+jest.mock('lib/hooks/useTerm');
 
 const mockUseNavigate = jest.mocked(useNavigate);
-const mockUseParams = jest.mocked(useParams);
+const mockUseTerm = jest.mocked(useTerm);
 const mockNavigate = jest.fn();
 
 describe('NavButtons', () => {
   beforeEach(() => {
-    mockUseParams.mockReturnValue({ term: '202109' });
+    mockUseTerm.mockReturnValue(['202109', jest.fn()]);
     mockUseNavigate.mockReturnValue(mockNavigate);
   });
   it('should render all the buttons', () => {

@@ -3,15 +3,18 @@ import { screen, waitFor } from '@testing-library/react';
 import { useLocation, useParams } from 'react-router';
 
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
+import { useTerm } from 'lib/hooks/useTerm';
 import { renderWithSearch } from 'lib/utils/jest';
 
 import { Page } from '../Page';
 
 jest.mock('react-router');
 jest.mock('lib/hooks/useSmallScreen');
+jest.mock('lib/hooks/useTerm');
 
-const mockUseParams = jest.mocked(useParams);
+const mockUseTerm = jest.mocked(useTerm);
 const mockUseLocation = jest.mocked(useLocation);
+const mockUseParams = jest.mocked(useParams);
 const mockUseSmallScreen = jest.mocked(useSmallScreen);
 
 const mockLocation = { pathname: '/registration/' } as any;
@@ -20,6 +23,7 @@ describe('Page', () => {
   beforeEach(() => {
     mockUseLocation.mockReturnValue(mockLocation);
     mockUseParams.mockReturnValue({ term: '202109' });
+    mockUseTerm.mockReturnValue(['202109', jest.fn()]);
     mockUseSmallScreen.mockReturnValue(false);
   });
 

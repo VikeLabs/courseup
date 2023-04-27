@@ -10,10 +10,10 @@ import {
   Badge,
   Flex,
 } from '@chakra-ui/react';
-import { useParams } from 'react-router';
 
 import { MeetingTimes, Seat } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
+import { useTerm } from 'lib/hooks/useTerm';
 
 import { Schedule } from './Schedule';
 import { SeatInfo } from './Seats';
@@ -134,7 +134,7 @@ export function SectionInfo({
     }
   }
 
-  const { term } = useParams();
+  const [term] = useTerm();
   const mode = useDarkMode();
 
   return (
