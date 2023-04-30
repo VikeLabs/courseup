@@ -5,11 +5,21 @@ import os
 
 
 if __name__ == "__main__":
-    cx = Algolia("ACBOOIQ3QR", "APIKEY")
-    dsn = os.environ["DATABASE_URL"]  # TODO: change this dsn
+    algolia_api_key = os.environ["ALGOLIA_API_KEY"]
+    algolia_app_id = os.environ["ALGOLIA_APP_ID"]
+    dsn = os.environ["DATABASE_URL"]  # TODO:
 
-    if dsn == "":
-        raise Exception("Missing DATABASE_URL env")
+    key_map = {
+        "DATABASE_URL": dsn,
+        "ALGOLIA_APP_ID": algolia_app_id,
+        "ALGOLIA_API_KEY": algolia_api_key,
+    }
+
+    for key, val in key_map:
+        if val == "":
+            raise Exception(f"Missing {key} env")
+
+    cx = Algolia("ACBOOIQ3QR", "APIKEY")
 
     data: List[AlgoliaIndex] = get_data(dsn)
 

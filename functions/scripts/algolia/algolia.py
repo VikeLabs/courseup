@@ -1,5 +1,4 @@
 from algoliasearch.search_client import SearchClient, SearchIndex, List
-from typing import Any
 from pydantic import BaseModel
 
 
@@ -24,4 +23,4 @@ class Algolia:
 
     def set_index(self, data: List[AlgoliaIndex]) -> None:
         opt = {"autoGenerateObjectIDIfNotExist": True}
-        self._idx.save_objects(data, opt)
+        self._idx.save_objects([i.dict() for i in data], opt)
