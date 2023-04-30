@@ -32,3 +32,6 @@ firebase*.log
 
 # nextjs
 .next
+
+# python
+**/*/.venv
