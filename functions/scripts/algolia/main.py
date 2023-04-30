@@ -4,10 +4,11 @@ from database import get_data
 import os
 
 
+# NOTE: Batching is done automatically by the API client
 if __name__ == "__main__":
     algolia_api_key = os.environ["ALGOLIA_API_KEY"]
     algolia_app_id = os.environ["ALGOLIA_APP_ID"]
-    dsn = os.environ["DATABASE_URL"]  # TODO:
+    dsn = os.environ["DATABASE_URL"]
 
     key_map = {
         "DATABASE_URL": dsn,
@@ -24,14 +25,3 @@ if __name__ == "__main__":
     data: List[AlgoliaIndex] = get_data(dsn)
 
     cx.set_index(data)  # set index
-
-    # name
-    # term
-    # desc
-    # sub
-    # code
-    # pid
-    # insession
-    # profs
-
-    # Batching is done automatically by the API client
