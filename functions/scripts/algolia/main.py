@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     data: List[AlgoliaIndex] = get_data(dsn)
 
-    cx.set_index([i.dict() for i in data])  # set index
+    cx.set_index(data)  # set index
 
     # name
     # term

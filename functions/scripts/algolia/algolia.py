@@ -22,6 +22,6 @@ class Algolia:
         self._cx = SearchClient.create(app_id, key)
         self._idx = self._cx.init_index("courseup")
 
-    def set_index(self, data: List[Any]) -> None:
+    def set_index(self, data: List[AlgoliaIndex]) -> None:
         opt = {"autoGenerateObjectIDIfNotExist": True}
         self._idx.save_objects(data, opt)
