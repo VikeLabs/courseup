@@ -10,7 +10,7 @@ class AlgoliaIndex(BaseModel):
     subject: str
     code: str
     pid: str
-    in_session: bool
+    in_session: bool  # i don't know how to get this...
     profs: str
 
 
