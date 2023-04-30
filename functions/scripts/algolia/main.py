@@ -20,8 +20,8 @@ if __name__ == "__main__":
         if val == "":
             raise Exception(f"Missing {key} env")
 
-    cx = Algolia("ACBOOIQ3QR", "APIKEY")
+    cx = Algolia(algolia_app_id, algolia_api_key)
 
     data: List[AlgoliaIndex] = get_data(dsn)
 
-    cx.set_index(data)  # set index
+    cx.set_index(data)
