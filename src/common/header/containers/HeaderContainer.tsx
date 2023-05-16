@@ -67,8 +67,8 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
     : [
         <Text>
           📅 The{' '}
-          <Text as={Link} to="/calendar/202305" textDecoration="underline">
-            Summer 2023
+          <Text as={Link} to="/calendar/202309" textDecoration="underline">
+            Winter 2023
           </Text>{' '}
           calendar is now available. Happy scheduling!
         </Text>,
