@@ -20,8 +20,8 @@ export type Term =
   | '202205'
   | '202209'
   | '202301'
-  | '202305',
-  | '202309',
+  | '202305'
+  | '202309'
   | '202401';
 
 export interface NestedPreCoRequisites {
