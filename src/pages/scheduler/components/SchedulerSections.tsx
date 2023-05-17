@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
+import { CalendarIcon, TimeIcon } from '@chakra-ui/icons';
 import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef, Badge, Flex } from '@chakra-ui/react';
+import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 
 import { MeetingTimes, Section } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -150,6 +152,24 @@ export const Option = forwardRef<OptionsProps, 'div'>(
     const sectionFull = seats?.enrollment === seats?.maxEnrollment;
     const waitlistFull = seats?.waitCount === seats?.waitCapacity;
 
+    function Time({ time }: { time: string }) {
+      const [start, end] = time.split('-');
+      return (
+        <HStack spacing={'1'}>
+          <TimeIcon />
+          <Flex flexDirection={'row'}>
+            <Text display={'inline-block'} whiteSpace={'nowrap'}>
+              {start}
+            </Text>
+            <Text>-</Text>
+            <Text display={'inline-block'} whiteSpace={'nowrap'}>
+              {end}
+            </Text>
+          </Flex>
+        </HStack>
+      );
+    }
+
     return (
       <Tooltip label={truncAdditionalNotes} isDisabled={!additionalNotes} placement="left">
         <HStack
@@ -168,38 +188,43 @@ export const Option = forwardRef<OptionsProps, 'div'>(
               // HACK: position: sticky needed to fix issue with button click jumping position on page
               position="sticky"
             />
-            <Text as="strong">{sectionCode}</Text>
           </HStack>
           <VStack flexGrow={1} py="1.5">
-            {meetingTimes.map((m, key) => (
-              <HStack key={key} w="100%" px="1">
-                {seats && (
-                  <Box w="20%" minW="10%">
-                    <Flex flexWrap={'wrap'} justify={'center'}>
-                      <Badge as="b" colorScheme={sectionFull ? 'red' : 'green'}>
-                        {seats.enrollment}/{seats.maxEnrollment}
-                      </Badge>
-                      {sectionFull && (
+            {meetingTimes.map((m, key) => {
+              return (
+                <VStack key={key} w="100%" alignItems={'left'} spacing={'0.5'}>
+                  <Text as="strong">{sectionCode}</Text>
+                  <HStack>
+                    <HStack spacing={'1'}>
+                      <CalendarIcon />
+                      <Text>{m.days}</Text>
+                    </HStack>
+                    <Time time={m.time} />
+                  </HStack>
+                  <HStack spacing={'1'}>
+                    <FaMapMarkerAlt />
+                    <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
+                  </HStack>
+                  {seats && (
+                    <HStack>
+                      <FaUser />
+                      <VStack spacing={'0.5'}>
+                        <Text>Seats</Text>
+                        <Badge as="b" colorScheme={sectionFull ? 'red' : 'green'}>
+                          {seats.enrollment}/{seats.maxEnrollment}
+                        </Badge>
+                      </VStack>
+                      <VStack spacing={'0.5'}>
+                        <Text>Waitlist</Text>
                         <Badge as="b" colorScheme={waitlistFull ? 'red' : 'green'}>
                           ({seats.waitCount}/{seats.waitCapacity})
                         </Badge>
-                      )}
-                    </Flex>
-                  </Box>
-                )}
-                <Box w="20%" minW="25%">
-                  {m.time.split('-').map((time) => (
-                    <Text key={time}>{time}</Text>
-                  ))}
-                </Box>
-                <Box w="12.5%" minW="10%">
-                  {m.days}
-                </Box>
-                <Box w="30%">
-                  <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
-                </Box>
-              </HStack>
-            ))}
+                      </VStack>
+                    </HStack>
+                  )}
+                </VStack>
+              );
+            })}
           </VStack>
         </HStack>
       </Tooltip>
