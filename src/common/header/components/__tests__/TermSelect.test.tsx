@@ -20,7 +20,7 @@ const mockNavigate = jest.fn();
 
 describe('TermSelect', () => {
   beforeEach(() => {
-    mockGetCurrentTerm.mockReturnValue('202401');
+    mockGetCurrentTerm.mockReturnValue('202305');
     mockUseNavigate.mockReturnValue(mockNavigate);
     mockUseParams.mockReturnValue({ subject: '' });
     mockUseSearchParams.mockReturnValue([{ get: jest.fn() } as any, jest.fn()]);
@@ -30,22 +30,22 @@ describe('TermSelect', () => {
     render(<TermSelect />);
     const termSelect = screen.getByRole('combobox') as HTMLSelectElement;
 
-    expect(termSelect.value).toStrictEqual('202401');
+    expect(termSelect.value).toStrictEqual('202305');
   });
 
   it('should navigate to the selected term', () => {
     render(<TermSelect />);
     const termSelect = screen.getByRole('combobox') as HTMLSelectElement;
 
-    const summerOption = screen.getAllByRole('option')[2];
+    const summerOption = screen.getAllByRole('option')[0];
     userEvent.selectOptions(termSelect, summerOption);
     expect(mockNavigate).toBeCalledWith('/calendar/202305');
 
-    const fallOption = screen.getAllByRole('option')[0];
+    const fallOption = screen.getAllByRole('option')[1];
     userEvent.selectOptions(termSelect, fallOption);
     expect(mockNavigate).toBeCalledWith('/calendar/202309');
 
-    const springOption = screen.getAllByRole('option')[1];
+    const springOption = screen.getAllByRole('option')[2];
     userEvent.selectOptions(termSelect, springOption);
     expect(mockNavigate).toBeCalledWith('/calendar/202401');
   });
