@@ -37,16 +37,16 @@ describe('TermSelect', () => {
     render(<TermSelect />);
     const termSelect = screen.getByRole('combobox') as HTMLSelectElement;
 
-    const summerOption = screen.getAllByRole('option')[2];
+    const summerOption = screen.getAllByRole('option')[0];
     userEvent.selectOptions(termSelect, summerOption);
     expect(mockNavigate).toBeCalledWith('/calendar/202305');
 
-    const fallOption = screen.getAllByRole('option')[0];
+    const fallOption = screen.getAllByRole('option')[1];
     userEvent.selectOptions(termSelect, fallOption);
-    expect(mockNavigate).toBeCalledWith('/calendar/202209');
+    expect(mockNavigate).toBeCalledWith('/calendar/202309');
 
-    const springOption = screen.getAllByRole('option')[1];
+    const springOption = screen.getAllByRole('option')[2];
     userEvent.selectOptions(termSelect, springOption);
-    expect(mockNavigate).toBeCalledWith('/calendar/202301');
+    expect(mockNavigate).toBeCalledWith('/calendar/202401');
   });
 });
