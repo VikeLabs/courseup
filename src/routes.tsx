@@ -13,7 +13,7 @@ export function Routes(): JSX.Element {
   return (
     <BrowserRouter>
       <ReactRouterRoutes>
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/calendar/:term/*" element={<Calendar />} />
         <Route path="/scheduler/" element={<Scheduler />} />

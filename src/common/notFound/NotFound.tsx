@@ -2,8 +2,8 @@ import { PropsWithChildren } from 'react';
 
 import { Container, Heading, Flex, Text } from '@chakra-ui/layout';
 import { Button, Box } from '@chakra-ui/react';
+import Link from 'next/link';
 import { HiOutlineCalendar } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getReadableTerm } from 'lib/utils/terms';
@@ -31,7 +31,7 @@ export function NotFound({ children, term, timetable }: PropsWithChildren<Props>
                   width="auto"
                   leftIcon={<HiOutlineCalendar />}
                   as={Link}
-                  to={`/scheduler/${term}`}
+                  href={`/scheduler/${term}`}
                 >
                   {`${getReadableTerm(term)}`} Timetable
                 </Button>

@@ -1,8 +1,8 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 
 import { Flex } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { Helmet } from 'react-helmet';
-import { useLocation, useMatch, useNavigate, useParams } from 'react-router';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -28,12 +28,11 @@ type Props = {
 export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children }: PropsWithChildren<Props>) {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { term, slug } = useParams();
   const smallScreen = useSmallScreen();
+  const router = useRouter();
+  const { term, slug } = router.query;
 
-  const route = location.pathname.split('/')[1];
+  const route = router.pathname.split('/')[1];
 
   const handleSearchChange = (q: string) => {
     setQuery(q);
@@ -47,16 +46,15 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
     }
   }, [query, swiper]);
 
-  const contest = useMatch('/contest');
   useEffect(() => {
     if (term) {
-      setSavedTerm(term);
-    } else if (route && !slug && !contest) {
-      navigate(`/${route}/${savedTerm}`, { replace: true });
+      setSavedTerm(typeof term === 'string' ? term : term[0]);
+    } else if (route && !slug) {
+      router.push(`/${route}/${savedTerm}`, undefined, { shallow: true });
     }
-  }, [navigate, route, savedTerm, setSavedTerm, term, slug, contest]);
+  }, [route, savedTerm, setSavedTerm, term, slug, router]);
 
-  return (
+  return typeof window !== 'undefined' ? (
     <>
       {!mobileSupport && <Mobile />}
       <Flex h={smallScreen ? window.innerHeight : '100vh'} direction="column" overflowX="hidden" overflowY="hidden">
@@ -104,5 +102,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
         </Flex>
       </Flex>
     </>
+  ) : (
+    <></>
   );
 }

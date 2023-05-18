@@ -1,25 +1,27 @@
 import { Button, ButtonGroup, VStack, Divider } from '@chakra-ui/react';
-import { useNavigate, useParams } from 'react-router';
+import { useRouter } from 'next/router';
 
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 export function NavButtons(): JSX.Element {
   const smallScreen = useSmallScreen();
-  const { term } = useParams();
+  const router = useRouter();
+  const { term } = router.query;
+  // const { term } = useParams();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
     if (name === 'calendar') {
-      navigate(`/calendar/${term || getCurrentTerm()}`);
+      router.push(`/calendar/${term || getCurrentTerm()}`);
     } else if (name === 'scheduler') {
-      navigate(`/scheduler/${term || getCurrentTerm()}`);
+      router.push(`/scheduler/${term || getCurrentTerm()}`);
     } else if (name === 'register') {
-      navigate(`/registration/${term || getCurrentTerm()}`);
+      router.push(`/registration/${term || getCurrentTerm()}`);
     } else if (name === 'booklist') {
-      navigate(`/booklist/${term || getCurrentTerm()}`);
+      router.push(`/booklist/${term || getCurrentTerm()}`);
     }
   };
 

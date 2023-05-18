@@ -1,6 +1,7 @@
 import { LinkBox } from '@chakra-ui/layout';
 import { Collapse } from '@chakra-ui/transition';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { KualiSubject } from 'lib/fetchers';
 
@@ -19,9 +20,9 @@ type SubjectsListProps = {
 };
 
 export function SubjectsList({ term, subjects }: SubjectsListProps): JSX.Element {
-  const [searchParams] = useSearchParams();
-  const pid = searchParams.get('pid');
-  const location = useLocation();
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const pid = urlSearchParams.get('pid');
+  const router = useRouter();
 
   const route = location.pathname.split('/')[1];
 
@@ -30,7 +31,7 @@ export function SubjectsList({ term, subjects }: SubjectsListProps): JSX.Element
       {subjects.map((subject, index) => (
         <LinkBox
           as={Link}
-          to={{
+          href={{
             pathname: `/${route}/${term}/${subject.subject}`,
             search: pid ? `?pid=${pid}` : undefined,
           }}

@@ -1,6 +1,6 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, LinkBox, HStack, Spacer, Collapse, useDisclosure, VStack, IconButton, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
@@ -22,7 +22,7 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
       data-testid="mobile-header"
     >
       <HStack justifyContent="space-between" minH="48px">
-        <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
+        <LinkBox as={Link} href="/" tabIndex={0} w="fit-content" mr="2">
           {/*
           LOGO WILL GO HERE
           <Image
@@ -67,11 +67,11 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
     : [
         <Text key="1">
           📅 The{' '}
-          <Text as={Link} to="/calendar/202209" textDecoration="underline">
+          <Text as={Link} href="/calendar/202209" textDecoration="underline">
             Fall 2022
           </Text>{' '}
           and{' '}
-          <Text as={Link} to="/calendar/202301" textDecoration="underline">
+          <Text as={Link} href="/calendar/202301" textDecoration="underline">
             Spring 2023
           </Text>{' '}
           calendars are now available. Happy scheduling!
@@ -87,8 +87,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
       ) : (
         <Box position="sticky" top={0} data-testid="desktop-header">
           <HStack as="header" px="8" boxShadow="md" minH="56px">
-            <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
-              {/*
+            {/*
               LOGO WILL GO HERE
               <Image
                 src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
@@ -99,10 +98,11 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
                 loading="lazy"
                 mr="2"
               /> */}
-              <Text fontSize="xl" fontWeight="bold" mr="2">
+            <Text fontSize="xl" fontWeight="bold" mr="2" w="fit-content">
+              <Link href="/" tabIndex={0}>
                 CourseUp
-              </Text>
-            </LinkBox>
+              </Link>
+            </Text>
             <Search onChange={onSearchChange} />
             <NavButtons />
             <Spacer />

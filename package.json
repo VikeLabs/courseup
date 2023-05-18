@@ -29,8 +29,6 @@
     "react-icons": "^4.3.1",
     "react-instantsearch-core": "^6.18.0",
     "react-instantsearch-dom": "^6.18.0",
-    "react-router": "^6.0.0-beta.0",
-    "react-router-dom": "^6.0.0-beta.0",
     "restful-react": "^15.9.3",
     "rrule": "^2.6.4",
     "sass": "^1.60.0",

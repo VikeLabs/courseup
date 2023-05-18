@@ -18,8 +18,8 @@ import {
   Switch,
   Skeleton,
 } from '@chakra-ui/react';
-import { Route, Routes, useLocation, useParams } from 'react-router';
-import { Link, useSearchParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { Course, Term, useGetCourse, useGetCourses, useSubjects } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -55,11 +55,16 @@ export interface TopBarProps {
 
 export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
-  const { term } = useParams();
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
+  // const { term } = useParams();
+  // const location = useLocation();
+  // const [searchParams] = useSearchParams();
   const mode = useDarkMode();
   const smallScreen = useSmallScreen();
+
+  const router = useRouter();
+  const { term } = router.query;
+
+  const searchParams = new URLSearchParams(window.location.search);
 
   const subject = location.pathname.split('/')[3];
   const route = location.pathname.split('/')[1];
@@ -88,14 +93,14 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
               as={Link}
               // Persisting the PID messes with the mobile flow
               // Since we can't show the sidebar and course info at the same time on mobile, only persist PID on large screens
-              to={{ pathname: `/${route}/${term}/`, search: pid && !smallScreen ? `?pid=${pid}` : undefined }}
+              href={`/${route}/${term}/${pid && !smallScreen ? `?pid=${pid}` : undefined}`}
             >
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>
           {smallScreen && pid && subject ? (
             <BreadcrumbItem>
-              <BreadcrumbLink as={Link} to={{ pathname: `/${route}/${term}/${subject}` }}>
+              <BreadcrumbLink as={Link} href={`/${route}/${term}/${subject}`}>
                 {subject}
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -167,19 +172,18 @@ export function Courses({ term }: Props): JSX.Element | null {
     setFilter(s);
   };
 
+  const isSubjectPath = location.pathname.split('/').length === 4;
+
   return (
     <>
       {!smallScreen && <CoursesTopBar onFilter={handleFilter} />}
       {!loading && sortedSubjects && courses ? (
         <Box h="100%" overflowY="auto" w="100%">
-          <Routes>
-            <Route path="/">
-              <SubjectsList term={term} subjects={sortedSubjects} />
-            </Route>
-            <Route path=":subject">
-              <CoursesList term={term} courses={parsedCourses} />
-            </Route>
-          </Routes>
+          {isSubjectPath ? (
+            <CoursesList term={term} courses={parsedCourses} />
+          ) : (
+            <SubjectsList term={term} subjects={sortedSubjects} />
+          )}
         </Box>
       ) : (
         <Center h="100%" w="100%">
