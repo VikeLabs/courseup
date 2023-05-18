@@ -10,7 +10,9 @@ export type Term =
   | '202205'
   | '202209'
   | '202301'
-  | '202305';
+  | '202305'
+  | '202309'
+  | '202401';
 
 // make const array of terms from above
 export const terms: Term[] = [
@@ -25,6 +27,8 @@ export const terms: Term[] = [
   '202209',
   '202301',
   '202305',
+  '202309',
+  '202401',
 ];
 
 // add some code?
