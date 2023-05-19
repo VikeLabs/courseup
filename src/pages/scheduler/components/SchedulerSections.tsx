@@ -191,22 +191,23 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
             position="sticky"
           />
         </HStack>
-        <VStack flexGrow={1} py="1.5">
+        <VStack w="100%" alignItems="left" spacing="2" py="1.5">
+          <Text as="strong">{sectionCode}</Text>
           {meetingTimes.map((m, key) => {
             return (
-              <VStack key={key} w="100%" alignItems={'left'} spacing={'0.5'}>
-                <Text as="strong">{sectionCode}</Text>
-                <HStack>
+              <Flex key={key} gap="1" flexDirection="row" flexWrap="wrap">
                   <HStack spacing={'1'}>
                     <CalendarIcon />
                     <Text>{m.days}</Text>
                   </HStack>
                   <Time time={m.time} />
-                </HStack>
                 <HStack spacing={'1'}>
                   <FaMapMarkerAlt />
                   <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
                 </HStack>
+              </Flex>
+            );
+          })}
                 {seats && (
                   <HStack>
                     <FaUser />
@@ -224,9 +225,6 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
                     </VStack>
                   </HStack>
                 )}
-              </VStack>
-            );
-          })}
         </VStack>
       </HStack>
     </Tooltip>
