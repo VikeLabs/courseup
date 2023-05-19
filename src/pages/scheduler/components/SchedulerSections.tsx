@@ -140,94 +140,96 @@ export interface OptionsProps {
 
 const maxAdditionalNotesLength = 200;
 
-export const Option = forwardRef<OptionsProps, 'div'>(
-  ({ meetingTimes, sectionCode, additionalNotes, seats }: OptionsProps, ref): JSX.Element => {
-    const mode = useDarkMode();
+export const Option = forwardRef<OptionsProps, 'div'>(function Option(
+  { meetingTimes, sectionCode, additionalNotes, seats }: OptionsProps,
+  ref
+): JSX.Element {
+  const mode = useDarkMode();
 
-    const truncAdditionalNotes =
-      (additionalNotes?.length ?? 0) > maxAdditionalNotesLength
-        ? additionalNotes?.substring(0, maxAdditionalNotesLength).trim() + '…'
-        : additionalNotes;
+  const truncAdditionalNotes =
+    (additionalNotes?.length ?? 0) > maxAdditionalNotesLength
+      ? additionalNotes?.substring(0, maxAdditionalNotesLength).trim() + '…'
+      : additionalNotes;
 
-    const sectionFull = seats?.enrollment === seats?.maxEnrollment;
-    const waitlistFull = seats?.waitCount === seats?.waitCapacity;
+  const sectionFull = seats?.enrollment === seats?.maxEnrollment;
+  const waitlistFull = seats?.waitCount === seats?.waitCapacity;
 
-    function Time({ time }: { time: string }) {
-      const [start, end] = time.split('-');
-      return (
-        <HStack spacing={'1'}>
-          <TimeIcon />
-          <Flex flexDirection={'row'}>
-            <Text display={'inline-block'} whiteSpace={'nowrap'}>
-              {start}
-            </Text>
-            <Text>-</Text>
-            <Text display={'inline-block'} whiteSpace={'nowrap'}>
-              {end}
-            </Text>
-          </Flex>
-        </HStack>
-      );
-    }
-
+  function Time({ time }: { time: string }) {
+    const [start, end] = time.split('-');
     return (
-      <Tooltip label={truncAdditionalNotes} isDisabled={!additionalNotes} placement="left">
-        <HStack
-          as="label"
-          px="3"
-          my="0.5"
-          fontSize="12px"
-          borderTop={mode('light.background', 'dark.background')}
-          borderTopWidth="2"
-          borderTopStyle="solid"
-        >
-          <HStack ref={ref}>
-            <Radio
-              value={sectionCode}
-              bgColor="white"
-              // HACK: position: sticky needed to fix issue with button click jumping position on page
-              position="sticky"
-            />
-          </HStack>
-          <VStack flexGrow={1} py="1.5">
-            {meetingTimes.map((m, key) => {
-              return (
-                <VStack key={key} w="100%" alignItems={'left'} spacing={'0.5'}>
-                  <Text as="strong">{sectionCode}</Text>
-                  <HStack>
-                    <HStack spacing={'1'}>
-                      <CalendarIcon />
-                      <Text>{m.days}</Text>
-                    </HStack>
-                    <Time time={m.time} />
-                  </HStack>
-                  <HStack spacing={'1'}>
-                    <FaMapMarkerAlt />
-                    <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
-                  </HStack>
-                  {seats && (
-                    <HStack>
-                      <FaUser />
-                      <VStack spacing={'0.5'}>
-                        <Text>Seats</Text>
-                        <Badge as="b" colorScheme={sectionFull ? 'red' : 'green'}>
-                          {seats.enrollment}/{seats.maxEnrollment}
-                        </Badge>
-                      </VStack>
-                      <VStack spacing={'0.5'}>
-                        <Text>Waitlist</Text>
-                        <Badge as="b" colorScheme={waitlistFull ? 'red' : 'green'}>
-                          ({seats.waitCount}/{seats.waitCapacity})
-                        </Badge>
-                      </VStack>
-                    </HStack>
-                  )}
-                </VStack>
-              );
-            })}
-          </VStack>
-        </HStack>
-      </Tooltip>
+      <HStack spacing={'1'}>
+        <TimeIcon />
+        <Flex flexDirection={'row'}>
+          <Text display={'inline-block'} whiteSpace={'nowrap'}>
+            {start}
+          </Text>
+          <Text>-</Text>
+          <Text display={'inline-block'} whiteSpace={'nowrap'}>
+            {end}
+          </Text>
+        </Flex>
+      </HStack>
     );
   }
-);
+
+  return (
+    <Tooltip label={truncAdditionalNotes} isDisabled={!additionalNotes} placement="left">
+      <HStack
+        as="label"
+        px="3"
+        my="0.5"
+        fontSize="12px"
+        borderTop={mode('light.background', 'dark.background')}
+        borderTopWidth="2"
+        borderTopStyle="solid"
+      >
+        <HStack ref={ref}>
+          <Radio
+            value={sectionCode}
+            bgColor="white"
+            // HACK: position: sticky needed to fix issue with button click jumping position on page
+            position="sticky"
+          />
+        </HStack>
+        <VStack flexGrow={1} py="1.5">
+          {meetingTimes.map((m, key) => {
+            return (
+              <VStack key={key} w="100%" alignItems={'left'} spacing={'0.5'}>
+                <Text as="strong">{sectionCode}</Text>
+                <HStack>
+                  <HStack spacing={'1'}>
+                    <CalendarIcon />
+                    <Text>{m.days}</Text>
+                  </HStack>
+                  <Time time={m.time} />
+                </HStack>
+                <HStack spacing={'1'}>
+                  <FaMapMarkerAlt />
+                  <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
+                </HStack>
+                {seats && (
+                  <HStack>
+                    <FaUser />
+                    <VStack spacing={'0.5'}>
+                      <Text>Seats</Text>
+                      <Badge as="b" colorScheme={sectionFull ? 'red' : 'green'}>
+                        {seats.enrollment}/{seats.maxEnrollment}
+                      </Badge>
+                    </VStack>
+                    <VStack spacing={'0.5'}>
+                      <Text>Waitlist</Text>
+                      <Badge as="b" colorScheme={waitlistFull ? 'red' : 'green'}>
+                        {seats.waitCount}/{seats.waitCapacity}
+                      </Badge>
+                    </VStack>
+                  </HStack>
+                )}
+              </VStack>
+            );
+          })}
+        </VStack>
+      </HStack>
+    </Tooltip>
+  );
+});
+// Option.displayName = 'Option';
