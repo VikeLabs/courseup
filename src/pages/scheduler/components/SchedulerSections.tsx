@@ -138,18 +138,22 @@ export interface OptionsProps {
   seats: Section['seats'];
 }
 
-const maxAdditionalNotesLength = 200;
-
 export const Option = forwardRef<OptionsProps, 'div'>(function Option(
   { meetingTimes, sectionCode, additionalNotes, seats }: OptionsProps,
   ref
 ): JSX.Element {
   const mode = useDarkMode();
 
-  const truncAdditionalNotes =
-    (additionalNotes?.length ?? 0) > maxAdditionalNotesLength
-      ? additionalNotes?.substring(0, maxAdditionalNotesLength).trim() + '…'
-      : additionalNotes;
+  additionalNotes = additionalNotes
+    ?.trim()
+    ?.replace(
+      /^For a description of this course, and to check for prerequisites and mutually exclusive \(MX\) courses, see the Calendar\./,
+      ''
+    )
+    ?.trim()
+    ?.replace(/^Section information text:/, '')
+    ?.trim()
+    ?.replace(/^(.{0,200}).*/, '$1…');
 
   const sectionFull = seats?.enrollment === seats?.maxEnrollment;
   const waitlistFull = seats?.waitCount === seats?.waitCapacity;
@@ -173,7 +177,7 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
   }
 
   return (
-    <Tooltip label={truncAdditionalNotes} isDisabled={!additionalNotes} placement="left">
+    <Tooltip label={additionalNotes} isDisabled={!additionalNotes} placement="left">
       <HStack
         as="label"
         px="3"
