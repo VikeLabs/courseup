@@ -153,7 +153,7 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
     ?.trim()
     ?.replace(/^Section information text:/, '')
     ?.trim()
-    ?.replace(/^(.{0,200}).*/, '$1…');
+    ?.replace(/^(.{200}).+/, '$1…');
 
   const sectionFull = seats?.enrollment === seats?.maxEnrollment;
   const waitlistFull = seats?.waitCount === seats?.waitCapacity;
