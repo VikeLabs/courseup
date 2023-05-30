@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef } from '@chakra-ui/react';
+import { CalendarIcon, TimeIcon } from '@chakra-ui/icons';
+import { Radio, RadioGroup, Box, HStack, Text, VStack, Tooltip, forwardRef, Badge, Flex } from '@chakra-ui/react';
+import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 
 import { MeetingTimes, Section } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -102,12 +104,15 @@ export function SectionGroup({ sections, type, course, courses, handleChange }: 
 
   return (
     <RadioGroup onChange={onChange} value={section} name={type}>
-      {filteredSections.map(({ sectionCode, meetingTimes, additionalNotes }) => (
+      {filteredSections.map(({ sectionCode, meetingTimes, additionalNotes, seats }) => (
         <Option
-          sectionCode={sectionCode}
-          meetingTimes={meetingTimes}
-          additionalNotes={additionalNotes}
-          key={sectionCode}
+          {...{
+            sectionCode,
+            meetingTimes,
+            additionalNotes,
+            seats: seats,
+            key: sectionCode,
+          }}
         />
       ))}
     </RadioGroup>
@@ -129,58 +134,104 @@ export interface OptionsProps {
    * Additional info like section restrictions, etc
    */
   additionalNotes?: string;
+
+  seats: Section['seats'];
 }
 
-const maxAdditionalNotesLength = 200;
+export const Option = forwardRef<OptionsProps, 'div'>(function Option(
+  { meetingTimes, sectionCode, additionalNotes, seats }: OptionsProps,
+  ref
+): JSX.Element {
+  const mode = useDarkMode();
 
-export const Option = forwardRef<OptionsProps, 'div'>(
-  ({ meetingTimes, sectionCode, additionalNotes }: OptionsProps, ref): JSX.Element => {
-    const mode = useDarkMode();
+  additionalNotes = additionalNotes
+    ?.trim()
+    ?.replace(
+      /^For a description of this course, and to check for prerequisites and mutually exclusive \(MX\) courses, see the Calendar\./,
+      ''
+    )
+    ?.trim()
+    ?.replace(/^Section information text:/, '')
+    ?.trim()
+    ?.replace(/^(.{0,200}).*/, '$1…');
 
-    const truncAdditionalNotes =
-      (additionalNotes?.length ?? 0) > maxAdditionalNotesLength
-        ? additionalNotes?.substring(0, maxAdditionalNotesLength).trim() + '…'
-        : additionalNotes;
+  const sectionFull = seats?.enrollment === seats?.maxEnrollment;
+  const waitlistFull = seats?.waitCount === seats?.waitCapacity;
 
+  function Time({ time }: { time: string }) {
+    const [start, end] = time.split('-');
     return (
-      <Tooltip label={truncAdditionalNotes} isDisabled={!additionalNotes} placement="left">
-        <HStack
-          as="label"
-          px="3"
-          my="0.5"
-          fontSize="12px"
-          borderTop={mode('light.background', 'dark.background')}
-          borderTopWidth="2"
-          borderTopStyle="solid"
-        >
-          <HStack ref={ref}>
-            <Radio
-              value={sectionCode}
-              bgColor="white"
-              // HACK: position: sticky needed to fix issue with button click jumping position on page
-              position="sticky"
-            />
-            <Text as="strong">{sectionCode}</Text>
-          </HStack>
-          <VStack flexGrow={1} py="1.5">
-            {meetingTimes.map((m, key) => (
-              <HStack key={key} w="100%" px="5">
-                <Box w="33%" minW="27%">
-                  {m.time.split('-').map((time) => (
-                    <Text key={time}>{time}</Text>
-                  ))}
-                </Box>
-                <Box w="20%" minW="13%">
-                  {m.days}
-                </Box>
-                <Box w="47%">
-                  <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
-                </Box>
-              </HStack>
-            ))}
-          </VStack>
-        </HStack>
-      </Tooltip>
+      <HStack spacing={'1'}>
+        <TimeIcon />
+        <Flex flexDirection={'row'}>
+          <Text display={'inline-block'} whiteSpace={'nowrap'}>
+            {start}
+          </Text>
+          <Text>-</Text>
+          <Text display={'inline-block'} whiteSpace={'nowrap'}>
+            {end}
+          </Text>
+        </Flex>
+      </HStack>
     );
   }
-);
+
+  return (
+    <Tooltip label={additionalNotes} isDisabled={!additionalNotes} placement="left">
+      <HStack
+        as="label"
+        px="3"
+        my="0.5"
+        fontSize="12px"
+        borderTop={mode('light.background', 'dark.background')}
+        borderTopWidth="medium"
+        borderTopStyle="solid"
+      >
+        <HStack ref={ref}>
+          <Radio
+            value={sectionCode}
+            bgColor="white"
+            // HACK: position: sticky needed to fix issue with button click jumping position on page
+            position="sticky"
+          />
+        </HStack>
+        <VStack w="100%" alignItems="left" spacing="2" py="1.5">
+          <Text as="strong">{sectionCode}</Text>
+          {meetingTimes.map((m, key) => {
+            return (
+              <Flex key={key} gap="1" flexDirection="row" flexWrap="wrap">
+                <HStack spacing={'1'}>
+                  <CalendarIcon />
+                  <Text>{m.days}</Text>
+                </HStack>
+                <Time time={m.time} />
+                <HStack spacing={'1'}>
+                  <FaMapMarkerAlt />
+                  <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
+                </HStack>
+              </Flex>
+            );
+          })}
+          {seats && (
+            <HStack>
+              <FaUser />
+              <VStack spacing={'0.5'}>
+                <Text>Seats</Text>
+                <Badge as="b" colorScheme={sectionFull ? 'red' : 'green'}>
+                  {seats.enrollment}/{seats.maxEnrollment}
+                </Badge>
+              </VStack>
+              <VStack spacing={'0.5'}>
+                <Text>Waitlist</Text>
+                <Badge as="b" colorScheme={waitlistFull ? 'red' : 'green'}>
+                  {seats.waitCount}/{seats.waitCapacity}
+                </Badge>
+              </VStack>
+            </HStack>
+          )}
+        </VStack>
+      </HStack>
+    </Tooltip>
+  );
+});
+// Option.displayName = 'Option';
