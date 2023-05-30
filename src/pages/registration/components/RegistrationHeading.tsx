@@ -2,12 +2,12 @@ import { Container, Divider, Flex, Heading, ListItem, OrderedList, Text } from '
 import { Alert, AlertIcon, Button, Icon } from '@chakra-ui/react';
 import { HiLink } from 'react-icons/hi';
 import { IoCopyOutline } from 'react-icons/io5';
-import { useParams } from 'react-router';
 
+import { useTerm } from 'lib/hooks/useTerm';
 import { getReadableTerm } from 'lib/utils/terms';
 
 export function RegistrationHeading() {
-  const { term } = useParams();
+  const [term] = useTerm();
 
   return (
     <Container alignItems="center" maxW="container.xl">

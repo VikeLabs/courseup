@@ -15,14 +15,14 @@ import {
   Switch,
   Skeleton,
 } from '@chakra-ui/react';
-import { Route, Routes, useLocation, useParams } from 'react-router';
+import { Route, Routes, useLocation } from 'react-router';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import { Course, Term, useGetCourse, useGetCourses, useSubjects } from 'lib/fetchers';
 import useLocalStorage from 'lib/hooks/storage/useLocalStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
-import { getCurrentTerm } from 'lib/utils/terms';
+import { useTerm } from 'lib/hooks/useTerm';
 
 import { CoursesList } from '../components/CoursesList';
 import { SubjectsList } from '../components/SubjectsList';
@@ -50,7 +50,7 @@ export interface TopBarProps {
 }
 
 export function CoursesTopBar({ onFilter, filter }: TopBarProps): JSX.Element {
-  const { term } = useParams();
+  const [term] = useTerm();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const mode = useDarkMode();
@@ -62,7 +62,7 @@ export function CoursesTopBar({ onFilter, filter }: TopBarProps): JSX.Element {
   const pid = searchParams.get('pid');
 
   const { data, loading } = useGetCourse({
-    term: (term || getCurrentTerm()) as Term,
+    term,
     pid: searchParams.get('pid') || '',
   });
 

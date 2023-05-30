@@ -8,10 +8,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
+import { useTerm } from 'lib/hooks/useTerm';
 import { isMobile } from 'lib/utils/mobile';
-import { getCurrentTerm } from 'lib/utils/terms';
 
 import { Header } from 'common/header';
 import { Sidebar } from 'common/layouts/sidebar/containers/Sidebar';
@@ -27,11 +26,11 @@ type Props = {
 
 export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children }: PropsWithChildren<Props>) {
   const [query, setQuery] = useState('');
-  const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
+  const [term, setTerm] = useTerm();
   const navigate = useNavigate();
   const location = useLocation();
-  const { term, slug } = useParams();
   const smallScreen = useSmallScreen();
+  const { slug } = useParams();
 
   const route = location.pathname.split('/')[1];
 
@@ -50,11 +49,11 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
   const contest = useMatch('/contest');
   useEffect(() => {
     if (term) {
-      setSavedTerm(term);
+      setTerm(term);
     } else if (route && !slug && !contest) {
-      navigate(`/${route}/${savedTerm}`, { replace: true });
+      navigate(`/${route}/${term}`, { replace: true });
     }
-  }, [navigate, route, savedTerm, setSavedTerm, term, slug, contest]);
+  }, [navigate, route, term, setTerm, slug, contest]);
 
   return (
     <>

@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
 
 import { Box, Flex } from '@chakra-ui/react';
-import { useParams } from 'react-router';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
-import { getCurrentTerm } from 'lib/utils/terms';
+import { useTerm } from 'lib/hooks/useTerm';
 
 import { SchedulerCalendar } from '../components/SchedulerCalendar';
 import { ScreenshotFooter } from '../components/ScreenshotFooter';
@@ -13,7 +12,7 @@ import { useGetCourseSections } from '../hooks/useCalendarEvents';
 import { denormalizeCourseEvents } from '../hooks/useTransformedCalendarEvents';
 
 export function SchedulerContainer(): JSX.Element {
-  const { term } = useParams();
+  const [term] = useTerm();
   // the user's saved courses
   const { courses } = useSavedCourses();
   // extend the list of courses with section information
@@ -28,7 +27,7 @@ export function SchedulerContainer(): JSX.Element {
   return (
     <Flex flexGrow={1} height="100%" overflow="hidden" direction={'column'}>
       <Box w="100%" height="100%" px={smallScreen ? '1' : '3'} pt={'2'} pb={smallScreen ? '0' : '2'}>
-        <SchedulerCalendar term={term || getCurrentTerm()} courseCalendarEvents={calendarEvents} />
+        <SchedulerCalendar term={term} courseCalendarEvents={calendarEvents} />
         <ScreenshotFooter />
       </Box>
     </Flex>
