@@ -1,12 +1,12 @@
 name: Script - upserts course information to Algolia
 on:
-  worflow_dispatch:
+  workflow_dispatch:
     inputs:
       environment:
         description: Application environment to execute in.
         required: true
       term:
-        description: Academic term to execute descript with. ie 202009, 202001
+        description: Academic term to execute the script with. ie 202009, 202001
         required: true
 jobs:
   lint:
