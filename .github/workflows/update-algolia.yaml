@@ -1,0 +1,68 @@
+name: Script - upserts course information to Algolia
+on:
+  worflow_dispatch:
+    inputs:
+      environment:
+        description: Application environment to execute in.
+        required: true
+      term:
+        description: Academic term to execute descript with. ie 202009, 202001
+        required: true
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./functions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Lint
+        run: npm run lint
+  update-algolia:
+    name: Update Algolia index
+    needs: [lint]
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    defaults:
+      run:
+        working-directory: ./functions
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          key: npm-${{ hashFiles('package-lock.json') }}
+          path: ~/.npm
+          restore-keys: |
+            npm-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-progress
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          export_default_credentials: true
+      - name: Generate latest course list
+        run: node ./scripts/generate-courses.js ${{ github.event.inputs.term }}
+      - name: Generate index for Algolia
+        run: node ./scripts/generate-algolia-index.js
+      - name: Upload index to Algolia
+        run: node ./scripts/upload-algolia-index.js
