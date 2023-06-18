@@ -11,10 +11,8 @@ const terms = ['202205', '202209', '202301'];
 
 export function TermSelect(): JSX.Element {
   const router = useRouter();
-  const { subject } = router.query;
+  const { subject, pid } = router.query;
   const [selectedTerm, setTerm] = useSessionStorage('user:term', getCurrentTerm());
-  const searchParams = new URLSearchParams(window.location.search);
-  const pid = searchParams.get('pid');
   const mode = useDarkMode();
 
   const calendarMatch = router.pathname.startsWith('/calendar');

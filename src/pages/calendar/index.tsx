@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Term } from 'lib/fetchers';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
-import { Page } from 'common/layouts/Page';
+import Page from 'common/layouts/Page';
 import { Courses, CoursesTopBar } from 'common/layouts/sidebar/variants/Courses';
 
 import { Landing } from 'pages/home/containers/Landing';

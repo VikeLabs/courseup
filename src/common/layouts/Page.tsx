@@ -10,6 +10,7 @@ import 'swiper/css/pagination';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
+import { useWindowSize } from 'lib/hooks/useWindowSize';
 import { isMobile } from 'lib/utils/mobile';
 import { getCurrentTerm } from 'lib/utils/terms';
 
@@ -18,14 +19,20 @@ import { Sidebar } from 'common/layouts/sidebar/containers/Sidebar';
 import { SearchResults } from 'common/layouts/sidebar/variants/SearchResults';
 import { Mobile } from 'common/mobile';
 
-type Props = {
+export type PageProps = {
   title?: string;
   leftSidebar?: JSX.Element;
   rightSidebar?: JSX.Element;
   mobileSupport?: boolean;
 };
 
-export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children }: PropsWithChildren<Props>) {
+export default function Page({
+  title,
+  leftSidebar,
+  rightSidebar,
+  mobileSupport,
+  children,
+}: PropsWithChildren<PageProps>) {
   const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const smallScreen = useSmallScreen();
@@ -54,10 +61,12 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
     }
   }, [route, savedTerm, setSavedTerm, term, slug, router]);
 
-  return typeof window !== 'undefined' ? (
+  const { height } = useWindowSize();
+
+  return (
     <>
       {!mobileSupport && <Mobile />}
-      <Flex h={smallScreen ? window.innerHeight : '100vh'} direction="column" overflowX="hidden" overflowY="hidden">
+      <Flex h={smallScreen ? height : '100vh'} direction="column" overflowX="hidden" overflowY="hidden">
         <Helmet>
           <title>{title}</title>
         </Helmet>
@@ -102,7 +111,5 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
         </Flex>
       </Flex>
     </>
-  ) : (
-    <></>
   );
 }

@@ -62,18 +62,16 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
   const smallScreen = useSmallScreen();
 
   const router = useRouter();
-  const { term } = router.query;
+  const { term, pid } = router.query;
 
-  const searchParams = new URLSearchParams(window.location.search);
+  //https://courseup.vikelabs.ca/calendar/202401/ACAN?pid=ByS23Pp7E
 
-  const subject = location.pathname.split('/')[3];
-  const route = location.pathname.split('/')[1];
-
-  const pid = searchParams.get('pid');
+  const subject = router.asPath.split('/')[3];
+  const route = router.asPath.split('/')[1];
 
   const { data, loading } = useGetCourse({
     term: (term || getCurrentTerm()) as Term,
-    pid: searchParams.get('pid') || '',
+    pid: typeof pid === 'string' ? pid : '',
   });
 
   return (
@@ -172,7 +170,9 @@ export function Courses({ term }: Props): JSX.Element | null {
     setFilter(s);
   };
 
-  const isSubjectPath = location.pathname.split('/').length === 4;
+  const router = useRouter();
+
+  const isSubjectPath = router.asPath.split('/').length === 4;
 
   return (
     <>
