@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Container, Heading, VStack } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/skeleton';
 import { Collapse } from '@chakra-ui/transition';
-import { useParams } from 'react-router';
+import { useRouter } from 'next/router';
 
 import { useSeats, useSections, Term, Seat } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -24,7 +24,8 @@ type Data = {
 };
 
 export function CourseContainer({ course }: Props) {
-  const { term } = useParams();
+  const router = useRouter();
+  const term = router.query.term as Term;
   const [data, setData] = useState<{ lab?: Data; lecture?: Data; tutorial?: Data }>({});
   const termType = term as Term;
   const mode = useDarkMode();

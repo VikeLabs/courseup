@@ -16,8 +16,8 @@ import {
   Alert,
   AlertIcon,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { BsPlusCircleFill } from 'react-icons/bs';
-import { useNavigate } from 'react-router';
 
 import { Timetable } from 'lib/fetchers';
 import { SavedCourse, useSavedCourses } from 'lib/hooks/useSavedCourses';
@@ -33,12 +33,12 @@ export function ImportTimetable({ loading, data }: { loading: boolean; data: Tim
   const filteredCoursesList: SavedCourse[] = useMemo(() => [], []);
   const [filteredCourses, setFilteredCourses] = useState(filteredCoursesList);
   const [timetableTerm, setTimetableTerm] = useState('');
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleImport = () => {
     importCourses(data.courses, data.term);
     onClose();
-    navigate(`/scheduler/${timetableTerm}`);
+    router.push(`/scheduler/${timetableTerm}`);
     toast({
       title: 'Timetable imported!',
       status: 'success',
