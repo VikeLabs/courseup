@@ -1,9 +1,11 @@
+import { PropsWithChildren } from 'react';
+
 import { Flex } from '@chakra-ui/react';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
-export function Sidebar({ children }: { children: JSX.Element }): JSX.Element | null {
+export function Sidebar({ children }: PropsWithChildren<{}>): JSX.Element | null {
   const mode = useDarkMode();
   const smallScreen = useSmallScreen();
 

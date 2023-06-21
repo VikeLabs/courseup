@@ -199,34 +199,36 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
           <Text as="strong">{sectionCode}</Text>
           {meetingTimes.map((m, key) => {
             return (
-              <Flex key={key} gap="1" flexDirection="row" flexWrap="wrap">
-                <HStack spacing={'1'}>
+              <Flex key={key} gap={2} flexDirection="row" flexWrap="wrap">
+                <HStack spacing={1}>
                   <CalendarIcon />
                   <Text>{m.days}</Text>
                 </HStack>
                 <Time time={m.time} />
-                <HStack spacing={'1'}>
-                  <FaMapMarkerAlt />
-                  <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
-                </HStack>
+                {m.buildingAbbreviation && (
+                  <HStack spacing={1}>
+                    <FaMapMarkerAlt />
+                    <Location alwaysShort short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
+                  </HStack>
+                )}
               </Flex>
             );
           })}
           {seats && (
             <HStack>
               <FaUser />
-              <VStack spacing={'0.5'}>
+              <HStack spacing={1}>
                 <Text>Seats</Text>
                 <Badge as="b" colorScheme={sectionFull ? 'red' : 'green'}>
                   {seats.enrollment}/{seats.maxEnrollment}
                 </Badge>
-              </VStack>
-              <VStack spacing={'0.5'}>
+              </HStack>
+              <HStack spacing={1}>
                 <Text>Waitlist</Text>
                 <Badge as="b" colorScheme={waitlistFull ? 'red' : 'green'}>
                   {seats.waitCount}/{seats.waitCapacity}
                 </Badge>
-              </VStack>
+              </HStack>
             </HStack>
           )}
         </VStack>
@@ -234,4 +236,3 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
     </Tooltip>
   );
 });
-// Option.displayName = 'Option';

@@ -1,7 +1,7 @@
 import { Center, Spinner, Box } from '@chakra-ui/react';
+import { useParams } from 'react-router';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
-import { useTerm } from 'lib/hooks/useTerm';
 import { getReadableTerm } from 'lib/utils/terms';
 
 import { Page } from 'common/layouts/Page';
@@ -12,7 +12,9 @@ import { RegistrationHeading } from '../components/RegistrationHeading';
 import { CourseContainer } from './CourseContainer';
 
 export function RegistrationContainer(): JSX.Element | null {
-  const [term] = useTerm();
+  // TODO: the useTerm hook breaks this page completely - I've gone back to the original implementation as a hotfix
+  // const [term] = useTerm();
+  const { term } = useParams();
   const { courses } = useSavedCourses();
 
   // to avoid erroring out if term is not provided in URL
@@ -33,9 +35,7 @@ export function RegistrationContainer(): JSX.Element | null {
         {courses.filter((course) => course.term === term).length > 0 ? (
           courses
             .filter((course) => course.term === term)
-            .map((course) => {
-              return <CourseContainer course={course} />;
-            })
+            .map((course, i) => <CourseContainer key={`${course.subject}${course.code}_${i}`} course={course} />)
         ) : (
           <NotFound term={term} timetable>
             Unable to find saved courses from your timetable for
