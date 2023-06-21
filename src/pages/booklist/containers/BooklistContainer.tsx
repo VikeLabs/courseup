@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 
 import { Box } from '@chakra-ui/layout';
 import { Center, Spinner, Text, VStack } from '@chakra-ui/react';
+import { useParams } from 'react-router';
 
-import { useTerm } from 'lib/hooks/useTerm';
+import { Term } from 'lib/fetchers';
 import { logEvent } from 'lib/utils/logEvent';
 import { getReadableTerm } from 'lib/utils/terms';
 
@@ -15,8 +16,10 @@ import { TextbookCard } from '../components/TextbookCard';
 import { useTextbooks } from '../hooks/useTextbooks';
 
 export function BooklistContainer(): JSX.Element | null {
-  const [term] = useTerm();
-  const textbooks = useTextbooks(term);
+  // TODO: the useTerm hook breaks this page completely - I've gone back to the original implementation as a hotfix
+  // const [term] = useTerm();
+  const { term } = useParams();
+  const textbooks = useTextbooks(term as Term);
   useEffect(() => {
     logEvent('textbooks_view', { term });
   }, [term]);
@@ -45,8 +48,10 @@ export function BooklistContainer(): JSX.Element | null {
             <>
               {textbooks.textbookInfo
                 .filter((textbook) => textbook && textbook.term === term)
-                .map(({ sections, subject, code }) => {
-                  return <TextbookCard key={`${subject}-${code}`} subject={subject} code={code} sections={sections} />;
+                .map(({ sections, subject, code }, i) => {
+                  return (
+                    <TextbookCard key={`${subject}${code}_${i}`} subject={subject} code={code} sections={sections} />
+                  );
                 })}
               <Box as="footer" px="2" py="4" pb="6" textAlign={{ base: 'center' }}>
                 <Text as="i">Amazon's trademark is used under license from Amazon.com, Inc. or its affiliates</Text>

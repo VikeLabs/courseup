@@ -9,6 +9,7 @@ import useLocalStorage from './storage/useLocalStorage';
 
 export const useTerm = (): [Term, (term: string) => void] => {
   const { term: termParam } = useParams();
+
   // The URL parameter should override getCurrentTerm() and the stored term.
   const defaultTerm = useMemo(() => termParam || getCurrentTerm(), [termParam]);
   const [term, setTerm] = useLocalStorage<string>('user:term', defaultTerm) as [Term, (term: string) => void];
@@ -17,7 +18,8 @@ export const useTerm = (): [Term, (term: string) => void] => {
     if (termParam && termParam !== term) {
       setTerm(termParam);
     }
-  }, [termParam, term, setTerm]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [termParam]);
 
   return [term, setTerm];
 };
