@@ -44,7 +44,6 @@ describe('transformers', () => {
       expect(events.length).toEqual(2);
       expect(maxHours).toEqual(9);
       expect(maxMinutes).toEqual(50);
-
       expect(events[0]).toEqual({
         title: 'ENGR 130',
         start: clearTimezone(new Date('September 1, 2021 09:00:00 GMT')),
