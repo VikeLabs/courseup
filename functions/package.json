@@ -31,7 +31,7 @@
     "ioredis": "^4.28.3",
     "object-hash": "^2.2.0",
     "rate-limiter-flexible": "^2.2.4",
-    "tough-cookie": "^4.0.0",
+    "tough-cookie": "^4.1.3",
     "tsoa": "^3.14.1",
     "typesaurus": "^7.2.0"
   },
