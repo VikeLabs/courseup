@@ -60,9 +60,5 @@ jobs:
         with:
           service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           export_default_credentials: true
-      - name: Generate latest course list
-        run: node ./scripts/generate-courses.js ${{ github.event.inputs.term }}
-      - name: Generate index for Algolia
-        run: node ./scripts/generate-algolia-index.js
-      - name: Upload index to Algolia
-        run: node ./scripts/upload-algolia-index.js
+      - name: Run Update Algolia Script
+        run: npx ts-node ./scripts/update-algolia-index.ts ${{ github.event.inputs.term }}
