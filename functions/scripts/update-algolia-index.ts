@@ -10,8 +10,8 @@ if (!/20\d{2}0[1,5,9]/.test(term.trim()))
 
 const BASE = 'https://courseup.vikelabs.ca/api';
 
-const client = algoliasearch('U3W5HDPJ0I', 'c82a986b1b3c68f894179887c29a809c');
-const index = client.initIndex('courseup_index');
+const client = algoliasearch('ALGOLIA_APP_ID', 'ALGOLIA_ADMIN_KEY');
+const index = client.initIndex('ALGOLIA_INDEX_NAME');
 
 interface Course {
   subject: string;
@@ -37,6 +37,8 @@ const getCourse = async (term: string, course: Course): Promise<Course> => {
 
 const main = async () => {
   const courses: Course[] = await getCourses(term);
+
+  console.log(`Found ${courses.length} courses for ${term}`);
 
   const values = courses.values();
 
