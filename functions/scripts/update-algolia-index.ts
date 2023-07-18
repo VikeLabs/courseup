@@ -10,8 +10,16 @@ if (!/20\d{2}0[1,5,9]/.test(term.trim()))
 
 const BASE = 'https://courseup.vikelabs.ca/api';
 
-const client = algoliasearch('ALGOLIA_APP_ID', 'ALGOLIA_ADMIN_KEY');
-const index = client.initIndex('ALGOLIA_INDEX_NAME');
+const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID;
+const ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY;
+const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
+
+if (!ALGOLIA_APP_ID || !ALGOLIA_ADMIN_KEY || !ALGOLIA_INDEX_NAME) {
+  throw Error('Algolia environment variables not found.');
+}
+
+const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
+const index = client.initIndex(ALGOLIA_INDEX_NAME);
 
 interface Course {
   subject: string;
