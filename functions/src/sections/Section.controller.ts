@@ -3,7 +3,11 @@ import { BannerClient } from '../banner/bannerClient';
 import { MeetingTime } from '../banner/banner';
 import { Term, Buildings } from '../constants';
 import { Seat, Section } from './Section.model';
-import { getSections, getSectionSeats } from './Section.service';
+import {
+  getProfessorRating,
+  getSections,
+  getSectionSeats,
+} from './Section.service';
 import { formatTime, formatBuilding } from '../utils';
 
 const banner = new BannerClient();
@@ -121,6 +125,21 @@ export class SectionsController extends Controller {
     const seats = getSectionSeats(term, subject.toUpperCase(), code);
     this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
     return seats;
+  }
+
+  @Response(404, 'Professor Rating Not Found')
+  @Get('prof/rating')
+  public async rating(@Query() professor: string): Promise<number> {
+    const rating = await getProfessorRating(professor);
+
+    if (!rating) {
+      this.setStatus(404);
+      return 0;
+    }
+
+    this.setHeader('Cache-Control', 'public, max-age=1800, s-maxage=900');
+
+    return rating;
   }
 
   // DO NOT INVOKE VIA THIS UNLESS RUNNING LOCALLY

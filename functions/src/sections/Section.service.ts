@@ -2,6 +2,7 @@ import { Seat, Section } from './Section.model';
 import { UVicCourseScraper } from '@vikelabs/uvic-course-scraper/dist/index';
 import { Buildings, Term } from '../constants';
 import { getCourse } from '../courses/Course.service';
+import got from 'got';
 
 export async function getSections(
   term: string,
@@ -61,4 +62,38 @@ export async function getSectionSeats(
     );
   }
   return [];
+}
+
+export async function getProfessorRating(prof: string): Promise<number | null> {
+  // strip out (P) from prof name
+  prof = prof.replace('(P)', '').trim();
+  const rating = (await got
+    .post('https://www.ratemyprofessors.com/graphql', {
+      json: {
+        query: `
+      {
+        newSearch {
+          teachers(query: { schoolID: "U2Nob29sLTE0ODg=", text: "${prof}" }) {
+            edges {
+              node {
+                avgRatingRounded
+              }
+            }
+          }
+        }
+      }
+    `,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic dGVzdDp0ZXN0',
+      },
+    })
+    .json()) as any;
+
+  if (rating.data.newSearch.teachers.edges.length === 0) {
+    return null;
+  }
+
+  return rating.data.newSearch.teachers.edges[0].node.avgRatingRounded;
 }

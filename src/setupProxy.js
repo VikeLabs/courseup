@@ -27,4 +27,16 @@ module.exports = function (app) {
           : undefined,
     })
   );
+
+  app.use(
+    '/rmp',
+    createProxyMiddleware({
+      target: 'https://www.ratemyprofessors.com/graphql/',
+      changeOrigin: true,
+      headers: {
+        Authorization: `Bearer dGVzdDp0ZXN0`,
+        'Content-Type': 'application/json',
+      },
+    })
+  );
 };
