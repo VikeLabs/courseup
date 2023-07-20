@@ -1052,6 +1052,38 @@
                 }
             }
         },
+        "/instructors/rating": {
+            "get": {
+                "operationId": "InstructorRating",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "number",
+                                    "format": "double"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Instructor Not Found"
+                    }
+                },
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "instructor",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
         "/sections/{term}": {
             "get": {
                 "operationId": "Sections",
@@ -1153,38 +1185,6 @@
                     {
                         "in": "query",
                         "name": "code",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ]
-            }
-        },
-        "/sections/prof/rating": {
-            "get": {
-                "operationId": "Rating",
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "number",
-                                    "format": "double"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Professor Rating Not Found"
-                    }
-                },
-                "security": [],
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "professor",
                         "required": true,
                         "schema": {
                             "type": "string"

@@ -110,3 +110,6 @@ const buildings: { [key: string]: string } = {
 };
 
 export const Buildings = new Map(Object.entries(buildings));
+
+export const RMP_GRAPHQL_URL = 'https://www.ratemyprofessors.com/graphql';
+export const RMP_UVIC_ID = 'U2Nob29sLTE0ODg=';

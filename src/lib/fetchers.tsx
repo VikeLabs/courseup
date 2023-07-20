@@ -372,6 +372,21 @@ export type UsePostEventProps = Omit<
 export const usePostEvent = (props: UsePostEventProps) =>
   useMutate<PostEventResponse, unknown, void, EventRequest, void>('POST', `/events`, props);
 
+export interface InstructorRatingQueryParams {
+  name: string;
+}
+
+export type InstructorRatingProps = Omit<GetProps<number, void, InstructorRatingQueryParams, void>, 'path'>;
+
+export const InstructorRating = (props: InstructorRatingProps) => (
+  <Get<number, void, InstructorRatingQueryParams, void> path={`/instructors/rating`} {...props} />
+);
+
+export type UseInstructorRatingProps = Omit<UseGetProps<number, void, InstructorRatingQueryParams, void>, 'path'>;
+
+export const useInstructorRating = (props: UseInstructorRatingProps) =>
+  useGet<number, void, InstructorRatingQueryParams, void>(`/instructors/rating`, props);
+
 export interface SectionsQueryParams {
   subject: string;
   code: string;
@@ -421,21 +436,6 @@ export const useSeats = ({ term, ...props }: UseSeatsProps) =>
     (paramsInPath: SeatsPathParams) => `/sections/${paramsInPath.term}/seats`,
     { pathParams: { term }, ...props }
   );
-
-export interface RatingQueryParams {
-  professor: string;
-}
-
-export type RatingProps = Omit<GetProps<number, void, RatingQueryParams, void>, 'path'>;
-
-export const Rating = (props: RatingProps) => (
-  <Get<number, void, RatingQueryParams, void> path={`/sections/prof/rating`} {...props} />
-);
-
-export type UseRatingProps = Omit<UseGetProps<number, void, RatingQueryParams, void>, 'path'>;
-
-export const useRating = (props: UseRatingProps) =>
-  useGet<number, void, RatingQueryParams, void>(`/sections/prof/rating`, props);
 
 export interface SubjectsPathParams {
   term: Term;

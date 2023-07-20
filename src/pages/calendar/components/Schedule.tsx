@@ -1,9 +1,11 @@
-import { Badge, Box, HStack, Table, Tbody, Td, Th, Thead, Tooltip, Tr } from '@chakra-ui/react';
+import { Badge, Box, HStack, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
-import { MeetingTimes, useRating } from 'lib/fetchers';
+import { MeetingTimes } from 'lib/fetchers';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import Location from 'common/location/Location';
+
+import { Instructor } from './Instructor';
 
 export interface ScheduleProps {
   /**
@@ -61,7 +63,7 @@ function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
                 <Td>
                   <HStack>
                     {m.instructors.map((instructor) => (
-                      <Instructor key={i} instructor={instructor} />
+                      <Instructor key={i} name={instructor} />
                     ))}
                   </HStack>
                 </Td>
@@ -73,33 +75,10 @@ function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
   );
 }
 
-export function Instructor({ instructor }: { instructor: string }): JSX.Element {
-  const { data: rating } = useRating({ queryParams: { professor: instructor } });
-
-  return (
-    <HStack>
-      <Box>{instructor}</Box>
-      <Badge colorScheme={rating && rating < 2 ? 'red' : rating && rating < 4 ? 'yellow' : 'green'}>
-        <Tooltip label="Ratings from RateMyProf.com" aria-label="Ratings from RateMyProf.com" hasArrow>
-          <Box
-            style={{
-              textDecoration: 'underline dotted',
-            }}
-          >
-            {rating?.toPrecision(2)}/5
-          </Box>
-        </Tooltip>
-      </Badge>
-    </HStack>
-  );
-}
-
 export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
   const smallScreen = useSmallScreen();
 
   const professor = meetingTimes.map((m) => m.instructors)[0];
-  const { data: rating } = useRating({ queryParams: { professor: professor[0] ?? '' } });
-  console.log(professor, rating);
 
   if (smallScreen) return <MobileSchedule meetingTimes={meetingTimes} />;
   return (
@@ -131,7 +110,7 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
             {m.instructors.length > 0 && (
               <Td>
                 {m.instructors.map((instructor) => (
-                  <Instructor instructor={instructor} />
+                  <Instructor name={instructor} />
                 ))}
               </Td>
             )}
