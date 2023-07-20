@@ -1,5 +1,5 @@
 import got from 'got';
-import { RMP_GRAPHQL_URL, RMP_UVIC_ID } from '../constants';
+import { RMP_AUTH_TOKEN, RMP_GRAPHQL_URL, RMP_UVIC_ID } from '../constants';
 
 const profRatingQuery = `
     query GetProfRating($schoolID: ID!, $name: String!) {
@@ -30,7 +30,7 @@ export async function getInstructorRating(
     },
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Basic dGVzdDp0ZXN0',
+      Authorization: `Basic ${RMP_AUTH_TOKEN}`,
     },
     responseType: 'json',
   })) as any;
