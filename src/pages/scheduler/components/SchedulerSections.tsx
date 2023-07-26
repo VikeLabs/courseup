@@ -223,12 +223,14 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
                   {seats.enrollment}/{seats.maxEnrollment}
                 </Badge>
               </HStack>
-              <HStack spacing={1}>
-                <Text>Waitlist</Text>
-                <Badge as="b" colorScheme={waitlistFull ? 'red' : 'green'}>
-                  {seats.waitCount}/{seats.waitCapacity}
-                </Badge>
-              </HStack>
+              {seats.waitCapacity && (
+                <HStack spacing={1}>
+                  <Text>Waitlist</Text>
+                  <Badge as="b" colorScheme={waitlistFull ? 'red' : 'green'}>
+                    {seats.waitCount}/{seats.waitCapacity}
+                  </Badge>
+                </HStack>
+              )}
             </HStack>
           )}
         </VStack>
