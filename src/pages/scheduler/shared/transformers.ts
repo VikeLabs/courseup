@@ -10,14 +10,23 @@ import {
 } from 'pages/scheduler/shared/parsers';
 import { CourseCalendarEvent, CustomEvent, Resource } from 'pages/scheduler/shared/types';
 
-import { fuzzySearchBuilding } from '../../../constants';
+import { fuzzySearchBuilding, fuzzySearchCache } from '../../../lib/utils/constants';
 
 const MAX_HOUR = 20;
 
 export const courseCalEventToResource = (course: CourseCalendarEvent, opacity = false): Resource => {
-  const locationAbbreviation = course.meetingTime.buildingAbbreviation
-    ? `${course.meetingTime.buildingAbbreviation} ${course.meetingTime.roomNumber}`
-    : `${fuzzySearchBuilding(course.meetingTime.where)} ${course.meetingTime.roomNumber}`;
+  let locationAbbreviation = '';
+  if (course.meetingTime.buildingAbbreviation) {
+    locationAbbreviation = `${course.meetingTime.buildingAbbreviation} ${course.meetingTime.roomNumber}`;
+  } else if (course.meetingTime.building) {
+    if (fuzzySearchCache[course.meetingTime.building]) {
+      locationAbbreviation = `${fuzzySearchCache[course.meetingTime.building]} ${course.meetingTime.roomNumber}`;
+    } else {
+      locationAbbreviation = `${fuzzySearchBuilding(course.meetingTime.building, fuzzySearchCache)} ${
+        course.meetingTime.roomNumber
+      }`;
+    }
+  }
 
   return {
     color: course.color,

@@ -10,7 +10,7 @@ import { SavedCourse } from 'lib/hooks/useSavedCourses';
 
 import Location from 'common/location/Location';
 
-import { fuzzySearchBuilding } from '../../../constants';
+import { fuzzySearchBuilding, fuzzySearchCache } from '../../../lib/utils/constants';
 
 export function SectionsCardContainer({
   course,
@@ -200,9 +200,16 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
         <VStack w="100%" alignItems="left" spacing="2" py="1.5">
           <Text as="strong">{sectionCode}</Text>
           {meetingTimes.map((m, key) => {
-            const locationAbbreviation = m.buildingAbbreviation
-              ? `${m.buildingAbbreviation} ${m.roomNumber}`
-              : `${fuzzySearchBuilding(m.where)} ${m.roomNumber}`;
+            let locationAbbreviation = '';
+            if (m.buildingAbbreviation) {
+              locationAbbreviation = `${m.buildingAbbreviation} ${m.roomNumber}`;
+            } else {
+              if (fuzzySearchCache[m.where]) {
+                locationAbbreviation = `${fuzzySearchCache[m.where]} ${m.roomNumber}`;
+              } else {
+                locationAbbreviation = `${fuzzySearchBuilding(m.where, fuzzySearchCache)} ${m.roomNumber}`;
+              }
+            }
             return (
               <Flex key={key} gap={2} flexDirection="row" flexWrap="wrap">
                 <HStack spacing={1}>
@@ -213,7 +220,7 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
                 {locationAbbreviation && (
                   <HStack spacing={1}>
                     <FaMapMarkerAlt />
-                    <Location alwaysShort short={`${locationAbbreviation}`} long={m.where} />
+                    <Location alwaysShort short={locationAbbreviation} long={m.where} />
                   </HStack>
                 )}
               </Flex>
