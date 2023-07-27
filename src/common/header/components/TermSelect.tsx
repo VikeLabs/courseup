@@ -44,7 +44,7 @@ export function TermSelect(): JSX.Element {
 
   let colorMap: { [key: string]: string } = {};
   colorMap['09'] = mode('green.500', 'green.300');
-  colorMap['09'] = mode('blue.500', 'blue.300');
+  colorMap['01'] = mode('blue.500', 'blue.300');
   colorMap['05'] = mode('yellow.500', 'yellow.300');
 
   // TODO: A "bug" in Firefox for macOS is preventing the `option` components
