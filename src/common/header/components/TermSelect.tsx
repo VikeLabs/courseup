@@ -44,13 +44,19 @@ export function TermSelect(): JSX.Element {
 
   let colorMap: { [key: string]: string } = {};
   colorMap['09'] = mode('green.500', 'green.300');
-  colorMap['01'] = mode('blue.500', 'blue.300');
+  colorMap['09'] = mode('blue.500', 'blue.300');
   colorMap['05'] = mode('yellow.500', 'yellow.300');
 
   // TODO: A "bug" in Firefox for macOS is preventing the `option` components
   // from inheriting the `Select` background color this leads to illegible text in the options.
   return (
-    <Select borderColor={colorMap[selectedTerm.slice(-2)]} value={selectedTerm} onChange={onChange} minW="150px">
+    <Select
+      borderColor={colorMap[selectedTerm.slice(-2)]}
+      value={selectedTerm}
+      onChange={onChange}
+      minW="150px"
+      borderWidth="2px"
+    >
       {terms.map((term, i) => {
         return (
           <option key={i} value={term}>
