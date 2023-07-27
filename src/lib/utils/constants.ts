@@ -96,7 +96,6 @@ export const Buildings = new Map(Object.entries(buildings));
 export const fuzzySearchCache: { [key: string]: string } = {};
 
 export function fuzzySearchBuilding(building: string, fuzzySearchCache: { [key: string]: string }) {
-  console.log('Called for ' + building);
   if (fuzzySearchCache[building]) {
     return fuzzySearchCache[building];
   } else {
@@ -106,7 +105,6 @@ export function fuzzySearchBuilding(building: string, fuzzySearchCache: { [key: 
 
     for (const [buildingName, abbreviation] of buildingsArray) {
       if (regex.test(buildingName)) {
-        console.log('Inserting ' + building);
         fuzzySearchCache[building] = abbreviation;
         return abbreviation;
       }
