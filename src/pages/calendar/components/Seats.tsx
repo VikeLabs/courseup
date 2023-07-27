@@ -39,24 +39,26 @@ export function SeatInfo({ seat }: SeatsProps): JSX.Element {
           <Progress isIndeterminate />
         )}
       </Box>
-      <Box width={{ base: '100%', md: '50%' }} ml={{ base: '0', md: '5' }} mt={{ base: 2, md: 0 }}>
-        <Flex justifyContent="space-between" my="1">
-          <Heading as="h6" size="sm">
-            Waitlist Seats
-          </Heading>
-          <Heading as="h6" size="sm">
-            {seat === undefined ? '' : `${seat.waitListSeats.actual} / ${seat.waitListSeats.capacity}`}
-          </Heading>
-        </Flex>
-        {seat !== undefined ? (
-          <Progress
-            value={waitlistPercent}
-            colorScheme={seat.waitListSeats.actual >= seat.waitListSeats.capacity ? 'red' : 'green'}
-          />
-        ) : (
-          <Progress isIndeterminate />
-        )}
-      </Box>
+      {seat.waitListSeats.capacity > 0 && (
+        <Box width={{ base: '100%', md: '50%' }} ml={{ base: '0', md: '5' }} mt={{ base: 2, md: 0 }}>
+          <Flex justifyContent="space-between" my="1">
+            <Heading as="h6" size="sm">
+              Waitlist Seats
+            </Heading>
+            <Heading as="h6" size="sm">
+              {seat === undefined ? '' : `${seat.waitListSeats.actual} / ${seat.waitListSeats.capacity}`}
+            </Heading>
+          </Flex>
+          {seat !== undefined ? (
+            <Progress
+              value={waitlistPercent}
+              colorScheme={seat.waitListSeats.actual >= seat.waitListSeats.capacity ? 'red' : 'green'}
+            />
+          ) : (
+            <Progress isIndeterminate />
+          )}
+        </Box>
+      )}
     </Flex>
   );
 }
