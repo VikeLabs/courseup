@@ -57,6 +57,7 @@ export function TermSelect(): JSX.Element {
       minW="150px"
       borderWidth="2px"
       _hover={{ bgColor: colorMap[selectedTerm.slice(-2)] }}
+      _focus={{ borderColor: colorMap[selectedTerm.slice(-2)] }}
     >
       {terms.map((term, i) => {
         return (
