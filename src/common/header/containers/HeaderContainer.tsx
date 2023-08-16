@@ -104,10 +104,12 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
               </Text>
             </LinkBox>
             <Search onChange={onSearchChange} />
-            <NavButtons />
-            <Spacer />
             <HStack>
               <TermSelect />
+            </HStack>
+            <Spacer />
+            <NavButtons />
+            <HStack>
               <MiscHeaderButtons />
             </HStack>
           </HStack>
