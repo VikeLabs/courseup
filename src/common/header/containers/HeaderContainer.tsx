@@ -67,7 +67,12 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
         <Text>⚠️ Mobile is currently in beta.</Text>,
         <Text>
           ⚠️ Want to build something like CourseUp? Come to the VikeLabs{' '}
-          <a href="https://vikelabs.ca/kickoff" style={{ textDecoration: 'underline' }} target="_blank" rel="noreferrer">
+          <a
+            href="https://vikelabs.ca/kickoff"
+            style={{ textDecoration: 'underline' }}
+            target="_blank"
+            rel="noreferrer"
+          >
             Kick-Off
           </a>{' '}
           on September 18th! 🚀
@@ -76,7 +81,12 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
     : [
         <Text>
           ⚠️ Want to build something like CourseUp? Come to the VikeLabs{' '}
-          <a href="https://vikelabs.ca/kickoff" style={{ textDecoration: 'underline' }} target="_blank" rel="noreferrer">
+          <a
+            href="https://vikelabs.ca/kickoff"
+            style={{ textDecoration: 'underline' }}
+            target="_blank"
+            rel="noreferrer"
+          >
             Kick-Off
           </a>{' '}
           on September 18th! 🚀
