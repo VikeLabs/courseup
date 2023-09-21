@@ -65,32 +65,8 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const tips: Array<JSX.Element> = smallScreen
     ? [
         <Text>⚠️ Mobile is currently in beta.</Text>,
-        <Text>
-          ⚠️ Want to build something like CourseUp? Come to the VikeLabs{' '}
-          <a
-            href="https://vikelabs.ca/kickoff"
-            style={{ textDecoration: 'underline' }}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Kick-Off
-          </a>{' '}
-          on September 18th! 🚀
-        </Text>,
       ]
     : [
-        <Text>
-          ⚠️ Want to build something like CourseUp? Come to the VikeLabs{' '}
-          <a
-            href="https://vikelabs.ca/kickoff"
-            style={{ textDecoration: 'underline' }}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Kick-Off
-          </a>{' '}
-          on September 18th! 🚀
-        </Text>,
         <Text>
           📅 The{' '}
           <Text as={Link} to="/calendar/202309" textDecoration="underline">
