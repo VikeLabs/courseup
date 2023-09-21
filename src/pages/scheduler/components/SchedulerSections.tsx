@@ -155,8 +155,8 @@ export const Option = forwardRef<OptionsProps, 'div'>(function Option(
     ?.trim()
     ?.replace(/^(.{200}).+/, '$1…');
 
-  const sectionFull = seats?.enrollment === seats?.maxEnrollment;
-  const waitlistFull = seats?.waitCount === seats?.waitCapacity;
+  const sectionFull = (seats?.enrollment ?? 0) >= (seats?.maxEnrollment ?? 0);
+  const waitlistFull = (seats?.waitCount ?? 0) >= (seats?.waitCapacity ?? 0);
 
   function Time({ time }: { time: string }) {
     const [start, end] = time.split('-');
