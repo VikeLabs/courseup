@@ -63,9 +63,7 @@ export interface HeaderProps {
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const smallScreen = useSmallScreen();
   const tips: Array<JSX.Element> = smallScreen
-    ? [
-        <Text>⚠️ Mobile is currently in beta.</Text>,
-      ]
+    ? [<Text>⚠️ Mobile is currently in beta.</Text>]
     : [
         <Text>
           📅 The{' '}
