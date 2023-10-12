@@ -20,25 +20,27 @@ type SubjectsListProps = {
 };
 
 export function SubjectsList({ term, subjects }: SubjectsListProps): JSX.Element {
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const pid = urlSearchParams.get('pid');
   const router = useRouter();
+  const { pid } = router.query;
+  const route = router.pathname.split('/')[1];
 
-  const route = location.pathname.split('/')[1];
+  console.log(route, term, subjects)
 
   return (
     <Collapse in style={{ overflowY: 'scroll' }}>
       {subjects.map((subject, index) => (
-        <LinkBox
-          as={Link}
+        <Link
           href={{
             pathname: `/${route}/${term}/${subject.subject}`,
             search: pid ? `?pid=${pid}` : undefined,
           }}
+          passHref
           key={index}
         >
-          <Card subject={subject.subject} title={subject.title} />
-        </LinkBox>
+          <LinkBox as="a">
+            <Card subject={subject.subject} title={subject.title} />
+          </LinkBox>
+        </Link>
       ))}
     </Collapse>
   );

@@ -12,6 +12,7 @@ const term = new Term().toString();
 export const main = async () => {
   console.log('upserting courses for term', term);
   await upsertCourses(term);
+  console.log('done upserting courses');
 
   // establish a session for each request
   const fc = makeFetchCookie(fetch) as Fetch;

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, LinkBox, HStack, Spacer, Collapse, useDisclosure, VStack, IconButton, Text } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -62,21 +64,26 @@ export interface HeaderProps {
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const smallScreen = useSmallScreen();
-  const tips: Array<JSX.Element> = smallScreen
-    ? [<Text key="1">⚠️ Mobile is currently in beta.</Text>]
-    : [
-        <Text key="1">
-          📅 The{' '}
-          <Text as={Link} href="/calendar/202209" textDecoration="underline">
-            Fall 2022
-          </Text>{' '}
-          and{' '}
-          <Text as={Link} href="/calendar/202301" textDecoration="underline">
-            Spring 2023
-          </Text>{' '}
-          calendars are now available. Happy scheduling!
-        </Text>,
-      ];
+  const [tips, setTips] = useState<Array<JSX.Element>>([]);
+
+  useEffect(() => {
+    setTips(smallScreen
+      ? [<Text key="1">⚠️ Mobile is currently in beta.</Text>]
+      : [
+          <Text key="1">
+            📅 The{' '}
+            <Text as={Link} href="/calendar/202209" textDecoration="underline">
+              Fall 2022
+            </Text>{' '}
+            and{' '}
+            <Text as={Link} href="/calendar/202301" textDecoration="underline">
+              Spring 2023
+            </Text>{' '}
+            calendars are now available. Happy scheduling!
+          </Text>,
+        ])
+  }, [smallScreen])
+  
   return (
     <>
       <Banner tips={tips} />

@@ -7,7 +7,7 @@ import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getCurrentTerm, getReadableTerm } from 'lib/utils/terms';
 
-const terms = ['202205', '202209', '202301'];
+const terms = ['202305', '202309', '202401'];
 
 export function TermSelect(): JSX.Element {
   const router = useRouter();

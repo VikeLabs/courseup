@@ -26,9 +26,11 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
   const createCard = (pid: string, code: string, subject: string, title: string) => {
     if (!scheduleMatch)
       return (
-        <LinkBox key={pid} as={Link} href={`/calendar/${term}/${subject}?pid=${pid}`} data-title={title}>
-          <Card title={title} pid={pid} subject={subject} code={code} />
+          <Link href={{ pathname: `/calendar/${term}/${subject}`, search: pid ? `?pid=${pid}` : undefined}} passHref>
+        <LinkBox as="a">
+            <Card title={title} pid={pid} subject={subject} code={code} />
         </LinkBox>
+          </Link>
       );
     else if (scheduleMatch) {
       return <Card key={pid} title={title} subject={subject} pid={pid} code={code} schedule />;

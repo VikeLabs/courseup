@@ -17,38 +17,40 @@ export async function getCourseDetailByPid(term: string, pid: string) {
 
 export async function upsertCourses(term: string) {
   const courses = await fetchCourses(term);
-  await Promise.all(
-    courses.map(async (course) => {
-      const details = await fetchCourseDetailsByPid(term, course.pid);
-      const data = {
-        pid: details.pid,
-        term,
-        subject: course.subject,
-        subjectDescription: details.subjectCode.description.replace(`(${course.subject})`, ''),
-        code: course.code,
-        title: details.title,
-        description: details.description,
-        dateStart: details.dateStart,
-        credits: details.credits,
-        hoursCatalog: details.hoursCatalog,
-        preAndCorequisites: details.preAndCorequisites,
-        preOrCorequisites: details.preOrCorequisites,
-        formally: details.formerlyNotesText,
-      };
-      await prisma.course.upsert({
-        where: {
-          // eslint-disable-next-line camelcase
-          term_subject_code: {
-            term: term,
-            subject: course.subject,
-            code: course.code,
-          },
+  console.log('fetched all courses', courses.length)
+  for (let i = 0; i<courses.length; i++) {
+    const course = courses[i];
+    console.log('upserting course', course.subject, course.code)
+    const details = await fetchCourseDetailsByPid(term, course.pid);
+    const data = {
+      pid: details.pid,
+      term,
+      subject: course.subject,
+      subjectDescription: details.subjectCode.description.replace(`(${course.subject})`, ''),
+      code: course.code,
+      title: details.title,
+      description: details.description,
+      dateStart: details.dateStart,
+      credits: details.credits,
+      hoursCatalog: details.hoursCatalog,
+      preAndCorequisites: details.preAndCorequisites,
+      preOrCorequisites: details.preOrCorequisites,
+      formally: details.formerlyNotesText,
+    };
+    await prisma.course.upsert({
+      where: {
+        // eslint-disable-next-line camelcase
+        term_subject_code: {
+          term: term,
+          subject: course.subject,
+          code: course.code,
         },
-        create: data,
-        update: data,
-      });
-    })
-  );
+      },
+      create: data,
+      update: data,
+    });
+  }
+  
 }
 
 export async function getFacultyIds(emails: string[]) {

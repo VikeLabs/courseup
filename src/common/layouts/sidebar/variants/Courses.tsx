@@ -172,14 +172,14 @@ export function Courses({ term }: Props): JSX.Element | null {
 
   const router = useRouter();
 
-  const isSubjectPath = router.asPath.split('/').length === 4;
+  const { subject } = router.query;
 
   return (
     <>
       {!smallScreen && <CoursesTopBar onFilter={handleFilter} />}
       {!loading && sortedSubjects && courses ? (
         <Box h="100%" overflowY="auto" w="100%">
-          {isSubjectPath ? (
+          {subject ? (
             <CoursesList term={term} courses={parsedCourses} />
           ) : (
             <SubjectsList term={term} subjects={sortedSubjects} />
