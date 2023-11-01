@@ -21,9 +21,17 @@ const SearchResults = ({ hits, term }: Props) => {
   const smallScreen = useSmallScreen();
   const navigate = useNavigate();
 
+  // Sort the search hits by subject, then course code
+  const sortedHits = hits.sort((a, b) => {
+    if (a.subject === b.subject) {
+      return a.code.localeCompare(b.code);
+    }
+    return a.subject.localeCompare(b.subject);
+  });
+
   return (
     <>
-      {hits.map(({ objectID, pid, subject, code, title }) =>
+      {sortedHits.map(({ objectID, pid, subject, code, title }) =>
         scheduleMatch ? (
           <Card subject={subject} title={title} pid={pid} code={code} schedule />
         ) : (
