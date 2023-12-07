@@ -1,3 +1,4 @@
+'use client';
 import React, { ChangeEvent } from 'react';
 
 import { FormControl, FormLabel, Input, InputGroup } from '@chakra-ui/react';
@@ -15,7 +16,6 @@ type SearchBoxProps = {
 };
 
 function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSubmit }: SearchBoxProps) {
-  const smallScreen = useSmallScreen();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     refine(e.currentTarget.value);
     onChange && onChange(e.currentTarget.value);
@@ -27,15 +27,17 @@ function SearchBox({ currentRefinement, isSearchStalled, refine, onChange, onSub
   };
 
   return (
-    <form noValidate action="" role="search" onSubmit={handleSubmit} style={{ width: smallScreen ? '100%' : '' }}>
+    <form noValidate action="" role="search" onSubmit={handleSubmit} style={{
+      width: '100%',
+    }}>
       <InputGroup>
         <FormControl id="courseSearch">
           <FormLabel margin={0}>
             <Input
               placeholder="Search for courses..."
               width={{ base: '100%', xl: 'md' }}
-              height={8}
-              fontSize={['sm']}
+              height={12}
+              fontSize={['lg', 'xl']}
               value={currentRefinement}
               onChange={handleChange}
               aria-label="Search for courses"

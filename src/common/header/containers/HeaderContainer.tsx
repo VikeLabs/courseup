@@ -87,39 +87,33 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   return (
     <>
       <Banner tips={tips} />
-      {smallScreen ? (
+      {/* {smallScreen ? (
         <>
           <MobileHeaderContainer onSearchChange={onSearchChange} />
         </>
-      ) : (
-        <Box position="sticky" top={0} data-testid="desktop-header">
-          <HStack as="header" px="8" boxShadow="md" minH="56px">
-            {/*
-              LOGO WILL GO HERE
-              <Image
-                src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
-                maxH="55px"
-                minW="7em"
-                alt="CourseUp"
-                color="transparent"
-                loading="lazy"
-                mr="2"
-              /> */}
-            <Text fontSize="xl" fontWeight="bold" mr="2" w="fit-content">
-              <Link href="/" tabIndex={0}>
-                CourseUp
-              </Link>
-            </Text>
-            <Search onChange={onSearchChange} />
-            <NavButtons />
-            <Spacer />
-            <HStack>
-              <TermSelect />
-              <MiscHeaderButtons />
-            </HStack>
-          </HStack>
-        </Box>
-      )}
+      ) : ( */}
+        <HStack position="sticky" top={0} px="8" boxShadow="md" minH="56px" w="full" bg="white" zIndex={10} justifyContent='space-between'>
+          {/*
+            LOGO WILL GO HERE
+            <Image
+              src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
+              maxH="55px"
+              minW="7em"
+              alt="CourseUp"
+              color="transparent"
+              loading="lazy"
+              mr="2"
+            /> */}
+          <Text fontSize="xl" fontWeight="bold" mr="2" w="fit-content">
+            <Link href="/" tabIndex={0}>
+              CourseUp
+            </Link>
+          </Text>
+          <NavButtons />
+          {/* <TermSelect /> */}
+          <MiscHeaderButtons />
+        </HStack>
+      {/* )} */}
     </>
-  );
+  )
 }

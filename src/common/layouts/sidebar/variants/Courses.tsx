@@ -80,7 +80,6 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
       top="0"
       m="0"
       boxShadow="md"
-      zIndex={10}
       borderBottomWidth="2px"
       borderBottomStyle="solid"
     >

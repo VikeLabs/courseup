@@ -67,7 +67,7 @@ export function Content({ term }: ContentProps): JSX.Element {
     >
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
 
-      <Box zIndex={60} pt={{ base: 0, sm: 4 }}>
+      <Box pt={{ base: 0, sm: 4 }}>
         {error && (
           <Alert status="error" my="5">
             <pre>{error.message}</pre>

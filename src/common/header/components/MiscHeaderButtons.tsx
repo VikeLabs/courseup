@@ -15,9 +15,9 @@ export function MiscHeaderButtons(): JSX.Element {
         as="a"
         href="https://github.com/VikeLabs/courseup"
         target="_blank"
-        size="md"
+        size="sm"
         colorScheme="none"
-        fontSize="2.87em"
+        fontSize="2em"
         isRound
         aria-label="Open GitHub Repo"
         color={mode('gray.400', 'gray.300')}
@@ -30,7 +30,7 @@ export function MiscHeaderButtons(): JSX.Element {
         aria-label="toggle dark mode"
         isRound
         icon={mode(<MoonIcon fontSize="1.3em" />, <SunIcon fontSize="1.3em" />)}
-        size="md"
+        size="sm"
         onClick={toggleColorMode}
         colorScheme={mode('purple', 'orange')}
       />

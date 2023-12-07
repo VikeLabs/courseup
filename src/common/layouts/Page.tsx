@@ -24,6 +24,7 @@ export type PageProps = {
   leftSidebar?: JSX.Element;
   rightSidebar?: JSX.Element;
   mobileSupport?: boolean;
+  query?: string;
 };
 
 export default function Page({
@@ -32,18 +33,14 @@ export default function Page({
   rightSidebar,
   mobileSupport,
   children,
+  query = '',
 }: PropsWithChildren<PageProps>) {
-  const [query, setQuery] = useState('');
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
   const smallScreen = useSmallScreen();
   const router = useRouter();
   const { term, slug } = router.query;
 
   const route = router.pathname.split('/')[1];
-
-  const handleSearchChange = (q: string) => {
-    setQuery(q);
-  };
 
   const [swiper, setSwiper] = useState<any>(null);
 
@@ -66,12 +63,12 @@ export default function Page({
   return (
     <>
       {!mobileSupport && <Mobile />}
-      <Flex h={smallScreen ? height : '100vh'} direction="column" overflowX="hidden" overflowY="hidden">
+      <Flex h={smallScreen ? height : '100vh'} direction="column">
         <Helmet>
           <title>{title}</title>
         </Helmet>
-        <Header onSearchChange={handleSearchChange} />
-        <Flex overflowY="auto" h="100%">
+        
+        <Flex h="100%">
           {smallScreen ? (
             <Swiper
               modules={[Pagination]}
@@ -102,7 +99,7 @@ export default function Page({
               ) : (
                 leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
               )}
-              <Flex overflowY="auto" zIndex={56} w="100%" justifyContent="center" boxShadow="md">
+              <Flex w="100%" justifyContent="center" boxShadow="md">
                 {children}
               </Flex>
               {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>}
