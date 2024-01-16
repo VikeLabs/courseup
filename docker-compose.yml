@@ -17,3 +17,14 @@ services:
       # of `/var/lib/postgresql/data/`, automatically the change will appear in `db-data`.
       # You don't need to create the `db-data` folder. Docker Compose will do it for you.
       # - ./tmp/postgresql/:/var/lib/postgresql/data/
+  wss:
+    container_name: wss
+    depends_on:
+      - postgresql
+    ports:
+      - 1738:1738
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: wss.Dockerfile
