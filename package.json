@@ -41,6 +41,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "wss": "cd lib/wss && npm run dev",
     "build": "next build",
     "start": "next start",
     "prebuild": "prisma generate",

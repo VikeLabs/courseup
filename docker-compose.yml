@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   # Container name "database"
   postgresql:
@@ -11,7 +11,8 @@ services:
       POSTGRES_USER: admin # The PostgreSQL user (useful to connect to the database)
       POSTGRES_PASSWORD: admin # The PostgreSQL password (useful to connect to the database)
       POSTGRES_DB: postgresql # The PostgreSQL default database (automatically created at first launch)
-    # volumes:
+    volumes:
+      - db-data:/var/lib/postgresql/data
       # the default PostgreSQL data path.
       # It means that every time the repository is modifying the data inside
       # of `/var/lib/postgresql/data/`, automatically the change will appear in `db-data`.
@@ -28,3 +29,5 @@ services:
     build:
       context: .
       dockerfile: wss.Dockerfile
+volumes:
+  db-data:
