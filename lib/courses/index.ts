@@ -17,10 +17,10 @@ export async function getCourseDetailByPid(term: string, pid: string) {
 
 export async function upsertCourses(term: string) {
   const courses = await fetchCourses(term);
-  console.log('fetched all courses', courses.length)
-  for (let i = 0; i<courses.length; i++) {
+  console.log('fetched all courses', courses.length);
+  for (let i = 0; i < courses.length; i++) {
     const course = courses[i];
-    console.log('upserting course', course.subject, course.code)
+    console.log('upserting course', course.subject, course.code);
     const details = await fetchCourseDetailsByPid(term, course.pid);
     const data = {
       pid: details.pid,
@@ -50,7 +50,6 @@ export async function upsertCourses(term: string) {
       update: data,
     });
   }
-  
 }
 
 export async function getFacultyIds(emails: string[]) {

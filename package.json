@@ -47,7 +47,12 @@
     "fetcher:generate": "restful-react import --file functions/build/swagger.json --output src/lib/fetchers.tsx",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "format": "prettier --write \"src/**/*.{t,j}s{x,}\""
+    "format": "prettier --write \"src/**/*.{t,j}s{x,}\"",
+    "wss": "cd lib/wss && npm run dev",
+    "db:launchStandalone": "docker start courseup-postgresql || echo Standalone courseup-postgresql container does not exist, creating a new one... && npm run db:buildStandalone",
+    "db:buildStandalone": "docker run -d -it -p 5432:5432 --name=courseup-postgresql --mount source=courseup_db-data,target=/var/lib/postgresql/data courseup-postgresql",
+    "db:stopStandalone": "docker stop courseup-postgresql",
+    "db:cleanupStandalone": "docker rm courseup-postgresql"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
