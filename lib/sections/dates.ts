@@ -24,16 +24,20 @@ export function meetingTimeDaysToString(meetingTime: MeetingTime): string {
 // the 'x' is a placeholder for the timezone.
 // forcing the timezone to be UTC+0
 const dateFormat = 'MMM dd, yyyy x';
+const dateFormatFallback = 'MM/dd/yyyy X'; // Format for dates coming from banner
 export function parseDate(ref: Date, date: string): Date {
-  return parse(date + ' +00', dateFormat, ref);
+  const parsed = parse(date + ' +00', dateFormat, ref);
+  return !isNaN(parsed.getTime()) ? parsed : parse(date + ' +00', dateFormatFallback, ref);
 }
 
 // eg. Apr 06, 2021 1420
 // the 'x' is a placeholder for the timezone.
 // forcing the timezone to be UTC+0
 const dateTimeFormat = 'MMM dd, yyyy HHmm x';
+const dateTimeFormatFallback = 'MM/dd/yyyy HHmm X'; // Format for datetimes coming from banner
 export function parseDateTime(ref: Date, datetime: string): Date {
-  return parse(datetime + ' +00', dateTimeFormat, ref);
+  const parsed = parse(datetime + ' +00', dateTimeFormat, ref);
+  return !isNaN(parsed.getTime()) ? parsed : parse(datetime + ' +00', dateTimeFormatFallback, ref);
 }
 
 const timeFormat = 'h:mm a';
