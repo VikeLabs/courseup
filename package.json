@@ -97,7 +97,7 @@
     "jest-fetch-mock": "^3.0.3",
     "node-fetch": "^2.6.7",
     "prettier": "^2.8.4",
-    "prisma": "^5.4.2",
+    "prisma": "^5.8.1",
     "react-share": "^4.4.0",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.1.0",

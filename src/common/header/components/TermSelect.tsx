@@ -3,38 +3,30 @@ import React from 'react';
 import { Select } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
+import { Term } from 'lib/fetchers';
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getCurrentTerm, getReadableTerm } from 'lib/utils/terms';
 
-const terms = ['202305', '202309', '202401'];
-
-export function TermSelect(): JSX.Element {
+export function TermSelect({
+  terms,
+  selectedTerm,
+  setTerm,
+}: {
+  terms: Term[];
+  selectedTerm: string;
+  setTerm: (term: Term) => void;
+}): JSX.Element {
   const router = useRouter();
-  const { subject, pid } = router.query;
-  const [selectedTerm, setTerm] = useSessionStorage('user:term', getCurrentTerm());
+  // const { subject, pid } = router.query;
+  // const [selectedTerm, setTerm] = useSessionStorage('user:term', getCurrentTerm());
   const mode = useDarkMode();
-
-  const calendarMatch = router.pathname.startsWith('/calendar');
-  const scheduleMatch = router.pathname.startsWith('/schedule');
-  const registrationMatch = router.pathname.startsWith('/registration');
-  const booklistMatch = router.pathname.startsWith('/booklist');
 
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const name = event.target.value;
-    if (name) {
-      setTerm(name);
-      if (calendarMatch) {
-        router.push(`/calendar/${name}/${subject || ''}${pid ? `?pid=${pid}` : ''}`);
-      } else if (scheduleMatch) {
-        router.push(`/schedule/${name}`);
-      } else if (registrationMatch) {
-        router.push(`/registration/${name}`);
-      } else if (booklistMatch) {
-        router.push(`/booklist/${name}`);
-      } else {
-        router.push(`/calendar/${name}`);
-      }
+    // if name exists and is not the same as the current term and is a valid Term type
+    if (name && name !== selectedTerm && terms.includes(name as Term)) {
+      setTerm(name as Term);
     }
   };
 
