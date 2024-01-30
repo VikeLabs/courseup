@@ -47,10 +47,10 @@ You will require the following to run this application locally:
    npx prisma migrate deploy && npx prisma db seed
    ```
 
-   - This will run migrations to apply the latest schema changes to the database as well as seed the database with the latest course data.
+   - This will run migrations to apply the latest schema changes to the database as well as seed the database with the latest term
 
 6. Start the application using `npm run dev` (or `yarn dev`)
-   - This will start the Next.js server.
+   - This will start the Next.js server in development mode.
 
 You will now be able to develop the application. Any changes made to the code will hot-reload upon save.
 
@@ -97,6 +97,32 @@ This will execute tests using Jest files with the extension `*.test*`.
 The website uses the npm package [`uvic-course-scraper`](https://github.com/VikeLabs/uvic-course-scraper). The package is a web-scraping tool made with TypeScript that is the main way of extracting data from UVic. It is contributed to and maintained by the original development team of `courseup`.
 
 The motivation of [`uvic-course-scraper`](https://github.com/VikeLabs/uvic-course-scraper) is to abstract away the parsing and scraping required to obtain data. It is not designed to do anything else.
+
+## Conversion to Next.js
+
+The original version of CourseUp is built using [CRA](https://create-react-app.dev/), with the backend being an Express server with a Firebase database. The plan is to convert the application to use Next.js with a PostgreSQL database.
+This will allow us to use [Prisma](https://www.prisma.io/) as an ORM, which will make it easier to interact with the database and make more complex queries.
+
+The branch `hello-nextjs` should be treated as the "main" branch, where all development for the migration is taking place. It is very much a work-in-progress right now, with a double stack (CRA + Next.js) setup.
+The `main` branch will be kept as-is for production release until the Next.js version is ready to be deployed.
+
+### CRA vs Next.js Folders
+
+Because of the double stack setup, there are a mix of folders:
+
+CRA + Firebase
+
+- `src` - CRA source code (React components, etc. - slowly being modified to work with Next.js)
+- `public` - CRA public folder (static assets, etc.)
+- `functions` - Firebase functions (backend)
+
+Next.js
+
+- `pages` - Next.js /pages router
+- `components` - Next.js components for new UI
+- `prisma` - Prisma schema, migrations, and seeders
+
+Other folders usually are shared between the two stacks, like `lib` and `public`
 
 ## VikeLabs
 
