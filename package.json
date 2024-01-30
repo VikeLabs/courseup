@@ -17,6 +17,7 @@
     "fetch-cookie": "^2.1.0",
     "firebase": "^8.9.1",
     "framer-motion": "^6.2.8",
+    "got": "^14.1.0",
     "history": "^5.0.0",
     "html2canvas": "^1.4.1",
     "luxon": "^2.2.0",
