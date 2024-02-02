@@ -8,7 +8,13 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
+    "@prisma/client": "^5.8.1",
+    "@vikelabs/uvic-course-scraper": "^1.0.0-alpha.9",
+    "fetch-cookie": "^2.1.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18"
@@ -22,7 +28,10 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
+    "prisma": "^5.8.1",
     "tailwindcss": "^3.3.0",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.7.0",
     "typescript": "^5"
   }
 }

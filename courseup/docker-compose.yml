@@ -1,0 +1,31 @@
+version: '3'
+services:
+  # Container name "database"
+  postgresql:
+    # Official Postgres image from DockerHub (we use the last version)
+    container_name: postgresql
+    build:
+      context: .
+      dockerfile: postgres.Dockerfile
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      # the default PostgreSQL data path.
+      # It means that every time the repository is modifying the data inside
+      # of `/var/lib/postgresql/data/`, automatically the change will appear in `db-data`.
+      # You don't need to create the `db-data` folder. Docker Compose will do it for you.
+      # - ./tmp/postgresql/:/var/lib/postgresql/data/
+  wss:
+    container_name: wss
+    depends_on:
+      - postgresql
+    ports:
+      - 1738:1738
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: wss.Dockerfile
+volumes:
+  db-data:
