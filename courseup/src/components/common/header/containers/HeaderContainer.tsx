@@ -24,7 +24,7 @@ export function HeaderContainer() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </div>
-          <ul tabIndex={0} className="menu dropdown-content bg-base-100 mt-3 p-0 shadow w-72">
+          <ul tabIndex={0} className="menu dropdown-content rounded-md bg-base-100 mt-3 p-0 shadow w-72">
             <NavButtons />
           </ul>
         </div>
