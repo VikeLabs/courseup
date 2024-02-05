@@ -4,13 +4,7 @@ import { MiscHeaderButtons } from '../components/MiscHeaderButtons';
 
 export function HeaderContainer() {
   return (
-    // <div className="navbar px-3 md:px-5 lg:px-8 w-full flex justify-between shadow-md">
-    //   <a href="/" className="text-xl font-bold">
-    //     CourseUp
-    //   </a>
-    //   <NavButtons />
-    // </div>
-    <div className="navbar flex items-center bg-base-100 shadow-md px-3 md:px-5 lg:px-8">
+    <div className="navbar flex items-center bg-base-100 shadow-md px-2 md:px-4 lg:px-5">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">

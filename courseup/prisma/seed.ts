@@ -7,7 +7,14 @@ import { range } from '../lib/fn';
 import { upsertSections } from '../lib/sections';
 import { Term } from '../lib/term';
 
-const term = new Term().toString();
+let term: string;
+if (process.argv[2]) {
+  console.log(`using term from input: ${process.argv[2]}`);
+  term = process.argv[2];
+} else {
+  console.log('no term provided, using current term');
+  term = new Term().toString();
+}
 
 export const main = async () => {
   console.log('upserting courses for term', term);

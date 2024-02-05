@@ -14,6 +14,7 @@
   "dependencies": {
     "@prisma/client": "^5.8.1",
     "@vikelabs/uvic-course-scraper": "^1.0.0-alpha.9",
+    "classnames": "^2.5.1",
     "fetch-cookie": "^2.1.0",
     "next": "^14.0.4",
     "react": "^18.2.0",
