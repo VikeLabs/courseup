@@ -21,6 +21,7 @@ export function NavButtons(): JSX.Element {
     const isActive = pathname.split('/')[1] === link.href;
     return (
       <li
+        key={link.href}
         className={classNames('text-xl font-semibold', 'md:hover:bg-gray-200 transition-all md:text-sm md:join-item', {
           'bg-gray-300': isActive,
         })}
