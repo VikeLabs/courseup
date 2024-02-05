@@ -93,6 +93,25 @@ export async function getCourses(term: string): Promise<CourseResponse[]> {
   return courses;
 }
 
+export async function getCoursesBySubject(term: string, subject: string): Promise<CourseResponse[]> {
+  const courses = await prisma.course.findMany({
+    where: {
+      term: term,
+      subject: subject,
+    },
+    select: {
+      pid: true,
+      title: true,
+      subject: true,
+      code: true,
+    },
+    orderBy: {
+      code: 'asc',
+    },
+  });
+  return courses;
+}
+
 export async function getCoursesInSession(term: string): Promise<CourseResponse[]> {
   const courses = await prisma.$queryRaw<Pick<Course, 'id' | 'title' | 'subject' | 'code' | 'pid'>[]>`
     SELECT DISTINCT "Course".id,"Course".title,subject,code,pid FROM "Course" 

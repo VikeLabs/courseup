@@ -64,7 +64,10 @@ export async function getTerms(fc: Fetch, offset: number, max: number): Promise<
 
   const url = `${BANNER_SSB_GET_TERMS}?${urlParams}`;
 
+  console.log(url);
+
   const response = await fc(url);
+  console.log(response);
   const json = (await response.json()) as TermsResponse[];
   return json;
 }
