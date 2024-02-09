@@ -22,16 +22,21 @@ export function NavButtons(): JSX.Element {
     return (
       <li
         key={link.href}
-        className={classNames('text-xl font-semibold', 'md:hover:bg-gray-200 transition-all md:text-sm md:join-item', {
-          'bg-gray-300': isActive,
-        })}
+        className={classNames(
+          'btn text-xl font-semibold btn-ghost',
+          'transition-all md:text-sm',
+          'px-0 md:px-4 items-start md:items-center',
+          {
+            'outline outline-2': isActive,
+          }
+        )}
       >
-        <Link className="flex items-center gap-1 md:py-1 md:px-4" href={`/${link.href}`}>
+        <Link className="flex items-center gap-1 md:py-1 px-0" href={`/${link.href}`}>
           {link.icon}
           {link.label}
         </Link>
       </li>
     );
   });
-  return <>{links}</>;
+  return <div className={classNames('flex flex-col md:flex-row', 'gap-3 md:gap-7')}>{links}</div>;
 }
