@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 export function HeaderContainer({ setBlurBackground }: any) {
   const unblurOverride = useRef(false);
+  const unblurListenerAdded = useRef(false);
 
   return (
     <div className="navbar flex items-center bg-base-100 shadow-md px-2 md:px-4 lg:px-5">
@@ -27,11 +28,15 @@ export function HeaderContainer({ setBlurBackground }: any) {
                 if (!unblurOverride.current) {
                   setBlurBackground((prev: Boolean) => !prev);
                   document.removeEventListener('click', unBlurBackground);
+                  unblurListenerAdded.current = false;
                 } else {
                   unblurOverride.current = false;
                 }
               };
-              document.addEventListener('click', unBlurBackground);
+              if (!unblurListenerAdded.current) {
+                document.addEventListener('click', unBlurBackground);
+                unblurListenerAdded.current = true;
+              }
             }}
           >
             <svg
