@@ -31,7 +31,7 @@ export function NavButtons(): JSX.Element {
           }
         )}
       >
-        <Link className="flex items-center gap-1 md:py-1 px-0" href={`/${link.href}`}>
+        <Link className={classNames('flex w-full items-center gap-1 md:py-1', 'pl-2 md:px-0')} href={`/${link.href}`}>
           {link.icon}
           {link.label}
         </Link>

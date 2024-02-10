@@ -1,6 +1,7 @@
 import { Term } from '../../../../../lib/term';
 import { NavButtons } from '../components/NavButtons';
 import { MiscHeaderButtons } from '../components/MiscHeaderButtons';
+import classNames from 'classnames';
 
 export function HeaderContainer() {
   return (
@@ -18,7 +19,11 @@ export function HeaderContainer() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </div>
-          <ul tabIndex={0} className="menu dropdown-content rounded-md bg-base-100 mt-3 p-0 shadow w-72">
+          {/* Mobile Navbar Menu */}
+          <ul
+            tabIndex={0}
+            className={classNames('menu dropdown-content rounded-md bg-base-100 p-0 shadow w-72', 'px-4 py-4 mt-4')}
+          >
             <NavButtons />
           </ul>
         </div>
