@@ -9,7 +9,7 @@ export default function Content({ children }: any): React.ReactNode {
 
   return (
     <>
-      <Header setBlurBackground={setBlurBackground} />
+      <Header blurBackground={blurBackground} setBlurBackground={setBlurBackground} />
       <div className={classNames('pointer-events-none transition-all', { 'blur-sm': blurBackground })}>{children}</div>
     </>
   );
