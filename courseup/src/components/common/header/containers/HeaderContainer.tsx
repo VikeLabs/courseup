@@ -5,7 +5,7 @@ import MobileNavbar from '../components/MobileNavbar';
 
 export function HeaderContainer({ blurBackground, setBlurBackground }: any) {
   return (
-    <div className="navbar flex items-center bg-base-100 shadow-md px-2 md:px-4 lg:px-5">
+    <div className="navbar flex items-center bg-base-300 shadow-md px-2 md:px-4 lg:px-5">
       <div className="navbar-start">
         <MobileNavbar blurBackground={blurBackground} setBlurBackground={setBlurBackground} />
         <a href="/" className="text-xl font-bold">

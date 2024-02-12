@@ -12,8 +12,6 @@ export function MobileNavbar({ blurBackground, setBlurBackground }: any): React.
   const unblurListenerAdded = useRef(false);
 
   const onClick = (): void => {
-    // TODO: also, the outline of the menu still isn't really that visible (that was the point of adding blur)
-    // TODO: need to find some way to make it look a little bit better and add some contrast
     const unBlurBackground = () => {
       if (!blurBackground) {
         if (!menuOverrride.current) {
@@ -38,10 +36,12 @@ export function MobileNavbar({ blurBackground, setBlurBackground }: any): React.
       <ul
         tabIndex={0}
         className={classNames(
-          'menu dropdown-content rounded-md bg-base-100 p-0 shadow w-72',
+          'menu dropdown-content rounded-md bg-base-300 p-0 shadow w-72',
           'px-4 py-4 mt-4',
           'z-10',
-          { hidden: !blurBackground }
+          {
+            hidden: !blurBackground,
+          }
         )}
         onClick={() => (menuOverrride.current = true)}
       >
