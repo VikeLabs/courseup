@@ -6,6 +6,7 @@ import {
   MdOutlineConfirmationNumber,
   MdOutlineLibraryBooks,
   MdOutlineTravelExplore,
+  MdOutlineHome,
 } from 'react-icons/md';
 import classNames from 'classnames';
 import { usePathname, useRouter } from 'next/navigation';
@@ -13,6 +14,7 @@ import { usePathname, useRouter } from 'next/navigation';
 export function NavButtons(): JSX.Element {
   const pathname = usePathname();
   const links = [
+    { href: '', label: 'Home', icon: <MdOutlineHome /> },
     { href: 'explore', label: 'Explore Courses', icon: <MdOutlineTravelExplore /> },
     { href: 'scheduler', label: 'Timetables', icon: <MdOutlineCalendarViewMonth /> },
     { href: 'register', label: 'Register', icon: <MdOutlineConfirmationNumber /> },
