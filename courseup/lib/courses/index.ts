@@ -68,7 +68,7 @@ export async function getCourseIds(courses: { subject: string; code: string }[],
   return mapping;
 }
 
-type CourseResponse = {
+export type CourseResponse = {
   pid: string;
   title: string;
   subject: string;
