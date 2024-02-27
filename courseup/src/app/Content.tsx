@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Header } from 'components/common/header';
 import classNames from 'classnames';
 
-export default function Content({ children }: any): React.ReactNode {
+export default function Content({ children }: Readonly<{ children: React.ReactNode }>): React.ReactNode {
   const [blurBackground, setBlurBackground] = useState(false);
 
   return (

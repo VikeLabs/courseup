@@ -6,8 +6,9 @@ import { ThreeLines, Close } from './svg/svg';
 
 import { NavButtons } from '../NavButtons';
 import classNames from 'classnames';
+import { HeaderContainerProps } from '../../containers/HeaderContainer';
 
-export function MobileNavbar({ blurBackground, setBlurBackground }: any): React.ReactNode {
+export function MobileNavbar({ blurBackground, setBlurBackground }: HeaderContainerProps): React.ReactNode {
   const menuOverrride = useRef(false);
   const unblurListenerAdded = useRef(false);
 

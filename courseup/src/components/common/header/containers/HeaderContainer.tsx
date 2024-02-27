@@ -3,7 +3,12 @@ import { NavButtons } from '../components/NavButtons';
 import { MiscHeaderButtons } from '../components/MiscHeaderButtons';
 import MobileNavbar from '../components/MobileNavbar';
 
-export function HeaderContainer({ blurBackground, setBlurBackground }: any) {
+export interface HeaderContainerProps {
+  blurBackground: Readonly<boolean>;
+  setBlurBackground: (prev: boolean) => void;
+}
+
+export function HeaderContainer({ blurBackground, setBlurBackground }: HeaderContainerProps): React.ReactNode {
   return (
     <div className="navbar flex items-center bg-base-300 shadow-md px-2 md:px-4 lg:px-5">
       <div className="navbar-start">
