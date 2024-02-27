@@ -1,9 +1,11 @@
-import { Badge, Box, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Badge, Box, HStack, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 import { MeetingTimes } from 'lib/fetchers';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
 import Location from 'common/location/Location';
+
+import { Instructor } from './Instructor';
 
 export interface ScheduleProps {
   /**
@@ -55,9 +57,18 @@ function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
           <Th scope="row" pl={2}>
             Instructors
           </Th>
-          {meetingTimes.map((m, i) => (
-            <Td key={i}>{m.instructors}</Td>
-          ))}
+          {meetingTimes.map(
+            (m, i) =>
+              m.instructors.length > 0 && (
+                <Td>
+                  <HStack>
+                    {m.instructors.map((instructor) => (
+                      <Instructor key={i} name={instructor} />
+                    ))}
+                  </HStack>
+                </Td>
+              )
+          )}
         </Tr>
       </Table>
     </Box>
@@ -66,6 +77,9 @@ function MobileSchedule({ meetingTimes }: ScheduleProps): JSX.Element {
 
 export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
   const smallScreen = useSmallScreen();
+
+  const professor = meetingTimes.map((m) => m.instructors)[0];
+
   if (smallScreen) return <MobileSchedule meetingTimes={meetingTimes} />;
   return (
     <Table variant="striped" size="sm">
@@ -77,7 +91,7 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
           {/* TODO: verify if we can safely exclude this for most cases */}
           {/* <Th>Schedule Type</Th> */}
           <Th>Location</Th>
-          <Th>Instructors</Th>
+          {professor.length > 0 && <Th>Instructors</Th>}
         </Tr>
       </Thead>
       <Tbody>
@@ -93,7 +107,13 @@ export function Schedule({ meetingTimes }: ScheduleProps): JSX.Element {
             <Td>
               <Location short={`${m.buildingAbbreviation} ${m.roomNumber}`} long={m.where} />
             </Td>
-            <Td>{m.instructors.join(', ')}</Td>
+            {m.instructors.length > 0 && (
+              <Td>
+                {m.instructors.map((instructor) => (
+                  <Instructor name={instructor} />
+                ))}
+              </Td>
+            )}
           </Tr>
         ))}
       </Tbody>
