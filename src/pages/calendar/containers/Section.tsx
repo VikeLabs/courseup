@@ -39,7 +39,7 @@ export function SectionsContainer({ term, subject, code }: SectionsContainerProp
     data: sections,
     loading,
     error: sectionsError,
-  } = useSections({ term, queryParams: { subject, code, v9: true } });
+  } = useSections({ term, queryParams: { subject, code, v9: false } });
   const mode = useDarkMode();
 
   const seats = useMemo(() => {

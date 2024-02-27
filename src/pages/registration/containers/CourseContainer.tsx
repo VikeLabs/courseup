@@ -31,7 +31,7 @@ export function CourseContainer({ course }: Props) {
 
   const { data: sections, loading } = useSections({
     term: termType,
-    queryParams: { subject: course.subject, code: course.code, v9: true },
+    queryParams: { subject: course.subject, code: course.code, v9: false },
   });
   const seats = useMemo(() => {
     return sections
