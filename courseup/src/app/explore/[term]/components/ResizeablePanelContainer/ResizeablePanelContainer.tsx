@@ -16,18 +16,17 @@ export function ResizeablePanelContainer({
   children,
 }: ResizeablePanelContainerProps): React.ReactNode {
   return (
-    <PanelGroup direction="vertical">
-      <div className="flex gap-2">
+    <PanelGroup direction="horizontal">
+      <div className="flex gap-2 my-0 py-0">
         <Panel order={1} minSize={mainPanelMinSize} defaultSize={mainPanelDefaultSize}>
           {mainPanelContent}
         </Panel>
         {/*
-        TODO: the hover effect isn't working and there's a weird visual bug on load
-        TODO: the resize handle isn't the proper full height either
+        TODO: the hover color change effect isn't working (not just on handles but on like everything)
         */}
-        <PanelResizeHandle className="w-1.5 bg-base-300 rounded-full mx-3 hover:bg-base-content" />
-        <Panel order={2}>
-          <div className="w-full py-2">{children}</div>
+        <PanelResizeHandle className="w-1.5 bg-base-300 hover:bg-base-content rounded-full mx-3" />
+        <Panel order={2} defaultSize={100 - (mainPanelDefaultSize || mainPanelDefaultSize || 0)}>
+          <div className="w-full py-0">{children}</div>
         </Panel>
       </div>
     </PanelGroup>
