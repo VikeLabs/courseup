@@ -7,6 +7,7 @@ import { ThreeLines, Close } from './svg/svg';
 import { NavButtons } from '../NavButtons';
 import classNames from 'classnames';
 import { HeaderContainerProps } from '../../containers/HeaderContainer';
+import { isMobile } from '@lib/utils/mobile';
 
 export function MobileNavbar({ blurBackground, setBlurBackground }: HeaderContainerProps): React.ReactNode {
   const menuOverrride = useRef(false);
@@ -30,7 +31,7 @@ export function MobileNavbar({ blurBackground, setBlurBackground }: HeaderContai
   };
 
   return (
-    <div className={classNames('dropdown', { 'dropdown-open': blurBackground })}>
+    <div className={classNames('dropdown', { 'not:md:dropdown-open': blurBackground })}>
       <div tabIndex={0} role="button" className="btn btn-ghost md:hidden" onClick={onClick}>
         <DropdownButon active={blurBackground} />
       </div>
