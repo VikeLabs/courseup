@@ -10,7 +10,13 @@ export default function Content({ children }: Readonly<{ children: React.ReactNo
   return (
     <>
       <Header blurBackground={blurBackground} setBlurBackground={setBlurBackground} />
-      <div className={classNames('pointer-events-none transition-all', { 'blur-md': blurBackground })}>{children}</div>
+      {blurBackground ? (
+        <div className={classNames('pointer-events-none transition-all', { 'blur-md': blurBackground })}>
+          {children}
+        </div>
+      ) : (
+        <div>{children}</div>
+      )}
     </>
   );
 }
