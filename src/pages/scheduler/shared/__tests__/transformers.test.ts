@@ -14,6 +14,8 @@ describe('transformers', () => {
       sectionCode: 'A01',
       subject: 'ENGR',
       textColor: undefined,
+      dashedBorder: undefined,
+      locationAbbreviation: '',
     };
 
     const baseMeetingTime: MeetingTimes = {
