@@ -1,6 +1,6 @@
 import { getReadableTerm } from '@lib/utils/terms';
 
-export function TermSelectBox({ params: { term } }: { params: { term: string } }): React.ReactNode {
+export function TermSelectBox({ params: { term } }: { params: { term: string } }): JSX.Element {
   //TODO: refactor this entire thing into a select box
   return (
     <h1>

@@ -6,7 +6,7 @@ export default async function TermLayout({
   children,
   params,
 }: Readonly<{
-  children: React.ReactNode;
+  children: JSX.Element;
   params: { term: string };
 }>) {
   const subjects = await getSubjects(params.term);
