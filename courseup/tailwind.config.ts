@@ -16,22 +16,33 @@ const config: Config = {
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
   //TODO: we need to figure out colors to use for daisyui theming (this one is randomly generated)
-  // daisyui: {
-  //   themes: [
-  //     {
-  //       courseup: {
-  //         primary: '#00b3ff',
-  //         secondary: '#f9aa00',
-  //         accent: '#00e9c2',
-  //         neutral: '#1f1a29',
-  //         'base-100': '#fffdd7',
-  //         info: '#00f2ff',
-  //         success: '#7cb900',
-  //         warning: '#f36500',
-  //         error: '#e70048',
-  //       },
-  //     },
-  //   ],
-  // },
+  daisyui: {
+    themes: [
+      {
+        courseupLight: {
+          primary: '#00c0c3',
+          secondary: '#00a37d',
+          accent: '#00c46b',
+          neutral: '#1d1b10',
+          'base-100': '#fff5fb',
+          info: '#009adf',
+          success: '#51a500',
+          warning: '#ffb042',
+          error: '#f5003d',
+        },
+        courseupDark: {
+          primary: '#008aff',
+          secondary: '#2300ff',
+          accent: '#009a00',
+          neutral: '#B0C3DA',
+          'base-100': '#151922',
+          info: '#0089de',
+          success: '#00ab57',
+          warning: '#e0ae00',
+          error: '#ff7e96',
+        },
+      },
+    ],
+  },
 };
 export default config;
