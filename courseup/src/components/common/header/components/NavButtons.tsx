@@ -25,7 +25,7 @@ export function NavButtons(): JSX.Element {
       <li
         key={link.href}
         className={classNames(
-          'btn text-xl font-semibold btn-ghost',
+          'btn btn-sm text-xl font-semibold btn-ghost',
           'transition-all md:text-sm',
           'px-0 md:px-4 items-start md:items-center',
           {

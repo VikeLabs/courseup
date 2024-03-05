@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { HeaderContainerProps } from '../../containers/HeaderContainer';
 import { isMobile } from '@lib/utils/mobile';
 
-export function MobileNavbar({ blurBackground, setBlurBackground }: HeaderContainerProps): React.ReactNode {
+export function MobileNavbar({ blurBackground, setBlurBackground }: HeaderContainerProps): JSX.Element {
   const menuOverrride = useRef(false);
   const unblurListenerAdded = useRef(false);
 
