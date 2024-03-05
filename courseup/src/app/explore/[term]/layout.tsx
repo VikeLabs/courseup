@@ -13,6 +13,7 @@ export default async function TermLayout({
   return (
     <main>
       <ResizeablePanelContainer
+        panelId="exploreTermContainer"
         mainPanelContent={
           <div className="flex-col">
             <TermSelectBox params={params} />
@@ -28,6 +29,7 @@ export default async function TermLayout({
           </div>
         }
         mainPanelMinSize={12}
+        mainPanelMaxSize={30}
         mainPanelDefaultSize={12}
       >
         {children}

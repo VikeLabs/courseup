@@ -12,6 +12,7 @@ export default async function SubjectLayout({
   return (
     <main>
       <ResizeablePanelContainer
+        panelId="exploreSubjectContainer"
         mainPanelContent={
           <ul className="w-1/4 min-w-40">
             {courses.map((course) => (
@@ -28,6 +29,7 @@ export default async function SubjectLayout({
           </ul>
         }
         mainPanelMinSize={12}
+        mainPanelMaxSize={30}
         mainPanelDefaultSize={20}
       >
         {children}

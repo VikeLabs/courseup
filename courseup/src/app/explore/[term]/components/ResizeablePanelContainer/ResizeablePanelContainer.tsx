@@ -4,20 +4,24 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 
 export interface ResizeablePanelContainerProps {
   mainPanelMinSize?: number;
+  mainPanelMaxSize?: number;
   mainPanelDefaultSize?: number;
   mainPanelContent: Readonly<React.ReactNode>;
+  panelId: string;
   children: Readonly<React.ReactNode>;
 }
 
 export function ResizeablePanelContainer({
   mainPanelMinSize,
+  mainPanelMaxSize,
   mainPanelDefaultSize,
   mainPanelContent,
+  panelId,
   children,
 }: ResizeablePanelContainerProps): JSX.Element {
   return (
-    <PanelGroup direction="horizontal">
-      <Panel order={1} minSize={mainPanelMinSize} defaultSize={mainPanelDefaultSize}>
+    <PanelGroup direction="horizontal" autoSaveId={panelId}>
+      <Panel order={1} minSize={mainPanelMinSize} maxSize={mainPanelMaxSize} defaultSize={mainPanelDefaultSize}>
         {mainPanelContent}
       </Panel>
       {/*

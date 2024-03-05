@@ -31,7 +31,9 @@ export function SelectDropdown({ label }: SelectDropdownProps): React.ReactNode 
     const separationRegex = /(?<=oklch\()(\d+\.\d*)(\s)(\d+\.\d*)(\s)(\d+\.\d*)/;
     const oklch = separationRegex.exec(rawBackgroundColor);
 
-    el?.remove();
+    //TODO: this isn't working yet, best idea atm is to override
+    // background-color and use some rgb value so we don't have to do any conversion or weird hacks
+    // el?.remove();
   }, []);
 
   return (
