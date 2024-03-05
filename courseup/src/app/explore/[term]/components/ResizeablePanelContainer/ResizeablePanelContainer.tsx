@@ -21,7 +21,9 @@ export function ResizeablePanelContainer({
         {mainPanelContent}
       </Panel>
       {/*
-        TODO: the hover color change effect isn't working (not just on handles but on like everything)
+        TODO: make the hover effect have a wider area and add a
+        different color for when its being dragged
+        would also be nice to have a fade transition between the colors
         */}
       <PanelResizeHandle className="w-1.5 bg-base-300 hover:bg-base-content active:bg-base-content transition-all duration-200 rounded-full mx-3" />
       <Panel order={2} defaultSize={100 - (mainPanelDefaultSize || mainPanelDefaultSize || 0)}>
