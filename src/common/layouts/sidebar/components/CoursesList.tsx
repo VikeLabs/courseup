@@ -1,6 +1,7 @@
 import { LinkBox } from '@chakra-ui/layout';
 import { SlideFade } from '@chakra-ui/transition';
-import { Link, useMatch, useParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { Course } from 'lib/fetchers';
 
@@ -14,19 +15,22 @@ type CoursesListProps = {
 };
 
 export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | null {
-  const { subject } = useParams();
-  const scheduleMatch = useMatch('/scheduler/*');
+  const router = useRouter();
+  const { subject } = router.query;
+  const scheduleMatch = router.pathname.startsWith('/scheduler');
 
-  if (!courses || !courses[subject]) {
+  if (!courses || !courses[subject as string]) {
     return null;
   }
 
   const createCard = (pid: string, code: string, subject: string, title: string) => {
     if (!scheduleMatch)
       return (
-        <LinkBox key={pid} as={Link} to={`/calendar/${term}/${subject}?pid=${pid}`} data-title={title}>
-          <Card title={title} pid={pid} subject={subject} code={code} />
+          <Link href={{ pathname: `/calendar/${term}/${subject}`, search: pid ? `?pid=${pid}` : undefined}} passHref>
+        <LinkBox as="a">
+            <Card title={title} pid={pid} subject={subject} code={code} />
         </LinkBox>
+          </Link>
       );
     else if (scheduleMatch) {
       return <Card key={pid} title={title} subject={subject} pid={pid} code={code} schedule />;
@@ -35,7 +39,7 @@ export function CoursesList({ term, courses }: CoursesListProps): JSX.Element | 
 
   return (
     <SlideFade in>
-      {courses[subject].map(({ pid, code, subject, title }) => createCard(pid, code, subject, title))}
+      {courses[subject as string].map(({ pid, code, subject, title }) => createCard(pid, code, subject, title))}
     </SlideFade>
   );
 }

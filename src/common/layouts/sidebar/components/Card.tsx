@@ -2,7 +2,8 @@ import { PropsWithChildren, useCallback } from 'react';
 
 import { ChevronRightIcon, AddIcon, InfoOutlineIcon, CloseIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, IconButton } from '@chakra-ui/react';
-import { Link, useParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
@@ -45,23 +46,24 @@ export interface CardProps {
 }
 
 export function Card({ subject, title, code, selected, schedule, pid }: PropsWithChildren<CardProps>): JSX.Element {
-  let { term } = useParams();
+  const router = useRouter();
+  const { term } = router.query;
   const mode = useDarkMode();
 
   const { addCourse, deleteCourse, contains } = useSavedCourses();
 
-  const courseIsSaved = pid && contains(pid, term);
+  const courseIsSaved = pid && contains(pid, typeof term === 'string' ? term : term![0]);
 
   const handleBookmarkClick = useCallback(() => {
     if (code && pid) {
       if (!courseIsSaved) {
-        addCourse(term, subject, code, pid);
+        addCourse(typeof term === 'string' ? term : term![0], subject, code, pid);
       } else {
         deleteCourse({
           subject,
           code,
           pid,
-          term,
+          term: typeof term === 'string' ? term : term![0],
         });
       }
     }
@@ -96,7 +98,7 @@ export function Card({ subject, title, code, selected, schedule, pid }: PropsWit
             size="xs"
             colorScheme="blue"
             as={Link}
-            to={`/calendar/${term}/${subject}?pid=${pid}`}
+            href={`/calendar/${term}/${subject}?pid=${pid}`}
           />
         </VStack>
       );

@@ -17,7 +17,6 @@ export function TopBar({ children, buttonName, ...buttonProps }: PropsWithChildr
       top="0"
       m="0"
       boxShadow="md"
-      zIndex={10}
       borderBottomWidth="2px"
       borderBottomStyle="solid"
     >

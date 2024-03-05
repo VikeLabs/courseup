@@ -16,7 +16,6 @@ import {
 } from '@chakra-ui/react';
 import { Helmet } from 'react-helmet';
 import { MdDelete, MdAdd } from 'react-icons/md';
-import { useSearchParams } from 'react-router-dom';
 
 import { Term, useGetCourse } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -39,7 +38,7 @@ export type ContentProps = {
  * Primary UI component for content
  */
 export function Content({ term }: ContentProps): JSX.Element {
-  const [searchParams] = useSearchParams();
+  const searchParams = new URLSearchParams(window.location.search);
   const toast = useToast();
   const { data, loading, error } = useGetCourse({ term, pid: searchParams.get('pid') || '' });
   const smallScreen = useSmallScreen();
@@ -68,7 +67,7 @@ export function Content({ term }: ContentProps): JSX.Element {
     >
       <Helmet>{data && <title>{`${data.subject} ${data.code} · Calendar`}</title>}</Helmet>
 
-      <Box zIndex={60} pt={{ base: 0, sm: 4 }}>
+      <Box pt={{ base: 0, sm: 4 }}>
         {error && (
           <Alert status="error" my="5">
             <pre>{error.message}</pre>

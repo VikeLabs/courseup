@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Box, Flex, VStack, Text, Skeleton, IconButton, Collapse, HStack } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import Link from 'next/link';
 
 import { CourseDetails, Term, TimetableCourse, useGetCourse } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -98,13 +98,7 @@ function TopRow({
         <Box w="20%" background={color} mr="10px" />
         <Flex direction="row" alignItems="center" justifyContent="space-between" w="100%">
           <Flex flexGrow={1}>
-            <VStack
-              alignItems="start"
-              spacing="0"
-              py="2"
-              as={RouterLink}
-              to={`/calendar/${term}/${subject}?pid=${pid}`}
-            >
+            <VStack alignItems="start" spacing="0" py="2" as={Link} href={`/calendar/${term}/${subject}?pid=${pid}`}>
               <Text fontSize="lg" fontWeight="bold" tabIndex={0}>
                 {subject} {code}
               </Text>

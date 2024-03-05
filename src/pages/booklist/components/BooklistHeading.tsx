@@ -1,10 +1,11 @@
 import { Container, Divider, Flex, Heading, Text, Center, HStack } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { useRouter } from 'next/router';
 
 import { getReadableTerm } from 'lib/utils/terms';
 
 export function BooklistHeading() {
-  const { term } = useParams();
+  const router = useRouter();
+  const term = router.query.term as string;
   const readableTerm = getReadableTerm(term);
 
   return (

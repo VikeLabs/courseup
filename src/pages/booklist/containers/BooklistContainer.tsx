@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 
 import { Box } from '@chakra-ui/layout';
 import { Center, Spinner, Text, VStack } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { useRouter } from 'next/router';
 
 import { Term } from 'lib/fetchers';
 import { logEvent } from 'lib/utils/logEvent';
 import { getReadableTerm } from 'lib/utils/terms';
 
-import { Page } from 'common/layouts/Page';
+import Page from 'common/layouts/Page';
 import { NotFound } from 'common/notFound/NotFound';
 
 import { BooklistHeading } from '../components/BooklistHeading';
@@ -16,7 +16,8 @@ import { TextbookCard } from '../components/TextbookCard';
 import { useTextbooks } from '../hooks/useTextbooks';
 
 export function BooklistContainer(): JSX.Element | null {
-  const { term } = useParams();
+  const router = useRouter();
+  const term = router.query.term as string;
 
   const textbooks = useTextbooks(term as Term);
   useEffect(() => {

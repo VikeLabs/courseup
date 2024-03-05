@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon, CloseIcon } from '@chakra-ui/icons';
 import { Box, Text, Flex, VStack, Checkbox, IconButton, BackgroundProps, Skeleton } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import { Term, useGetCourse } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -113,7 +113,7 @@ export function CourseCard({
                 textDecoration: 'underline',
               }}
               as={Link}
-              to={`/calendar/${term}/${subject}?pid=${pid}`}
+              href={`/calendar/${term}/${subject}?pid=${pid}`}
             >
               <Text fontSize="lg" fontWeight="bold" tabIndex={0}>
                 {subject} {code}

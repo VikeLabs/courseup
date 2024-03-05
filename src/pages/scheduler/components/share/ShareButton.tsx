@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { Button, Icon, IconButton, useDisclosure } from '@chakra-ui/react';
 import html2canvas from 'html2canvas';
+import { useRouter } from 'next/router';
 import { FiCamera } from 'react-icons/fi';
 import { IoShareOutline } from 'react-icons/io5';
-import { useMatch } from 'react-router';
 
 import { CreateTimetableResponse, Term, TimetableCourse, TimetableReturn, useCreateTimetable } from 'lib/fetchers';
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
@@ -15,7 +15,11 @@ import ScreenshotModal from '../ScreenshotModal';
 import ShareTimetableModal from './ShareTimetableModal';
 
 export function ShareButton({ term, disabled }: { term: Term; disabled: boolean }): JSX.Element | null {
-  const importPage = useMatch('/s/:slug');
+  const router = useRouter();
+  // Matches `/s/:slug` and extracts the slug (import page)
+  const match = router.asPath.match(/\/s\/(.*)/);
+  const slug = match ? match[1] : '';
+
   const smallScreen = useSmallScreen();
 
   // opens the share timetable modal
@@ -115,7 +119,7 @@ export function ShareButton({ term, disabled }: { term: Term; disabled: boolean 
     });
   };
 
-  return importPage ? (
+  return slug ? (
     <></>
   ) : (
     <>

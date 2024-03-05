@@ -1,11 +1,10 @@
 import { Box, Center, VStack } from '@chakra-ui/react';
-import { useParams } from 'react-router';
-import { useSearchParams } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 import { Term } from 'lib/fetchers';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
-import { Page } from 'common/layouts/Page';
+import Page from 'common/layouts/Page';
 import { Courses, CoursesTopBar } from 'common/layouts/sidebar/variants/Courses';
 
 import { Landing } from 'pages/home/containers/Landing';
@@ -13,9 +12,10 @@ import { Landing } from 'pages/home/containers/Landing';
 import { Content } from './containers/Content';
 
 export function Calendar(): JSX.Element {
-  const { term } = useParams();
-  const [searchParams] = useSearchParams();
   const smallScreen = useSmallScreen();
+  const router = useRouter();
+  const { term } = router.query;
+  const searchParams = new URLSearchParams(router.asPath.split(/\?/)[1]);
 
   const pid = searchParams.get('pid');
 
