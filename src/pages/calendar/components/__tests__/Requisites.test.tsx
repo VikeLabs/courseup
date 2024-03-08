@@ -22,13 +22,13 @@ const reqNested = {
 
 describe('DisplayRequirement', () => {
   it('should render the string requirement', () => {
-    mockUseSessionStorage.mockReturnValue(['202305', mockSetTerm]);
+    mockUseSessionStorage.mockReturnValue(['202309', mockSetTerm]);
     render(DisplayRequirement(reqString, 1));
     expect(screen.getByTitle('Requisite')).toHaveTextContent('with a minimum GPA of 3.0 over all courses');
   });
 
   it('should render the course requirement', () => {
-    mockUseSessionStorage.mockReturnValue(['202305', mockSetTerm]);
+    mockUseSessionStorage.mockReturnValue(['202309', mockSetTerm]);
     render(
       DisplayRequirement(
         {
@@ -42,7 +42,7 @@ describe('DisplayRequirement', () => {
   });
 
   it('should render the nested requirement', () => {
-    mockUseSessionStorage.mockReturnValue(['202305', mockSetTerm]);
+    mockUseSessionStorage.mockReturnValue(['202309', mockSetTerm]);
     render(DisplayRequirement(reqNested, 1));
     expect(screen.getByTitle(`${reqNested.reqList[0].subject} ${reqNested.reqList[0].code}`)).toHaveTextContent(
       'PHYS 111'

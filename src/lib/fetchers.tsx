@@ -22,7 +22,8 @@ export type Term =
   | '202301'
   | '202305'
   | '202309'
-  | '202401';
+  | '202401'
+  | '202405';
 
 export interface NestedPreCoRequisites {
   reqList?: (NestedPreCoRequisites | KualiCourse | string)[];
