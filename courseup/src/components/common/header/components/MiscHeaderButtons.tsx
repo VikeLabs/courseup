@@ -6,7 +6,6 @@ import { AiFillGithub } from 'react-icons/ai';
 export function MiscHeaderButtons(): JSX.Element {
   const [isdark, setIsdark] = useState<boolean>(JSON.parse(localStorage.getItem('isdark') || 'false'));
   useEffect(() => {
-    console.log(localStorage.getItem('isdark'));
     localStorage.setItem('isdark', JSON.stringify(isdark));
   }, [isdark]);
 
