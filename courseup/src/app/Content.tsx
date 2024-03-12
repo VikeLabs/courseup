@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import BlurContext from 'components/common/BlurContext';
 
 export default function Content({ children }: Readonly<{ children: React.ReactNode }>): React.ReactNode {
-  const [blurBackground, setBlurBackground] = useState(false);
+  const [blurBackground, setBlurBackground] = useState<boolean>(false);
 
   return (
     <>

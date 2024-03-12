@@ -18,7 +18,9 @@ export function MiscHeaderButtons(): JSX.Element {
           className="theme-controller"
           value="courseupDark"
           checked={isdark}
-          onChange={() => setIsdark(!isdark)}
+          onChange={() => {
+            setIsdark((prev) => !prev);
+          }}
         />
 
         {/* sun icon */}

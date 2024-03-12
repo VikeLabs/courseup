@@ -28,6 +28,8 @@ export function SelectDropdown({ label }: SelectDropdownProps): React.ReactNode 
     backgroundPosition: 'calc(100% - 20px) calc(1px + 50%), calc(100% - 16.1px) calc(1px + 50%)',
   };
 
+  // TODO: need to find a way to force a rerender after theme toggle is changed (chevron doesn't update)
+
   useEffect(() => {
     const el = document.getElementById(id);
     const rawBackgroundColor = window.getComputedStyle(el as Element).getPropertyValue('color');
