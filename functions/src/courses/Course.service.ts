@@ -201,30 +201,40 @@ export class CoursesService {
    * NOTE: the assumption is this won't be run very often.
    * @param term
    */
-  static async populateCourses(term: Term): Promise<void> {
-    console.log('Fetching courses...');
-    const courses = await CoursesService.getCourses(term);
+  static async populateCourses(term: Term, cookie: string): Promise<void> {
     // get all sections for a given term and course
     console.log('Fetching sections...');
 
-    const sections = await mapLimit<
-      Course,
-      {
-        subject: string;
-        code: string;
-        title: string;
-        pid: string;
-        sections: ClassScheduleListing[];
-      },
-      Error
-    >(courses, 50, async ({ subject, code, title, pid }) => ({
-      // makes iterating over the data easier if we have the subject and code.
-      sections: await getSections(term, subject, code),
-      subject,
-      code,
-      title,
-      pid,
-    }));
+    const querySize = 2; // Set to arbitrarily large number (5 digits) to get all sections
+    const resp = await fetch(`https://banner.uvic.ca/StudentRegistrationSsb/ssb/searchResults/searchResults?txt_term=${term}&pageMaxSize=${querySize}&sortColumn=subjectDescription&sortDirection=asc`, {
+      headers: {
+        'Accept': 'application/json',
+        'Cookie': `JSESSIONID=${cookie}`,
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache'
+      }
+    });
+
+    await fetch("https://banner.uvic.ca/StudentRegistrationSsb/logoff", {
+      "credentials": "include",
+      headers: {
+        "Accept": "text/html",
+        'Cookie': `JSESSIONID=${cookie}`,
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache',
+      }
+    });
+    console.log(`Logout status: ${resp.status}`)
+
+    const jsn = await resp.json() as BannerApiResponse
+    if (!jsn || jsn.success == false || !jsn.data || jsn.data.length == 0)
+      throw Error(`Banner API request failed: ${JSON.stringify(jsn)}`);
+
+
+    console.log(JSON.stringify(jsn))
+
+    /*
+    const sections: Section[] = {};
 
     console.log(
       `Inserting ${sections.length} records as batch operation into Firestore...`
@@ -281,6 +291,7 @@ export class CoursesService {
     }
     console.log(`Flushing remaining courses...`);
     await commit();
+    */
   }
 }
 
