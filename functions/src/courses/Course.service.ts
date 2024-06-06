@@ -14,6 +14,114 @@ import {
 import { getSections } from '../sections/Section.service';
 import { mapLimit } from 'async';
 
+export interface BannerApiResponse {
+  success: boolean;
+  totalCount: number;
+  data: Class[];
+  pageOffset: number;
+  pageMaxSize: number;
+  sectionsFetchedCount: number;
+  pathMode: string;
+  searchResultsConfigs: null;
+  ztcEncodedImage: null;
+  allowHoldRegistration: null;
+}
+
+export interface Class {
+  id: number;
+  term: string;
+  termDesc: string;
+  courseReferenceNumber: string;
+  partOfTerm: string;
+  courseNumber: string;
+  subject: string;
+  subjectDescription: string;
+  sequenceNumber: string;
+  campusDescription: "Main" | "Off Campus" | "Online" | "Victoria, BC";
+  scheduleTypeDescription: "Gradable Lab" | "Lab" | "Lecture" | "Lecture Topic" | "Tutorial";
+  courseTitle: string;
+  creditHours: number | null;
+  maximumEnrollment: number;
+  enrollment: number;
+  seatsAvailable: number;
+  waitCapacity: number;
+  waitCount: number;
+  waitAvailable: number;
+  crossList: null;
+  crossListCapacity: null;
+  crossListCount: null;
+  crossListAvailable: null;
+  creditHourHigh: number | null;
+  creditHourLow: number;
+  creditHourIndicator: "OR" | "TO" | null;
+  openSection: boolean;
+  linkIdentifier: null | string;
+  isSectionLinked: boolean;
+  subjectCourse: string;
+  faculty: Faculty[];
+  meetingsFaculty: MeetingsFaculty[];
+  reservedSeatSummary: null;
+  sectionAttributes: null;
+  instructionalMethod: "F2F" | "OL";
+  instructionalMethodDescription: "Face-to-face" | "Fully Online";
+}
+
+export interface Faculty {
+  bannerId: string;
+  category: null;
+  class: string;
+  courseReferenceNumber: string;
+  displayName: string;
+  emailAddress: string;
+  primaryIndicator: boolean;
+  term: string;
+}
+
+export interface MeetingsFaculty {
+  category: string;
+  class: string;
+  courseReferenceNumber: string;
+  faculty: any[];
+  meetingTime: MeetingTime;
+  term: string;
+}
+
+export interface MeetingTime {
+  beginTime: null | string;
+  building: null | string;
+  buildingDescription: null | string;
+  campus: "M" | null;
+  campusDescription: "Main" | "Off Campus" | "Online" | "Victoria, BC" | null;
+  category: string;
+  class: string;
+  courseReferenceNumber: string;
+  creditHourSession: number;
+  endDate: string;
+  endTime: null | string;
+  friday: boolean;
+  hoursWeek: number;
+  meetingScheduleType: "GLB" | "L01" | "LAB" | "LEC" | "TUT";
+  meetingType: "CLAS";
+  meetingTypeDescription: "Every Week",
+  monday: boolean;
+  room: null | string;
+  saturday: boolean;
+  startDate: string;
+  sunday: boolean;
+  term: string;
+  thursday: boolean;
+  tuesday: boolean;
+  wednesday: boolean;
+}
+
+type Section = {
+  subject: string;
+  code: string;
+  title: string;
+  pid: string;
+  sections: ClassScheduleListing[];
+};
+
 export class CoursesService {
   /**
    *
