@@ -8,6 +8,9 @@ on:
       term:
         description: Academic term to execute descript with. ie 202009, 202001
         required: true
+      cookie:
+        description: JSESSIONID Cookie for the '/StudentRegistrationSsb' Path
+        required: true
 jobs:
   lint:
     name: Lint
@@ -41,6 +44,7 @@ jobs:
       run:
         working-directory: ./functions
     steps:
+      - run: echo "::add-mask::${{ github.event.inputs.cookie }}"
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -61,4 +65,4 @@ jobs:
           service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           export_default_credentials: true
       - name: Execute Script
-        run: npm run db:populate ${{ github.event.inputs.term }}
+        run: npm run db:populate "${{ github.event.inputs.term }}" "${{ github.event.inputs.cookie }}"
