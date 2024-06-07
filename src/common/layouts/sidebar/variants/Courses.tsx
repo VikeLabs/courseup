@@ -18,8 +18,8 @@ import {
   Switch,
   Skeleton,
 } from '@chakra-ui/react';
-import { Route, Routes, useLocation, useParams } from 'react-router';
-import { Link, useSearchParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { Course, Term, useGetCourse, useGetCourses, useSubjects } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -55,20 +55,23 @@ export interface TopBarProps {
 
 export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
   const { isOpen, onToggle } = useDisclosure();
-  const { term } = useParams();
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
+  // const { term } = useParams();
+  // const location = useLocation();
+  // const [searchParams] = useSearchParams();
   const mode = useDarkMode();
   const smallScreen = useSmallScreen();
 
-  const subject = location.pathname.split('/')[3];
-  const route = location.pathname.split('/')[1];
+  const router = useRouter();
+  const { term, pid } = router.query;
 
-  const pid = searchParams.get('pid');
+  //https://courseup.vikelabs.ca/calendar/202401/ACAN?pid=ByS23Pp7E
+
+  const subject = router.asPath.split('/')[3];
+  const route = router.asPath.split('/')[1];
 
   const { data, loading } = useGetCourse({
     term: (term || getCurrentTerm()) as Term,
-    pid: searchParams.get('pid') || '',
+    pid: typeof pid === 'string' ? pid : '',
   });
 
   return (
@@ -77,7 +80,6 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
       top="0"
       m="0"
       boxShadow="md"
-      zIndex={10}
       borderBottomWidth="2px"
       borderBottomStyle="solid"
     >
@@ -88,14 +90,14 @@ export function CoursesTopBar({ onFilter }: TopBarProps): JSX.Element {
               as={Link}
               // Persisting the PID messes with the mobile flow
               // Since we can't show the sidebar and course info at the same time on mobile, only persist PID on large screens
-              to={{ pathname: `/${route}/${term}/`, search: pid && !smallScreen ? `?pid=${pid}` : undefined }}
+              href={`/${route}/${term}/${pid && !smallScreen ? `?pid=${pid}` : undefined}`}
             >
               Subjects
             </BreadcrumbLink>
           </BreadcrumbItem>
           {smallScreen && pid && subject ? (
             <BreadcrumbItem>
-              <BreadcrumbLink as={Link} to={{ pathname: `/${route}/${term}/${subject}` }}>
+              <BreadcrumbLink as={Link} href={`/${route}/${term}/${subject}`}>
                 {subject}
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -167,19 +169,20 @@ export function Courses({ term }: Props): JSX.Element | null {
     setFilter(s);
   };
 
+  const router = useRouter();
+
+  const { subject } = router.query;
+
   return (
     <>
       {!smallScreen && <CoursesTopBar onFilter={handleFilter} />}
       {!loading && sortedSubjects && courses ? (
         <Box h="100%" overflowY="auto" w="100%">
-          <Routes>
-            <Route path="/">
-              <SubjectsList term={term} subjects={sortedSubjects} />
-            </Route>
-            <Route path=":subject">
-              <CoursesList term={term} courses={parsedCourses} />
-            </Route>
-          </Routes>
+          {subject ? (
+            <CoursesList term={term} courses={parsedCourses} />
+          ) : (
+            <SubjectsList term={term} subjects={sortedSubjects} />
+          )}
         </Box>
       ) : (
         <Center h="100%" w="100%">

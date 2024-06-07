@@ -10,7 +10,7 @@ import {
   Badge,
   Flex,
 } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { useRouter } from 'next/router';
 
 import { MeetingTimes, Seat } from 'lib/fetchers';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
@@ -135,7 +135,8 @@ export function SectionInfo({
     }
   }
 
-  const { term } = useParams();
+  const router = useRouter();
+  const { term } = router.query;
   const mode = useDarkMode();
 
   return (

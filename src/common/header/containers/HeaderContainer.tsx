@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
+
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, LinkBox, HStack, Spacer, Collapse, useDisclosure, VStack, IconButton, Text } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 
@@ -22,7 +24,7 @@ export function MobileHeaderContainer({ onSearchChange }: HeaderProps): JSX.Elem
       data-testid="mobile-header"
     >
       <HStack justifyContent="space-between" minH="48px">
-        <LinkBox as={Link} to="/" tabIndex={0} w="fit-content" mr="2">
+        <LinkBox as={Link} href="/" tabIndex={0} w="fit-content" mr="2">
           {/*
           LOGO WILL GO HERE
           <Image
@@ -62,57 +64,56 @@ export interface HeaderProps {
  */
 export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
   const smallScreen = useSmallScreen();
-  const tips: Array<JSX.Element> = smallScreen
-    ? [<Text key="1">⚠️ Mobile is currently in beta.</Text>]
-    : [
-        <Text key="1">
-          📅 The{' '}
-          <Text as={Link} to="/calendar/202209" textDecoration="underline">
-            Fall 2022
-          </Text>{' '}
-          and{' '}
-          <Text as={Link} to="/calendar/202301" textDecoration="underline">
-            Spring 2023
-          </Text>{' '}
-          calendars are now available. Happy scheduling!
-        </Text>,
-      ];
+  const [tips, setTips] = useState<Array<JSX.Element>>([]);
+
+  useEffect(() => {
+    setTips(smallScreen
+      ? [<Text key="1">⚠️ Mobile is currently in beta.</Text>]
+      : [
+          <Text key="1">
+            📅 The{' '}
+            <Text as={Link} href="/calendar/202209" textDecoration="underline">
+              Fall 2022
+            </Text>{' '}
+            and{' '}
+            <Text as={Link} href="/calendar/202301" textDecoration="underline">
+              Spring 2023
+            </Text>{' '}
+            calendars are now available. Happy scheduling!
+          </Text>,
+        ])
+  }, [smallScreen])
+  
   return (
     <>
       <Banner tips={tips} />
-      {smallScreen ? (
+      {/* {smallScreen ? (
         <>
           <MobileHeaderContainer onSearchChange={onSearchChange} />
         </>
-      ) : (
-        <Box position="sticky" top={0} data-testid="desktop-header">
-          <HStack as="header" px="8" boxShadow="md" minH="56px">
-            <LinkBox as={Link} to="/" tabIndex={0} w="fit-content">
-              {/*
-              LOGO WILL GO HERE
-              <Image
-                src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
-                maxH="55px"
-                minW="7em"
-                alt="CourseUp"
-                color="transparent"
-                loading="lazy"
-                mr="2"
-              /> */}
-              <Text fontSize="xl" fontWeight="bold" mr="2">
-                CourseUp
-              </Text>
-            </LinkBox>
-            <Search onChange={onSearchChange} />
-            <NavButtons />
-            <Spacer />
-            <HStack>
-              <TermSelect />
-              <MiscHeaderButtons />
-            </HStack>
-          </HStack>
-        </Box>
-      )}
+      ) : ( */}
+        <HStack position="sticky" top={0} px="8" boxShadow="md" minH="56px" w="full" bg="white" zIndex={10} justifyContent='space-between'>
+          {/*
+            LOGO WILL GO HERE
+            <Image
+              src={process.env.PUBLIC_URL + '/assets/logo/svg/CourseUp-Wordmark.svg'}
+              maxH="55px"
+              minW="7em"
+              alt="CourseUp"
+              color="transparent"
+              loading="lazy"
+              mr="2"
+            /> */}
+          <Text fontSize="xl" fontWeight="bold" mr="2" w="fit-content">
+            <Link href="/" tabIndex={0}>
+              CourseUp
+            </Link>
+          </Text>
+          <NavButtons />
+          {/* <TermSelect /> */}
+          <MiscHeaderButtons />
+        </HStack>
+      {/* )} */}
     </>
-  );
+  )
 }

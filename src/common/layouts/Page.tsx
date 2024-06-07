@@ -1,8 +1,8 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
 
 import { Flex } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { Helmet } from 'react-helmet';
-import { useLocation, useMatch, useNavigate, useParams } from 'react-router';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -10,6 +10,7 @@ import 'swiper/css/pagination';
 
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
+import { useWindowSize } from 'lib/hooks/useWindowSize';
 import { isMobile } from 'lib/utils/mobile';
 import { getCurrentTerm } from 'lib/utils/terms';
 
@@ -18,26 +19,28 @@ import { Sidebar } from 'common/layouts/sidebar/containers/Sidebar';
 import { SearchResults } from 'common/layouts/sidebar/variants/SearchResults';
 import { Mobile } from 'common/mobile';
 
-type Props = {
+export type PageProps = {
   title?: string;
   leftSidebar?: JSX.Element;
   rightSidebar?: JSX.Element;
   mobileSupport?: boolean;
+  query?: string;
 };
 
-export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children }: PropsWithChildren<Props>) {
-  const [query, setQuery] = useState('');
+export default function Page({
+  title,
+  leftSidebar,
+  rightSidebar,
+  mobileSupport,
+  children,
+  query = '',
+}: PropsWithChildren<PageProps>) {
   const [savedTerm, setSavedTerm] = useSessionStorage('user:term', getCurrentTerm());
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { term, slug } = useParams();
   const smallScreen = useSmallScreen();
+  const router = useRouter();
+  const { term, slug } = router.query;
 
-  const route = location.pathname.split('/')[1];
-
-  const handleSearchChange = (q: string) => {
-    setQuery(q);
-  };
+  const route = router.pathname.split('/')[1];
 
   const [swiper, setSwiper] = useState<any>(null);
 
@@ -47,24 +50,25 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
     }
   }, [query, swiper]);
 
-  const contest = useMatch('/contest');
   useEffect(() => {
     if (term) {
-      setSavedTerm(term);
-    } else if (route && !slug && !contest) {
-      navigate(`/${route}/${savedTerm}`, { replace: true });
+      setSavedTerm(typeof term === 'string' ? term : term[0]);
+    } else if (route && !slug) {
+      router.push(`/${route}/${savedTerm}`, undefined, { shallow: true });
     }
-  }, [navigate, route, savedTerm, setSavedTerm, term, slug, contest]);
+  }, [route, savedTerm, setSavedTerm, term, slug, router]);
+
+  const { height } = useWindowSize();
 
   return (
     <>
       {!mobileSupport && <Mobile />}
-      <Flex h={smallScreen ? window.innerHeight : '100vh'} direction="column" overflowX="hidden" overflowY="hidden">
+      <Flex h={smallScreen ? height : '100vh'} direction="column">
         <Helmet>
           <title>{title}</title>
         </Helmet>
-        <Header onSearchChange={handleSearchChange} />
-        <Flex overflowY="auto" h="100%">
+        
+        <Flex h="100%">
           {smallScreen ? (
             <Swiper
               modules={[Pagination]}
@@ -95,7 +99,7 @@ export function Page({ title, leftSidebar, rightSidebar, mobileSupport, children
               ) : (
                 leftSidebar && <Sidebar>{leftSidebar}</Sidebar>
               )}
-              <Flex overflowY="auto" zIndex={56} w="100%" justifyContent="center" boxShadow="md">
+              <Flex w="100%" justifyContent="center" boxShadow="md">
                 {children}
               </Flex>
               {rightSidebar && !isMobile && <Sidebar>{rightSidebar}</Sidebar>}

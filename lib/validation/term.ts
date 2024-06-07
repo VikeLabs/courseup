@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 export const Term = z.enum([
+  '202309',
+  '202305',
   '202301',
   '202209',
   '202205',

@@ -1,67 +1,44 @@
+'use client';
 import { Button, ButtonGroup, VStack, Divider } from '@chakra-ui/react';
-import { useNavigate, useParams } from 'react-router';
+import { useRouter } from 'next/router';
+import { MdConfirmationNumber, MdLibraryBooks, MdOutlineCalendarViewMonth, MdOutlineConfirmationNumber, MdOutlineLibraryBooks, MdOutlineTravelExplore } from 'react-icons/md';
 
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 import { getCurrentTerm } from 'lib/utils/terms';
 
 export function NavButtons(): JSX.Element {
-  const smallScreen = useSmallScreen();
-  const { term } = useParams();
-
-  const navigate = useNavigate();
+  const router = useRouter();
+  const { term } = router.query;
 
   const onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const name = event.currentTarget.getAttribute('name');
-    if (name === 'calendar') {
-      navigate(`/calendar/${term || getCurrentTerm()}`);
+    if (name === 'explore') {
+      router.push(`/explore`);
     } else if (name === 'scheduler') {
-      navigate(`/scheduler/${term || getCurrentTerm()}`);
+      router.push(`/scheduler/${term || getCurrentTerm()}`);
     } else if (name === 'register') {
-      navigate(`/registration/${term || getCurrentTerm()}`);
+      router.push(`/registration/${term || getCurrentTerm()}`);
     } else if (name === 'booklist') {
-      navigate(`/booklist/${term || getCurrentTerm()}`);
+      router.push(`/booklist/${term || getCurrentTerm()}`);
     }
   };
 
   return (
     <>
-      {smallScreen ? (
-        <ButtonGroup isAttached variant="ghost" w="100%" data-testid="mobile-nav">
-          <VStack w="100%">
-            <Button onClick={onClick} name="calendar" w="100%">
-              Explore courses
-            </Button>
-            <Divider />
-            <Button onClick={onClick} name="scheduler" w="100%">
-              Timetable
-            </Button>
-            <Divider />
-            <Button onClick={onClick} name="register" w="100%">
-              Register
-            </Button>
-            <Divider />
-            <Button onClick={onClick} name="booklist" w="100%">
-              Booklist
-            </Button>
-            <Divider />
-          </VStack>
-        </ButtonGroup>
-      ) : (
-        <ButtonGroup isAttached variant="ghost">
-          <Button onClick={onClick} name="calendar">
-            Explore courses
-          </Button>
-          <Button onClick={onClick} name="scheduler">
-            Timetable
-          </Button>
-          <Button onClick={onClick} name="register">
-            Register
-          </Button>
-          <Button onClick={onClick} name="booklist">
-            Booklist
-          </Button>
-        </ButtonGroup>
-      )}
+      <ButtonGroup isAttached variant="ghost">
+        <Button onClick={onClick} name="explore" leftIcon={<MdOutlineTravelExplore />}>
+          Explore courses
+        </Button>
+        <Button onClick={onClick} name="scheduler" leftIcon={<MdOutlineCalendarViewMonth />}>
+          Timetables
+        </Button>
+        <Button onClick={onClick} name="register" leftIcon={<MdOutlineConfirmationNumber />}>
+          Register
+        </Button>
+        <Button onClick={onClick} name="booklist" leftIcon={<MdOutlineLibraryBooks />}>
+          Booklist
+        </Button>
+      </ButtonGroup>
     </>
   );
 }

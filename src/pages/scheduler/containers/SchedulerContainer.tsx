@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { Box, Flex } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { useRouter } from 'next/router';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
@@ -13,7 +13,8 @@ import { useGetCourseSections } from '../hooks/useCalendarEvents';
 import { denormalizeCourseEvents } from '../hooks/useTransformedCalendarEvents';
 
 export function SchedulerContainer(): JSX.Element {
-  const { term } = useParams();
+  const router = useRouter();
+  const term = router.query.term as string;
   // the user's saved courses
   const { courses } = useSavedCourses();
   // extend the list of courses with section information

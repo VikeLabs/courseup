@@ -1,10 +1,10 @@
 import { Center, Spinner, Box } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { useRouter } from 'next/router';
 
 import { useSavedCourses } from 'lib/hooks/useSavedCourses';
 import { getReadableTerm } from 'lib/utils/terms';
 
-import { Page } from 'common/layouts/Page';
+import Page from 'common/layouts/Page';
 import { NotFound } from 'common/notFound/NotFound';
 
 import { RegistrationHeading } from '../components/RegistrationHeading';
@@ -12,7 +12,8 @@ import { RegistrationHeading } from '../components/RegistrationHeading';
 import { CourseContainer } from './CourseContainer';
 
 export function RegistrationContainer(): JSX.Element | null {
-  const { term } = useParams();
+  const router = useRouter();
+  const term = router.query.term as string;
   const { courses } = useSavedCourses();
 
   // to avoid erroring out if term is not provided in URL

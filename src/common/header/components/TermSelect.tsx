@@ -1,44 +1,32 @@
 import React from 'react';
 
 import { Select } from '@chakra-ui/react';
-import { useMatch, useNavigate, useParams } from 'react-router';
-import { useSearchParams } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
+import { Term } from 'lib/fetchers';
 import { useSessionStorage } from 'lib/hooks/storage/useSessionStorage';
 import { useDarkMode } from 'lib/hooks/useDarkMode';
 import { getCurrentTerm, getReadableTerm } from 'lib/utils/terms';
 
-const terms = ['202205', '202209', '202301'];
-
-export function TermSelect(): JSX.Element {
-  const { subject } = useParams();
-  const [selectedTerm, setTerm] = useSessionStorage('user:term', getCurrentTerm());
-  const [searchParams] = useSearchParams();
-  const pid = searchParams.get('pid');
+export function TermSelect({
+  terms,
+  selectedTerm,
+  setTerm,
+}: {
+  terms: Term[];
+  selectedTerm: string;
+  setTerm: (term: Term) => void;
+}): JSX.Element {
+  const router = useRouter();
+  // const { subject, pid } = router.query;
+  // const [selectedTerm, setTerm] = useSessionStorage('user:term', getCurrentTerm());
   const mode = useDarkMode();
-
-  const calendarMatch = useMatch('/calendar/*');
-  const scheduleMatch = useMatch('/schedule/*');
-  const registrationMatch = useMatch('/registration/*');
-  const booklistMatch = useMatch('/booklist/*');
-
-  const navigate = useNavigate();
 
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const name = event.target.value;
-    if (name) {
-      setTerm(name);
-      if (calendarMatch) {
-        navigate({ pathname: `/calendar/${name}/${subject || ''}`, search: pid ? `?pid=${pid}` : undefined });
-      } else if (scheduleMatch) {
-        navigate(`/scheduler/${name}`);
-      } else if (registrationMatch) {
-        navigate(`/registration/${name}`);
-      } else if (booklistMatch) {
-        navigate(`/booklist/${name}`);
-      } else {
-        navigate(`/calendar/${name}`);
-      }
+    // if name exists and is not the same as the current term and is a valid Term type
+    if (name && name !== selectedTerm && terms.includes(name as Term)) {
+      setTerm(name as Term);
     }
   };
 

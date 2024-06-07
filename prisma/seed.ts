@@ -1,16 +1,18 @@
+import makeFetchCookie from 'fetch-cookie';
+
 import { getSearchResults, setTerm } from '@courseup/lib/banner';
 import { Fetch } from '@courseup/lib/banner/fetch';
 import { upsertCourses } from '@courseup/lib/courses';
 import { range } from '@courseup/lib/fn';
 import { upsertSections } from '@courseup/lib/sections';
 import { Term } from '@courseup/lib/term';
-import makeFetchCookie from 'fetch-cookie';
 
 const term = new Term().toString();
 
 export const main = async () => {
   console.log('upserting courses for term', term);
   await upsertCourses(term);
+  console.log('done upserting courses');
 
   // establish a session for each request
   const fc = makeFetchCookie(fetch) as Fetch;

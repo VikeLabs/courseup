@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 import { Spinner, VStack, Heading, HStack, Flex, Box, ButtonGroup, Button, Center } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { useRouter } from 'next/router';
 
 import { Timetable, useGetTimetable } from 'lib/fetchers';
 import { useSmallScreen } from 'lib/hooks/useSmallScreen';
 import { getReadableTerm } from 'lib/utils/terms';
 
-import { Page } from 'common/layouts/Page';
+import Page from 'common/layouts/Page';
 import { TopBar } from 'common/layouts/sidebar/components/TopBar';
 import { Sidebar } from 'common/layouts/sidebar/containers/Sidebar';
 
@@ -16,7 +16,8 @@ import { TimetableActionButtons } from './components/TimetableActionButtons';
 import { TimetableCourseCard } from './components/TimetableCourseCard';
 
 export function ImportTimetable(): JSX.Element {
-  const { slug } = useParams();
+  const router = useRouter();
+  const slug = router.query.slug as string;
   const smallScreen = useSmallScreen();
 
   const { loading, data } = useGetTimetable({ slug: slug });
