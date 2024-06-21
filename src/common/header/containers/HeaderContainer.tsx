@@ -70,7 +70,7 @@ export function HeaderContainer({ onSearchChange }: HeaderProps): JSX.Element {
           <Text as={Link} to="/calendar/202405" textDecoration="underline">
             Summer 2024
           </Text>{' '}
-          calendar is now available. Happy scheduling!
+          calendar is a work in progress... Visit the VikeLabs discord for updates!
         </Text>,
       ];
   return (
