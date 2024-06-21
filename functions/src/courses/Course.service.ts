@@ -161,7 +161,12 @@ export class CoursesService {
 
       if (j > 450) {
         console.log(`Inserted ${j} records...`);
-        await commit();
+        try {
+          await commit();
+        } catch (err) {
+          console.log(`this is the error: ${err}`);
+        }
+        console.log('commit done');
         // FIX: this is a workaround for an "weird" bug.
         // the set/commit need to be re-created from batch() to "flush" the batch writes.
         // https://stackoverflow.com/questions/61666244/invalid-argument-maximum-500-writes-allowed-per-request-firebase-cloud-functi
