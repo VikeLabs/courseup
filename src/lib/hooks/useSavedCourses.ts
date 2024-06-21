@@ -66,6 +66,7 @@ type SavedCourses = {
   clearCourses: (term: string) => void;
   setSection: (type: string, newSection: SavedSection, existingCourse: SavedCourse) => void;
   contains: (pid: string, term: string) => boolean;
+  updateCourseColor: (pid: string, term: string, color: string) => void;
   sectionIsSaved: (pid: string, term: string, sectionCode: string) => boolean;
   setSelected: (selected: boolean, existingCourse: SavedCourse) => void;
   setShowSections: (showSections: boolean, existingCourse: SavedCourse) => void;
@@ -100,6 +101,18 @@ export const useSavedCourses = (): SavedCourses => {
     [data]
   );
 
+  const updateCourseColor = useCallback(
+    (pid: string, term: string, color: string) => {
+      data.map((item) => {
+        if (item.term === term && item.pid === pid) {
+          item.color = color;
+        }
+        return data;
+      });
+      setData(data);
+    },
+    [data, setData]
+  );
   /**
    * Checks the equality of two courses
    * @param a Course
@@ -303,6 +316,7 @@ export const useSavedCourses = (): SavedCourses => {
     clearCourses,
     setSection,
     contains,
+    updateCourseColor,
     sectionIsSaved,
     setSelected,
     setShowSections,

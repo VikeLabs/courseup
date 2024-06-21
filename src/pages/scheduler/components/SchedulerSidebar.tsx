@@ -14,14 +14,25 @@ import { CourseCard } from './CourseCard';
 import { SectionsCardContainer } from './SchedulerSections';
 
 // GREEN, RED, YELLOW, BLUE, PURPLE, ORANGE
-export const COLORS = ['#32a852', '#b33127', '#e8e523', '#247fe0', '#971dcc', '#cc7d1d'];
+export const COLORS: { color: string; name: string }[] = [
+  { color: '#F56565', name: 'Red' },
+  { color: '#48BB78', name: 'Green' },
+  { color: '#4299E1', name: 'Blue' },
+  { color: '#ED8936', name: 'Orange' },
+  { color: '#38B2AC', name: 'Teal' },
+  { color: '#9F7AEA', name: 'Purple' },
+  { color: '#ECC94B', name: 'Yellow' },
+  { color: '#0BC5EA', name: 'Cyan' },
+  { color: '#ED64A6', name: 'Pink' },
+];
 
 interface SchedulerSidebarProps {
   term: string;
 }
 
 export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
-  const { deleteCourse, setSection, setShowSections, courses, setSelected, clearCourses } = useSavedCourses();
+  const { deleteCourse, setSection, setShowSections, updateCourseColor, courses, setSelected, clearCourses } =
+    useSavedCourses();
   const coursesResult = useGetCourseSections(term, courses);
 
   const handleCourseSectionChange = useCallback(
@@ -61,6 +72,13 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
       });
     },
     [deleteCourse]
+  );
+
+  const handleColorChange = useCallback(
+    ({ pid, term, color }: { pid: string; term: string; color: string }) => {
+      updateCourseColor(pid, term, color);
+    },
+    [updateCourseColor]
   );
 
   const handleCourseToggle = useCallback(
@@ -139,6 +157,8 @@ export function SchedulerSidebar({ term }: SchedulerSidebarProps): JSX.Element {
                   handleSelection={handleCourseToggle}
                   handleDelete={handleCourseDelete}
                   handleShowSections={handleShowSections}
+                  handleColorChange={handleColorChange}
+                  colorList={COLORS}
                 />
                 <Collapse
                   // hacky way of addressing the fact that `showSections` was added as an attribute after users have already added courses to the timetable
